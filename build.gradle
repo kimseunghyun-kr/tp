@@ -16,6 +16,9 @@ repositories {
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
+application {
+    mainClass = mainClassName
+}
 checkstyle {
     toolVersion = '10.2'
 }
