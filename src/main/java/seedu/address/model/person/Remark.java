@@ -10,6 +10,10 @@ import static java.util.Objects.requireNonNull;
 public class Remark {
     public final String value;
 
+    /**
+     * Constructs remarks
+     * @param remark the target String to be wrapped
+     */
     public Remark(String remark) {
         requireNonNull(remark);
         value = remark;
