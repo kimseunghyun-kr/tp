@@ -28,3 +28,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: Functionalities
+
+### Ang Wei Jian
+
+<img src="images/wilkinsang.png" width="200px">
+
+[[github](https://github.com/WilkinsAng)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer
+* Responsibilities: Making sure testing is done correctly and on time.
