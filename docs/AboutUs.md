@@ -27,7 +27,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/johndoe.md)]
 
 * Role: Developer
-* Responsibilities: Unknown
+* Responsibilities: Making sure testing is done correctly and on time.
 
 ### Johnny Doe
 
