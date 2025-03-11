@@ -38,3 +38,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Developer
 * Responsibilities: Making sure testing is done correctly and on time.
+
+
+### Roman Yanushevskyi
+
+<img src="images/wailydest.png" width="200px">
+
+[[github](http://github.com/wailydest)]
+[[portfolio](team/johndoe.md)]
+
+* Role: Developer
+* Responsibilities: Backend
