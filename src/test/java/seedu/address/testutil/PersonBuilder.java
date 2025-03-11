@@ -2,6 +2,7 @@ package seedu.address.testutil;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -15,12 +16,13 @@ import seedu.address.model.util.SampleDataUtil;
  * A utility class to help with building Person objects.
  */
 public class PersonBuilder {
-
+    private static final String DEFAULT_EMPLOYEE_ID = "00000000-0000-0000-0000-000000000001";
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
 
+    private UUID employeeId;
     private Name name;
     private Phone phone;
     private Email email;
@@ -31,6 +33,7 @@ public class PersonBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
+        employeeId = UUID.fromString(DEFAULT_EMPLOYEE_ID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -90,7 +93,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, address, tags);
+        return new Person(employeeId, name, phone, email, address, tags);
     }
 
 }

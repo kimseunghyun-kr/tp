@@ -6,7 +6,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
 
@@ -14,43 +18,35 @@ import seedu.address.model.tag.Tag;
  * Represents a Person in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
+@Data
+@Builder
 public class Person {
 
     // Identity fields
+    private UUID employeeId;
+    @Getter
     private final Name name;
+    @Getter
     private final Phone phone;
+    @Getter
     private final Email email;
 
     // Data fields
+    @Getter
     private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
+    private final Set<Tag> tags;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Person(UUID employeeId, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.tags.addAll(tags);
-    }
-
-    public Name getName() {
-        return name;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public Email getEmail() {
-        return email;
-    }
-
-    public Address getAddress() {
-        return address;
+        this.tags = new HashSet<>(tags);
+        this.employeeId = employeeId;
     }
 
     /**
