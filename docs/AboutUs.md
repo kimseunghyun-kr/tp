@@ -48,12 +48,12 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * Role: Developer
 * Responsibilities: Dev Ops + Threading
 
-### James Doe
+### Choi Minseok
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/cscms03.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/cscms03)]
+[[portfolio](team/cscms03.md)]
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: UI/UX
