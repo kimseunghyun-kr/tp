@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 import seedu.address.model.employee.Position;
-import seedu.address.model.tag.Tag;
 
 /**
  * Jackson-friendly version of {@link Position}.
