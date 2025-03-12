@@ -12,10 +12,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
+import lombok.Data;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
@@ -79,8 +80,9 @@ public class EditCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
-
-        if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
+        // original checked if they did not have the same name but the list contained the same name.
+        // this checks if the details other than UUID is different but somehow has literally a duplicate elsewhere
+        if (!personToEdit.hasSameDetails(editedPerson) && model.hasDuplicatePersonDetails(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
@@ -95,14 +97,19 @@ public class EditCommand extends Command {
      */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
         assert personToEdit != null;
-
+        /*
+         * this is purposefully kept as personToEdit.getEmployeeId(), currently changing EmployeeID is not supported,
+         * under Roman to change as he suggests.
+         */
+        UUID employeeId = personToEdit.getEmployeeId();
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, new ArrayList<>());
+        return new Person(employeeId, updatedName, updatedPhone,
+                updatedEmail, updatedAddress, updatedTags, new ArrayList<>());
     }
 
     @Override
@@ -130,10 +137,22 @@ public class EditCommand extends Command {
     }
 
     /**
+     * checks if the editCommandDescriptor has the same details, excluding EmployeeId
+     * @param command the editCommand to compare with
+     * @return true if they have the same details
+     */
+    public boolean hasSameDetails(EditCommand command) {
+        requireNonNull(command);
+        return editPersonDescriptor.hasSameDetails(command.editPersonDescriptor);
+    }
+
+    /**
      * Stores the details to edit the person with. Each non-empty field value will replace the
      * corresponding field value of the person.
      */
+    @Data
     public static class EditPersonDescriptor {
+        private UUID employeeId;
         private Name name;
         private Phone phone;
         private Email email;
@@ -147,6 +166,7 @@ public class EditCommand extends Command {
          * A defensive copy of {@code tags} is used internally.
          */
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
+            setEmployeeId(toCopy.employeeId);
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
@@ -158,35 +178,19 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
-        }
-
-        public void setName(Name name) {
-            this.name = name;
+            return CollectionUtil.isAnyNonNull(employeeId, name, phone, email, address, tags);
         }
 
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
         }
 
-        public void setPhone(Phone phone) {
-            this.phone = phone;
-        }
-
         public Optional<Phone> getPhone() {
             return Optional.ofNullable(phone);
         }
 
-        public void setEmail(Email email) {
-            this.email = email;
-        }
-
         public Optional<Email> getEmail() {
             return Optional.ofNullable(email);
-        }
-
-        public void setAddress(Address address) {
-            this.address = address;
         }
 
         public Optional<Address> getAddress() {
@@ -211,25 +215,6 @@ public class EditCommand extends Command {
         }
 
         @Override
-        public boolean equals(Object other) {
-            if (other == this) {
-                return true;
-            }
-
-            // instanceof handles nulls
-            if (!(other instanceof EditPersonDescriptor)) {
-                return false;
-            }
-
-            EditPersonDescriptor otherEditPersonDescriptor = (EditPersonDescriptor) other;
-            return Objects.equals(name, otherEditPersonDescriptor.name)
-                    && Objects.equals(phone, otherEditPersonDescriptor.phone)
-                    && Objects.equals(email, otherEditPersonDescriptor.email)
-                    && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
-        }
-
-        @Override
         public String toString() {
             return new ToStringBuilder(this)
                     .add("name", name)
@@ -238,6 +223,19 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("tags", tags)
                     .toString();
+        }
+
+        /**
+         * checks if the two EditPersonDescriptors have the same details, a weaker equality.
+         * @param editPersonDescriptor the other descriptor
+         * @return true if the same
+         */
+        public boolean hasSameDetails(EditPersonDescriptor editPersonDescriptor) {
+            return editPersonDescriptor.name.equals(this.name)
+                    && editPersonDescriptor.phone.equals(this.phone)
+                    && editPersonDescriptor.email.equals(this.email)
+                    && editPersonDescriptor.address.equals(this.address)
+                    && editPersonDescriptor.tags.equals(this.tags);
         }
     }
 }

@@ -1,5 +1,4 @@
 package seedu.address.model.person;
-
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
@@ -8,12 +7,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Data;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.tag.Tag;
+
+
 
 /**
  * Represents a Person in the address book.
@@ -24,6 +26,7 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
+    private final UUID employeeId;
     private final Name name;
     private final Phone phone;
     private final Email email;
@@ -38,8 +41,9 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+    public Person(UUID employeeId, Name name, Phone phone, Email email, Address address, Set<Tag> tags,
                   List<Anniversary> anniversaries) {
+        this.employeeId = employeeId;
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
@@ -59,16 +63,26 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same name.
-     * This defines a weaker notion of equality between two persons.
+     * Returns true if both persons have the same uuid.
+     * This defines a clear notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
-        if (otherPerson == this) {
-            return true;
+        if (otherPerson == null) {
+            return false;
         }
+        return otherPerson.employeeId.equals(this.employeeId);
+    }
 
-        return otherPerson != null
-                && otherPerson.getName().equals(getName());
+    /**
+     * Returns true if both persons have the same user details.
+     */
+    public boolean hasSameDetails(Person otherPerson) {
+        return name.equals(otherPerson.name)
+                && phone.equals(otherPerson.phone)
+                && email.equals(otherPerson.email)
+                && address.equals(otherPerson.address)
+                && tags.equals(otherPerson.tags);
+
     }
 
     /**
@@ -87,7 +101,8 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
-        return name.equals(otherPerson.name)
+        return employeeId.equals(otherPerson.employeeId)
+                && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
@@ -97,12 +112,13 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(employeeId, name, phone, email, address, tags);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .add("employeeId", employeeId)
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)

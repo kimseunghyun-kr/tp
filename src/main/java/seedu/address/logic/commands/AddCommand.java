@@ -74,6 +74,16 @@ public class AddCommand extends Command {
         AddCommand otherAddCommand = (AddCommand) other;
         return toAdd.equals(otherAddCommand.toAdd);
     }
+    /** Custom equals method to compare AddCommand objects while ignoring employeeId. */
+    public boolean hasSameDetails(AddCommand other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        return this.toAdd.hasSameDetails(other.toAdd);
+    }
 
     @Override
     public String toString() {
