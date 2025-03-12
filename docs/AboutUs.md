@@ -22,10 +22,10 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Kim Seung Hyun
 
-<img src="images/kimseunghyun.png" width="200px">
+<img src="images/kimseunghyun-kr.png" width="200px">
 
 [[github](http://github.com/kimseunghyun-kr)]
-[[portfolio](team/johndoe.md)]
+[[portfolio](team/kimseunghyun-kr.md)]
 
 * Role: Developer
 * Responsibilities: Functionalities
@@ -35,7 +35,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/wilkinsang.png" width="200px">
 
 [[github](https://github.com/WilkinsAng)]
-[[portfolio](team/johndoe.md)]
+[[portfolio](team/wilkinsang.md)]
 
 * Role: Developer
 * Responsibilities: Making sure testing is done correctly and on time.
@@ -46,7 +46,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/wailydest.png" width="200px">
 
 [[github](http://github.com/wailydest)]
-[[portfolio](team/johndoe.md)]
+[[portfolio](team/wailydest.md)]
 
 * Role: Developer
 * Responsibilities: Backend
@@ -57,6 +57,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/terentwc.png" width="200px">
 
 [[github](http://github.com/terentwc)]
+[[portfolio](team/terentwc.md)]
 
 * Role: Developer
 * Responsibilities: Documentation
