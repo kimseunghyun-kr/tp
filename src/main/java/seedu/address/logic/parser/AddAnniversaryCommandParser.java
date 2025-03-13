@@ -19,7 +19,7 @@ import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.AnniversaryType;
 
 /**
- * Parses input arguments and creates a new AddAnniversaryCommand object
+ * Parses input arguments and creates a new AddAnniversaryCommand object.
  */
 public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand> {
 
@@ -27,8 +27,12 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
     public AddAnniversaryCommand parse(String args) throws ParseException {
         // tokenize using relevant prefixes
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
-                args, PREFIX_EMPLOYEEID, PREFIX_ANNIVERSARY_DATE, PREFIX_NAME,
-                PREFIX_ANNIVERSARY_DESC, PREFIX_ANNIVERSARY_TYPE
+                args,
+                PREFIX_EMPLOYEEID,
+                PREFIX_ANNIVERSARY_DATE,
+                PREFIX_NAME,
+                PREFIX_ANNIVERSARY_DESC,
+                PREFIX_ANNIVERSARY_TYPE
         );
 
         // Basic validation to ensure required prefixes exist
@@ -45,6 +49,7 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
         String dateStr = argMultimap.getValue(PREFIX_ANNIVERSARY_DATE).get();
         String nameStr = argMultimap.getValue(PREFIX_NAME).get();
 
+        // parse the date
         LocalDate date;
         try {
             date = LocalDate.parse(dateStr);
@@ -57,15 +62,15 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
         List<String> typeTokens = argMultimap.getAllValues(PREFIX_ANNIVERSARY_TYPE);
 
         // Build a Set<AnniversaryType> from each at/ prefix
-        // For simplicity, each token can be used as both the "type name" and "description," or
-        // you might parse them differently. Adjust as needed.
         Set<AnniversaryType> types = new HashSet<>();
         for (String token : typeTokens) {
             // In a real app, you might want more advanced parsing
             types.add(new AnniversaryType(token, ""));
         }
 
+        // Construct the new Anniversary
         Anniversary newAnniversary = new Anniversary(
+
                 date,
                 types,
                 descStr,

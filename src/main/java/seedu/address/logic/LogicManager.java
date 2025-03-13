@@ -3,6 +3,7 @@ package seedu.address.logic;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Person;
 import seedu.address.storage.Storage;
 
@@ -84,5 +86,20 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
+    }
+    @Override
+    public List<Anniversary> getAnniversariesOf(String employeeId) {
+        // 1) find the Person with that ID
+        Person person = model.getFilteredPersonList().stream()
+                .filter(p -> p.getEmployeeId().toString().equals(employeeId))
+                .findFirst()
+                .orElse(null);
+        if (person == null) {
+            // you can decide whether to return an empty list or throw an exception
+            return List.of(); // just return empty to keep it simple
+        }
+
+        // 2) retrieve from the AnniversaryBook
+        return model.getAnniversaryBook().getAnniversariesOf(person.getEmployeeId());
     }
 }

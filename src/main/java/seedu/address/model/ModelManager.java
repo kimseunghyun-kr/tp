@@ -15,30 +15,44 @@ import seedu.address.model.anniversary.AnniversaryBook;
 import seedu.address.model.person.Person;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of the address book + anniversary book data.
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
+    private final AnniversaryBook anniversaryBook; // NEW FIELD
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, anniversaryBook, and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, AnniversaryBook anniversaryBook, ReadOnlyUserPrefs userPrefs) {
         requireAllNonNull(addressBook, userPrefs);
+        // anniversaryBook can be null if you want a default; handle it gracefully.
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.anniversaryBook = (anniversaryBook != null) ? anniversaryBook : new AnniversaryBook();
         this.userPrefs = new UserPrefs(userPrefs);
+
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
     }
 
+    /**
+     * Overloaded constructor for convenience, if you just have an AddressBook + UserPrefs, etc.
+     */
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+        this(addressBook, new AnniversaryBook(), userPrefs);
+    }
+
+    /**
+     * Default constructor, starts with empty addressBook + anniversaryBook + default userPrefs.
+     */
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new AnniversaryBook(), new UserPrefs());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -103,6 +117,7 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+        // Potentially also remove that Person's Anniversaries from anniversaryBook if desired
     }
 
     @Override
@@ -119,10 +134,6 @@ public class ModelManager implements Model {
 
     //=========== Filtered Person List Accessors =============================================================
 
-    /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
-     * {@code versionedAddressBook}
-     */
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
@@ -134,23 +145,27 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //=========== AnniversaryBook ============================================================================
+
     @Override
     public AnniversaryBook getAnniversaryBook() {
-        return null;
+        return anniversaryBook;
     }
 
     @Override
     public void setAnniversaryBook(AnniversaryBook anniversaryBook) {
-
+        requireNonNull(anniversaryBook);
+        // Overwrite existing data with the new data
+        this.anniversaryBook.resetData(anniversaryBook);
     }
+
+    //=========== Equality ===================================================================================
 
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
-
-        // instanceof handles nulls
         if (!(other instanceof ModelManager)) {
             return false;
         }
@@ -158,7 +173,7 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && anniversaryBook.equals(otherModelManager.anniversaryBook);
     }
-
 }

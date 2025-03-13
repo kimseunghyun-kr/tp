@@ -138,7 +138,8 @@ public class MainWindow extends UiPart<Stage> {
     private void handleShowAnniversaries() {
         // Suppose your logic can find the Person by some ID
         Person selected = logic.getFilteredPersonList().get(0); // or however you pick the Person
-        List<Anniversary> anniversaries = selected.getAnniversaries();
+        // Then call your new method:
+        List<Anniversary> anniversaries = logic.getAnniversariesOf(selected.getEmployeeId().toString());
 
         // fill the data
         anniversaryWindow.setAnniversaryList(anniversaries);

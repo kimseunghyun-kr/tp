@@ -2,10 +2,15 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.UUID;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.anniversary.AnniversaryBook;
 import seedu.address.model.person.Person;
+
+
 
 /**
  * Adds an anniversary to an existing Person in the address book (now stored in AnniversaryBook).
@@ -39,7 +44,8 @@ public class AddAnniversaryCommand extends Command {
     private final String employeeIdToFind;
 
     /**
-     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the Person with the given employeeId.
+     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary}
+     * to the Person with the given employeeId.
      */
     public AddAnniversaryCommand(String employeeId, Anniversary anniversary) {
         requireNonNull(employeeId);
@@ -47,29 +53,28 @@ public class AddAnniversaryCommand extends Command {
         this.employeeIdToFind = employeeId;
         this.toAdd = anniversary;
     }
-
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-
-        // Attempt to find the person in model by employeeId
+        // 1) Find the person by employeeId
         Person personToEdit = model.getFilteredPersonList().stream()
                 .filter(p -> p.getEmployeeId().toString().equals(employeeIdToFind))
                 .findFirst()
                 .orElse(null);
-
         if (personToEdit == null) {
             throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, employeeIdToFind));
         }
 
-        // Check for duplication within the AnniversaryBook
-        if (model.getAnniversaryBook().isDuplicateAnniversary(personToEdit.getEmployeeId(), toAdd)) {
+        // 2) Check for duplication
+        UUID pid = personToEdit.getEmployeeId();
+        AnniversaryBook ab = model.getAnniversaryBook();
+        if (ab.isDuplicateAnniversary(pid, toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ANNIVERSARY);
         }
 
-        // Insert into the AnniversaryBook
-        model.getAnniversaryBook().addAnniversary(personToEdit.getEmployeeId(), toAdd);
+        // 3) Insert into the AnniversaryBook
+        ab.addAnniversary(pid, toAdd);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
+
 }

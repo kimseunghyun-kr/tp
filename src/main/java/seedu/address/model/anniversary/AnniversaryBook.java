@@ -33,6 +33,14 @@ public class AnniversaryBook {
     }
 
     /**
+     * Overwrites the current data with the given {@code newData}.
+     */
+    public void resetData(AnniversaryBook newData) {
+        this.personToAnniversaries.clear();
+        this.personToAnniversaries.putAll(newData.personToAnniversaries);
+    }
+
+    /**
      * Adds an Anniversary to the given person’s list, if not duplicate.
      */
     public void addAnniversary(UUID personId, Anniversary anniversary) {
