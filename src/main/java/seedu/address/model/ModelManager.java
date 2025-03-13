@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.anniversary.AnniversaryBook;
 import seedu.address.model.person.Person;
 
 /**
@@ -131,6 +132,16 @@ public class ModelManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public AnniversaryBook getAnniversaryBook() {
+        return null;
+    }
+
+    @Override
+    public void setAnniversaryBook(AnniversaryBook anniversaryBook) {
+
     }
 
     @Override

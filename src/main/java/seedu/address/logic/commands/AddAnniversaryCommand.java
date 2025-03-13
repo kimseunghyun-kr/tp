@@ -1,11 +1,6 @@
-// AddAnniversaryCommand.java
-
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -13,7 +8,7 @@ import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Person;
 
 /**
- * Adds an anniversary to an existing Person in the address book.
+ * Adds an anniversary to an existing Person in the address book (now stored in AnniversaryBook).
  */
 public class AddAnniversaryCommand extends Command {
 
@@ -44,7 +39,7 @@ public class AddAnniversaryCommand extends Command {
     private final String employeeIdToFind;
 
     /**
-     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the person with given employeeId.
+     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the Person with the given employeeId.
      */
     public AddAnniversaryCommand(String employeeId, Anniversary anniversary) {
         requireNonNull(employeeId);
@@ -67,32 +62,13 @@ public class AddAnniversaryCommand extends Command {
             throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, employeeIdToFind));
         }
 
-        // Check if the same anniversary already exists
-        boolean duplicate = personToEdit.getAnniversaries().stream()
-                .anyMatch(existing ->
-                        existing.getDate().equals(toAdd.getDate())
-                                && existing.getName().equals(toAdd.getName())
-                                && existing.getDescription().equals(toAdd.getDescription())
-                                && existing.getType().equals(toAdd.getType())
-                );
-        if (duplicate) {
+        // Check for duplication within the AnniversaryBook
+        if (model.getAnniversaryBook().isDuplicateAnniversary(personToEdit.getEmployeeId(), toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_ANNIVERSARY);
         }
 
-        // Create a new Person object with updated anniversaries
-        List<Anniversary> anniversaryList = new ArrayList<>(personToEdit.getAnniversaries());
-        anniversaryList.add(toAdd);
-        Person updatedPerson = Person.builder()
-                .employeeId(personToEdit.getEmployeeId())
-                .name(personToEdit.getName())
-                .address(personToEdit.getAddress())
-                .email(personToEdit.getEmail())
-                .phone(personToEdit.getPhone())
-                .tags(personToEdit.getTags())
-                .anniversaries(anniversaryList).build();
-
-        // update the model
-        model.setPerson(personToEdit, updatedPerson);
+        // Insert into the AnniversaryBook
+        model.getAnniversaryBook().addAnniversary(personToEdit.getEmployeeId(), toAdd);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

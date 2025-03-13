@@ -52,7 +52,7 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Person person = new Person(employeeId, name, phone, email, address, tagList, new ArrayList<>());
+        Person person = new Person(employeeId, name, phone, email, address, tagList);
 
         return new AddPersonCommand(person);
     }

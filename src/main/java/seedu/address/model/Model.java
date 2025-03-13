@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.anniversary.AnniversaryBook;
 import seedu.address.model.person.Person;
 
 /**
@@ -87,4 +88,11 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+
+    /** Returns the AnniversaryBook that stores all Anniversary data. */
+    AnniversaryBook getAnniversaryBook();
+
+    /** Sets/overwrites the entire AnniversaryBook. */
+    void setAnniversaryBook(AnniversaryBook anniversaryBook);
 }

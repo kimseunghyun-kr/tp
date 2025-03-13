@@ -1,10 +1,8 @@
 package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -12,7 +10,6 @@ import java.util.UUID;
 import lombok.Builder;
 import lombok.Data;
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.tag.Tag;
 
 
@@ -35,14 +32,10 @@ public class Person {
     private final Address address;
     private final Set<Tag> tags;
 
-    // Anniversary
-    private final List<Anniversary> anniversaries;
-
     /**
      * Every field must be present and not null.
      */
-    public Person(UUID employeeId, Name name, Phone phone, Email email, Address address, Set<Tag> tags,
-                  List<Anniversary> anniversaries) {
+    public Person(UUID employeeId, Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
         this.employeeId = employeeId;
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
@@ -51,7 +44,6 @@ public class Person {
         this.address = address;
         this.tags = new HashSet<>(tags);
         this.tags.addAll(tags);
-        this.anniversaries = new ArrayList<>(anniversaries);
     }
 
     /**
