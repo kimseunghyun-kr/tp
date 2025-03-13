@@ -1,12 +1,17 @@
 // AddAnniversaryCommand.java
 
-package seedu.address.logic.commands;
+package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_ANNIVERSARY;
+import static seedu.address.logic.Messages.MESSAGE_PERSON_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_SUCCESS;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
@@ -34,12 +39,6 @@ public class AddAnniversaryCommand extends Command {
             + "ad/Celebrating 25 years "
             + "at/Personal "
             + "at/Family";
-
-    public static final String MESSAGE_SUCCESS = "New anniversary added: %1$s";
-    public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with employeeId = %s";
-    public static final String MESSAGE_DUPLICATE_ANNIVERSARY =
-            "This exact anniversary (date + name + type + description) already exists for that person.";
-
     private final Anniversary toAdd;
     private final String employeeIdToFind;
 

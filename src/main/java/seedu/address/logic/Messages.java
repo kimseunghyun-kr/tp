@@ -19,6 +19,14 @@ public class Messages {
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 
+    public static final String MESSAGE_SUCCESS = "New anniversary added: %1$s";
+    public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with employeeId = %s";
+    public static final String MESSAGE_DUPLICATE_ANNIVERSARY =
+            "This exact anniversary (date + name + type + description) already exists for that person.";
+    public static final String MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS =
+            "The index you are searching for is out of bounds for the anniversary.";
+
+
     /**
      * Returns an error message indicating the duplicate prefixes.
      */
