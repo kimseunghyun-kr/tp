@@ -13,4 +13,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
 
+    // -- Add these for anniversaries:
+    public static final Prefix PREFIX_ANNIVERSARY_DATE = new Prefix("d/");
+    public static final Prefix PREFIX_ANNIVERSARY_DESC = new Prefix("ad/");
+    public static final Prefix PREFIX_ANNIVERSARY_TYPE = new Prefix("at/");
+
 }

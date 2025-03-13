@@ -3,7 +3,7 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddPersonCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -45,9 +45,9 @@ public class CommandParserTestUtil {
      * Asserts that the {@code command} equals to {@code expectedCommand} in Fields before comparing equals
      */
     public static void assertFieldEqualityFirst(Command expectedCommand, Command command) {
-        if (command instanceof AddCommand && expectedCommand instanceof AddCommand) {
+        if (command instanceof AddPersonCommand && expectedCommand instanceof AddPersonCommand) {
             // Compare while ignoring employeeId
-            assertTrue(((AddCommand) expectedCommand).hasSameDetails((AddCommand) command),
+            assertTrue(((AddPersonCommand) expectedCommand).hasSameDetails((AddPersonCommand) command),
                     "Commands do not match when ignoring employeeId.");
         } else if (command instanceof EditCommand && expectedCommand instanceof EditCommand) {
             assertTrue(((EditCommand) expectedCommand).hasSameDetails((EditCommand) command),

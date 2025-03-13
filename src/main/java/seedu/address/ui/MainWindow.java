@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -16,6 +17,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -26,7 +29,7 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
-
+    private AnniversaryWindow anniversaryWindow;
     private Stage primaryStage;
     private Logic logic;
 
@@ -121,6 +124,31 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        // Here, create the new AnniversaryWindow
+        anniversaryWindow = new AnniversaryWindow();
+    }
+
+    /**
+     * Example method to show the AnniversaryWindow for a particular Person's anniversaries.
+     * Let's pretend you call this if the user clicks a button, or types a command like:
+     * showAnniversaries eid//<someUUID/>
+     */
+    @FXML
+    private void handleShowAnniversaries() {
+        // Suppose your logic can find the Person by some ID
+        Person selected = logic.getFilteredPersonList().get(0); // or however you pick the Person
+        List<Anniversary> anniversaries = selected.getAnniversaries();
+
+        // fill the data
+        anniversaryWindow.setAnniversaryList(anniversaries);
+
+        // show
+        if (!anniversaryWindow.isShowing()) {
+            anniversaryWindow.show();
+        } else {
+            anniversaryWindow.focus();
+        }
     }
 
     /**
