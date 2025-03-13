@@ -21,7 +21,7 @@ import seedu.address.model.anniversary.Anniversary;
 public class AnniversaryWindow extends UiPart<Region> {
 
     private static final Logger logger = LogsCenter.getLogger(AnniversaryWindow.class);
-    private static final String FXML = "AnniversaryWindow.fxml"; // your .fxml file
+    private static final String FXML = "AnniversaryWindow.fxml"; // your F.fxml file
 
     // We'll hold onto a Stage so we can show/hide/focus it
     private final Stage windowStage;

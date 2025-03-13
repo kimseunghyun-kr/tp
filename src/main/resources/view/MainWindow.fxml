@@ -54,9 +54,6 @@
         </VBox>
 
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
-        <StackPane fx:id="somePlaceholder" VBox.vgrow="NEVER">
-          <Button text="Show Anniversaries" onAction="#handleShowAnniversaries"/>
-        </StackPane>
       </VBox>
     </Scene>
   </scene>

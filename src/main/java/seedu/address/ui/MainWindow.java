@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -29,6 +30,7 @@ public class MainWindow extends UiPart<Stage> {
     private static final String FXML = "MainWindow.fxml";
 
     private final Logger logger = LogsCenter.getLogger(getClass());
+
     private AnniversaryWindow anniversaryWindow;
     private Stage primaryStage;
     private Logic logic;
@@ -113,7 +115,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), this);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -135,21 +137,39 @@ public class MainWindow extends UiPart<Stage> {
      * showAnniversaries eid//<someUUID/>
      */
     @FXML
-    private void handleShowAnniversaries() {
-        // Suppose your logic can find the Person by some ID
-        Person selected = logic.getFilteredPersonList().get(0); // or however you pick the Person
-        List<Anniversary> anniversaries = selected.getAnniversaries();
+    public void handleShowAnniversaries(String employeeId) {
+        try {
+            // Convert employeeId string to UUID
+            UUID uuid = UUID.fromString(employeeId);
 
-        // fill the data
-        anniversaryWindow.setAnniversaryList(anniversaries);
+            // Find the person by UUID
+            Person selected = logic.getFilteredPersonList().stream()
+                    .filter(person -> person.getEmployeeId().equals(uuid))
+                    .findFirst()
+                    .orElse(null);
 
-        // show
-        if (!anniversaryWindow.isShowing()) {
-            anniversaryWindow.show();
-        } else {
-            anniversaryWindow.focus();
+            if (selected == null) {
+                resultDisplay.setFeedbackToUser("No person found with employee ID: " + employeeId);
+                return;
+            }
+
+            // Fetch anniversaries from the Logic layer
+            List<Anniversary> anniversaries = selected.getAnniversaries();
+
+            // Update the AnniversaryWindow
+            anniversaryWindow.setAnniversaryList(anniversaries);
+
+            // Show the window
+            if (!anniversaryWindow.isShowing()) {
+                anniversaryWindow.show();
+            } else {
+                anniversaryWindow.focus();
+            }
+        } catch (IllegalArgumentException e) {
+            resultDisplay.setFeedbackToUser("Invalid employee ID format.");
         }
     }
+
 
     /**
      * Sets the default size based on {@code guiSettings}.
