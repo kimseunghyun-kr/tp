@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -22,6 +24,9 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private int currentStatePointer = 0;
+    private List<AddressBook> addressBookStates = new ArrayList<>();
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -80,6 +85,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        commitAddressBook();
     }
 
     @Override
@@ -143,6 +149,28 @@ public class ModelManager implements Model {
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredPersons.equals(otherModelManager.filteredPersons);
+    }
+
+
+    public boolean canUndoAddressBook() {
+        return currentStatePointer > 0;
+    }
+
+    public void undoAddressBook() {
+        if (canUndoAddressBook()) {
+            currentStatePointer--;
+            addressBook.resetData(addressBookStates.get(currentStatePointer));
+        }
+    }
+
+    public void commitAddressBook() {
+        addressBookStates.add(new AddressBook(addressBook));
+        currentStatePointer++;
+    }
+
+    @Override
+    public void commitChanges(){
+        commitAddressBook();
     }
 
 }
