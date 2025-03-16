@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -16,6 +18,8 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -27,6 +31,7 @@ public class MainWindow extends UiPart<Stage> {
 
     private final Logger logger = LogsCenter.getLogger(getClass());
 
+    private AnniversaryWindow anniversaryWindow;
     private Stage primaryStage;
     private Logic logic;
 
@@ -110,7 +115,7 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), this);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
@@ -121,7 +126,50 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        // Here, create the new AnniversaryWindow
+        anniversaryWindow = new AnniversaryWindow();
     }
+
+    /**
+     * Example method to show the AnniversaryWindow for a particular Person's anniversaries.
+     * Let's pretend you call this if the user clicks a button, or types a command like:
+     * showAnniversaries eid//<someUUID/>
+     */
+    @FXML
+    public void handleShowAnniversaries(String employeeId) {
+        try {
+            // Convert employeeId string to UUID
+            UUID uuid = UUID.fromString(employeeId);
+
+            // Find the person by UUID
+            Person selected = logic.getFilteredPersonList().stream()
+                    .filter(person -> person.getEmployeeId().equals(uuid))
+                    .findFirst()
+                    .orElse(null);
+
+            if (selected == null) {
+                resultDisplay.setFeedbackToUser("No person found with employee ID: " + employeeId);
+                return;
+            }
+
+            // Fetch anniversaries from the Logic layer
+            List<Anniversary> anniversaries = selected.getAnniversaries();
+
+            // Update the AnniversaryWindow
+            anniversaryWindow.setAnniversaryList(anniversaries);
+
+            // Show the window
+            if (!anniversaryWindow.isShowing()) {
+                anniversaryWindow.show();
+            } else {
+                anniversaryWindow.focus();
+            }
+        } catch (IllegalArgumentException e) {
+            resultDisplay.setFeedbackToUser("Invalid employee ID format.");
+        }
+    }
+
 
     /**
      * Sets the default size based on {@code guiSettings}.
