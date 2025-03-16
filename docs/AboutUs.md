@@ -38,7 +38,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/wilkinsang.md)]
 
 * Role: Developer
-* Responsibilities: Making sure testing is done correctly and on time.
+* Responsibilities: Making sure merging is done correctly and CI passes
 
 
 ### Roman Yanushevskyi
