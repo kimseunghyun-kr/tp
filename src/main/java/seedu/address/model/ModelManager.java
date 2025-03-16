@@ -157,10 +157,24 @@ public class ModelManager implements Model {
     }
 
 
+    /**
+     * Checks if the address book can be undone.
+     * This is determined by whether the current state pointer is greater than 0,
+     * indicating that there is at least one previous state to revert to.
+     *
+     * @return True if the address book has a previous state to undo, otherwise false.
+     */
     public boolean canUndoAddressBook() {
         return currentStatePointer > 0;
     }
 
+    /**
+     * Undoes the most recent change to the address book.
+     * This reverts the address book to its previous state based on the current state pointer.
+     * The state pointer is decremented, and the address book is updated with the previous state.
+     *
+     * @throws IllegalStateException If no undo is available (i.e., no previous state exists).
+     */
     public void undoAddressBook() {
         if (canUndoAddressBook()) {
             currentStatePointer--;
@@ -168,13 +182,22 @@ public class ModelManager implements Model {
         }
     }
 
+    /**
+     * Commits the current state of the address book to the history.
+     * This creates a new snapshot of the current address book and adds it to the list of address book states.
+     * The current state pointer is incremented to reflect the new committed state.
+     */
     public void commitAddressBook() {
         addressBookStates.add(new AddressBook(addressBook));
         currentStatePointer++;
     }
 
+    /**
+     * Commits the current changes to the address book.
+     * This is a wrapper method that calls {@link #commitAddressBook()}.
+     */
     @Override
-    public void commitChanges(){
+    public void commitChanges() {
         commitAddressBook();
     }
 
