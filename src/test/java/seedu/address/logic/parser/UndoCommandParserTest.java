@@ -1,11 +1,15 @@
 package seedu.address.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class UndoCommandParserTest {
 
@@ -30,7 +34,7 @@ class UndoCommandParserTest {
     @Test
     void parse_nonEmptyArgs_throwsParseException() {
         // Test case where args is non-empty
-        String args = "extra argument";  // Any extra string should throw an exception
+        String args = "extra argument";
 
         // Assert that a ParseException is thrown
         assertThrows(ParseException.class, () -> parser.parse(args));
