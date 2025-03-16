@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddPersonCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -17,6 +17,9 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.anniversary.AddAnniversaryCommand;
+import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
+import seedu.address.logic.parser.anniversary.AddAnniversaryCommandParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -53,8 +56,8 @@ public class AddressBookParser {
 
         switch (commandWord) {
 
-        case AddCommand.COMMAND_WORD:
-            return new AddCommandParser().parse(arguments);
+        case AddPersonCommand.COMMAND_WORD:
+            return new AddPersonCommandParser().parse(arguments);
 
         case EditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
@@ -76,6 +79,12 @@ public class AddressBookParser {
 
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
+
+        case AddAnniversaryCommand.COMMAND_WORD:
+            return new AddAnniversaryCommandParser().parse(arguments);
+
+        case DeleteAnniversaryCommand.COMMAND_WORD:
+            return new AddAnniversaryCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

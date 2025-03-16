@@ -1,9 +1,12 @@
 package seedu.address.testutil;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.model.Model;
@@ -51,5 +54,24 @@ public class TestUtil {
      */
     public static Person getPerson(Model model, Index index) {
         return model.getFilteredPersonList().get(index.getZeroBased());
+    }
+
+    /**
+     * checks if the Persons are the same excluding their employee id
+     */
+    public static void assertPersonEqualsIgnoringEmployeeId(Person expected, Person actual) {
+        if (expected == actual) {
+            return;
+        }
+        if (expected == null || actual == null) {
+            fail("One of the persons is null");
+        }
+        if (!Objects.equals(expected.getName(), actual.getName())
+                || !Objects.equals(expected.getPhone(), actual.getPhone())
+                || !Objects.equals(expected.getEmail(), actual.getEmail())
+                || !Objects.equals(expected.getAddress(), actual.getAddress())
+                || !Objects.equals(expected.getTags(), actual.getTags())) {
+            fail("Persons are not equal except for employeeId.\nExpected: " + expected + "\nActual  : " + actual);
+        }
     }
 }

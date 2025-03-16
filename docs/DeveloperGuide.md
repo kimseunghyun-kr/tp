@@ -2,14 +2,19 @@
 layout: page
 title: Developer Guide
 ---
-* Table of Contents
-{:toc}
+## *Table of Contents*
+1. [Add employee records: `add`](#add-employee-records)
+2. [Delete employee records: `delete`](#delete-employee-records)
+3. [Undo changes made: `undo`](#undo-changes)
+4. [Reminder for events](#reminder-for-events)
+5. [Save employee records](#save-employee-records)
 
+- [User Stories](#user-stories)
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
 
-* {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
+* Thank you all
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -19,12 +24,110 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Design**
+### **Add Employee Records**
 
-<div markdown="span" class="alert alert-primary">
+#### Purpose:
+Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
 
-:bulb: **Tip:** The `.puml` files used to create diagrams in this document `docs/diagrams` folder. Refer to the [_PlantUML Tutorial_ at se-edu/guides](https://se-education.org/guides/tutorials/plantUml.html) to learn how to create and edit diagrams.
-</div>
+#### Command Format:
+```
+add n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY e/EMAIL t/TAGS
+```
+
+#### Example Commands:
+```
+add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
+```
+
+#### Parameter Rules:
+- **Name**: Alphabets and spaces only, case-insensitive.
+- **Position**: Must match predefined job titles.
+- **Birthday & Work Anniversary**: Format - YYYY-MM-DD.
+- **Email**: Must contain '@domainname.com'.
+
+#### Outputs:
+- **Success**: `Employee John Doe added successfully.`
+- **Failure**: `Error: Invalid date format.`
+
+#### Duplicate Handling:
+- If an employee with the same email exists: `Error: Employee already exists.`
+
+#### Additional Targets:
+- Partial addition of data.
+- Import employee records from CSV.
+---
+
+### **Delete Employee Records**
+#### Purpose:
+Allows HR workers to remove outdated or incorrect employee records.
+
+#### Command Format:
+```
+delete n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY
+```
+
+#### Example Commands:
+```
+delete n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20
+```
+
+#### Outputs:
+- **Success:** `Employee John Doe deleted successfully.`
+- **Failure:** `Error: Employee not found.`
+
+#### Duplicate Handling:
+If multiple employees match, prompt for additional details to ensure correctness.
+
+---
+
+### **Undo Changes**
+#### Purpose:
+Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
+
+#### Command Format:
+```
+undo
+```
+
+#### Functionality:
+* **Undo Last Action**: Reverts the most recent change made to the employee data. If the last operation was adding a new employee, the employee will be removed. If the last operation was deleting an employee, the employee will be restored.
+##### Outputs:
+* **Success**: Undo successful. Last action reverted.
+* **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
+
+---
+
+### Reminder for Events
+#### Purpose:
+Notifies HR about upcoming employee birthdays and work anniversaries.
+
+#### Command Format:
+No commands needed
+
+#### Outputs:
+- **GUI Output:**
+```
+Jane Doe's birthday is today! (May 9, 1990).
+John Doe's birthday is tomorrow (May 10, 1990).
+Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
+```
+---
+### **Save Employee Records**
+#### Purpose:
+Ensures employee records persist across sessions.
+
+#### Command Format:
+- **Automatically saves every 30 seconds.**
+
+#### Outputs:
+- **Success:** `Save occurred successfully.`
+- **Failure:** `Save failed -> reverting to backup file.`
+
+#### Additional Targets:
+- Full flush backup (complete overwrite).
+- Intermediate .tmp file for autosave.
+
+---
 
 ### Architecture
 
@@ -261,45 +364,52 @@ _{Explain here how the data archiving feature will be implemented}_
 ### Product scope
 
 **Target user profile**:
+HR workers in small companies who are responsible for managing employee engagement and morale. These users often have multiple administrative tasks and struggle to keep up with birthdays, anniversaries, and festive greetings. They can type quickly and prefer CLI over GUI.
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing to mouse interactions
-* is reasonably comfortable using CLI apps
-
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**:
+We can now have assurance that we aren’t missing any customary birthday/festive remarks. ‘H’Reers automates the process of sending custom birthday and anniversary messages for small company HR workers. Optimized for CLI users, it streamlines contact management and ensures timely, personalized greetings, enhancing employee engagement with minimal effort.
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority | As a …​                                     | I want to …​                       | So that I can…​                                                |
+| -------- |---------------------------------------------|------------------------------------|----------------------------------------------------------------|
+| `* * *`  | new HR worker using this for the first time | add employees' contact details     | easily manage my company's records                             |
+| `* * *`  | HR worker                                   | delete an old employee's records   | remove outdated or incorrect information from the system       |
+| `* * *`  | HR worker                                   | view reminders for upcoming events | be prepared and not miss any anniversary events.               |
+| `* * *`  | HR worker                                   | view employee's details            | know if a certain employee has any anniversarys coming up soon |
+| `* *`    | HR worker                                   | go back to the previous page       |                                                                |
+| `*`      | HR worker                                   | have buttons                       | rest my fingers from typing                                    |
 
 *{More to be added}*
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+**Use case: Adding an Employee**
 
-**Use case: Delete a person**
+**Actor:** HR Worker
+
+**Preconditions:**
+- The system is running.
+- The HR worker has valid employee data to input.
 
 **MSS**
+1. HR worker chooses to add new employee.
+2. HR worker enters required details
+3. If valid, the system adds the employee record to the database.
+4. The system displays confirmation: `Employee John Doe added successfully.`
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+**Alternative Flows:**
+    - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
+    - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
-    Use case ends.
+**Postconditions:**
+    - The employee record is stored successfully in the system.
+    - If an error occurred, the system remains unchanged.
+
+---
 
 **Extensions**
 
@@ -320,6 +430,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  The product should be for a single user.
+5.  No usage of a shared file storage mechanism.
 
 *{More to be added}*
 

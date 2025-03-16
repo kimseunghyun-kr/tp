@@ -147,4 +147,14 @@ public class UniquePersonList implements Iterable<Person> {
         }
         return true;
     }
+
+    /**
+     * Checks if there exist a person specifically duplicated
+     * @param toCheck the person to check
+     * @return true if there exists more than one person that are duplicated
+     */
+    public boolean hasDuplicatePersonDetails(Person toCheck) {
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(checkPerson -> checkPerson.hasSameDetails(toCheck));
+    }
 }

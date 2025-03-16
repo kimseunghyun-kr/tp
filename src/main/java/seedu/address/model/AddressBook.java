@@ -53,7 +53,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
-
         setPersons(newData.getPersonList());
     }
 
@@ -65,6 +64,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean hasPerson(Person person) {
         requireNonNull(person);
         return persons.contains(person);
+    }
+
+    /**
+     * Returns true if a person with the same identity as {@code person} exists in the address book.
+     */
+    public boolean hasDuplicatePersonDetails(Person person) {
+        requireNonNull(person);
+        return persons.hasDuplicatePersonDetails(person);
     }
 
     /**
@@ -82,7 +89,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-
         persons.setPerson(target, editedPerson);
     }
 
