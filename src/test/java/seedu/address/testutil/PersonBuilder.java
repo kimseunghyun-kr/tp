@@ -120,6 +120,19 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets both the Birthday and Work Anniversary for the {@code Person} that we are building.
+     */
+    public PersonBuilder withBirthdayAndWorkAnniversary(LocalDate localBDate, LocalDate localWaDate) {
+        List<Anniversary> anni = new ArrayList<>();
+        anni.add(new Anniversary(localBDate, new HashSet<>(Set.of(new Birthday())),
+                "Birthday", name.fullName));
+        anni.add(new Anniversary(localWaDate, new HashSet<>(Set.of(new WorkAnniversary())),
+                "Work Anniversary", name.fullName));
+        this.anniversaries = anni;
+        return this;
+    }
+
     public Person build() {
         return new Person(employeeId, name, phone, email, address, tags, anniversaries);
     }

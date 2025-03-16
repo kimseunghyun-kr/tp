@@ -3,13 +3,16 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +42,10 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIEND = "friend";
+    public static final LocalDate VALID_BIRTHDAY_DATE_AMY = LocalDate.of(1995, 3, 16);
+    public static final LocalDate VALID_WORK_ANNIVERSARY_DATE_AMY = LocalDate.of(2017, 8, 7);
+    public static final LocalDate VALID_BIRTHDAY_DATE_BOB = LocalDate.of(1999, 6, 11);
+    public static final LocalDate VALID_WORK_ANNIVERSARY_DATE_BOB = LocalDate.of(2020, 3, 22);
 
 
     public static final String EID_DESC_AMY = " " + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID_AMY;
@@ -53,6 +60,10 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
+    public static final String BIRTHDAY_DESC_AMY = " " + PREFIX_BIRTHDAY + "1995-03-16";
+    public static final String BIRTHDAY_DESC_BOB = " " + PREFIX_BIRTHDAY + "1999-06-11";
+    public static final String WORK_ANNIVERSARY_DESC_AMY = " " + PREFIX_WORK_ANNIVERSARY + "1995-03-16";
+    public static final String WORK_ANNIVERSARY_DESC_BOB = " " + PREFIX_WORK_ANNIVERSARY + "1999-06-11";
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
