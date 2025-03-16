@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.UUID;
 
 import lombok.Builder;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.anniversary.Birthday;
+import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -27,6 +30,10 @@ public class PersonBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final Anniversary DEFAULT_BIRTHDAY = new Anniversary(LocalDate.of(2000, 1, 1),
+            new HashSet<>(Set.of(new Birthday())), "Birthday", "Amy");
+    public static final Anniversary DEFAULT_WORK_ANNIVERSARY = new Anniversary(LocalDate.of(2000, 1, 1),
+            new HashSet<>(Set.of(new WorkAnniversary())), "Work Anniversary", "Amy");
 
     private UUID employeeId;
     private Name name;
@@ -46,7 +53,10 @@ public class PersonBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         tags = new HashSet<>();
-        anniversaries = new ArrayList<>();
+        List<Anniversary> anni = new ArrayList<>();
+        anni.add(DEFAULT_BIRTHDAY);
+        anni.add(DEFAULT_WORK_ANNIVERSARY);
+        anniversaries = anni;
     }
 
     /**

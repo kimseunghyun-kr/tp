@@ -13,7 +13,11 @@ public class CliSyntax {
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
 
-    // -- these for anniversaries:
+    /* Prefix definitions for birthdays and work anniversaries */
+    public static final Prefix PREFIX_BIRTHDAY = new Prefix("bd/");
+    public static final Prefix PREFIX_WORK_ANNIVERSARY = new Prefix("wa/");
+
+    /* Prefix definitions for custom anniversaries */
     public static final Prefix PREFIX_ANNIVERSARY_DATE = new Prefix("d/");
     public static final Prefix PREFIX_ANNIVERSARY_DESC = new Prefix("ad/");
     public static final Prefix PREFIX_ANNIVERSARY_TYPE = new Prefix("at/");

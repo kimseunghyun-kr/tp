@@ -2,6 +2,8 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +12,10 @@ import java.util.UUID;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.anniversary.AnniversaryType;
+import seedu.address.model.anniversary.Birthday;
+import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -138,5 +144,32 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
+     *
+     * @param name the name of the person to be tagged with the anniversary
+     * @param dateStr the date of the anniversary
+     * @param type the type of the anniversary
+     * @throws ParseException if the given {@code dateStr} is invalid.
+     */
+    public static Anniversary parseAnniversary(Name name, String dateStr, String type) throws ParseException {
+        requireNonNull(dateStr);
+        String trimmedAnniversaryDate = dateStr.trim();
+        LocalDate date;
+        try {
+            date = LocalDate.parse(trimmedAnniversaryDate);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Anniversary date must be in YYYY-MM-DD format.");
+        }
+
+        Set<AnniversaryType> anniversaryTypes = new HashSet<>();
+        if (type.equalsIgnoreCase("Work Anniversary")) {
+            anniversaryTypes.add(new WorkAnniversary());
+        } else if (type.equalsIgnoreCase("Birthday")) {
+            anniversaryTypes.add(new Birthday());
+        }
+        return new Anniversary(date, anniversaryTypes, name.fullName + "'s " + type, type);
     }
 }
