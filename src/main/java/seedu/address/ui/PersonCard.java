@@ -3,6 +3,7 @@ package seedu.address.ui;
 import java.util.Comparator;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -25,6 +26,7 @@ public class PersonCard extends UiPart<Region> {
      */
 
     public final Person person;
+    private final MainWindow mainWindow; // Store reference to MainWindow
 
     @FXML
     private HBox cardPane;
@@ -40,13 +42,16 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Button showAnniversariesButton; // New button
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
      */
-    public PersonCard(Person person, int displayedIndex) {
+    public PersonCard(Person person, int displayedIndex, MainWindow mainWindow) {
         super(FXML);
         this.person = person;
+        this.mainWindow = mainWindow;
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
@@ -56,4 +61,10 @@ public class PersonCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
+
+    @FXML
+    void handleShowAnniversariesClick() {
+        mainWindow.handleShowAnniversaries(person.getEmployeeId().toString());
+    }
+
 }
