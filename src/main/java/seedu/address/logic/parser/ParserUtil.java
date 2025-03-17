@@ -161,7 +161,7 @@ public class ParserUtil {
         try {
             date = LocalDate.parse(trimmedAnniversaryDate);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Anniversary date must be in YYYY-MM-DD format.");
+            throw new ParseException(Anniversary.MESSAGE_DATE_CONSTRAINTS);
         }
 
         Set<AnniversaryType> anniversaryTypes = new HashSet<>();

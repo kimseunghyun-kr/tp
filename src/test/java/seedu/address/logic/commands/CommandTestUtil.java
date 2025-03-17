@@ -70,6 +70,9 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_BIRTHDAY_DATE_DESC = " " + PREFIX_BIRTHDAY + "2001-13-16"; // 12 months in a year
+    // '/' not allowed
+    public static final String INVALID_WORK_ANNIVERSARY_DATE_DESC = " " + PREFIX_WORK_ANNIVERSARY + "2001/10/16";
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
