@@ -2,6 +2,11 @@
 layout: page
 title: Developer Guide
 ---
+
+## *Mock UI*
+
+<img src="./images/MockUI.png" alt="UI">
+
 ## *Table of Contents*
 1. [Add employee records: `add`](#add-employee-records)
 2. [Delete employee records: `delete`](#delete-employee-records)
