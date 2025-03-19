@@ -56,6 +56,14 @@ public class AddressBook implements ReadOnlyAddressBook {
         setPersons(newData.getPersonList());
     }
 
+    /**
+     * Sorts the list of persons by their next upcoming birthday.
+     * Delegates the sorting logic to the underlying UniquePersonList.
+     */
+    public void sortByUpcomingBirthday() {
+        persons.sortByUpcomingBirthday();
+    }
+
     //// person-level operations
 
     /**

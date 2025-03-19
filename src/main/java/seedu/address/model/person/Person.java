@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.tag.Tag;
 
 
@@ -83,6 +85,19 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags);
 
+    }
+
+    /**
+     * Returns the birthday of the person if available.
+     *
+     * @return The birthday as a {@code LocalDate} object if it exists, otherwise returns {@code null}.
+     */
+    public LocalDate getBirthday() {
+        return anniversaries.stream()
+                .filter(a -> a.getType().stream().anyMatch(type -> type instanceof Birthday))
+                .map(Anniversary::getDate)
+                .findFirst()
+                .orElse(null);
     }
 
     /**
