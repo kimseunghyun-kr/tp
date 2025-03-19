@@ -87,10 +87,10 @@ public class EditCommand extends Command {
             throw new CommandException(String.format(Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND, employeeIdPrefix));
         }
 
+        Person personToEdit = matchedPersons.get(0);
+
         // Save the state before any potential changes
         model.commitChanges();
-
-        Person personToEdit = matchedPersons.get(0);
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
         // original checked if they did not have the same name but the list contained the same name.
