@@ -23,6 +23,8 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MALFORMED_INVALID_EMPLOYEE_ID = "Invalid employee id! %s";
+    public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = "Employee id prefix not specified!";
+    public static final String MESSAGE_SPACES_IN_EMPLOYEE_ID = "Employee id can't start contain spaces!";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -51,6 +53,17 @@ public class ParserUtil {
         } catch (IllegalArgumentException e) {
             throw new ParseException(String.format(MALFORMED_INVALID_EMPLOYEE_ID, trimmedEmployeeId));
         }
+    }
+
+    public static String parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
+        requireNonNull(employeeIdPrefix);
+        if (employeeIdPrefix.isEmpty()) {
+            throw new ParseException(MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED);
+        }
+        if (employeeIdPrefix.contains(" ")) {
+            throw new ParseException(MESSAGE_SPACES_IN_EMPLOYEE_ID);
+        }
+        return employeeIdPrefix.trim();
     }
 
     /**
