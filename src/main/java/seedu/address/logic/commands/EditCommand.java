@@ -88,13 +88,13 @@ public class EditCommand extends Command {
         }
 
 
-        Person personToEdit = lastShownList.get(index.getZeroBased());
+        
 
         // Save the state before any potential changes
         model.commitChanges();
 
 
-        personToEdit = matchedPersons.get(0);
+        Person personToEdit = matchedPersons.get(0);
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
         // original checked if they did not have the same name but the list contained the same name.
