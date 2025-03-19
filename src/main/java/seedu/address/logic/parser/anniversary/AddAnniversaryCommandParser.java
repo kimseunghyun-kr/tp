@@ -52,7 +52,7 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
         try {
             date = LocalDate.parse(dateStr);
         } catch (DateTimeParseException e) {
-            throw new ParseException("Anniversary date must be in YYYY-MM-DD format.");
+            throw new ParseException(Anniversary.MESSAGE_DATE_CONSTRAINTS);
         }
 
         // parse optional fields
