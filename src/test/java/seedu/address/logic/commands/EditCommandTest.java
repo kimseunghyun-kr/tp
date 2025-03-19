@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.UNEXISTING_EMPLOYEE_ID_PREFIX;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -33,7 +34,6 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
-    private final String UNEXISTING_EMPLOYEE_ID_PREFIX = "99999";
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     private String getEmployeeIdPrefixOf(int index) {
