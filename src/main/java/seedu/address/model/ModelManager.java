@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -22,6 +24,9 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
+    private int currentStatePointer = 0;
+    private List<AddressBook> addressBookStates = new ArrayList<>();
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -80,6 +85,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBook(ReadOnlyAddressBook addressBook) {
         this.addressBook.resetData(addressBook);
+        commitAddressBook();
     }
 
     @Override
@@ -148,6 +154,51 @@ public class ModelManager implements Model {
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredPersons.equals(otherModelManager.filteredPersons);
+    }
+
+
+    /**
+     * Checks if the address book can be undone.
+     * This is determined by whether the current state pointer is greater than 0,
+     * indicating that there is at least one previous state to revert to.
+     *
+     * @return True if the address book has a previous state to undo, otherwise false.
+     */
+    public boolean canUndoAddressBook() {
+        return currentStatePointer > 0;
+    }
+
+    /**
+     * Undoes the most recent change to the address book.
+     * This reverts the address book to its previous state based on the current state pointer.
+     * The state pointer is decremented, and the address book is updated with the previous state.
+     *
+     * @throws IllegalStateException If no undo is available (i.e., no previous state exists).
+     */
+    public void undoAddressBook() {
+        if (canUndoAddressBook()) {
+            currentStatePointer--;
+            addressBook.resetData(addressBookStates.get(currentStatePointer));
+        }
+    }
+
+    /**
+     * Commits the current state of the address book to the history.
+     * This creates a new snapshot of the current address book and adds it to the list of address book states.
+     * The current state pointer is incremented to reflect the new committed state.
+     */
+    public void commitAddressBook() {
+        addressBookStates.add(new AddressBook(addressBook));
+        currentStatePointer++;
+    }
+
+    /**
+     * Commits the current changes to the address book.
+     * This is a wrapper method that calls {@link #commitAddressBook()}.
+     */
+    @Override
+    public void commitChanges() {
+        commitAddressBook();
     }
 
 }
