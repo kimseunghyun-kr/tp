@@ -73,10 +73,11 @@ public class AddPersonCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddPersonCommand otherAddPersonCommand)) {
+        if (!(other instanceof AddPersonCommand)) {
             return false;
         }
 
+        AddPersonCommand otherAddPersonCommand = (AddPersonCommand) other;
         return toAdd.equals(otherAddPersonCommand.toAdd);
     }
     /** Custom equals method to compare AddCommand objects while ignoring employeeId. */
