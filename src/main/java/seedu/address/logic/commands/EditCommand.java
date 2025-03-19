@@ -94,7 +94,7 @@ public class EditCommand extends Command {
         model.commitChanges();
 
 
-        Person personToEdit = matchedPersons.get(0);
+        personToEdit = matchedPersons.get(0);
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
         // original checked if they did not have the same name but the list contained the same name.
