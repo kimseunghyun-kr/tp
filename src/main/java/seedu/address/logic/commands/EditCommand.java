@@ -87,12 +87,8 @@ public class EditCommand extends Command {
             throw new CommandException(String.format(Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND, employeeIdPrefix));
         }
 
-
-        
-
         // Save the state before any potential changes
         model.commitChanges();
-
 
         Person personToEdit = matchedPersons.get(0);
 
