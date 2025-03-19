@@ -3,8 +3,12 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +38,45 @@ public class UniquePersonList implements Iterable<Person> {
     public boolean contains(Person toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSamePerson);
+    }
+
+    /**
+     * Sorts the list of persons by their next upcoming birthday.
+     * - Persons with the nearest upcoming birthday will appear first.
+     * - Persons without a birthday will be placed at the end of the list.
+     */
+    public void sortByUpcomingBirthday() {
+        List<Person> sortedList = internalList.stream()
+                .sorted(Comparator
+                        .comparing((Person p) -> daysUntilNextBirthday(p.getBirthday()),
+                        Comparator.nullsLast(Comparator.naturalOrder())
+                ))
+                .collect(Collectors.toList());
+
+        internalList.setAll(sortedList);
+    }
+
+    /**
+     * Calculates the number of days until the next occurrence of a birthday.
+     *
+     * @param birthday The date of the birthday.
+     * @return Number of days until the next birthday, or {@code null} if the birthday is {@code null}.
+     */
+    private Integer daysUntilNextBirthday(LocalDate birthday) {
+        if (birthday == null) {
+            return null;
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalDate nextBirthday = birthday.withYear(today.getYear());
+
+        // If the birthday has already passed this year, adjust to next year
+        if (nextBirthday.isBefore(today) || nextBirthday.isEqual(today)) {
+            nextBirthday = nextBirthday.plusYears(1);
+        }
+
+        // Return the number of days until the next birthday
+        return (int) ChronoUnit.DAYS.between(today, nextBirthday);
     }
 
     /**
