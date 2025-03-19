@@ -17,7 +17,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import lombok.Data;
-import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -40,7 +39,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
             + "by the index number used in the displayed person list. "
             + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
+            + "Parameters: EMPLOYEE_ID_PREFIX (there must be only one employee that matches this prefix) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
@@ -53,19 +52,20 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_MULTIPLE_EMPLOYEES_FOUND = "Multiple employees found with the same prefix.";
 
-    private final Index index;
+    private final String employeeIdPrefix;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param employeeIdPrefix of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
-        requireNonNull(index);
+    public EditCommand(String employeeIdPrefix, EditPersonDescriptor editPersonDescriptor) {
+        requireNonNull(employeeIdPrefix);
         requireNonNull(editPersonDescriptor);
 
-        this.index = index;
+        this.employeeIdPrefix = employeeIdPrefix;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
@@ -74,14 +74,27 @@ public class EditCommand extends Command {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        List<Person> matchedPersons = lastShownList
+                .stream()
+                .filter(person -> person.getEmployeeId().toString().startsWith(employeeIdPrefix))
+                .toList();
+
+        if (matchedPersons.size() > 1) {
+            throw new CommandException(MESSAGE_MULTIPLE_EMPLOYEES_FOUND);
         }
+
+        if (matchedPersons.isEmpty()) {
+            throw new CommandException(String.format(Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND, employeeIdPrefix));
+        }
+
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
         // Save the state before any potential changes
         model.commitChanges();
+
+
+        Person personToEdit = matchedPersons.get(0);
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
         // original checked if they did not have the same name but the list contained the same name.
@@ -123,19 +136,18 @@ public class EditCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditCommand)) {
+        if (!(other instanceof EditCommand otherEditCommand)) {
             return false;
         }
 
-        EditCommand otherEditCommand = (EditCommand) other;
-        return index.equals(otherEditCommand.index)
+        return this.employeeIdPrefix.equals(otherEditCommand.employeeIdPrefix)
                 && editPersonDescriptor.equals(otherEditCommand.editPersonDescriptor);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("index", index)
+                .add("employeeIdPrefix", employeeIdPrefix)
                 .add("editPersonDescriptor", editPersonDescriptor)
                 .toString();
     }
