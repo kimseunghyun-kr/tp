@@ -55,6 +55,11 @@ public class ParserUtil {
         }
     }
 
+    /**
+     * Parses a {@code String employeeIdPrefix} into a {@code String}.
+     *
+     * @throws ParseException if the given {@code employeeIdPrefix} is empty or contains spaces.
+     */
     public static String parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
         requireNonNull(employeeIdPrefix);
         if (employeeIdPrefix.isEmpty()) {
