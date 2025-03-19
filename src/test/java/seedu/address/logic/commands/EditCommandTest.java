@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -34,13 +33,12 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
+    private final String UNEXISTING_EMPLOYEE_ID_PREFIX = "99999";
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     private String getEmployeeIdPrefixOf(int index) {
         return model.getFilteredPersonList().get(index).getEmployeeId().toString();
     }
-
-    private final String UNEXISTING_EMPLOYEE_ID_PREFIX = "99999";
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() {
@@ -185,7 +183,10 @@ public class EditCommandTest {
         int index = 0;
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         EditCommand editCommand = new EditCommand(this.getEmployeeIdPrefixOf(index), editPersonDescriptor);
-        String expected = EditCommand.class.getCanonicalName() + "{employeeIdPrefix=" + getEmployeeIdPrefixOf(index) + ", editPersonDescriptor="
+        String expected = EditCommand.class.getCanonicalName()
+                + "{employeeIdPrefix="
+                + getEmployeeIdPrefixOf(index)
+                + ", editPersonDescriptor="
                 + editPersonDescriptor + "}";
         assertEquals(expected, editCommand.toString());
     }
