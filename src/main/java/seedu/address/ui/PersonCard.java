@@ -4,7 +4,12 @@ import java.util.Comparator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -16,7 +21,7 @@ import seedu.address.model.person.Person;
 public class PersonCard extends UiPart<Region> {
 
     private static final String FXML = "PersonListCard.fxml";
-    private static final String EMPLOYEEID = "employeeId : ";
+    private static final String EMPLOYEEID_PREFIX = "employeeId : ";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -60,7 +65,23 @@ public class PersonCard extends UiPart<Region> {
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
-        employeeId.setText(EMPLOYEEID + person.getEmployeeId().toString());
+        employeeId.setText(person.getEmployeeId().toString());
+        employeeId.setTooltip(new Tooltip(EMPLOYEEID_PREFIX + person.getEmployeeId().toString()));
+        person.getTags().stream()
+                .sorted(Comparator.comparing(tag -> tag.tagName))
+                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+
+        // Add context menu for copying employeeId
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem copyItem = new MenuItem("Copy");
+        copyItem.setOnAction(event -> {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(person.getEmployeeId().toString());
+            clipboard.setContent(content);
+        });
+        contextMenu.getItems().add(copyItem);
+        employeeId.setContextMenu(contextMenu);
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
