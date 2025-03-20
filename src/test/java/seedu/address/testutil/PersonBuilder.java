@@ -31,9 +31,9 @@ public class PersonBuilder {
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_JOBPOSITION = "Hiring Manager";
     public static final Anniversary DEFAULT_BIRTHDAY = new Anniversary(LocalDate.of(2000, 1, 1),
-            new HashSet<>(Set.of(new Birthday())), "Birthday", "Amy");
+            new Birthday(), "Birthday", "Amy");
     public static final Anniversary DEFAULT_WORK_ANNIVERSARY = new Anniversary(LocalDate.of(2000, 1, 1),
-            new HashSet<>(Set.of(new WorkAnniversary())), "Work Anniversary", "Amy");
+            new WorkAnniversary(), "Work Anniversary", "Amy");
 
     private EmployeeId employeeId;
     private Name name;
@@ -125,9 +125,9 @@ public class PersonBuilder {
      */
     public PersonBuilder withBirthdayAndWorkAnniversary(LocalDate localBDate, LocalDate localWaDate) {
         List<Anniversary> anni = new ArrayList<>();
-        anni.add(new Anniversary(localBDate, new HashSet<>(Set.of(new Birthday())),
+        anni.add(new Anniversary(localBDate, new Birthday(),
                 "Birthday", name.fullName));
-        anni.add(new Anniversary(localWaDate, new HashSet<>(Set.of(new WorkAnniversary())),
+        anni.add(new Anniversary(localWaDate, new WorkAnniversary(),
                 "Work Anniversary", name.fullName));
         this.anniversaries = anni;
         return this;

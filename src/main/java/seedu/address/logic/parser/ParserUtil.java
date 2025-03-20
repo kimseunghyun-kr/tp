@@ -171,7 +171,8 @@ public class ParserUtil {
      * @param type the type of the anniversary
      * @throws ParseException if the given {@code dateStr} is invalid.
      */
-    public static Anniversary parseAnniversary(Name name, String dateStr, String type) throws ParseException {
+    public static Anniversary parseAnniversary(Name name, String dateStr, String type,
+                                               String typeDescription) throws ParseException {
         requireNonNull(dateStr);
         String trimmedAnniversaryDate = dateStr.trim();
         LocalDate date;
@@ -180,13 +181,13 @@ public class ParserUtil {
         } catch (DateTimeParseException e) {
             throw new ParseException(Anniversary.MESSAGE_DATE_CONSTRAINTS);
         }
-
-        Set<AnniversaryType> anniversaryTypes = new HashSet<>();
         if (type.equalsIgnoreCase("Work Anniversary")) {
-            anniversaryTypes.add(new WorkAnniversary());
-        } else if (type.equalsIgnoreCase("Birthday")) {
-            anniversaryTypes.add(new Birthday());
+            return new Anniversary(date, new WorkAnniversary(), name.fullName + "'s " + type, type);
         }
-        return new Anniversary(date, anniversaryTypes, name.fullName + "'s " + type, type);
+        if (type.equalsIgnoreCase("Birthday")) {
+            return new Anniversary(date, new Birthday(), name.fullName + "'s " + type, type);
+        }
+        return new Anniversary(date, new AnniversaryType(type, typeDescription),
+                name.fullName + "'s " + type, type);
     }
 }
