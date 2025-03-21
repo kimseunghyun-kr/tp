@@ -60,7 +60,7 @@ public class CommandResult {
     }
 
     public String getEmployeeId() {
-        return employeeId.orElse("");
+        return employeeId.orElse("N/A");
     }
     @Override
     public boolean equals(Object other) {
@@ -77,12 +77,13 @@ public class CommandResult {
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
                 && exit == otherCommandResult.exit
-                && showAnniversary == otherCommandResult.showAnniversary;
+                && showAnniversary == otherCommandResult.showAnniversary
+                && employeeId.equals(otherCommandResult.employeeId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit, showAnniversary);
+        return Objects.hash(feedbackToUser, showHelp, exit, showAnniversary, employeeId);
     }
 
     @Override
@@ -92,6 +93,7 @@ public class CommandResult {
                 .add("showHelp", showHelp)
                 .add("exit", exit)
                 .add("showAnniversary", showAnniversary)
+                .add("employeeId", getEmployeeId())
                 .toString();
     }
 
