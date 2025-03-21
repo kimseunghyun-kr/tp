@@ -6,7 +6,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import lombok.Getter;
-
 import seedu.address.commons.util.ToStringBuilder;
 
 /**
@@ -28,6 +27,7 @@ public class CommandResult {
 
     /** Employee ID of the person associated with this command**/
     private final Optional<String> employeeId;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
@@ -39,6 +39,10 @@ public class CommandResult {
         this.employeeId = Optional.empty();
     }
 
+    /**
+     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
+     * {@code showAnniversary}, and {@code employeeId}.
+     */
     public CommandResult(String feedbackToUser, boolean showAnniversary, String employeeId) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = false;

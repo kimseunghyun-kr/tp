@@ -9,6 +9,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
+/**
+ * Shows the list of anniversary of an existing person with the specified employee ID.
+ */
 public class ShowAnniversaryCommand extends Command {
 
     public static final String COMMAND_WORD = "showAnni"; // to be changed
@@ -24,6 +27,11 @@ public class ShowAnniversaryCommand extends Command {
 
     private String employeeIdToFind;
 
+    /**
+     * Creates an ShowAnniversaryCommand with the given employee ID.
+     *
+     * @param employeeId the employee ID to find
+     */
     public ShowAnniversaryCommand(String employeeId) {
         requireNonNull(employeeId);
         this.employeeIdToFind = employeeId;
