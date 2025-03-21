@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.parser.ParserUtil;
 
 /**
  * Represents the result of a command execution.
@@ -19,6 +20,10 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    private final boolean showAnniversary;
+
+    private final String employeeId;
+
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
@@ -26,6 +31,16 @@ public class CommandResult {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.showAnniversary = false;
+        this.employeeId = null;
+    }
+
+    public CommandResult(String feedbackToUser, boolean showAnniversary, String employeeId) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = false;
+        this.exit = false;
+        this.showAnniversary = showAnniversary;
+        this.employeeId = employeeId;
     }
 
     /**
@@ -48,6 +63,13 @@ public class CommandResult {
         return exit;
     }
 
+    public boolean isShowAnniversary() {
+        return showAnniversary;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
     @Override
     public boolean equals(Object other) {
         if (other == this) {
