@@ -42,6 +42,14 @@ public class EmployeeId {
         return test.matches(VALIDATION_REGEX);
     }
 
+    /**
+     * Returns true if the employee ID has a prefix conflict with another employee ID.
+     * A prefix conflict occurs when one employee ID is a prefix of another.
+     */
+    public boolean hasPrefixConflict(EmployeeId other) {
+        return this.value.startsWith(other.value) || other.value.startsWith(this.value);
+    }
+
     @Override
     public String toString() {
         return value;

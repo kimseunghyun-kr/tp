@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 
 /**
@@ -65,6 +66,12 @@ public interface Model {
      * The person must exist in the address book.
      */
     void deletePerson(Person target);
+
+    /**
+     * Returns true if the given employeeId has a prefix conflict with any existing employeeId in the address book.
+     * Prefix conflict is defined as having the same prefix as another employeeId in the address book.
+     */
+    boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId);
 
     /**
      * Adds the given person.

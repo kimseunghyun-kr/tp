@@ -200,4 +200,9 @@ public class UniquePersonList implements Iterable<Person> {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(checkPerson -> checkPerson.hasSameDetails(toCheck));
     }
+
+    public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+        requireNonNull(employeeId);
+        return internalList.stream().anyMatch(person -> person.getEmployeeId().hasPrefixConflict(employeeId));
+    }
 }
