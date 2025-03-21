@@ -201,6 +201,11 @@ public class UniquePersonList implements Iterable<Person> {
         return internalList.stream().anyMatch(checkPerson -> checkPerson.hasSameDetails(toCheck));
     }
 
+    /**
+     * Checks if there is an employee ID in the list that has a prefix conflict
+     * with the given employee ID. A prefix conflict occurs when one employee ID
+     * is a prefix of another.
+     */
     public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
         requireNonNull(employeeId);
         return internalList.stream().anyMatch(person -> person.getEmployeeId().hasPrefixConflict(employeeId));

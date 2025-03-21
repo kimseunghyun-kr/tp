@@ -83,6 +83,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.hasDuplicatePersonDetails(person);
     }
 
+    /**
+     * Checks whether the given {@code EmployeeId} has a prefix conflict with any existing employee ID
+     * in the address book. A prefix conflict occurs when one employee ID is a prefix of another.
+     */
     public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
         requireNonNull(employeeId);
         return persons.hasEmployeeIdPrefixConflict(employeeId);
