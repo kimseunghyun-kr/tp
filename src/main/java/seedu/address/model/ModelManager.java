@@ -114,6 +114,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+        requireAllNonNull(employeeId, toIgnore);
+        return addressBook.hasEmployeeIdPrefixConflictIgnoringSpecific(employeeId, toIgnore);
+    }
+
+    @Override
     public boolean hasDuplicatePersonDetails(Person person) {
         requireNonNull(person);
         return addressBook.hasDuplicatePersonDetails(person);

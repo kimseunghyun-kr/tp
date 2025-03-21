@@ -74,6 +74,17 @@ public interface Model {
     boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId);
 
     /**
+     * Checks if the given employee ID has a prefix conflict with any existing employee ID in the address book,
+     * excluding the specified {@code toIgnore} employee ID.
+     * A prefix conflict occurs when one employee ID is a prefix of another.
+     *
+     * @param employeeId The employee ID to check for prefix conflict.
+     * @param toIgnore The employee ID to ignore while checking for prefix conflicts.
+     * @return True if a prefix conflict exists, excluding the specified {@code toIgnore} employee ID; false otherwise.
+     */
+    boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */

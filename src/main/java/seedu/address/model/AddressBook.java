@@ -85,11 +85,25 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Checks whether the given {@code EmployeeId} has a prefix conflict with any existing employee ID
-     * in the address book. A prefix conflict occurs when one employee ID is a prefix of another.
+     * in the address book. A prefix conflict occurs when one employee ID is a prefix of another one.
      */
     public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
         requireNonNull(employeeId);
         return persons.hasEmployeeIdPrefixConflict(employeeId);
+    }
+
+    /**
+     * Checks if there is an employee ID in the address book that has a prefix conflict
+     * with the given employee ID, while ignoring a specific employee ID.
+     * A prefix conflict occurs when one employee ID is a prefix of another employee ID.
+     *
+     * @param employeeId the employee ID to check for conflicts.
+     * @param toIgnore the employee ID to be ignored during the conflict check.
+     * @return true if a prefix conflict is found, excluding the specified employee ID to ignore; false otherwise.
+     */
+    public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+        requireNonNull(employeeId);
+        return persons.hasEmployeeIdPrefixConflictIgnoringSpecific(employeeId, toIgnore);
     }
 
     /**

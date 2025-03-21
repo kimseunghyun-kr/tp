@@ -8,7 +8,7 @@ public class EmployeeId {
     public static final String MESSAGE_CONSTRAINTS =
             "Employee ID should be a string of letters and digits no longer than 36 characters.";
 
-    public static final String VALIDATION_REGEX = "[a-zA-Z0-9]{1,36}";
+    public static final String VALIDATION_REGEX = "[a-zA-Z0-9-]{1,36}";
 
     public final String value;
 
@@ -44,7 +44,7 @@ public class EmployeeId {
 
     /**
      * Returns true if the employee ID has a prefix conflict with another employee ID.
-     * A prefix conflict occurs when one employee ID is a prefix of another.
+     * A prefix conflict occurs when one employee ID is a prefix of another one.
      */
     public boolean hasPrefixConflict(EmployeeId other) {
         return this.value.startsWith(other.value) || other.value.startsWith(this.value);

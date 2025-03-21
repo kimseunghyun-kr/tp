@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -44,14 +45,16 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_TAG + "TAG] "
+            + "[" + PREFIX_EMPLOYEEID + "EMPLOYEE ID]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_EMPLOYEE_ID_CONFLICT = "The new employee ID is either a prefix of another "
+            + "existing employee ID or another existing employee ID is a prefix of this one";
     public static final String MESSAGE_MULTIPLE_EMPLOYEES_FOUND = "Multiple employees found with the same prefix.";
 
     private final String employeeIdPrefix;
@@ -93,10 +96,9 @@ public class EditCommand extends Command {
         model.commitChanges();
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
-        // original checked if they did not have the same name but the list contained the same name.
-        // this checks if the details other than UUID is different but somehow has literally a duplicate elsewhere
-        if (!personToEdit.hasSameDetails(editedPerson) && model.hasDuplicatePersonDetails(editedPerson)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+
+        if (model.hasEmployeeIdPrefixConflictIgnoringSpecific(editedPerson.getEmployeeId(), personToEdit.getEmployeeId())) {
+            throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);
         }
 
         model.setPerson(personToEdit, editedPerson);
@@ -114,7 +116,7 @@ public class EditCommand extends Command {
          * this is purposefully kept as personToEdit.getEmployeeId(), currently changing EmployeeID is not supported,
          * under Roman to change as he suggests.
          */
-        EmployeeId employeeId = personToEdit.getEmployeeId();
+        EmployeeId employeeId = editPersonDescriptor.getEmployeeId().orElse(personToEdit.getEmployeeId());
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
@@ -193,6 +195,10 @@ public class EditCommand extends Command {
             return CollectionUtil.isAnyNonNull(employeeId, name, phone, email, address, tags);
         }
 
+        public Optional<EmployeeId> getEmployeeId() {
+            return Optional.ofNullable(employeeId);
+        }
+
         public Optional<Name> getName() {
             return Optional.ofNullable(name);
         }
@@ -229,6 +235,7 @@ public class EditCommand extends Command {
         @Override
         public String toString() {
             return new ToStringBuilder(this)
+                    .add("employeeId", employeeId)
                     .add("name", name)
                     .add("phone", phone)
                     .add("email", email)
@@ -243,7 +250,8 @@ public class EditCommand extends Command {
          * @return true if the same
          */
         public boolean hasSameDetails(EditPersonDescriptor editPersonDescriptor) {
-            return editPersonDescriptor.name.equals(this.name)
+            return editPersonDescriptor.employeeId.equals(this.employeeId)
+                    && editPersonDescriptor.name.equals(this.name)
                     && editPersonDescriptor.phone.equals(this.phone)
                     && editPersonDescriptor.email.equals(this.email)
                     && editPersonDescriptor.address.equals(this.address)
