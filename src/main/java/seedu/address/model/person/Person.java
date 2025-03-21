@@ -34,7 +34,7 @@ public class Person {
     private final Email email;
 
     // Data fields
-    private final Address address;
+    private final JobPosition jobPosition;
     private final Set<Tag> tags;
 
     // Anniversary
@@ -43,14 +43,14 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(UUID employeeId, Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+    public Person(UUID employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set<Tag> tags,
                   List<Anniversary> anniversaries) {
         this.employeeId = employeeId;
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, jobPosition, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
+        this.jobPosition = jobPosition;
         this.tags = new HashSet<>(tags);
         this.tags.addAll(tags);
         this.anniversaries = new ArrayList<>(anniversaries);
@@ -82,7 +82,7 @@ public class Person {
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
+                && jobPosition.equals(otherPerson.jobPosition)
                 && tags.equals(otherPerson.tags);
 
     }
@@ -120,14 +120,14 @@ public class Person {
                 && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
+                && jobPosition.equals(otherPerson.jobPosition)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(employeeId, name, phone, email, address, tags);
+        return Objects.hash(employeeId, name, phone, email, jobPosition, tags);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class Person {
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
-                .add("address", address)
+                .add("job", jobPosition)
                 .add("tags", tags)
                 .toString();
     }
