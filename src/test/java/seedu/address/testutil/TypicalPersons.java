@@ -1,13 +1,13 @@
 package seedu.address.testutil;
 
-import static seedu.address.logic.commands.CommandTestUtil.VALID_JOBPOSITION_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_JOBPOSITION_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_BIRTHDAY_DATE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_BIRTHDAY_DATE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_JOBPOSITION_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_JOBPOSITION_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;

@@ -14,8 +14,8 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -115,16 +115,16 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseAddress_validValueWithoutWhitespace_returnsAddress() throws Exception {
-        Address expectedAddress = new Address(VALID_JOBPOSITION);
-        assertEquals(expectedAddress, ParserUtil.parseJobPosition(VALID_JOBPOSITION));
+    public void parsejobPosition_validValueWithoutWhitespace_returnsJobPosition() throws Exception {
+        JobPosition expectedjobPosition = new JobPosition(VALID_JOBPOSITION);
+        assertEquals(expectedjobPosition, ParserUtil.parseJobPosition(VALID_JOBPOSITION));
     }
 
     @Test
-    public void parseAddress_validValueWithWhitespace_returnsTrimmedAddress() throws Exception {
-        String addressWithWhitespace = WHITESPACE + VALID_JOBPOSITION + WHITESPACE;
-        Address expectedAddress = new Address(VALID_JOBPOSITION);
-        assertEquals(expectedAddress, ParserUtil.parseJobPosition(addressWithWhitespace));
+    public void parsejobPosition_validValueWithWhitespace_returnsTrimmedJobPosition() throws Exception {
+        String jobPositionWithWhitespace = WHITESPACE + VALID_JOBPOSITION + WHITESPACE;
+        JobPosition expectedjobPosition = new JobPosition(VALID_JOBPOSITION);
+        assertEquals(expectedjobPosition, ParserUtil.parseJobPosition(jobPositionWithWhitespace));
     }
 
     @Test
