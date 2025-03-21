@@ -54,7 +54,8 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         //Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
-        JobPosition jobPosition = ParserUtil.parseJobPosition(argMultimap.getValue(PREFIX_WORK_ANNIVERSARY).get());
+        JobPosition jobPosition = ParserUtil.parseJobPosition(argMultimap.getValue(PREFIX_JOBPOSITION).get());
+        System.out.println("Parsed job position: " + jobPosition);
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         Anniversary birthday = ParserUtil.parseAnniversary(name, argMultimap.getValue(PREFIX_BIRTHDAY).get(),
