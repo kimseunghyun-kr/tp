@@ -89,13 +89,15 @@ class JsonAdaptedPerson {
         }
 
         if (employeeId == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, EmployeeId.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    EmployeeId.class.getSimpleName()));
         }
         EmployeeId employeeIdObj;
         try {
             employeeIdObj = EmployeeId.fromString(employeeId);
         } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT, EmployeeId.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT,
+                    EmployeeId.class.getSimpleName()));
         }
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
