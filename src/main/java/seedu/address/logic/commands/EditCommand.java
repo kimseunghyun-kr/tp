@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Data;
 import seedu.address.commons.util.CollectionUtil;
@@ -24,6 +23,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -114,7 +114,7 @@ public class EditCommand extends Command {
          * this is purposefully kept as personToEdit.getEmployeeId(), currently changing EmployeeID is not supported,
          * under Roman to change as he suggests.
          */
-        UUID employeeId = personToEdit.getEmployeeId();
+        EmployeeId employeeId = personToEdit.getEmployeeId();
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
@@ -164,7 +164,7 @@ public class EditCommand extends Command {
      */
     @Data
     public static class EditPersonDescriptor {
-        private UUID employeeId;
+        private EmployeeId employeeId;
         private Name name;
         private Phone phone;
         private Email email;

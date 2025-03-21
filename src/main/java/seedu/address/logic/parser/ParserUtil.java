@@ -7,7 +7,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
@@ -18,6 +17,7 @@ import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -51,14 +51,13 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code name} is invalid.
      */
-    public static UUID parseEmployeeId(String employeeId) throws ParseException {
+    public static EmployeeId parseEmployeeId(String employeeId) throws ParseException {
         requireNonNull(employeeId);
         String trimmedEmployeeId = employeeId.trim();
-        try {
-            return UUID.fromString(trimmedEmployeeId);
-        } catch (IllegalArgumentException e) {
-            throw new ParseException(String.format(MALFORMED_INVALID_EMPLOYEE_ID, trimmedEmployeeId));
+        if (!EmployeeId.isValidEmployeeId(trimmedEmployeeId)) {
+            throw new ParseException(EmployeeId.MESSAGE_CONSTRAINTS);
         }
+        return new EmployeeId(trimmedEmployeeId);
     }
 
     /**
