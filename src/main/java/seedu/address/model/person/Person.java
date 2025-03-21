@@ -100,6 +100,9 @@ public class Person {
                 .orElse(null);
     }
 
+    public String getEmployeeIdAsString() {
+        return employeeId.toString();
+    }
     /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
@@ -141,5 +144,4 @@ public class Person {
                 .add("tags", tags)
                 .toString();
     }
-
 }

@@ -3,13 +3,16 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.Objects;
+import java.util.Optional;
+
+import lombok.Getter;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.parser.ParserUtil;
 
 /**
  * Represents the result of a command execution.
  */
+@Getter
 public class CommandResult {
 
     private final String feedbackToUser;
@@ -20,10 +23,11 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
+    /** Person Anniversary should be shown to the user**/
     private final boolean showAnniversary;
 
-    private final String employeeId;
-
+    /** Employee ID of the person associated with this command**/
+    private final Optional<String> employeeId;
     /**
      * Constructs a {@code CommandResult} with the specified fields.
      */
@@ -32,7 +36,7 @@ public class CommandResult {
         this.showHelp = showHelp;
         this.exit = exit;
         this.showAnniversary = false;
-        this.employeeId = null;
+        this.employeeId = Optional.empty();
     }
 
     public CommandResult(String feedbackToUser, boolean showAnniversary, String employeeId) {
@@ -40,7 +44,7 @@ public class CommandResult {
         this.showHelp = false;
         this.exit = false;
         this.showAnniversary = showAnniversary;
-        this.employeeId = employeeId;
+        this.employeeId = Optional.of(requireNonNull(employeeId));
     }
 
     /**
@@ -51,24 +55,8 @@ public class CommandResult {
         this(feedbackToUser, false, false);
     }
 
-    public String getFeedbackToUser() {
-        return feedbackToUser;
-    }
-
-    public boolean isShowHelp() {
-        return showHelp;
-    }
-
-    public boolean isExit() {
-        return exit;
-    }
-
-    public boolean isShowAnniversary() {
-        return showAnniversary;
-    }
-
     public String getEmployeeId() {
-        return employeeId;
+        return employeeId.orElse("");
     }
     @Override
     public boolean equals(Object other) {
@@ -84,12 +72,13 @@ public class CommandResult {
         CommandResult otherCommandResult = (CommandResult) other;
         return feedbackToUser.equals(otherCommandResult.feedbackToUser)
                 && showHelp == otherCommandResult.showHelp
-                && exit == otherCommandResult.exit;
+                && exit == otherCommandResult.exit
+                && showAnniversary == otherCommandResult.showAnniversary;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(feedbackToUser, showHelp, exit);
+        return Objects.hash(feedbackToUser, showHelp, exit, showAnniversary);
     }
 
     @Override
@@ -98,6 +87,7 @@ public class CommandResult {
                 .add("feedbackToUser", feedbackToUser)
                 .add("showHelp", showHelp)
                 .add("exit", exit)
+                .add("showAnniversary", showAnniversary)
                 .toString();
     }
 

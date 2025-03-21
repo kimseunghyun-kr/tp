@@ -20,7 +20,7 @@ public class ShowAnniversaryCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + "eid/0c2414da-fafb-4e05-b4f7-befb22385381";
 
-    public static final String MESSAGE_SUCCESS = "Anniversaries shown: %1$s!";
+    public static final String MESSAGE_SUCCESS = "Anniversaries shown!";
 
     private String employeeIdToFind;
 
@@ -41,6 +41,6 @@ public class ShowAnniversaryCommand extends Command {
         if (personToEdit == null) {
             throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, employeeIdToFind));
         }
-        return null;
+        return new CommandResult(String.format(MESSAGE_SUCCESS), true, personToEdit.getEmployeeIdAsString());
     }
 }
