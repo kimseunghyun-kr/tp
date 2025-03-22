@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
+import lombok.Getter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
@@ -18,6 +19,7 @@ import seedu.address.model.person.EmployeeId;
 /**
  * parses a deleteAnniversaryCommand
  */
+@Getter
 public class DeleteAnniversaryCommandParser implements Parser<DeleteAnniversaryCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteCommand
@@ -42,7 +44,7 @@ public class DeleteAnniversaryCommandParser implements Parser<DeleteAnniversaryC
             EmployeeId employeeIdPrefix = ParserUtil.parseEmployeeIdPrefix(
                     argMultimap.getValue(PREFIX_EMPLOYEEID).get()
             );
-            Index index = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_ANNIVERSARY_DATE).get());
+            Index index = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_ANNIVERSARY_INDEX).get());
             return new DeleteAnniversaryCommand(index, employeeIdPrefix);
         } catch (ParseException pe) {
             throw new ParseException(
