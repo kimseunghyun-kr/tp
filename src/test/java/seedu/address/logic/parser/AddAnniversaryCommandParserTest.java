@@ -104,7 +104,7 @@ public class AddAnniversaryCommandParserTest {
 
     @Test
     public void parse_invalidAnniversaryDateWithSpaces_throwsParseException() {
-        String userInput = PREFIX_EID_PARSABLE +"abc "
+        String userInput = PREFIX_EID_PARSABLE + "abc "
                 + PREFIX_ANNIVERSARY_DATE + "invalid_date "
                 + PREFIX_NAME + "AnnivName "
                 + PREFIX_ANNIVERSARY_TYPE + "Personal";

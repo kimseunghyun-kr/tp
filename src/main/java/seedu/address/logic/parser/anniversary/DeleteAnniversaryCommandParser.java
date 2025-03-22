@@ -1,7 +1,6 @@
 package seedu.address.logic.parser.anniversary;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
