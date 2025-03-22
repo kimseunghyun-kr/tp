@@ -1,9 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JOBPOSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -22,9 +22,9 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmployeeId;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -44,7 +44,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_JOBPOSITION + "JOBPOSITION] "
             + "[" + PREFIX_TAG + "TAG] "
             + "[" + PREFIX_EMPLOYEEID + "EMPLOYEE ID]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -121,11 +121,11 @@ public class EditCommand extends Command {
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
+        JobPosition updatedjobPosition = editPersonDescriptor.getjobPosition().orElse(personToEdit.getJobPosition());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         return new Person(employeeId, updatedName, updatedPhone,
-                updatedEmail, updatedAddress, updatedTags, new ArrayList<>());
+                updatedEmail, updatedjobPosition, updatedTags, new ArrayList<>());
     }
 
     @Override
@@ -171,8 +171,8 @@ public class EditCommand extends Command {
         private Name name;
         private Phone phone;
         private Email email;
-        private Address address;
         private Set<Tag> tags;
+        private JobPosition jobPosition;
 
         public EditPersonDescriptor() {}
 
@@ -185,7 +185,7 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
-            setAddress(toCopy.address);
+            setJobPosition(toCopy.jobPosition);
             setTags(toCopy.tags);
         }
 
@@ -193,7 +193,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(employeeId, name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(employeeId, name, phone, email, jobPosition, tags);
         }
 
         public Optional<EmployeeId> getEmployeeId() {
@@ -212,8 +212,8 @@ public class EditCommand extends Command {
             return Optional.ofNullable(email);
         }
 
-        public Optional<Address> getAddress() {
-            return Optional.ofNullable(address);
+        public Optional<JobPosition> getjobPosition() {
+            return Optional.ofNullable(jobPosition);
         }
 
         /**
@@ -240,7 +240,7 @@ public class EditCommand extends Command {
                     .add("name", name)
                     .add("phone", phone)
                     .add("email", email)
-                    .add("address", address)
+                    .add("jobposition", jobPosition)
                     .add("tags", tags)
                     .toString();
         }
@@ -255,7 +255,7 @@ public class EditCommand extends Command {
                     && editPersonDescriptor.name.equals(this.name)
                     && editPersonDescriptor.phone.equals(this.phone)
                     && editPersonDescriptor.email.equals(this.email)
-                    && editPersonDescriptor.address.equals(this.address)
+                    && editPersonDescriptor.jobPosition.equals(this.jobPosition)
                     && editPersonDescriptor.tags.equals(this.tags);
         }
     }

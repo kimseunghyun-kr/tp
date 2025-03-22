@@ -71,7 +71,7 @@ public class DeleteAnniversaryCommand extends Command {
         Person updatedPerson = Person.builder()
                 .employeeId(personToEdit.getEmployeeId())
                 .name(personToEdit.getName())
-                .address(personToEdit.getAddress())
+                .jobPosition(personToEdit.getJobPosition())
                 .email(personToEdit.getEmail())
                 .phone(personToEdit.getPhone())
                 .tags(personToEdit.getTags())
