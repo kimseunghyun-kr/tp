@@ -75,15 +75,27 @@ Format: `help`
 
 Adds a person to the address book.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]… bd/DATE wa/DATE​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
 </div>
 
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+bd/ stands for birthday and wa/ stands for work anniversary.
+
+Both are compulsory.
+
+Both of which are standard anniversaries that the app will make for you
+with just the date!
+Other anniversaries can be added as well with `Add Anniversary` command below.
+
+Date format: `YYYY-MM-DD`
+</div>
+
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 bd/2001-01-01 wa/2020-07-08`
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21`
 
 ### Listing all persons: `list`
 
@@ -140,6 +152,21 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in the address book.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Show anniversaries: `showAnni`
+
+Shows the list of anniversary details of the person specified by the Employee ID.
+
+
+Format: `showAnni eid/Empoyee_ID`
+
+* Displays a new window with a list of anniversaries of the person specified by the Employee ID
+* Details like dates, description and name will be displayed as well.
+* Beginners can use the button in the GUI to do the same thing.
+* The employee ID refers to the ID of the person in the address book, that you have specified when adding or generated if you did not.
+
+Examples:
+* showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
+
 ### Clearing all entries: `clear`
 
 Clears all entries from the address book.
@@ -189,10 +216,11 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague bd/2001-07-08 wa/2025-08-15`
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List** | `list`
 **Help** | `help`
+**showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
