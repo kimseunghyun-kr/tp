@@ -15,9 +15,9 @@ import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.AnniversaryType;
 import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.anniversary.WorkAnniversary;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmployeeId;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -112,13 +112,13 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
-    public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
-        String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+    public static JobPosition parseJobPosition(String jobposition) throws ParseException {
+        requireNonNull(jobposition);
+        String trimmedjobposition = jobposition.trim();
+        if (!JobPosition.isValidJobPosition(trimmedjobposition)) {
+            throw new ParseException(JobPosition.MESSAGE_CONSTRAINTS);
         }
-        return new Address(trimmedAddress);
+        return new JobPosition(trimmedjobposition);
     }
 
     /**
