@@ -40,6 +40,7 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -103,7 +104,7 @@ public class EditCommandParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
-        EditCommand expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        EditCommand expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -114,7 +115,7 @@ public class EditCommandParserTest {
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_AMY).build();
-        EditCommand expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        EditCommand expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -124,31 +125,31 @@ public class EditCommandParserTest {
         // name
         String userInput = VALID_EMPLOYEE_ID_AMY + NAME_DESC_AMY;
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).build();
-        EditCommand expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        EditCommand expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // phone
         userInput = VALID_EMPLOYEE_ID_AMY + PHONE_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_AMY).build();
-        expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // email
         userInput = VALID_EMPLOYEE_ID_AMY + EMAIL_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withEmail(VALID_EMAIL_AMY).build();
-        expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // address
         userInput = VALID_EMPLOYEE_ID_AMY + ADDRESS_DESC_AMY;
         descriptor = new EditPersonDescriptorBuilder().withAddress(VALID_ADDRESS_AMY).build();
-        expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
         // tags
         userInput = VALID_EMPLOYEE_ID_AMY + TAG_DESC_FRIEND;
         descriptor = new EditPersonDescriptorBuilder().withTags(VALID_TAG_FRIEND).build();
-        expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
     }
 
@@ -190,7 +191,7 @@ public class EditCommandParserTest {
         String userInput = VALID_EMPLOYEE_ID_AMY + TAG_EMPTY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withTags().build();
-        EditCommand expectedCommand = new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor);
+        EditCommand expectedCommand = new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_AMY), descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }

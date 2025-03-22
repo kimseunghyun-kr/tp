@@ -100,6 +100,10 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
+    /**
+     * Returns an unmodifiable view of the filtered person list that contains only employees with id starting with
+     * the provided one
+     */
     ObservableList<Person> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix);
 
     /**

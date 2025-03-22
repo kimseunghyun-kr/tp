@@ -97,7 +97,8 @@ public class EditCommand extends Command {
 
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        if (model.hasEmployeeIdPrefixConflictIgnoringSpecific(editedPerson.getEmployeeId(), personToEdit.getEmployeeId())) {
+        if (model.hasEmployeeIdPrefixConflictIgnoringSpecific(editedPerson.getEmployeeId(),
+                personToEdit.getEmployeeId())) {
             throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);
         }
 

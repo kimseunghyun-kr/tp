@@ -22,6 +22,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -140,6 +141,16 @@ public class AddPersonCommandTest {
         }
 
         @Override
+        public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public boolean hasDuplicatePersonDetails(Person person) {
             throw new AssertionError("This method should not be called.");
         }
@@ -156,6 +167,11 @@ public class AddPersonCommandTest {
 
         @Override
         public ObservableList<Person> getFilteredPersonList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Person> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -186,6 +202,11 @@ public class AddPersonCommandTest {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
+//
+//        @Override
+//        public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+//            return this.person.getEmployeeId().hasPrefixConflict(employeeId);
+//        }
     }
 
     /**
@@ -209,6 +230,11 @@ public class AddPersonCommandTest {
         @Override
         public ReadOnlyAddressBook getAddressBook() {
             return new AddressBook();
+        }
+
+        @Override
+        public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+            return false;
         }
     }
 

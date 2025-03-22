@@ -1,10 +1,13 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_PREFIX_AMY;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertFieldEqualityFirst;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -24,6 +27,7 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
@@ -50,8 +54,8 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
+                DeleteCommand.COMMAND_WORD + " " + EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY));
+        assertEquals(new DeleteCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY)), command);
     }
 
     @Test
@@ -59,8 +63,8 @@ public class AddressBookParserTest {
         Person person = new PersonBuilder().build();
         EditCommand.EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertFieldEqualityFirst(new EditCommand(VALID_EMPLOYEE_ID_AMY, descriptor), command);
+                + VALID_EMPLOYEE_ID_PREFIX_AMY + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+        assertFieldEqualityFirst(new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY), descriptor), command);
     }
 
     @Test
