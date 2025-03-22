@@ -23,11 +23,17 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsDeleteCommand() {
-        assertParseSuccess(parser, VALID_EMPLOYEE_ID_PREFIX_AMY, new DeleteCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY)));
+        assertParseSuccess(parser,
+                VALID_EMPLOYEE_ID_PREFIX_AMY,
+                new DeleteCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY))
+        );
     }
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "[", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser,
+                "[",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE)
+        );
     }
 }
