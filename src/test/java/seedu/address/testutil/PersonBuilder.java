@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Builder;
 import seedu.address.model.anniversary.Anniversary;
@@ -13,6 +12,7 @@ import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -35,7 +35,7 @@ public class PersonBuilder {
     public static final Anniversary DEFAULT_WORK_ANNIVERSARY = new Anniversary(LocalDate.of(2000, 1, 1),
             new HashSet<>(Set.of(new WorkAnniversary())), "Work Anniversary", "Amy");
 
-    private UUID employeeId;
+    private EmployeeId employeeId;
     private Name name;
     private Phone phone;
     private Email email;
@@ -47,7 +47,7 @@ public class PersonBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
-        employeeId = UUID.fromString(DEFAULT_EMPLOYEE_ID);
+        employeeId = EmployeeId.fromString(DEFAULT_EMPLOYEE_ID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
@@ -116,7 +116,7 @@ public class PersonBuilder {
      * Sets the {@code EmployeeID} of the {@code Person} that we are building.
      */
     public PersonBuilder withEmployeeId(String employeeId) {
-        this.employeeId = UUID.fromString(employeeId);
+        this.employeeId = EmployeeId.fromString(employeeId);
         return this;
     }
 

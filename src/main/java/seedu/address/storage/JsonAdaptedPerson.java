@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -14,6 +13,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -89,13 +89,15 @@ class JsonAdaptedPerson {
         }
 
         if (employeeId == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, UUID.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    EmployeeId.class.getSimpleName()));
         }
-        UUID employeeIdObj;
+        EmployeeId employeeIdObj;
         try {
-            employeeIdObj = UUID.fromString(employeeId);
+            employeeIdObj = EmployeeId.fromString(employeeId);
         } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT, UUID.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT,
+                    EmployeeId.class.getSimpleName()));
         }
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));

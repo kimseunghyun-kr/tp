@@ -32,6 +32,8 @@ public class CommandTestUtil {
 
     public static final String VALID_EMPLOYEE_ID_AMY = "13f49674-72f2-47db-96dc-1c6a0110b724";
     public static final String VALID_EMPLOYEE_ID_BOB = "6f7253df-40e0-4da7-803d-4420d1ef2aeb";
+    public static final String VALID_EMPLOYEE_ID_PREFIX_AMY = "13f49674";
+    public static final String VALID_EMPLOYEE_ID_PREFIX_BOB = "6f7253df";
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
@@ -65,7 +67,7 @@ public class CommandTestUtil {
     public static final String WORK_ANNIVERSARY_DESC_AMY = " " + PREFIX_WORK_ANNIVERSARY + "1995-03-16";
     public static final String WORK_ANNIVERSARY_DESC_BOB = " " + PREFIX_WORK_ANNIVERSARY + "1999-06-11";
 
-    public static final String UNEXISTING_EMPLOYEE_ID_PREFIX = "99999"; // no employee id should start with this
+    public static final String INVALID_EMPLOYEE_ID_PREFIX = "--99999--"; // no employee id should start with this
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
