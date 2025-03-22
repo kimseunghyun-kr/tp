@@ -47,6 +47,8 @@ public class EditCommandTest {
         Person editedPerson = new PersonBuilder()
                 .withEmployeeId(model.getFilteredPersonList().get(0).getEmployeeId().toString()).build();
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
+
+        System.out.println(this.getEmployeeIdPrefixOf(0));
         EditCommand editCommand = new EditCommand(this.getEmployeeIdPrefixOf(0), descriptor);
 
         String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));

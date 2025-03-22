@@ -1,11 +1,13 @@
 package seedu.address.testutil;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -84,5 +86,10 @@ public class EditPersonDescriptorBuilder {
 
     public EditPersonDescriptor build() {
         return descriptor;
+    }
+
+    public EditPersonDescriptorBuilder withEmployeeId(String validEmployeeIdAmy) {
+        descriptor.setEmployeeId(EmployeeId.fromString(validEmployeeIdAmy));
+        return this;
     }
 }
