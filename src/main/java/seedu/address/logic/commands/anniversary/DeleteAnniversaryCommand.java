@@ -2,8 +2,6 @@ package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_NOT_FOUND;
-import static seedu.address.logic.commands.anniversary.AddAnniversaryCommand.COMMAND_WORD;
 
 import java.util.List;
 

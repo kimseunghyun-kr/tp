@@ -32,23 +32,39 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_EMPLOYEEID, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(
+                args,
+                PREFIX_EMPLOYEEID,
+                PREFIX_NAME,
+                PREFIX_PHONE,
+                PREFIX_EMAIL,
+                PREFIX_ADDRESS,
+                PREFIX_TAG
+        );
 
         EmployeeId employeeIdPrefix;
 
         try {
             employeeIdPrefix = ParserUtil.parseEmployeeIdPrefix(argMultimap.getPreamble());
         } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, pe.getMessage()) + '\n' + EditCommand.MESSAGE_USAGE, pe);
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, pe.getMessage())
+                    + '\n' + EditCommand.MESSAGE_USAGE, pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_EMPLOYEEID, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+        argMultimap.verifyNoDuplicatePrefixesFor(
+                PREFIX_EMPLOYEEID,
+                PREFIX_NAME,
+                PREFIX_PHONE,
+                PREFIX_EMAIL,
+                PREFIX_ADDRESS
+        );
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
         if (argMultimap.getValue(PREFIX_EMPLOYEEID).isPresent()) {
-            editPersonDescriptor.setEmployeeId(ParserUtil.parseEmployeeId(argMultimap.getValue(PREFIX_EMPLOYEEID).get()));
+            editPersonDescriptor.setEmployeeId(ParserUtil.parseEmployeeId(
+                    argMultimap.getValue(PREFIX_EMPLOYEEID).get()
+            ));
         }
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
