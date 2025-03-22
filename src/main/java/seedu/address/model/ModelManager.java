@@ -39,9 +39,6 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
 
-        // Sort upon loading
-        this.addressBook.sortByUpcomingBirthday();
-
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
 
         // Apply default filtering
