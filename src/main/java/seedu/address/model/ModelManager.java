@@ -154,6 +154,14 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public ObservableList<Person> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
+        requireNonNull(employeeIdPrefix);
+        return new FilteredList<>(
+                filteredPersons, person -> employeeIdPrefix.isPrefixOf(person.getEmployeeId())
+        );
+    }
+
+    @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);

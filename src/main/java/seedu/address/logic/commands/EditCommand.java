@@ -38,7 +38,7 @@ public class EditCommand extends Command {
     public static final String COMMAND_WORD = "edit";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the displayed person list. "
+            + "by a prefix of their Employee ID. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: EMPLOYEE_ID_PREFIX (there must be only one employee that matches this prefix) "
             + "[" + PREFIX_NAME + "NAME] "
@@ -55,16 +55,15 @@ public class EditCommand extends Command {
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_EMPLOYEE_ID_CONFLICT = "The new employee ID is either a prefix of another "
             + "existing employee ID or another existing employee ID is a prefix of this one";
-    public static final String MESSAGE_MULTIPLE_EMPLOYEES_FOUND = "Multiple employees found with the same prefix.";
 
-    private final String employeeIdPrefix;
+    private final EmployeeId employeeIdPrefix;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
      * @param employeeIdPrefix of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public EditCommand(String employeeIdPrefix, EditPersonDescriptor editPersonDescriptor) {
+    public EditCommand(EmployeeId employeeIdPrefix, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(employeeIdPrefix);
         requireNonNull(editPersonDescriptor);
 
@@ -75,22 +74,23 @@ public class EditCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
-        List<Person> matchedPersons = lastShownList
-                .stream()
-                .filter(person -> person.getEmployeeId().toString().startsWith(employeeIdPrefix))
-                .toList();
-
-        if (matchedPersons.size() > 1) {
-            throw new CommandException(MESSAGE_MULTIPLE_EMPLOYEES_FOUND);
+        if (matchedEmployees.size() > 1) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
+                    employeeIdPrefix
+            ));
         }
 
-        if (matchedPersons.isEmpty()) {
-            throw new CommandException(String.format(Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND, employeeIdPrefix));
+        if (matchedEmployees.isEmpty()) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    employeeIdPrefix
+            ));
         }
 
-        Person personToEdit = matchedPersons.get(0);
+        Person personToEdit = matchedEmployees.get(0);
 
         // Save the state before any potential changes
         model.commitChanges();

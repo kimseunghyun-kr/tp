@@ -9,6 +9,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,31 +20,41 @@ public class DeleteCommand extends Command {
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the person identified by the index number used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
+            + ": Deletes the person identified by the prefix of their Employee ID.\n"
+            + "Parameters: EMPLOYEE_ID_PREFIX (must be a prefix of exactly one employee in the list)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
-    private final Index targetIndex;
+    private final EmployeeId employeeIdPrefix;
 
-    public DeleteCommand(Index targetIndex) {
-        this.targetIndex = targetIndex;
+    public DeleteCommand(EmployeeId employeeIdPrefix) {
+        this.employeeIdPrefix = employeeIdPrefix;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> lastShownList = model.getFilteredPersonList();
+        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
         // Save the state before any potential changes
         model.commitChanges();
 
-        if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        if (matchedEmployees.size() > 1) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
+                    employeeIdPrefix
+            ));
         }
 
-        Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
+        if (matchedEmployees.isEmpty()) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    employeeIdPrefix
+            ));
+        }
+
+        Person personToDelete = matchedEmployees.get(0);
         model.deletePerson(personToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
     }
@@ -60,13 +71,13 @@ public class DeleteCommand extends Command {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndex.equals(otherDeleteCommand.targetIndex);
+        return employeeIdPrefix.equals(otherDeleteCommand.employeeIdPrefix);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("targetIndex", targetIndex)
+                .add("employeeIdPrefix", employeeIdPrefix.toString())
                 .toString();
     }
 }

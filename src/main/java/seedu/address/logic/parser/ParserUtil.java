@@ -28,9 +28,8 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    public static final String MALFORMED_INVALID_EMPLOYEE_ID = "Invalid employee id! %s";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = "Employee id prefix not specified!";
-    public static final String MESSAGE_SPACES_IN_EMPLOYEE_ID = "Employee id can't start contain spaces!";
+    public static final String MESSAGE_EMPLOYEE_ID_PREFIX_FORMAT = "Employee id can't start contain spaces!";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -57,7 +56,7 @@ public class ParserUtil {
         if (!EmployeeId.isValidEmployeeId(trimmedEmployeeId)) {
             throw new ParseException(EmployeeId.MESSAGE_CONSTRAINTS);
         }
-        return new EmployeeId(trimmedEmployeeId);
+        return EmployeeId.fromString(trimmedEmployeeId);
     }
 
     /**
@@ -65,15 +64,16 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code employeeIdPrefix} is empty or contains spaces.
      */
-    public static String parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
+    public static EmployeeId parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
         requireNonNull(employeeIdPrefix);
         if (employeeIdPrefix.isEmpty()) {
             throw new ParseException(MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED);
         }
-        if (employeeIdPrefix.contains(" ")) {
-            throw new ParseException(MESSAGE_SPACES_IN_EMPLOYEE_ID);
+        employeeIdPrefix = employeeIdPrefix.trim();
+        if (!EmployeeId.isValidEmployeeId(employeeIdPrefix)) {
+            throw new ParseException(EmployeeId.MESSAGE_PREFIX_CONSTRAINTS);
         }
-        return employeeIdPrefix.trim();
+        return EmployeeId.fromString(employeeIdPrefix);
     }
 
     /**
