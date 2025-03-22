@@ -126,6 +126,23 @@ public class Person {
         return employeeId.toString();
     }
     /**
+     * Checks if the next upcoming important date (birthday or work anniversary)
+     * for this person is within the specified number of days from today.
+     *
+     * @param days The number of days from today to check for an upcoming date.
+     * @return {@code true} if the next upcoming date is within the specified number of days,
+     *         {@code false} otherwise or if no upcoming date is available.
+     */
+    public boolean isUpcomingWithinDays(int days) {
+        LocalDate nextDate = getNextUpcomingDate();
+        if (nextDate == null) {
+            return false;
+        }
+        LocalDate today = LocalDate.now();
+        return !nextDate.isBefore(today) && !nextDate.isAfter(today.plusDays(days));
+    }
+
+    /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
      */
