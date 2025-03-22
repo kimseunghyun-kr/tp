@@ -5,6 +5,7 @@ import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
 
 import java.util.List;
 
+import lombok.Getter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
@@ -18,6 +19,7 @@ import seedu.address.model.person.Person;
 /**
  * Deletes Anniversaries from a person
  */
+@Getter
 public class DeleteAnniversaryCommand extends Command {
     public static final String MESSAGE_SUCCESS = "anniversary deleted: %1$s";
     public static final String COMMAND_WORD = "deleteAnniversary";
