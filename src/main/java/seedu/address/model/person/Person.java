@@ -87,6 +87,29 @@ public class Person {
     }
 
     /**
+     * Returns the next upcoming important date (birthday or work anniversary) for this person.
+     *
+     * @return The next upcoming date as a {@code LocalDate} object, or {@code null} if none exists.
+     */
+    public LocalDate getNextUpcomingDate() {
+        return anniversaries.stream()
+                .map(Anniversary::getDate) // Get the anniversary dates
+                .filter(date -> date != null) // Filter out null values
+                .map(date -> {
+                    LocalDate today = LocalDate.now();
+                    LocalDate nextDate = date.withYear(today.getYear());
+
+                    // If the date has already passed this year, set it to next year
+                    if (nextDate.isBefore(today)) {
+                        nextDate = nextDate.plusYears(1);
+                    }
+                    return nextDate;
+                })
+                .min(LocalDate::compareTo) // Find the earliest upcoming date
+                .orElse(null); // Return null if no valid dates are found
+    }
+
+    /**
      * Returns the birthday of the person if available.
      *
      * @return The birthday as a {@code LocalDate} object if it exists, otherwise returns {@code null}.
