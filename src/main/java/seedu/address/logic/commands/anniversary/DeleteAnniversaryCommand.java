@@ -19,7 +19,7 @@ import seedu.address.model.person.Person;
  * Deletes Anniversaries from a person
  */
 public class DeleteAnniversaryCommand extends Command {
-    public static final String MESSAGE_SUCCESS = "anniversary added: %1$s";
+    public static final String MESSAGE_SUCCESS = "anniversary deleted: %1$s";
     public static final String COMMAND_WORD = "deleteAnniversary";
     public static final Object MESSAGE_USAGE = COMMAND_WORD + ": deletes an anniversary to the person identified by a "
             + "prefix of their Employee ID.\n"
