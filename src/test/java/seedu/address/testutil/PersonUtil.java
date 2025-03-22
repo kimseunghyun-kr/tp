@@ -59,7 +59,6 @@ public class PersonUtil {
         descriptor.getjobPosition().ifPresent(
                 jobPosition -> sb.append(PREFIX_JOBPOSITION).append(jobPosition.value).append(" ")
         );
-      
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
