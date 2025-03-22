@@ -86,7 +86,7 @@ public class PersonTest {
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{employeeId=" + ALICE.getEmployeeId()
                 + ", name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getJobPosition()
+                + ", email=" + ALICE.getEmail() + ", job=" + ALICE.getJobPosition()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }

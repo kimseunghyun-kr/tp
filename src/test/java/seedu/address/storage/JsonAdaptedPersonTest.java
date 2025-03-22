@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 
@@ -22,7 +22,7 @@ public class JsonAdaptedPersonTest {
     private static final String INVALID_ANNIVERSARY = "@";
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_ADDRESS = " ";
+    private static final String INVALID_JOBPOSITION = " ";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
@@ -98,20 +98,20 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_invalidAddress_throwsIllegalValueException() {
+    public void toModelType_invalidJobPosition_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_EMPLOYEE_ID, VALID_NAME, VALID_PHONE, VALID_EMAIL,
-                        INVALID_ADDRESS, VALID_TAGS, VALID_ANNIVERSARY);
-        String expectedMessage = Address.MESSAGE_CONSTRAINTS;
+                        INVALID_JOBPOSITION, VALID_TAGS, VALID_ANNIVERSARY);
+        String expectedMessage = JobPosition.MESSAGE_CONSTRAINTS;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
     @Test
-    public void toModelType_nullAddress_throwsIllegalValueException() {
+    public void toModelType_nullJobPosition_throwsIllegalValueException() {
         JsonAdaptedPerson person = new JsonAdaptedPerson(VALID_EMPLOYEE_ID, VALID_NAME,
                 VALID_PHONE, VALID_EMAIL, null,
                 VALID_TAGS, VALID_ANNIVERSARY);
-        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, JobPosition.class.getSimpleName());
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 

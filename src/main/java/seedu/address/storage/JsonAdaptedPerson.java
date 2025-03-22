@@ -127,11 +127,11 @@ class JsonAdaptedPerson {
         if (!JobPosition.isValidJobPosition(jobposition)) {
             throw new IllegalValueException(JobPosition.MESSAGE_CONSTRAINTS);
         }
-        final JobPosition modelAddress = new JobPosition(jobposition);
+        final JobPosition modelJobPosition = new JobPosition(jobposition);
         final Set<Tag> modelTags = new HashSet<>(personTags);
         final List<Anniversary> modelAnniversaries = new ArrayList<>(personAnniversaries);
         return new Person(employeeIdObj, modelName, modelPhone,
-                modelEmail, modelAddress, modelTags, modelAnniversaries);
+                modelEmail, modelJobPosition, modelTags, modelAnniversaries);
     }
 
 }

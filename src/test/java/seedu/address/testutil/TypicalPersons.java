@@ -33,7 +33,7 @@ public class TypicalPersons {
     public static final Person ALICE = new PersonBuilder()
             .withEmployeeId("00000000-0000-0000-0000-000000000011")
             .withName("Alice Pauline")
-            .withJobPosition("Hiring Manager")
+            .withJobPosition("Hiring Womanager")
             .withEmail("alice@example.com")
             .withPhone("94351253")
             .withTags("friends")
