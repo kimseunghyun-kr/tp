@@ -202,11 +202,6 @@ public class AddPersonCommandTest {
             requireNonNull(person);
             return this.person.isSamePerson(person);
         }
-//
-//        @Override
-//        public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
-//            return this.person.getEmployeeId().hasPrefixConflict(employeeId);
-//        }
     }
 
     /**

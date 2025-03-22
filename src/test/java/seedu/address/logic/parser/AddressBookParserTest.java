@@ -1,16 +1,12 @@
 package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMPLOYEE_ID_PREFIX_AMY;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertFieldEqualityFirst;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
 import java.util.List;
@@ -64,7 +60,10 @@ public class AddressBookParserTest {
         EditCommand.EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + VALID_EMPLOYEE_ID_PREFIX_AMY + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
-        assertFieldEqualityFirst(new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY), descriptor), command);
+        assertFieldEqualityFirst(
+                new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY), descriptor),
+                command
+        );
     }
 
     @Test
@@ -101,6 +100,7 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_unknownCommand_throwsParseException() {
-        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND, () -> parser.parseCommand("unknownCommand"));
+        assertThrows(ParseException.class, MESSAGE_UNKNOWN_COMMAND,
+                () -> parser.parseCommand("unknownCommand"));
     }
 }
