@@ -116,7 +116,7 @@ public class Person {
      */
     public LocalDate getBirthday() {
         return anniversaries.stream()
-                .filter(a -> a.getType().stream().anyMatch(type -> type instanceof Birthday))
+                .filter(a -> a.getType() instanceof Birthday)
                 .map(Anniversary::getDate)
                 .findFirst()
                 .orElse(null);

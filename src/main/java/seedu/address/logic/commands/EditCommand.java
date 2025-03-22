@@ -9,7 +9,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +21,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
@@ -123,9 +123,9 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         JobPosition updatedjobPosition = editPersonDescriptor.getjobPosition().orElse(personToEdit.getJobPosition());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
-
+        List<Anniversary> anniversaryList = personToEdit.getAnniversaries();
         return new Person(employeeId, updatedName, updatedPhone,
-                updatedEmail, updatedjobPosition, updatedTags, new ArrayList<>());
+                updatedEmail, updatedjobPosition, updatedTags, anniversaryList);
     }
 
     @Override
