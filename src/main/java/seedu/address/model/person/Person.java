@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +27,7 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
-    private final UUID employeeId;
+    private final EmployeeId employeeId;
     private final Name name;
     private final Phone phone;
     private final Email email;
@@ -43,7 +42,7 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(UUID employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set<Tag> tags,
+    public Person(EmployeeId employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set<Tag> tags,
                   List<Anniversary> anniversaries) {
         this.employeeId = employeeId;
         requireAllNonNull(name, phone, email, jobPosition, tags);
@@ -65,7 +64,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same uuid.
+     * Returns true if both persons have the same employee id.
      * This defines a clear notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {

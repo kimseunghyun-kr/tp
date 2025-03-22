@@ -1,7 +1,6 @@
 package seedu.address.ui;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -19,6 +18,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 
 /**
@@ -137,14 +137,14 @@ public class MainWindow extends UiPart<Stage> {
      * showAnniversaries eid//<someUUID/>
      */
     @FXML
-    public void handleShowAnniversaries(String employeeId) {
+    public void handleShowAnniversaries(String employeeIdString) {
         try {
-            // Convert employeeId string to UUID
-            UUID uuid = UUID.fromString(employeeId);
+            // Convert employeeIdString to employeeId
+            EmployeeId employeeId = EmployeeId.fromString(employeeIdString);
 
-            // Find the person by UUID
+            // Find the person by employee id
             Person selected = logic.getFilteredPersonList().stream()
-                    .filter(person -> person.getEmployeeId().equals(uuid))
+                    .filter(person -> person.getEmployeeId().equals(employeeId))
                     .findFirst()
                     .orElse(null);
 

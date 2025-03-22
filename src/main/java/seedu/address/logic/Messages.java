@@ -22,6 +22,8 @@ public class Messages {
     public static final String MESSAGE_SUCCESS = "New anniversary added: %1$s";
     public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with employeeId = %s";
     public static final String MESSAGE_PERSON_PREFIX_NOT_FOUND = "No person found with employeeId starting with %s";
+    public static final String MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX =
+            "Found multiple employees with employeeId starting with %s";
     public static final String MESSAGE_DUPLICATE_ANNIVERSARY =
             "This exact anniversary (date + name + type + description) already exists for that person.";
     public static final String MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS =

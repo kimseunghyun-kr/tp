@@ -13,6 +13,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 
 /**
@@ -107,6 +108,18 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+        requireNonNull(employeeId);
+        return addressBook.hasEmployeeIdPrefixConflict(employeeId);
+    }
+
+    @Override
+    public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+        requireAllNonNull(employeeId, toIgnore);
+        return addressBook.hasEmployeeIdPrefixConflictIgnoringSpecific(employeeId, toIgnore);
+    }
+
+    @Override
     public boolean hasDuplicatePersonDetails(Person person) {
         requireNonNull(person);
         return addressBook.hasDuplicatePersonDetails(person);
@@ -138,6 +151,14 @@ public class ModelManager implements Model {
     @Override
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
+    }
+
+    @Override
+    public ObservableList<Person> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
+        requireNonNull(employeeIdPrefix);
+        return new FilteredList<>(
+                filteredPersons, person -> employeeIdPrefix.isPrefixOf(person.getEmployeeId())
+        );
     }
 
     @Override

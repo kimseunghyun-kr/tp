@@ -13,6 +13,7 @@ import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EmployeeId;
 
 /**
  * parses a deleteAnniversaryCommand
@@ -38,9 +39,11 @@ public class DeleteAnniversaryCommandParser implements Parser<DeleteAnniversaryC
             );
         }
         try {
-            String employeeId = argMultimap.getValue(PREFIX_EMPLOYEEID).get();
+            EmployeeId employeeIdPrefix = ParserUtil.parseEmployeeIdPrefix(
+                    argMultimap.getValue(PREFIX_EMPLOYEEID).get()
+            );
             Index index = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_ANNIVERSARY_DATE).get());
-            return new DeleteAnniversaryCommand(index, employeeId);
+            return new DeleteAnniversaryCommand(index, employeeIdPrefix);
         } catch (ParseException pe) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);

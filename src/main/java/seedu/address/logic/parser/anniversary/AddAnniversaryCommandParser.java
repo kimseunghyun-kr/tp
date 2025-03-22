@@ -17,9 +17,11 @@ import seedu.address.logic.commands.anniversary.AddAnniversaryCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.Parser;
+import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.AnniversaryType;
+import seedu.address.model.person.EmployeeId;
 
 /**
  * Parses input arguments and creates a new AddAnniversaryCommand object
@@ -44,7 +46,7 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
         }
 
         // parse required fields
-        String employeeId = argMultimap.getValue(PREFIX_EMPLOYEEID).get();
+        EmployeeId employeeIdPrefix = ParserUtil.parseEmployeeIdPrefix(argMultimap.getValue(PREFIX_EMPLOYEEID).get());
         String dateStr = argMultimap.getValue(PREFIX_ANNIVERSARY_DATE).get();
         String nameStr = argMultimap.getValue(PREFIX_NAME).get();
 
@@ -75,6 +77,6 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
                 nameStr
         );
 
-        return new AddAnniversaryCommand(employeeId, newAnniversary);
+        return new AddAnniversaryCommand(employeeIdPrefix, newAnniversary);
     }
 }
