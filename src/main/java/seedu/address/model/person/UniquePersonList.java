@@ -41,21 +41,21 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
-     * Sorts the list of persons by their next upcoming birthday.
-     * - Persons with the nearest upcoming birthday will appear first.
-     * - Persons without a birthday will be placed at the end of the list.
+     * Sorts the list of persons by their next upcoming date (birthday or work anniversary).
+     * - Persons with the nearest upcoming date will appear first.
+     * - Persons without a birthday or anniversary will be placed at the end of the list.
      */
-    public void sortByUpcomingBirthday() {
+    public void sortByUpcomingDate() {
         List<Person> sortedList = internalList.stream()
                 .sorted(Comparator
-                        .comparing((Person p) -> daysUntilNextBirthday(p.getBirthday()),
-                        Comparator.nullsLast(Comparator.naturalOrder())
-                ))
+                        .comparing(Person::getNextUpcomingDate,
+                                Comparator.nullsLast(Comparator.naturalOrder()))
+                )
                 .collect(Collectors.toList());
 
+        // Update the list after sorting
         internalList.setAll(sortedList);
     }
-
     /**
      * Calculates the number of days until the next occurrence of a birthday.
      *
@@ -199,5 +199,36 @@ public class UniquePersonList implements Iterable<Person> {
     public boolean hasDuplicatePersonDetails(Person toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(checkPerson -> checkPerson.hasSameDetails(toCheck));
+    }
+
+    /**
+     * Checks if there is an employee ID in the list that has a prefix conflict
+     * with the given employee ID. A prefix conflict occurs when one employee ID
+     * is a prefix of another one.
+     *
+     * @param employeeId the employee ID to check for conflicts.
+     *                   Must not be null.
+     * @return true if a prefix conflict is found, false otherwise.
+     */
+    public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+        requireNonNull(employeeId);
+        return internalList.stream().anyMatch(person -> person.getEmployeeId().hasPrefixConflict(employeeId));
+    }
+
+    /**
+     * Checks if there is an employee ID in the list that has a prefix conflict
+     * with the given employee ID, while ignoring a specific employee ID.
+     * A prefix conflict occurs when one employee ID is a prefix of another.
+     *
+     * @param employeeId the employee ID to check for conflicts.
+     * @param toIgnore   the employee ID to be ignored during the check.
+     * @return true if a prefix conflict is found excluding the specified employee ID to ignore, false otherwise.
+     */
+    public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+        requireNonNull(employeeId);
+        requireNonNull(toIgnore);
+        return internalList.stream()
+                .filter(person -> !person.getEmployeeId().equals(toIgnore))
+                .anyMatch(person -> person.getEmployeeId().hasPrefixConflict(employeeId));
     }
 }

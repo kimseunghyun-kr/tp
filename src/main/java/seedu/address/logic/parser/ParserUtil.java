@@ -7,7 +7,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
@@ -16,8 +15,9 @@ import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.AnniversaryType;
 import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.anniversary.WorkAnniversary;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -28,9 +28,8 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
-    public static final String MALFORMED_INVALID_EMPLOYEE_ID = "Invalid employee id! %s";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = "Employee id prefix not specified!";
-    public static final String MESSAGE_SPACES_IN_EMPLOYEE_ID = "Employee id can't start contain spaces!";
+    public static final String MESSAGE_EMPLOYEE_ID_PREFIX_FORMAT = "Employee id can't start contain spaces!";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -51,14 +50,13 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code name} is invalid.
      */
-    public static UUID parseEmployeeId(String employeeId) throws ParseException {
+    public static EmployeeId parseEmployeeId(String employeeId) throws ParseException {
         requireNonNull(employeeId);
         String trimmedEmployeeId = employeeId.trim();
-        try {
-            return UUID.fromString(trimmedEmployeeId);
-        } catch (IllegalArgumentException e) {
-            throw new ParseException(String.format(MALFORMED_INVALID_EMPLOYEE_ID, trimmedEmployeeId));
+        if (!EmployeeId.isValidEmployeeId(trimmedEmployeeId)) {
+            throw new ParseException(EmployeeId.MESSAGE_CONSTRAINTS);
         }
+        return EmployeeId.fromString(trimmedEmployeeId);
     }
 
     /**
@@ -66,15 +64,16 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code employeeIdPrefix} is empty or contains spaces.
      */
-    public static String parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
+    public static EmployeeId parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
         requireNonNull(employeeIdPrefix);
         if (employeeIdPrefix.isEmpty()) {
             throw new ParseException(MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED);
         }
-        if (employeeIdPrefix.contains(" ")) {
-            throw new ParseException(MESSAGE_SPACES_IN_EMPLOYEE_ID);
+        employeeIdPrefix = employeeIdPrefix.trim();
+        if (!EmployeeId.isValidEmployeeId(employeeIdPrefix)) {
+            throw new ParseException(EmployeeId.MESSAGE_PREFIX_CONSTRAINTS);
         }
-        return employeeIdPrefix.trim();
+        return EmployeeId.fromString(employeeIdPrefix);
     }
 
     /**
@@ -113,13 +112,13 @@ public class ParserUtil {
      *
      * @throws ParseException if the given {@code address} is invalid.
      */
-    public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
-        String trimmedAddress = address.trim();
-        if (!Address.isValidAddress(trimmedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
+    public static JobPosition parseJobPosition(String jobposition) throws ParseException {
+        requireNonNull(jobposition);
+        String trimmedjobposition = jobposition.trim();
+        if (!JobPosition.isValidJobPosition(trimmedjobposition)) {
+            throw new ParseException(JobPosition.MESSAGE_CONSTRAINTS);
         }
-        return new Address(trimmedAddress);
+        return new JobPosition(trimmedjobposition);
     }
 
     /**

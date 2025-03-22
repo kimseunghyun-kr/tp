@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Builder;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.anniversary.WorkAnniversary;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -29,17 +29,17 @@ public class PersonBuilder {
     public static final String DEFAULT_NAME = "Amy Bee";
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_JOBPOSITION = "Hiring Manager";
     public static final Anniversary DEFAULT_BIRTHDAY = new Anniversary(LocalDate.of(2000, 1, 1),
             new Birthday(), "Birthday", "Amy");
     public static final Anniversary DEFAULT_WORK_ANNIVERSARY = new Anniversary(LocalDate.of(2000, 1, 1),
             new WorkAnniversary(), "Work Anniversary", "Amy");
 
-    private UUID employeeId;
+    private EmployeeId employeeId;
     private Name name;
     private Phone phone;
     private Email email;
-    private Address address;
+    private JobPosition jobPosition;
     private Set<Tag> tags;
     private List<Anniversary> anniversaries;
 
@@ -47,11 +47,11 @@ public class PersonBuilder {
      * Creates a {@code PersonBuilder} with the default details.
      */
     public PersonBuilder() {
-        employeeId = UUID.fromString(DEFAULT_EMPLOYEE_ID);
+        employeeId = EmployeeId.fromString(DEFAULT_EMPLOYEE_ID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
-        address = new Address(DEFAULT_ADDRESS);
+        jobPosition = new JobPosition(DEFAULT_JOBPOSITION);
         tags = new HashSet<>();
         List<Anniversary> anni = new ArrayList<>();
         anni.add(DEFAULT_BIRTHDAY);
@@ -67,7 +67,7 @@ public class PersonBuilder {
         name = personToCopy.getName();
         phone = personToCopy.getPhone();
         email = personToCopy.getEmail();
-        address = personToCopy.getAddress();
+        jobPosition = personToCopy.getJobPosition();
         tags = new HashSet<>(personToCopy.getTags());
         anniversaries = new ArrayList<>(personToCopy.getAnniversaries());
     }
@@ -91,8 +91,8 @@ public class PersonBuilder {
     /**
      * Sets the {@code Address} of the {@code Person} that we are building.
      */
-    public PersonBuilder withAddress(String address) {
-        this.address = new Address(address);
+    public PersonBuilder withJobPosition(String jobposition) {
+        this.jobPosition = new JobPosition(jobposition);
         return this;
     }
 
@@ -116,7 +116,7 @@ public class PersonBuilder {
      * Sets the {@code EmployeeID} of the {@code Person} that we are building.
      */
     public PersonBuilder withEmployeeId(String employeeId) {
-        this.employeeId = UUID.fromString(employeeId);
+        this.employeeId = EmployeeId.fromString(employeeId);
         return this;
     }
 
@@ -134,7 +134,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(employeeId, name, phone, email, address, tags, anniversaries);
+        return new Person(employeeId, name, phone, email, jobPosition, tags, anniversaries);
     }
 
 }

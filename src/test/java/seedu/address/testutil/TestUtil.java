@@ -69,7 +69,7 @@ public class TestUtil {
         if (!Objects.equals(expected.getName(), actual.getName())
                 || !Objects.equals(expected.getPhone(), actual.getPhone())
                 || !Objects.equals(expected.getEmail(), actual.getEmail())
-                || !Objects.equals(expected.getAddress(), actual.getAddress())
+                || !Objects.equals(expected.getJobPosition(), actual.getJobPosition())
                 || !Objects.equals(expected.getTags(), actual.getTags())) {
             fail("Persons are not equal except for employeeId.\nExpected: " + expected + "\nActual  : " + actual);
         }

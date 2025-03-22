@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 
 /**
@@ -67,6 +68,23 @@ public interface Model {
     void deletePerson(Person target);
 
     /**
+     * Returns true if the given employeeId has a prefix conflict with any existing employeeId in the address book.
+     * Prefix conflict is defined as having the same prefix as another employeeId in the address book.
+     */
+    boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId);
+
+    /**
+     * Checks if the given employee ID has a prefix conflict with any existing employee ID in the address book,
+     * excluding the specified {@code toIgnore} employee ID.
+     * A prefix conflict occurs when one employee ID is a prefix of another.
+     *
+     * @param employeeId The employee ID to check for prefix conflict.
+     * @param toIgnore The employee ID to ignore while checking for prefix conflicts.
+     * @return True if a prefix conflict exists, excluding the specified {@code toIgnore} employee ID; false otherwise.
+     */
+    boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore);
+
+    /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
@@ -81,6 +99,12 @@ public interface Model {
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
+
+    /**
+     * Returns an unmodifiable view of the filtered person list that contains only employees with id starting with
+     * the provided one
+     */
+    ObservableList<Person> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.

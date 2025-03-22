@@ -20,8 +20,10 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.anniversary.AddAnniversaryCommand;
 import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
+import seedu.address.logic.commands.anniversary.ShowAnniversaryCommand;
 import seedu.address.logic.parser.anniversary.AddAnniversaryCommandParser;
 import seedu.address.logic.parser.anniversary.DeleteAnniversaryCommandParser;
+import seedu.address.logic.parser.anniversary.ShowAnniversaryCommandParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -90,6 +92,9 @@ public class AddressBookParser {
 
         case DeleteAnniversaryCommand.COMMAND_WORD:
             return new DeleteAnniversaryCommandParser().parse(arguments);
+
+        case ShowAnniversaryCommand.COMMAND_WORD:
+            return new ShowAnniversaryCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

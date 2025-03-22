@@ -1,9 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_JOBPOSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -27,22 +27,24 @@ public class AddPersonCommand extends Command {
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + PREFIX_BIRTHDAY + "BIRTHDAY "
+            + PREFIX_JOBPOSITION + "JOB_POSITION "
+            + "[" + PREFIX_TAG + "TAG]..."
+            + PREFIX_BIRTHDAY + "BIRTHDAY"
             + PREFIX_WORK_ANNIVERSARY + "WORK_ANNIVERSARY\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
+            + PREFIX_JOBPOSITION + "Data Engineer "
             + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney"
-            + PREFIX_BIRTHDAY + "2000-01-01"
+            + PREFIX_TAG + "owesMoney "
+            + PREFIX_BIRTHDAY + "2000-01-01 "
             + PREFIX_WORK_ANNIVERSARY + "2020-07-08";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_EMPLOYEE_ID_CONFLICT = "This employee ID is either a prefix of another "
+            + "existing employee ID or another existing employee ID is a prefix of this one";
 
     private final Person toAdd;
 
@@ -63,6 +65,10 @@ public class AddPersonCommand extends Command {
 
         if (model.hasPerson(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        }
+
+        if (model.hasEmployeeIdPrefixConflict(toAdd.getEmployeeId())) {
+            throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);
         }
 
         model.addPerson(toAdd);

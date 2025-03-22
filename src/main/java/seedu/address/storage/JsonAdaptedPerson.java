@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -12,8 +11,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.anniversary.Anniversary;
-import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
+import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -30,7 +30,7 @@ class JsonAdaptedPerson {
     private final String name;
     private final String phone;
     private final String email;
-    private final String address;
+    private final String jobposition;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final List<JsonAdaptedAnniversary> anniversaries = new ArrayList<>();
 
@@ -40,13 +40,13 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("employeeId") String employeeId,
                              @JsonProperty("name") String name, @JsonProperty("phone") String phone,
-                             @JsonProperty("email") String email, @JsonProperty("address") String address,
+                             @JsonProperty("email") String email, @JsonProperty("address") String jobposition,
                              @JsonProperty("tags") List<JsonAdaptedTag> tags,
                              @JsonProperty("anniversaries") List<JsonAdaptedAnniversary> anniversaries) {
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
+        this.jobposition = jobposition;
         this.employeeId = employeeId;
         if (tags != null) {
             this.tags.addAll(tags);
@@ -64,7 +64,7 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
-        address = source.getAddress().value;
+        jobposition = source.getJobPosition().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -89,13 +89,15 @@ class JsonAdaptedPerson {
         }
 
         if (employeeId == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, UUID.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    EmployeeId.class.getSimpleName()));
         }
-        UUID employeeIdObj;
+        EmployeeId employeeIdObj;
         try {
-            employeeIdObj = UUID.fromString(employeeId);
+            employeeIdObj = EmployeeId.fromString(employeeId);
         } catch (IllegalArgumentException e) {
-            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT, UUID.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT,
+                    EmployeeId.class.getSimpleName()));
         }
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -120,17 +122,18 @@ class JsonAdaptedPerson {
         }
         final Email modelEmail = new Email(email);
 
-        if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        if (jobposition == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    JobPosition.class.getSimpleName()));
         }
-        if (!Address.isValidAddress(address)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        if (!JobPosition.isValidJobPosition(jobposition)) {
+            throw new IllegalValueException(JobPosition.MESSAGE_CONSTRAINTS);
         }
-        final Address modelAddress = new Address(address);
+        final JobPosition modelJobPosition = new JobPosition(jobposition);
         final Set<Tag> modelTags = new HashSet<>(personTags);
         final List<Anniversary> modelAnniversaries = new ArrayList<>(personAnniversaries);
         return new Person(employeeIdObj, modelName, modelPhone,
-                modelEmail, modelAddress, modelTags, modelAnniversaries);
+                modelEmail, modelJobPosition, modelTags, modelAnniversaries);
     }
 
 }
