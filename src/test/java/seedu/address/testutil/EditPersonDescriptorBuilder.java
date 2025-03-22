@@ -1,7 +1,6 @@
 package seedu.address.testutil;
 
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -88,6 +87,10 @@ public class EditPersonDescriptorBuilder {
         return descriptor;
     }
 
+    /**
+     * Parses the {@code tags} into a {@code EmployeeId} and set it to the {@code EditPersonDescriptor}
+     * that we are building.
+     */
     public EditPersonDescriptorBuilder withEmployeeId(String validEmployeeIdAmy) {
         descriptor.setEmployeeId(EmployeeId.fromString(validEmployeeIdAmy));
         return this;
