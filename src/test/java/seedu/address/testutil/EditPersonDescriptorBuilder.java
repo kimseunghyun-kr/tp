@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -84,5 +85,14 @@ public class EditPersonDescriptorBuilder {
 
     public EditPersonDescriptor build() {
         return descriptor;
+    }
+
+    /**
+     * Parses the {@code tags} into a {@code EmployeeId} and set it to the {@code EditPersonDescriptor}
+     * that we are building.
+     */
+    public EditPersonDescriptorBuilder withEmployeeId(String validEmployeeIdAmy) {
+        descriptor.setEmployeeId(EmployeeId.fromString(validEmployeeIdAmy));
+        return this;
     }
 }

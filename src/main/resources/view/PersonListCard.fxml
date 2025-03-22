@@ -35,6 +35,7 @@
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
       <Label fx:id="job" styleClass="cell_small_label" text="\$job" />
       <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
+      <Label fx:id="employeeId" styleClass="cell_small_label" text="\$employeeId" />
 
       <!-- Add "Show Anniversaries" Button -->
       <Button fx:id="showAnniversariesButton"
