@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Data;
@@ -28,13 +27,13 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
-    private final UUID employeeId;
+    private final EmployeeId employeeId;
     private final Name name;
     private final Phone phone;
     private final Email email;
 
     // Data fields
-    private final Address address;
+    private final JobPosition jobPosition;
     private final Set<Tag> tags;
 
     // Anniversary
@@ -43,14 +42,14 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(UUID employeeId, Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+    public Person(EmployeeId employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set<Tag> tags,
                   List<Anniversary> anniversaries) {
         this.employeeId = employeeId;
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, phone, email, jobPosition, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.address = address;
+        this.jobPosition = jobPosition;
         this.tags = new HashSet<>(tags);
         this.tags.addAll(tags);
         this.anniversaries = new ArrayList<>(anniversaries);
@@ -65,7 +64,7 @@ public class Person {
     }
 
     /**
-     * Returns true if both persons have the same uuid.
+     * Returns true if both persons have the same employee id.
      * This defines a clear notion of equality between two persons.
      */
     public boolean isSamePerson(Person otherPerson) {
@@ -82,9 +81,32 @@ public class Person {
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
+                && jobPosition.equals(otherPerson.jobPosition)
                 && tags.equals(otherPerson.tags);
 
+    }
+
+    /**
+     * Returns the next upcoming important date (birthday or work anniversary) for this person.
+     *
+     * @return The next upcoming date as a {@code LocalDate} object, or {@code null} if none exists.
+     */
+    public LocalDate getNextUpcomingDate() {
+        return anniversaries.stream()
+                .map(Anniversary::getDate) // Get the anniversary dates
+                .filter(date -> date != null) // Filter out null values
+                .map(date -> {
+                    LocalDate today = LocalDate.now();
+                    LocalDate nextDate = date.withYear(today.getYear());
+
+                    // If the date has already passed this year, set it to next year
+                    if (nextDate.isBefore(today)) {
+                        nextDate = nextDate.plusYears(1);
+                    }
+                    return nextDate;
+                })
+                .min(LocalDate::compareTo) // Find the earliest upcoming date
+                .orElse(null); // Return null if no valid dates are found
     }
 
     /**
@@ -100,6 +122,9 @@ public class Person {
                 .orElse(null);
     }
 
+    public String getEmployeeIdAsString() {
+        return employeeId.toString();
+    }
     /**
      * Returns true if both persons have the same identity and data fields.
      * This defines a stronger notion of equality between two persons.
@@ -120,14 +145,14 @@ public class Person {
                 && name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
-                && address.equals(otherPerson.address)
+                && jobPosition.equals(otherPerson.jobPosition)
                 && tags.equals(otherPerson.tags);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(employeeId, name, phone, email, address, tags);
+        return Objects.hash(employeeId, name, phone, email, jobPosition, tags);
     }
 
     @Override
@@ -137,9 +162,8 @@ public class Person {
                 .add("name", name)
                 .add("phone", phone)
                 .add("email", email)
-                .add("address", address)
+                .add("job", jobPosition)
                 .add("tags", tags)
                 .toString();
     }
-
 }

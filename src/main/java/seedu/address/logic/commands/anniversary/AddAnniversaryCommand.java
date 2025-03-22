@@ -4,17 +4,18 @@ package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_ANNIVERSARY;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_NOT_FOUND;
 import static seedu.address.logic.Messages.MESSAGE_SUCCESS;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 
 /**
@@ -24,10 +25,10 @@ public class AddAnniversaryCommand extends Command {
 
     public static final String COMMAND_WORD = "anniversary";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an anniversary to the person with the "
-            + "specified employee ID.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an anniversary to the person identified by "
+            + "a prefix of their Employee ID.\n"
             + "Parameters: "
-            + "eid/EMPLOYEE_ID "
+            + "eid/EMPLOYEE_ID_PREFIX "
             + "d/DATE "
             + "n/ANNIVERSARY_NAME "
             + "[ad/DESCRIPTION] "
@@ -40,31 +41,38 @@ public class AddAnniversaryCommand extends Command {
             + "at/Personal "
             + "at/Family";
     private final Anniversary toAdd;
-    private final String employeeIdToFind;
+    private final EmployeeId employeeIdPrefix;
 
     /**
      * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the person with given employeeId.
      */
-    public AddAnniversaryCommand(String employeeId, Anniversary anniversary) {
-        requireNonNull(employeeId);
+    public AddAnniversaryCommand(EmployeeId employeeIdPrefix, Anniversary anniversary) {
+        requireNonNull(employeeIdPrefix);
         requireNonNull(anniversary);
-        this.employeeIdToFind = employeeId;
+        this.employeeIdPrefix = employeeIdPrefix;
         this.toAdd = anniversary;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
-        // Attempt to find the person in model by employeeId
-        Person personToEdit = model.getFilteredPersonList().stream()
-                .filter(p -> p.getEmployeeId().toString().equals(employeeIdToFind))
-                .findFirst()
-                .orElse(null);
-
-        if (personToEdit == null) {
-            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, employeeIdToFind));
+        if (matchedEmployees.size() > 1) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
+                    employeeIdPrefix
+            ));
         }
+
+        if (matchedEmployees.isEmpty()) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    employeeIdPrefix
+            ));
+        }
+
+        Person personToEdit = matchedEmployees.get(0);
 
         // Check if the same anniversary already exists
         boolean duplicate = personToEdit.getAnniversaries().stream()
@@ -84,7 +92,7 @@ public class AddAnniversaryCommand extends Command {
         Person updatedPerson = Person.builder()
                 .employeeId(personToEdit.getEmployeeId())
                 .name(personToEdit.getName())
-                .address(personToEdit.getAddress())
+                .jobPosition(personToEdit.getJobPosition())
                 .email(personToEdit.getEmail())
                 .phone(personToEdit.getPhone())
                 .tags(personToEdit.getTags())

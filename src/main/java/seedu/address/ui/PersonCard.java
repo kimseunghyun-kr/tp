@@ -43,7 +43,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label phone;
     @FXML
-    private Label address;
+    private Label job;
     @FXML
     private Label email;
     @FXML
@@ -63,7 +63,7 @@ public class PersonCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
-        address.setText(person.getAddress().value);
+        job.setText(person.getJobPosition().value);
         email.setText(person.getEmail().value);
         employeeId.setText(person.getEmployeeId().toString());
         employeeId.setTooltip(new Tooltip(EMPLOYEEID_PREFIX + person.getEmployeeId().toString()));

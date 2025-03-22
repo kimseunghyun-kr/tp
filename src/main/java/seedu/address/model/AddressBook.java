@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
@@ -56,12 +57,8 @@ public class AddressBook implements ReadOnlyAddressBook {
         setPersons(newData.getPersonList());
     }
 
-    /**
-     * Sorts the list of persons by their next upcoming birthday.
-     * Delegates the sorting logic to the underlying UniquePersonList.
-     */
-    public void sortByUpcomingBirthday() {
-        persons.sortByUpcomingBirthday();
+    public void sortByUpcomingDate() {
+        persons.sortByUpcomingDate(); // persons is of type UniquePersonList
     }
 
     //// person-level operations
@@ -83,11 +80,35 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Checks whether the given {@code EmployeeId} has a prefix conflict with any existing employee ID
+     * in the address book. A prefix conflict occurs when one employee ID is a prefix of another one.
+     */
+    public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+        requireNonNull(employeeId);
+        return persons.hasEmployeeIdPrefixConflict(employeeId);
+    }
+
+    /**
+     * Checks if there is an employee ID in the address book that has a prefix conflict
+     * with the given employee ID, while ignoring a specific employee ID.
+     * A prefix conflict occurs when one employee ID is a prefix of another employee ID.
+     *
+     * @param employeeId the employee ID to check for conflicts.
+     * @param toIgnore the employee ID to be ignored during the conflict check.
+     * @return true if a prefix conflict is found, excluding the specified employee ID to ignore; false otherwise.
+     */
+    public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+        requireNonNull(employeeId);
+        return persons.hasEmployeeIdPrefixConflictIgnoringSpecific(employeeId, toIgnore);
+    }
+
+    /**
      * Adds a person to the address book.
      * The person must not already exist in the address book.
      */
     public void addPerson(Person p) {
         persons.add(p);
+        // TODO: sort as person gets added
     }
 
     /**
@@ -98,6 +119,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
         persons.setPerson(target, editedPerson);
+        // TODO: sort as person gets edited
     }
 
     /**
