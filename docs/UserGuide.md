@@ -94,7 +94,7 @@ Date format: `YYYY-MM-DD`
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01 bd/2001-01-01 wa/2020-07-08`
+* `add n/John Doe p/98765432 e/johnd@example.com a/John street, Block 123, #01-01 bd/2001-01-01 wa/2020-07-08`
 * `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21`
 
 ### Listing all persons: `list`
