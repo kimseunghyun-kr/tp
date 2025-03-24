@@ -4,7 +4,9 @@ title: User Guide
 ---
 
 H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
-* Table of Contents {:toc}
+
+* Table of Contents 
+{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -19,16 +21,16 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/MockUi.png)
+   ![Ui](images/MockUI.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * `delete [employee id prefix]` : Deletes the specified employee contact. _Note: Employee ID prefix has to pinpoint only one Employee for delete to work._
 
    * `clear` : Deletes all contacts.
 
