@@ -4,7 +4,7 @@ title: User Guide
 ---
 
 H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
-* Table of Contents 
+Table of Contents 
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
