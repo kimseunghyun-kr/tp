@@ -9,6 +9,7 @@ import static seedu.address.logic.Messages.MESSAGE_SUCCESS;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
@@ -21,6 +22,7 @@ import seedu.address.model.person.Person;
 /**
  * Adds an anniversary to an existing Person in the address book.
  */
+@Getter
 public class AddAnniversaryCommand extends Command {
 
     public static final String COMMAND_WORD = "anniversary";

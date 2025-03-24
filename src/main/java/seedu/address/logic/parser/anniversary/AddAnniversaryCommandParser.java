@@ -69,8 +69,9 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
         if (typeTokens.size() > 2) {
             throw new ParseException(MESSAGE_ANNIVERSARY_TYPE_PARSE);
         }
-
-        AnniversaryType type = new AnniversaryType(typeTokens.get(0), typeTokens.get(1));
+        String name = typeTokens.get(0);
+        String description = typeTokens.size() == 1 ? "" : typeTokens.get(1);
+        AnniversaryType type = new AnniversaryType(name, description);
 
         Anniversary newAnniversary = new Anniversary(
                 date,
