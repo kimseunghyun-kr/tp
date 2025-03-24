@@ -5,9 +5,8 @@ title: User Guide
 
 H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
 
-Table of Contents 
-
-{% toc %}
+* Table of Contents 
+{:toc}
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -29,9 +28,9 @@ Table of Contents
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * `delete [employee id prefix]` : Deletes the specified employee contact. _Note: Employee ID prefix has to pinpoint only one Employee for delete to work._
 
    * `clear` : Deletes all contacts.
 
