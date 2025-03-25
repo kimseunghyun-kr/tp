@@ -17,9 +17,9 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
 1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
+1. Copy the file to the folder you want to use as the _home folder_ for your H'Reers.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar H'Reers.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/MockUI.png)
 
@@ -28,7 +28,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to the Address Book.
+   * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to H'Reers.
 
    * `delete [employee id prefix]` : Deletes the specified employee contact. _Note: Employee ID prefix has to pinpoint only one Employee for delete to work._
 
@@ -72,14 +72,14 @@ Shows a message explaning how to access the help page.
 
 Format: `help`
 
-### Adding a person: `add`
+### Adding an employee: `add`
 
-Adds a person to the address book.
+Adds an employee to H'Reers.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… bd/DATE wa/DATE​`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
+An employee can have any number of tags (including 0)
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -95,26 +95,26 @@ Date format: `YYYY-MM-DD`
 </div>
 
 Examples:
-* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com jp/Cleaner p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21`
+* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` Adds `John Doe` into H'Reers
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com jp/Cleaner p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of friend
 
-### Listing all persons: `list`
+### Listing all employees: `list`
 
-Shows a list of all persons in the address book.
+Shows a list of all employees in H'Reers.
 
 Format: `list`
 
-### Editing a person: `edit`
+### Editing an employee: `edit`
 
-Edits an existing person in the address book.
+Edits an existing employee in H'Reers.
 
 Format: `edit [Employee ID prefix] [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] [jp/JOB] [t/TAG]…​`
 
 * Edits the specified employee. The Employee ID can be shortened down and not necessarily needed to type in the full ID. The Employee ID prefix **must be Unique.**
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+* When editing tags, the existing tags of the employee will be removed i.e adding of tags is not cumulative.
+* You can remove all the employee’s tags by typing `t/` without
     specifying any tags after it.
 * You can change the employee id by typing edit [Employee ID prefix] eid/[new Employee ID]
 
@@ -123,9 +123,9 @@ Examples:
 *  `edit 2dsf n/Betsy Crower t/` Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
-### Locating persons by name: `find`
+### Locating employees by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds employees whose names contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
@@ -133,7 +133,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only the name is searched.
 * Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
+* Employees matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
@@ -141,14 +141,13 @@ Examples:
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
-### Deleting a person: `delete`
+### Deleting an employee: `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified employee from the address book.
 
 Format: `delete [Employee ID prefix]`
 
-* Deletes the person of the specified Employee ID.
-* The command only works if the Employee ID is unique.
+* Deletes the employee of the specified Employee ID.
 * The Employee ID **must be valid and unique**
 
 Examples:
@@ -156,21 +155,21 @@ Examples:
 
 ### Show anniversaries: `showAnni`
 
-Shows the list of anniversary details of the person specified by the Employee ID.
+Shows the list of anniversary details of the employee specified by the Employee ID.
 
 Format: `showAnni eid/Empoyee_ID`
 
-* Displays a new window with a list of anniversaries of the person specified by the Employee ID
+* Displays a new window with a list of anniversaries of the employee specified by the Employee ID
 * Details like dates, description and name will be displayed as well.
 * Beginners can use the button in the GUI to do the same thing.
-* The employee ID refers to the ID of the person in the address book, that you have specified when adding or generated if you did not.
+* The employee ID refers to the ID of the employee in the address book, that you have specified when adding or generated if you did not.
 
 Examples:
 * showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
 
 ### Clearing all entries: `clear`
 
-Clears all entries from the address book.
+Clears all entries from H'Reers.
 
 Format: `clear`
 
@@ -182,15 +181,15 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+H'Reers data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+H'Reers data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes to the data file makes its format invalid, H'Reers will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 ### Archiving data files `[coming in v2.0]`
@@ -202,7 +201,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous H'Reers home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
