@@ -1,6 +1,9 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.AnniversaryParserUtils.MESSAGE_DATE_CONSTRAINTS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -166,12 +169,13 @@ public class ParserUtil {
     /**
      * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
      *
-     * @param name the name of the person to be tagged with the anniversary
+     * @param name the name of the anniversary
+     * @param description the description of the anniversary
      * @param dateStr the date of the anniversary
      * @param type the type of the anniversary
      * @throws ParseException if the given {@code dateStr} is invalid.
      */
-    public static Anniversary parseAnniversary(Name name, String dateStr, String type,
+    public static Anniversary parseAnniversary(String name, String description, String dateStr, String type,
                                                String typeDescription) throws ParseException {
         requireNonNull(dateStr);
         String trimmedAnniversaryDate = dateStr.trim();
@@ -179,15 +183,43 @@ public class ParserUtil {
         try {
             date = LocalDate.parse(trimmedAnniversaryDate);
         } catch (DateTimeParseException e) {
-            throw new ParseException(Anniversary.MESSAGE_DATE_CONSTRAINTS);
+            throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
         }
-        if (type.equalsIgnoreCase("Work Anniversary")) {
-            return new Anniversary(date, new WorkAnniversary(), name.fullName + "'s " + type, type);
+        if (name == null || name.isEmpty()) {
+            return new Anniversary(date, new AnniversaryType(type, typeDescription),
+                    description, type);
+        } else {
+            return new Anniversary(date, new AnniversaryType(type, typeDescription),
+                    description, name);
         }
-        if (type.equalsIgnoreCase("Birthday")) {
-            return new Anniversary(date, new Birthday(), name.fullName + "'s " + type, type);
+    }
+
+    /**
+     * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
+     *
+     * @param name the name of the person
+     * @param dateStr the date of the anniversary
+     * @param type the prefix of the anniversary
+     * @throws ParseException if the given {@code dateStr} is invalid.
+     */
+    public static Anniversary parseAnniversaryWithName(Name name, String dateStr,
+                                                       Prefix type, String typeDescription) throws ParseException {
+        String trimmedAnniversaryDate = dateStr.trim();
+        LocalDate date;
+        try {
+            date = LocalDate.parse(trimmedAnniversaryDate);
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
         }
-        return new Anniversary(date, new AnniversaryType(type, typeDescription),
-                name.fullName + "'s " + type, type);
+        if (type.equals(PREFIX_BIRTHDAY)) {
+            String birthdayAppend = "Birthday";
+            return new Anniversary(date, new WorkAnniversary(), name + "'s " + birthdayAppend, birthdayAppend);
+        }
+        if (type.equals(PREFIX_WORK_ANNIVERSARY)) {
+            String workAnniversaryAppend = "work anniversary";
+            return new Anniversary(date, new Birthday(), name + "'s "
+                    + workAnniversaryAppend, workAnniversaryAppend);
+        }
+        throw new ParseException("Invalid anniversary type");
     }
 }

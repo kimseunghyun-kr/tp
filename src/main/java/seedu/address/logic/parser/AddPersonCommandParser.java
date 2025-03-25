@@ -1,6 +1,10 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.AnniversaryParserUtils.multiAddAnniversary;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DESC;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE_DESC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
@@ -13,6 +17,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -42,7 +47,8 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_EMPLOYEEID, PREFIX_NAME, PREFIX_PHONE,
                         PREFIX_EMAIL, PREFIX_JOBPOSITION, PREFIX_TAG, PREFIX_BIRTHDAY, PREFIX_WORK_ANNIVERSARY,
-                                          PREFIX_ANNIVERSARY_TYPE, PREFIX_ANNIVERSARY_TYPE_DESC);
+                        PREFIX_ANNIVERSARY_NAME, PREFIX_ANNIVERSARY_DATE, PREFIX_ANNIVERSARY_DESC,
+                        PREFIX_ANNIVERSARY_TYPE, PREFIX_ANNIVERSARY_TYPE_DESC);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_JOBPOSITION, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -59,17 +65,19 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
         } else {
             employeeId = EmployeeId.generateNewEmployeeId();
         }
+        try {
+            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
+            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
+            JobPosition jobPosition = ParserUtil.parseJobPosition(argMultimap.getValue(PREFIX_JOBPOSITION).get());
+            Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+            List<Anniversary> anniversaryList = multiAddAnniversary(argMultimap);
+            Person person = new Person(employeeId, name, phone, email, jobPosition, tagList, anniversaryList);
 
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        JobPosition jobPosition = ParserUtil.parseJobPosition(argMultimap.getValue(PREFIX_JOBPOSITION).get());
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        List<Anniversary> anniversaryList = AnniversaryParserUtils.parseAnniversaries(argMultimap, name);
-
-        Person person = new Person(employeeId, name, phone, email, jobPosition, tagList, anniversaryList);
-
-        return new AddPersonCommand(person);
+            return new AddPersonCommand(person);
+        } catch (NoSuchElementException nsee) {
+            throw new ParseException(AddPersonCommand.MESSAGE_USAGE);
+        }
     }
 
     /**
