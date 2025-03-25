@@ -3,7 +3,9 @@ layout: page
 title: User Guide
 ---
 
-H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
+H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI (Graphical User Interface), most of the user interactions happen using a CLI (Command Line Interface).
+
+Target Users: HR professionals or employees in the human resources department responsible for maintaining employee records and anniversaries.
 
 * Table of Contents 
 {:toc}
@@ -30,7 +32,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
    * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to H'Reers.
 
-   * `delete [employee id prefix]` : Deletes the specified employee contact. _Note: Employee ID prefix has to pinpoint only one Employee for delete to work._
+   * `delete Employee_ID_prefix` : Deletes the specified employee contact. _Note: Employee_ID_prefix has to pinpoint only one Employee for delete to work._
 
    * `clear` : Deletes all contacts.
 
@@ -66,7 +68,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
 ### Viewing help: `help`
 
-Shows a message explaning how to access the help page.
+Shows a message explaining how to access the help page.
 
 ![help message](images/HelpU.png)
 
@@ -96,7 +98,7 @@ Date format: `YYYY-MM-DD`
 
 Examples:
 * `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` Adds `John Doe` into H'Reers
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com jp/Cleaner p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of friend
+* `add n/Betsy Crowe t/friend e/betsycrowe@example.com jp/Cleaner p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of friend and criminal
 
 ### Listing all employees: `list`
 
@@ -108,7 +110,7 @@ Format: `list`
 
 Edits an existing employee in H'Reers.
 
-Format: `edit [Employee ID prefix] [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] [jp/JOB] [t/TAG]…​`
+Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] [jp/JOB] [t/TAG]…​`
 
 * Edits the specified employee. The Employee ID can be shortened down and not necessarily needed to type in the full ID. The Employee ID prefix **must be Unique.**
 * At least one of the optional fields must be provided.
@@ -116,12 +118,28 @@ Format: `edit [Employee ID prefix] [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL
 * When editing tags, the existing tags of the employee will be removed i.e adding of tags is not cumulative.
 * You can remove all the employee’s tags by typing `t/` without
     specifying any tags after it.
-* You can change the employee id by typing edit [Employee ID prefix] eid/[new Employee ID]
+* You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
 
 Examples:
 *  `edit 1re p/91234567 e/johndoe@example.com` Edits the phone number and email address of the specified employee to be `91234567` and `johndoe@example.com` respectively.
 *  `edit 2dsf n/Betsy Crower t/` Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
+
+### Undo: `undo`
+
+Will undo to before the data is changed.
+
+Format: `undo`
+
+* Only works if any data in H'Reers has been changed.
+
+#### Output:
+* If data has been changed: `Undo successful!`
+* No data changed: `No undo available!`
+
+Examples:
+* `undo` Will return the previous changed saved data.
+* `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it. 
 
 ### Locating employees by name: `find`
 
@@ -143,26 +161,26 @@ Examples:
 
 ### Deleting an employee: `delete`
 
-Deletes the specified employee from the address book.
+Deletes the specified employee from H'Reers.
 
-Format: `delete [Employee ID prefix]`
+Format: `delete Employee_ID_prefix`
 
 * Deletes the employee of the specified Employee ID.
 * The Employee ID **must be valid and unique**
 
 Examples:
-* `list` followed by `delete [Employee ID prefix]` deletes the specified employee.
+* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
 
 ### Show anniversaries: `showAnni`
 
 Shows the list of anniversary details of the employee specified by the Employee ID.
 
-Format: `showAnni eid/Empoyee_ID`
+Format: `showAnni eid/Employee_ID`
 
 * Displays a new window with a list of anniversaries of the employee specified by the Employee ID
 * Details like dates, description and name will be displayed as well.
 * Beginners can use the button in the GUI to do the same thing.
-* The employee ID refers to the ID of the employee in the address book, that you have specified when adding or generated if you did not.
+* The employee ID refers to the ID of the employee in H'Reers, that you have specified when adding or generated if you did not.
 
 Examples:
 * showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
@@ -201,7 +219,7 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous H'Reers home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous H'Reers home folder.<br>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -216,11 +234,17 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com jb/Crypto Farmer t/friend t/colleague bd/2001-07-08 wa/2025-08-15`
-**Clear** | `clear`
-**Delete** | `delete Employee_ID_Prefix`
-**Edit** | `edit Employee_ID_Prefix [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [jb/JOB] [t/TAG]…​`<br> e.g.,`edit 12sde n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List** | `list`
 **Help** | `help`
-**showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com jb/Crypto Farmer t/friend t/colleague bd/2001-07-08 wa/2025-08-15`
+**List** | `list`
+**Edit** | `edit Employee_ID_Prefix [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [jb/JOB] [t/TAG]…​`<br> e.g.,`edit 12sde n/James Lee e/jameslee@example.com`
+**Undo**| `undo`
+**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
+**Delete** | `delete Employee_ID_Prefix`
+**Clear** | `clear`
+**showAnni** | `showAnni eid/Employee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
+
+---
+## Terms to know
+* CLI (Command Line Interface): A text-based interface used to type commands
+* GUI (Graphical User Interface): A user interface that allows interaction with the software through visual elements like buttons and icons.
