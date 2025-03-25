@@ -37,8 +37,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertFieldEqualityFirst;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
+import static seedu.address.testutil.TypicalPersonsWithAnniversaries.AMY;
+import static seedu.address.testutil.TypicalPersonsWithAnniversaries.BOB;
 
 import org.junit.jupiter.api.Test;
 

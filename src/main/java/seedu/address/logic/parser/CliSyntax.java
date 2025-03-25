@@ -25,4 +25,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_ANNIVERSARY_TYPE_DESC = new Prefix("atdesc/");
     public static final Prefix PREFIX_ANNIVERSARY_INDEX = new Prefix("ai/");
 
+    /* Prefix definitions for import export */
+    public static final Prefix PREFIX_FILEPATH = new Prefix("fp/");
+    public static final Prefix PREFIX_FILENAME = new Prefix("fn/");
+    public static final Prefix PREFIX_FILETYPE = new Prefix("ft/");
+    public static final Prefix PREFIX_WRITE_MODE = new Prefix("wm/");
 }

@@ -121,7 +121,6 @@ public class ModelManager implements Model {
         requireNonNull(person);
         return addressBook.hasDuplicatePersonDetails(person);
     }
-
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
