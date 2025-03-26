@@ -38,6 +38,18 @@ public class StringUtil {
                 .anyMatch(preppedWord::equalsIgnoreCase);
     }
 
+    /**
+     * Returns true if the {@code sentence} contains any of the {@code word}.
+     *   Ignores case, and a partial word match is allowed.
+     *   <br>examples:<pre>
+     *       containsPartialIgnoreCase("ABc def", "abc") == true
+     *       containsPartialIgnoreCase("ABc def", "DEF") == true
+     *       containsPartialIgnoreCase("ABc def", "AB") == true
+     *       containsPartialIgnoreCase("def", "abc") == false //None matched
+     *       </pre>
+     * @param sentence cannot be null
+     * @param word cannot be null, cannot be empty, must be a single word
+     */
     public static boolean containsPartialIgnoreCase(String sentence, String word) {
         requireNonNull(sentence);
         requireNonNull(word);
@@ -52,6 +64,7 @@ public class StringUtil {
         return Arrays.stream(wordsInPreppedSentence)
                 .anyMatch(sentenceWord -> sentenceWord.contains(preppedWord));
     }
+
     /**
      * Returns a detailed message of the t, including the stack trace.
      */

@@ -6,7 +6,9 @@ import java.util.function.Predicate;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
 
-
+/**
+ * Tests that a {@code Person}'s {@code JobPosition} matches any of the keywords given.
+ */
 public class JobPositionContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
 
@@ -31,7 +33,9 @@ public class JobPositionContainsKeywordsPredicate implements Predicate<Person> {
             return false;
         }
 
-        JobPositionContainsKeywordsPredicate otherJobPositionContainsKeywordsPredicate = (JobPositionContainsKeywordsPredicate) other;
+        JobPositionContainsKeywordsPredicate otherJobPositionContainsKeywordsPredicate =
+                (JobPositionContainsKeywordsPredicate) other;
+
         return keywords.equals(otherJobPositionContainsKeywordsPredicate.keywords);
     }
 
