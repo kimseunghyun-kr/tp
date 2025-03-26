@@ -161,6 +161,8 @@ public class JsonCsvConverter {
      * @throws CommandException If the CSV data is invalid.
      */
     private <T> T parseAddressBookCsv(String csvData, Class<T> clazz) throws IOException, CommandException {
+        // Normalize Windows line endings to Unix style
+        csvData = csvData.replace("\r\n", "\n");
         String[] lines = csvData.split("\n");
         if (lines.length < 1) {
             throw new IOException("CSV data is empty");
