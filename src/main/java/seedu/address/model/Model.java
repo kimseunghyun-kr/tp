@@ -113,4 +113,14 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     void commitChanges();
+
+    /**
+     * Updates the list of persons who have an upcoming birthday within the next N days.
+     */
+    void updateBirthdayReminderList();
+
+    /**
+     * Updates the list of persons who have an upcoming work anniversary within the next N days.
+     */
+    void updateWorkAnniversaryReminderList();
 }

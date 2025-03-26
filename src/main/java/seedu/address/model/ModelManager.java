@@ -28,6 +28,10 @@ public class ModelManager implements Model {
     private int currentStatePointer = 0;
     private List<AddressBook> addressBookStates = new ArrayList<>();
 
+    private final FilteredList<Person> birthdayReminderList;
+
+    private final FilteredList<Person> workAnniversaryReminderList;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -44,6 +48,12 @@ public class ModelManager implements Model {
 
         // Apply default filtering
         filteredPersons.setPredicate(person -> true);
+
+        this.birthdayReminderList = new FilteredList<>(this.addressBook.getPersonList());
+        this.birthdayReminderList.setPredicate(person ->false);
+
+        this.workAnniversaryReminderList = new FilteredList<>(this.addressBook.getPersonList());
+        this.workAnniversaryReminderList.setPredicate(person -> false);
     }
 
     public ModelManager() {
@@ -96,6 +106,16 @@ public class ModelManager implements Model {
     @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
+    }
+
+    @Override
+    public void updateBirthdayReminderList() {
+        birthdayReminderList.setPredicate(person -> person.isBirthdayUpcomingWithinDays(3));
+    }
+
+    @Override
+    public void updateWorkAnniversaryReminderList() {
+        workAnniversaryReminderList.setPredicate(person -> person.isWorkAnniversaryUpcomingWithinDays(3));
     }
 
     @Override
