@@ -34,7 +34,7 @@ public class FindCommandParserTest {
     }
 
     @Test
-    public void parse_validArgs_returnsFindCommand() throws ParseException {
+    public void parse_validNameArgs_filtersCorrectly() throws ParseException {
         // no leading and trailing whitespaces
         FindCommand command = parser.parse(" n/Alice Bob");
 
@@ -58,6 +58,76 @@ public class FindCommandParserTest {
         whitespaceCommand.execute(whitespaceModel);
 
         assertEquals(List.of(matching1, matching2), whitespaceModel.getFilteredPersonList());
+    }
+
+    @Test
+    public void parse_jobPositionArgs_filtersCorrectly() throws Exception {
+        // Parse command with standard input
+        FindCommand command = parser.parse(" jp/engineer manager");
+
+        Person matching1 = new PersonBuilder().withJobPosition("Software Engineer").build();
+        Person matching2 = new PersonBuilder().withJobPosition("Product Manager").build();
+        Person nonMatching = new PersonBuilder().withJobPosition("Sales Associate").build();
+
+        ModelStubWithFilterablePersons model =
+                new ModelStubWithFilterablePersons(List.of(matching1, matching2, nonMatching));
+
+        command.execute(model);
+
+        assertEquals(List.of(matching1, matching2), model.getFilteredPersonList());
+
+        // Parse command with messy whitespace
+        FindCommand whitespaceCommand = parser.parse(" \n jp/engineer \t manager  \n");
+
+        ModelStubWithFilterablePersons whitespaceModel =
+                new ModelStubWithFilterablePersons(List.of(matching1, matching2, nonMatching));
+
+        whitespaceCommand.execute(whitespaceModel);
+
+        assertEquals(List.of(matching1, matching2), whitespaceModel.getFilteredPersonList());
+    }
+
+    @Test
+    public void parse_nameAndJobPositionArgs_filtersCorrectly() throws Exception {
+        // Parse command with both name and job position
+        FindCommand command = parser.parse(" n/jack jp/engineer");
+
+        Person matching = new PersonBuilder()
+                .withName("Jack Daniel")
+                .withJobPosition("Software Engineer")
+                .build();
+
+        Person wrongName = new PersonBuilder()
+                .withName("Alice")
+                .withJobPosition("Software Engineer")
+                .build();
+
+        Person wrongJob = new PersonBuilder()
+                .withName("Jack")
+                .withJobPosition("Chef")
+                .build();
+
+        Person completelyOff = new PersonBuilder()
+                .withName("Bob")
+                .withJobPosition("Accountant")
+                .build();
+
+        ModelStubWithFilterablePersons model =
+                new ModelStubWithFilterablePersons(List.of(matching, wrongName, wrongJob, completelyOff));
+
+        command.execute(model);
+
+        assertEquals(List.of(matching), model.getFilteredPersonList());
+
+        // Messy whitespace version
+        FindCommand messyCommand = parser.parse(" \n n/jack  \n jp/engineer \t");
+
+        ModelStubWithFilterablePersons messyModel =
+                new ModelStubWithFilterablePersons(List.of(matching, wrongName, wrongJob, completelyOff));
+
+        messyCommand.execute(messyModel);
+
+        assertEquals(List.of(matching), messyModel.getFilteredPersonList());
     }
 
 
