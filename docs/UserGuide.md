@@ -7,7 +7,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
 Target Users: HR professionals or employees in the human resources department responsible for maintaining employee records and anniversaries.
 
-* Table of Contents 
+* Table of Contents
 {:toc}
 
 --------------------------------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ Format: `undo`
 
 Examples:
 * `undo` Will return the previous changed saved data.
-* `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it. 
+* `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
 ### Locating employees by name: `find`
 
