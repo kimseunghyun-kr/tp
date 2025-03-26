@@ -6,6 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.function.Predicate;
 
+import lombok.Getter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
@@ -13,8 +14,9 @@ import seedu.address.model.person.Person;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Keyword matching is case-insensitive.
  */
+@Getter
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
@@ -30,10 +32,6 @@ public class FindCommand extends Command {
 
     public FindCommand(Predicate<Person> predicate) {
         this.predicate = predicate;
-    }
-
-    public Predicate<Person> getPredicate() {
-        return predicate;
     }
 
     @Override
