@@ -40,15 +40,16 @@ public record PersonKey(
 
     /**
      * Creates a JsonAdaptedPerson from the PersonKey.
+     * EXTREME CAUTION TO THE ORDERING - this causes bugs if not done correctly
      * @return the JsonAdaptedPerson created from the PersonKey
      */
     public JsonAdaptedPerson toJsonAdaptedPerson() {
         return new JsonAdaptedPerson(
+                employeeId,
                 name,
                 phone,
                 email,
                 jobPosition,
-                employeeId,
                 tags.stream().map(JsonAdaptedTag::new).collect(Collectors.toList()),
                 new ArrayList<>() // we’ll add anniversaries later
         );

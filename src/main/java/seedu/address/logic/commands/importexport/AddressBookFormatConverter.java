@@ -13,6 +13,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.storage.JsonCsvConverter;
@@ -82,7 +83,7 @@ public class AddressBookFormatConverter {
     /**
      * Imports CSV data from a file and converts it to a JsonSerializableAddressBook.
      */
-    public static JsonSerializableAddressBook importFromCsv(Path filePath) throws IOException {
+    public static JsonSerializableAddressBook importFromCsv(Path filePath) throws IOException, CommandException {
         requireNonNull(filePath);
         String csvData = Files.readString(filePath);
         return csvToAddressBook(csvData);
@@ -90,7 +91,7 @@ public class AddressBookFormatConverter {
     /**
      * Converts a CSV string to a JsonSerializableAddressBook.
      */
-    public static JsonSerializableAddressBook csvToAddressBook(String csvData) throws IOException {
+    public static JsonSerializableAddressBook csvToAddressBook(String csvData) throws IOException, CommandException {
         requireNonNull(csvData);
         JsonCsvConverter jsonCsvConverter = new JsonCsvConverter(JsonUtil.getObjectMapper(), new QueryValidator());
         JsonSerializableAddressBook addressBook = jsonCsvConverter

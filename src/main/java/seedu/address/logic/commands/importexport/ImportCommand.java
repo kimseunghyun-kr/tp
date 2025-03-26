@@ -18,7 +18,9 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
+import seedu.address.storage.JsonAdaptedPerson;
 import seedu.address.storage.JsonSerializableAddressBook;
 
 /**
@@ -135,25 +137,28 @@ public class ImportCommand extends Command {
         List<Person> importedPersons = new ArrayList<>();
         List<Person> omittedPersons = new ArrayList<>();
         try {
-            for (Person person : importedData.toModelType().getPersonList()) {
-                Person matchInModel = model.getFilteredByEmployeeIdPrefixList(person.getEmployeeId()).stream()
-                        .filter(p -> p.isSamePerson(person))
+            // With the updated CSV parser, each employeeId should appear only once,
+            // so each Person record already contains a consolidated anniversary list.
+            for (JsonAdaptedPerson person : importedData.getPersons()) {
+                Person personToImport = person.toModelType();
+                Person matchInModel = model.getFilteredByEmployeeIdPrefixList(
+                        EmployeeId.fromString(person.getEmployeeId())).stream()
+                        .filter(p -> p.isSamePerson(personToImport))
                         .findFirst()
                         .orElse(null);
-                // model does not have eid of the person
                 if (matchInModel == null) {
-                    model.addPerson(person);
-                    importedPersons.add(person);
-
-                } else if (matchInModel.hasSameDetails(person)) {
-                    // model has the person and have same details, then append the anniversarylist
-                    matchInModel.getAnniversaries().addAll(person.getAnniversaries());
+                    // No matching person in memory – add the new record.
+                    model.addPerson(personToImport);
+                    importedPersons.add(personToImport);
+                } else if (matchInModel.hasSameDetails(personToImport)) {
+                    // Same basic details found – merge anniversary lists.
+                    matchInModel.getAnniversaries().addAll(personToImport.getAnniversaries());
+                    importedPersons.add(personToImport);
                 } else {
-                    // there is a conflict. ask user to resolve
-                    omittedPersons.add(person);
+                    // Conflict: the person exists, but details differ. Flag for manual resolution.
+                    omittedPersons.add(personToImport);
                 }
             }
-            logger.info(String.format("omitted persons, %s", omittedPersons));
             return List.of(importedPersons, omittedPersons);
         } catch (IllegalValueException e) {
             throw new CommandException(String.format(MESSAGE_INVALID_DATA, e.getMessage()));

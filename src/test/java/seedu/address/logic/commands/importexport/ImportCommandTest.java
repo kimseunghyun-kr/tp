@@ -3,7 +3,9 @@ package seedu.address.logic.commands.importexport;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -16,7 +18,10 @@ import static seedu.address.testutil.TypicalPersonsWithAnniversaries.BOB;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,10 +41,9 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Person;
+import seedu.address.storage.JsonAdaptedPerson;
 import seedu.address.storage.JsonSerializableAddressBook;
 import seedu.address.testutil.AddressBookBuilder;
-import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.TypicalPersonsWithoutAnniversaries;
 
 @ExtendWith(MockitoExtension.class)
 public class ImportCommandTest {
@@ -86,14 +90,18 @@ public class ImportCommandTest {
             formatConverterMock.when(() -> AddressBookFormatConverter.importFromJson(jsonFilePathNormalCase))
                     .thenReturn(jsonSerializableAddressBook);
 
-            // Setup the rest of the test
-            when(jsonSerializableAddressBook.toModelType()).thenReturn(addressBookUnique);
+            // Setup the rest of the test - convert to AddressBook which has consolidated anniversaries
+            AddressBook consolidatedAddressBook = addressBookUnique; // This represents our consolidated data
+            when(jsonSerializableAddressBook.toModelType()).thenReturn(consolidatedAddressBook);
             when(model.getAddressBook()).thenReturn(addressBookUnique);
 
             ImportCommand importCommand = new ImportCommand("json", jsonFilePathNormalCase, "overwrite");
             CommandResult result = importCommand.execute(model);
 
-            verify(model).setAddressBook(any(AddressBook.class));
+            // Verify the address book was replaced with the consolidated data
+            ArgumentCaptor<AddressBook> addressBookCaptor = ArgumentCaptor.forClass(AddressBook.class);
+            verify(model).setAddressBook(addressBookCaptor.capture());
+
             assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_OVERWRITE, 2), result.getFeedbackToUser());
         }
     }
@@ -110,9 +118,20 @@ public class ImportCommandTest {
             // Setup base mocks
             formatConverterMock.when(() -> AddressBookFormatConverter.importFromCsv(csvFilePathNormalCase))
                     .thenReturn(jsonSerializableAddressBook);
-            when(jsonSerializableAddressBook.toModelType()).thenReturn(addressBookUnique);
 
-            // Mock empty response list - only mock what will actually be called
+            // Create mock JsonAdaptedPerson objects
+            JsonAdaptedPerson mockJsonPerson1 = mock(JsonAdaptedPerson.class);
+            JsonAdaptedPerson mockJsonPerson2 = mock(JsonAdaptedPerson.class);
+            List<JsonAdaptedPerson> mockJsonPersons = Arrays.asList(mockJsonPerson1, mockJsonPerson2);
+
+            // Mock getPersons() to return our list of JsonAdaptedPersons
+            when(jsonSerializableAddressBook.getPersons()).thenReturn(mockJsonPersons);
+
+            // Mock the toModelType() for each JsonAdaptedPerson
+            when(mockJsonPerson1.toModelType()).thenReturn(addressBookUnique.getPersonList().get(0));
+            when(mockJsonPerson2.toModelType()).thenReturn(addressBookUnique.getPersonList().get(1));
+
+            // Mock empty response list for employeeId lookups
             ObservableList<Person> emptyList = FXCollections.observableArrayList();
             when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(emptyList);
 
@@ -136,18 +155,35 @@ public class ImportCommandTest {
             // Setup imported data with AMY and BOB
             formatConverterMock.when(() -> AddressBookFormatConverter.importFromCsv(csvFilePathNormalCase))
                     .thenReturn(jsonSerializableAddressBook);
-            when(jsonSerializableAddressBook.toModelType()).thenReturn(addressBookUnique);
+
+            // Create mock JsonAdaptedPerson objects
+            JsonAdaptedPerson mockJsonPerson1 = mock(JsonAdaptedPerson.class);
+            JsonAdaptedPerson mockJsonPerson2 = mock(JsonAdaptedPerson.class);
+            List<JsonAdaptedPerson> mockJsonPersons = Arrays.asList(mockJsonPerson1, mockJsonPerson2);
+
+            // Mock getPersons() to return our list of JsonAdaptedPersons
+            when(jsonSerializableAddressBook.getPersons()).thenReturn(mockJsonPersons);
+
+            // Mock the toModelType() for each JsonAdaptedPerson
+            when(mockJsonPerson1.toModelType()).thenReturn(addressBookUnique.getPersonList().get(0)); // AMY
+            when(mockJsonPerson2.toModelType()).thenReturn(addressBookUnique.getPersonList().get(1)); // BOB
+            when(mockJsonPerson1.getEmployeeId()).thenReturn(String.valueOf(AMY.getEmployeeId()));
+            when(mockJsonPerson2.getEmployeeId()).thenReturn(String.valueOf(BOB.getEmployeeId()));
 
             // Create mock person that will conflict with BOB
             Person mockConflictingPerson = mock(Person.class);
-            when(mockConflictingPerson.isSamePerson(any())).thenReturn(true);
-            when(mockConflictingPerson.hasSameDetails(any())).thenReturn(false);
+            when(mockConflictingPerson.isSamePerson(BOB)).thenReturn(true);
+            when(mockConflictingPerson.hasSameDetails(BOB)).thenReturn(false);
 
-            // Return conflict list only for BOB's employeeId, empty list for AMY's
-            when(model.getFilteredByEmployeeIdPrefixList(BOB.getEmployeeId()))
-                    .thenReturn(FXCollections.observableArrayList(mockConflictingPerson));
-            when(model.getFilteredByEmployeeIdPrefixList(AMY.getEmployeeId()))
-                    .thenReturn(FXCollections.observableArrayList());
+            // Use doReturn/when syntax which is more lenient with argument matching
+            ObservableList<Person> emptyList = FXCollections.observableArrayList();
+            ObservableList<Person> bobConflictList = FXCollections.observableArrayList(mockConflictingPerson);
+
+            // AMY behavior - no conflict
+            doReturn(emptyList).when(model).getFilteredByEmployeeIdPrefixList(AMY.getEmployeeId());
+
+            // Specific behavior for BOB
+            doReturn(bobConflictList).when(model).getFilteredByEmployeeIdPrefixList(BOB.getEmployeeId());
 
             importCommand = new ImportCommand("csv", csvFilePathNormalCase, "append");
             CommandResult result = importCommand.execute(model);
@@ -204,56 +240,6 @@ public class ImportCommandTest {
         }
     }
 
-    /**
-     * Tests that when multiple entries for the same person exist in a CSV file,
-     * they're properly consolidated into a single person with all anniversaries merged.
-     * @throws Exception
-     */
-    @Test
-    public void execute_importCsvWithDuplicatesInFile() throws Exception {
-        try (MockedStatic<AddressBookFormatConverter> formatConverterMock =
-                     mockStatic(AddressBookFormatConverter.class)) {
-            // Create a JsonSerializableAddressBook with duplicates
-            JsonSerializableAddressBook realImportedData = mock(JsonSerializableAddressBook.class);
-            formatConverterMock.when(() -> AddressBookFormatConverter.importFromCsv(csvFilePathAggregateCase))
-                    .thenReturn(realImportedData);
-            Person alice = TypicalPersonsWithoutAnniversaries.ALICE;
-            // Create Person with all anniversaries from CSV
-            Person aliceWithAllAnniversaries = new PersonBuilder(TypicalPersonsWithoutAnniversaries.ALICE)
-                    .withAnniversary("2025-03-13", "Family",
-                            "\"Silver Wedding\"", "\"Celebrating 25 years\"")
-                    .withAnniversary("2025-02-25", "wedding", "silver wedding", "things")
-                    .withAnniversary("2025-02-25", "Work Anniversary",
-                            "Birthday", "alex's Birthday")
-                    .build();
-
-            // Create address book with the consolidated person
-            AddressBook dedupedAddressBook = new AddressBookBuilder()
-                    .withPerson(aliceWithAllAnniversaries)
-                    .build();
-
-            // Return the address book with consolidated entries
-            when(realImportedData.toModelType()).thenReturn(dedupedAddressBook);
-
-            // Mock empty filtered list so we add new person
-            ObservableList<Person> emptyList = FXCollections.observableArrayList();
-            when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(emptyList);
-
-            importCommand = new ImportCommand("csv", csvFilePathAggregateCase, "append");
-            CommandResult result = importCommand.execute(model);
-
-            // Verify only one person was added
-            ArgumentCaptor<Person> personCaptor = ArgumentCaptor.forClass(Person.class);
-            verify(model, times(1)).addPerson(personCaptor.capture());
-
-            // Verify the added person has all the anniversaries from the CSV
-            Person addedPerson = personCaptor.getValue();
-            assertEquals(3, addedPerson.getAnniversaries().size());
-
-            assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_APPEND, 1, 0, ""),
-                    result.getFeedbackToUser());
-        }
-    }
 
     /**
      * Tests how the getAnniversaries().addAll() method is called when contacts with same details are found.
@@ -263,10 +249,21 @@ public class ImportCommandTest {
     public void execute_importJsonAppendWithMergedAnniversaries() throws Exception {
         try (MockedStatic<AddressBookFormatConverter> formatConverterMock =
                      mockStatic(AddressBookFormatConverter.class)) {
-            // Setup imported data with test data containing anniversaries
             formatConverterMock.when(() -> AddressBookFormatConverter.importFromJson(jsonFilePathNormalCase))
                     .thenReturn(jsonSerializableAddressBook);
-            when(jsonSerializableAddressBook.toModelType()).thenReturn(addressBookDuplicate);
+            // Setup imported data with test data containing anniversaries
+            List<Person> actualPersons = addressBookDuplicate.getPersonList();
+            List<JsonAdaptedPerson> mockJsonPersons = new ArrayList<>();
+
+            for (Person person : actualPersons) {
+                JsonAdaptedPerson mockJsonPerson = mock(JsonAdaptedPerson.class);
+                when(mockJsonPerson.toModelType()).thenReturn(person);
+                when(mockJsonPerson.getEmployeeId()).thenReturn(String.valueOf(person.getEmployeeId()));
+                mockJsonPersons.add(mockJsonPerson);
+            }
+
+            // Mock getPersons() to return the controlled list
+            when(jsonSerializableAddressBook.getPersons()).thenReturn(mockJsonPersons);
 
             // Create a mock Person
             Person mockExistingPerson = mock(Person.class);
@@ -290,7 +287,7 @@ public class ImportCommandTest {
             ArgumentCaptor<Collection<Anniversary>> captor = ArgumentCaptor.forClass(Collection.class);
             verify(mockAnniversaryList, times(1)).addAll(captor.capture());
 
-            assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_APPEND, 0, 0, ""),
+            assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_APPEND, 1, 0, ""),
                     result.getFeedbackToUser());
         }
     }
@@ -303,24 +300,38 @@ public class ImportCommandTest {
     public void execute_importCsvWithPartialConflicts() throws Exception {
         try (MockedStatic<AddressBookFormatConverter> formatConverterMock =
                      mockStatic(AddressBookFormatConverter.class)) {
-            // Setup imported data with two people
+
+            // Set up mock return for importFromCsv
             formatConverterMock.when(() -> AddressBookFormatConverter.importFromCsv(csvFilePathDuplicateCase))
                     .thenReturn(jsonSerializableAddressBook);
 
-            // Create address book with two conflicting entries
+            // Create actual persons for the conflict test
             AddressBook conflictBook = new AddressBookBuilder()
                     .withPerson(ALICE).withPerson(BOB).build();
-            when(jsonSerializableAddressBook.toModelType()).thenReturn(conflictBook);
+            // Mock JsonAdaptedPerson list
+            List<JsonAdaptedPerson> mockJsonPersons = new ArrayList<>();
 
-            // First person exists but with conflict
+            JsonAdaptedPerson mockAliceJson = mock(JsonAdaptedPerson.class);
+            when(mockAliceJson.toModelType()).thenReturn(ALICE);
+            when(mockAliceJson.getEmployeeId()).thenReturn(ALICE.getEmployeeId().toString());
+            mockJsonPersons.add(mockAliceJson);
+
+            JsonAdaptedPerson mockBobJson = mock(JsonAdaptedPerson.class);
+            when(mockBobJson.toModelType()).thenReturn(BOB);
+            when(mockBobJson.getEmployeeId()).thenReturn(BOB.getEmployeeId().toString());
+            mockJsonPersons.add(mockBobJson);
+
+            when(jsonSerializableAddressBook.getPersons()).thenReturn(mockJsonPersons);
+
+            // Mock a conflicting person for ALICE
             Person mockConflictPerson = mock(Person.class);
             when(mockConflictPerson.getName()).thenReturn(ALICE.getName());
             when(mockConflictPerson.isSamePerson(any())).thenReturn(true);
             when(mockConflictPerson.hasSameDetails(any())).thenReturn(false);
 
-            // Return conflict for ALICE, but empty for BOB
             when(model.getFilteredByEmployeeIdPrefixList(ALICE.getEmployeeId()))
                     .thenReturn(FXCollections.observableArrayList(mockConflictPerson));
+
             when(model.getFilteredByEmployeeIdPrefixList(BOB.getEmployeeId()))
                     .thenReturn(FXCollections.observableArrayList());
 
@@ -328,10 +339,11 @@ public class ImportCommandTest {
             CommandResult result = importCommand.execute(model);
 
             // Only BOB should be added
-            verify(model, times(1)).addPerson(any(Person.class));
+            verify(model, times(1)).addPerson(eq(BOB));
             assertTrue(result.getFeedbackToUser().contains(mockConflictPerson.getName().toString()));
         }
     }
+
 
     /**
      * Tests importing contacts with the same employee ID but different details.
@@ -342,32 +354,39 @@ public class ImportCommandTest {
     public void execute_importJsonAppendWithExistingEmployeeIdButDifferentDetails() throws Exception {
         try (MockedStatic<AddressBookFormatConverter> formatConverterMock =
                      mockStatic(AddressBookFormatConverter.class)) {
-            // Setup imported data
+
+            // Setup imported JSON data
             formatConverterMock.when(() -> AddressBookFormatConverter.importFromJson(jsonFilePathDuplicateCase))
                     .thenReturn(jsonSerializableAddressBook);
 
-            // Create book with a person having same ID but different details
+            // Prepare real model data — person with same ID but different details
             AddressBook modifiedBook = new AddressBookBuilder().withPerson(ALICE).build();
-            when(jsonSerializableAddressBook.toModelType()).thenReturn(modifiedBook);
+            // Create and mock a JsonAdaptedPerson to return ALICE
+            JsonAdaptedPerson mockAliceJson = mock(JsonAdaptedPerson.class);
+            when(mockAliceJson.toModelType()).thenReturn(ALICE);
+            when(mockAliceJson.getEmployeeId()).thenReturn(ALICE.getEmployeeId().toString());
+            when(jsonSerializableAddressBook.getPersons()).thenReturn(List.of(mockAliceJson));
 
-            // Create a mock for an existing person with same ID but different details
+            // Simulate existing person with same ID but different details
             Person mockExistingPerson = mock(Person.class);
             when(mockExistingPerson.getName()).thenReturn(ALICE.getName());
             when(mockExistingPerson.getEmployeeId()).thenReturn(ALICE.getEmployeeId());
             when(mockExistingPerson.isSamePerson(any())).thenReturn(true);
             when(mockExistingPerson.hasSameDetails(any())).thenReturn(false);
 
-            // Return the mock when searching
+            // When model is queried for existing person, return this mock
             ObservableList<Person> matchList = FXCollections.observableArrayList(mockExistingPerson);
             when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(matchList);
 
+            // Execute command
             importCommand = new ImportCommand("json", jsonFilePathDuplicateCase, "append");
             CommandResult result = importCommand.execute(model);
 
-            // No one should be added
+            // Verify no addition happens due to conflict
             verify(model, times(0)).addPerson(any(Person.class));
             assertTrue(result.getFeedbackToUser().contains(mockExistingPerson.getName().toString()));
             assertTrue(result.getFeedbackToUser().contains(mockExistingPerson.getEmployeeId().toString()));
         }
     }
+
 }
