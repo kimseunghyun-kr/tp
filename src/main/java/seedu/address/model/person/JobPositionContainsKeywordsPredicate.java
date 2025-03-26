@@ -6,20 +6,18 @@ import java.util.function.Predicate;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.commons.util.ToStringBuilder;
 
-/**
- * Tests that a {@code Person}'s {@code Name} matches any of the keywords given.
- */
-public class NameContainsKeywordsPredicate implements Predicate<Person> {
+
+public class JobPositionContainsKeywordsPredicate implements Predicate<Person> {
     private final List<String> keywords;
 
-    public NameContainsKeywordsPredicate(List<String> keywords) {
+    public JobPositionContainsKeywordsPredicate(List<String> keywords) {
         this.keywords = keywords;
     }
 
     @Override
     public boolean test(Person person) {
         return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsPartialIgnoreCase(person.getName().fullName, keyword));
+                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getJobPosition().value, keyword));
     }
 
     @Override
@@ -29,12 +27,12 @@ public class NameContainsKeywordsPredicate implements Predicate<Person> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof NameContainsKeywordsPredicate)) {
+        if (!(other instanceof JobPositionContainsKeywordsPredicate)) {
             return false;
         }
 
-        NameContainsKeywordsPredicate otherNameContainsKeywordsPredicate = (NameContainsKeywordsPredicate) other;
-        return keywords.equals(otherNameContainsKeywordsPredicate.keywords);
+        JobPositionContainsKeywordsPredicate otherJobPositionContainsKeywordsPredicate = (JobPositionContainsKeywordsPredicate) other;
+        return keywords.equals(otherJobPositionContainsKeywordsPredicate.keywords);
     }
 
     @Override

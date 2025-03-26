@@ -38,6 +38,20 @@ public class StringUtil {
                 .anyMatch(preppedWord::equalsIgnoreCase);
     }
 
+    public static boolean containsPartialIgnoreCase(String sentence, String word) {
+        requireNonNull(sentence);
+        requireNonNull(word);
+
+        String preppedWord = word.toLowerCase().trim();
+        checkArgument(!preppedWord.isEmpty(), "Word parameter cannot be empty");
+        checkArgument(preppedWord.split("\\s+").length == 1, "Word parameter should be a single word");
+
+        String preppedSentence = sentence.toLowerCase();
+        String[] wordsInPreppedSentence = preppedSentence.split("\\s+");
+
+        return Arrays.stream(wordsInPreppedSentence)
+                .anyMatch(sentenceWord -> sentenceWord.contains(preppedWord));
+    }
     /**
      * Returns a detailed message of the t, including the stack trace.
      */

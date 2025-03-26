@@ -78,6 +78,7 @@ Adds a person to the address book.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… bd/DATE wa/DATE​`
 
+Date format: `YYYY-MM-DD`
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
 </div>
@@ -85,13 +86,11 @@ A person can have any number of tags (including 0)
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 bd/ stands for birthday and wa/ stands for work anniversary.
 
-Both are compulsory.
+Both are optional.
 
 Both of which are standard anniversaries that the app will make for you
 with just the date!
 Other anniversaries can be added as well with `Add Anniversary` command below.
-
-Date format: `YYYY-MM-DD`
 </div>
 
 Examples:
