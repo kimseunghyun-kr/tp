@@ -82,4 +82,8 @@ shadowJar {
     archiveFileName = 'Hreers.jar'
 }
 
+run {
+    enableAssertions = true
+}
+
 defaultTasks 'clean', 'test'
