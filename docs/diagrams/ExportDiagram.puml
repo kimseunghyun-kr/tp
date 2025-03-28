@@ -10,6 +10,12 @@ package "seedu.address.logic.parser" {
     }
 }
 
+package "seedu.address.logic.commands {
+    abstract class Command {
+    + CommandResult execute(Model model) {abstract}
+    }
+}
+
 package "seedu.address.logic.parser" {
     class FilePathResolverUtils {
         - static String BLANK
@@ -46,6 +52,7 @@ package "seedu.address.logic.commands.importexport" {
     }
 }
 
+ExportCommand --|> Command
 exportCommandParser --> "1" ExportCommand : creates
 exportCommandParser -> FilePathResolverUtils : uses
 ExportCommand -> AddressBookFormatConverter : uses

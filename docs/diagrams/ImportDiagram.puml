@@ -14,6 +14,18 @@ package "seedu.address.logic.parser" {
         - boolean isValidWriteMode(ArgumentMultimap argMultimap)
     }
 }
+package seedu.address.model {
+    interface Model {
+        + void setAddressBook(ReadOnlyAddressBook addressBook)
+        + ReadOnlyAddressBook getAddressBook()
+    }
+}
+
+package "seedu.address.logic.commands {
+    abstract class Command {
+    + CommandResult execute(Model model) {abstract}
+    }
+}
 
 package "seedu.address.logic.commands.importexport" {
     class ImportCommand {
@@ -53,6 +65,7 @@ package "seedu.address.storage" {
 }
 
 ' Relationships
+ImportCommand --|> Command
 ImportCommandParser --> ImportCommand : creates
 ImportCommand -> AddressBookFormatConverter : uses
 ImportCommand --> "1" JsonSerializableAddressBook : processes

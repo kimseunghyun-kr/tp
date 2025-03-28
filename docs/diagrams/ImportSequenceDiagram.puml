@@ -44,11 +44,6 @@ else fileType == "csv"
     deactivate ABC
 end
 
-
-
-
-
-
 alt mode == "overwrite"
     IC -> IC: handleOverwriteMode(model, importedData)
     IC -> IC: aggregateImportedData(importedData)
