@@ -7,6 +7,7 @@ package seedu.address.logic.parser.anniversary {
         + parseAnniversary(ArgumentMultimap argMultimap) : Anniversary
     }
 }
+
 package seedu.address.logic.parser {
     class ParserUtil {
     + parseEmployeeIdPrefix(String employeeIdPrefix) : EmployeeId
@@ -52,6 +53,7 @@ package seedu.address.model.anniversary {
         + AnniversaryType(String type, String description)
     }
 }
+
 package seedu.address.model.person {
     class EmployeeId {
         - employeeId : UUID
@@ -75,10 +77,12 @@ AddAnniversaryCommand --|> Command
 AddAnniversaryCommandParser --> "1" AddAnniversaryCommand : creates
 AddAnniversaryCommandParser --> AnniversaryParserUtils : uses
 AddAnniversaryCommandParser -> ParserUtil : uses
+AddAnniversaryCommandParser --> "1" EmployeeId : uses
 ParserUtil --> "1" EmployeeId : creates
 AnniversaryParserUtils -> "1" Anniversary : creates
 AddAnniversaryCommand --> "1" CommandResult : returns
-AddAnniversaryCommand --> "1" EmployeeId : uses
+AddAnniversaryCommand --> "1" Anniversary : contains
+AddAnniversaryCommand --> "1" EmployeeId : contains
 AddAnniversaryCommand -> Person : processes
 AddAnniversaryCommand -> "1" Person : finds for update
 AddAnniversaryCommand -> Model : updates
@@ -87,73 +91,3 @@ AddAnniversaryCommand -> Model : updates
 
 @enduml
 
-
-
-// AddAnniversaryCommand.java
-
-
-/**
- * Adds an anniversary to an existing Person in the address book.
- */
-
-    /**
-     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the person with given employeeId.
-     */
-    public AddAnniversaryCommand(EmployeeId employeeIdPrefix, Anniversary anniversary) {
-        requireNonNull(employeeIdPrefix);
-        requireNonNull(anniversary);
-        this.employeeIdPrefix = employeeIdPrefix;
-        this.toAdd = anniversary;
-    }
-
-    @Override
-    public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
-
-        if (matchedEmployees.size() > 1) {
-            throw new CommandException(String.format(
-                    Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
-                    employeeIdPrefix
-            ));
-        }
-
-        if (matchedEmployees.isEmpty()) {
-            throw new CommandException(String.format(
-                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
-                    employeeIdPrefix
-            ));
-        }
-
-        Person personToEdit = matchedEmployees.get(0);
-
-        // Check if the same anniversary already exists
-        boolean duplicate = personToEdit.getAnniversaries().stream()
-                .anyMatch(existing ->
-                        existing.getDate().equals(toAdd.getDate())
-                                && existing.getName().equals(toAdd.getName())
-                                && existing.getDescription().equals(toAdd.getDescription())
-                                && existing.getType().equals(toAdd.getType())
-                );
-        if (duplicate) {
-            throw new CommandException(MESSAGE_DUPLICATE_ANNIVERSARY);
-        }
-
-        // Create a new Person object with updated anniversaries
-        List<Anniversary> anniversaryList = new ArrayList<>(personToEdit.getAnniversaries());
-        anniversaryList.add(toAdd);
-        Person updatedPerson = Person.builder()
-                .employeeId(personToEdit.getEmployeeId())
-                .name(personToEdit.getName())
-                .jobPosition(personToEdit.getJobPosition())
-                .email(personToEdit.getEmail())
-                .phone(personToEdit.getPhone())
-                .tags(personToEdit.getTags())
-                .anniversaries(anniversaryList).build();
-
-        // update the model
-        model.setPerson(personToEdit, updatedPerson);
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-    }
-}
