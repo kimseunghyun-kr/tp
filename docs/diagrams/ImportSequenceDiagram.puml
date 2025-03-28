@@ -25,21 +25,27 @@ U -> IC: execute(Model model)
 activate IC
 
 
-activate ABC
+
 alt fileType == "json"
     IC -> ABC: importFromJson(path)
+    activate ABC
     ABC -> ABC: read Json content
+    ABC --> IC : JsonSerializableAddressBook
+    deactivate ABC
 else fileType == "csv"
     IC -> ABC: importFromCsv(path)
+    activate ABC
     ABC -> ABC: read CSV content
     ABC -> ABC: parse CSV into\nJsonSerializableAddressBook
     ABC -> JsonSerializableAddressBook : aggregatePersons
     activate JsonSerializableAddressBook
     return JsonSerializableAddressBook
+    ABC --> IC : JsonSerializableAddressBook
+    deactivate ABC
 end
 
-ABC --> IC : JsonSerializableAddressBook
-deactivate ABC
+
+
 
 
 
