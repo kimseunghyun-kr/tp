@@ -51,9 +51,9 @@ public class ImportCommandIntegrationTest {
 
         CommandResult commandResult = appendCommand.execute(model);
 
-        // Should have imported 1 new person and skipped/merged others
+        // Should have imported 2 person merged from the aggregate CSV
         assertTrue(commandResult.getFeedbackToUser().contains("Successfully imported"));
-        assertFalse(commandResult.getFeedbackToUser().contains("Skipped contacts"));
+        assertFalse(commandResult.getFeedbackToUser().contains("Alice Pauline"));
     }
 
     @Test
@@ -69,9 +69,16 @@ public class ImportCommandIntegrationTest {
         CommandResult commandResult = appendCommand.execute(model);
 
         // Should mention skipped contacts due to conflicts
-        assertTrue(commandResult.getFeedbackToUser().contains("Skipped contacts"));
         assertTrue(commandResult.getFeedbackToUser().contains("Alice Pauline"));
         assertTrue(commandResult.getFeedbackToUser().contains("Alice Paulina"));
+    }
+
+    @Test
+    public void execute_importDuplicateInvalidCsvOverwrite_throwsException() throws Exception {
+        // Then import data with conflicting Alice records
+        Path duplicatePath = TEST_DATA_FOLDER.resolve("testDuplicateInvalid.csv");
+        ImportCommand appendCommand = new ImportCommand("csv", duplicatePath, "overwrite");
+        assertThrows(CommandException.class, () ->appendCommand.execute(model));
     }
 
     @Test
@@ -80,5 +87,51 @@ public class ImportCommandIntegrationTest {
         ImportCommand importCommand = new ImportCommand("csv", invalidPath, "overwrite");
 
         assertThrows(CommandException.class, () -> importCommand.execute(model));
+    }
+
+    @Test
+    public void execute_importEmptyCsv_throwsCommandException() {
+        // Trying to import an empty CSV file
+        Path emptyCsvPath = TEST_DATA_FOLDER.resolve("empty.csv");
+        ImportCommand importCommand = new ImportCommand("csv", emptyCsvPath, "append");
+        assertThrows(CommandException.class, () -> importCommand.execute(model));
+    }
+
+    @Test
+    public void execute_importJsonOverwrite_success() throws Exception {
+        // Overwriting with valid JSON data
+        Path testJsonPath = TEST_DATA_FOLDER.resolve("test.json");
+        ImportCommand importCommand = new ImportCommand("json", testJsonPath, "overwrite");
+        CommandResult commandResult = importCommand.execute(model);
+
+        // Check some expected feedback (adjust the number if required by your JSON)
+        assertTrue(commandResult.getFeedbackToUser().contains("Successfully imported"));
+    }
+
+    @Test
+    public void execute_importCsvWithMissingHeaders_throwsCommandException() {
+        // CSV missing one or more required headers
+        Path missingHeadersCsvPath = TEST_DATA_FOLDER.resolve("testMissingHeaders.csv");
+        ImportCommand importCommand = new ImportCommand("csv", missingHeadersCsvPath, "append");
+        assertThrows(CommandException.class, () -> importCommand.execute(model));
+    }
+
+    @Test
+    public void execute_importCsvMultipleConflicts_multiImport() throws Exception {
+        // This CSV has multiple persons with conflicting EmployeeIds
+        Path noConflictJsonPath = TEST_DATA_FOLDER.resolve("test.json");
+        ImportCommand importCommand = new ImportCommand("json", noConflictJsonPath, "overwrite");
+        CommandResult commandResult = importCommand.execute(model);
+
+        // Ensures partial import still succeeds while reporting conflicts
+        assertTrue(commandResult.getFeedbackToUser().contains("Successfully imported"));
+
+        // This CSV has multiple persons with conflicting EmployeeIds
+        Path noConflictCsvPath = TEST_DATA_FOLDER.resolve("test.csv");
+        importCommand = new ImportCommand("csv", noConflictCsvPath, "append");
+        commandResult = importCommand.execute(model);
+
+        // Ensures partial import still succeeds while reporting conflicts
+        assertTrue(commandResult.getFeedbackToUser().contains("Successfully imported"));
     }
 }

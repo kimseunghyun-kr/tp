@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
+
 /**
  * A key for a person that is used to determine if two persons are equal.
  * @param name the name of the person
@@ -35,6 +38,23 @@ public record PersonKey(
                 person.getEmployeeId(),
                 person.getTags().stream()
                         .map(JsonAdaptedTag::getTagName).collect(Collectors.toList())
+        );
+    }
+
+    /**
+     * Creates a PersonKey from a Person.
+     * @param person the Person to create the PersonKey from
+     * @return the PersonKey created from the Person
+     */
+    public static PersonKey from(Person person) {
+        return new PersonKey(
+                person.getName().toString(),
+                person.getPhone().toString(),
+                person.getEmail().toString(),
+                person.getJobPosition().toString(),
+                person.getEmployeeId().toString(),
+                person.getTags().stream()
+                        .map(Tag::getTagName).collect(Collectors.toList())
         );
     }
 
