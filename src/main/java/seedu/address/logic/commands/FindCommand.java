@@ -28,7 +28,7 @@ public class FindCommand extends Command {
                     + "then only employees with both matching name and job position will be listed.\n"
                     + "Parameters for Name search: " + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]...\n"
                     + "Parameters for Position search: " + PREFIX_JOBPOSITION + "KEYWORD [MORE_KEYWORDS]...\n"
-                    + "Parameters for Combined search: " +  PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]... "
+                    + "Parameters for Combined search: " + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]... "
                     + PREFIX_JOBPOSITION + "KEYWORD [MORE_KEYWORDS]...\n"
                     + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " alice bob charlie";
 

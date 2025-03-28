@@ -4,14 +4,11 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOBPOSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
-import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.JobPositionContainsKeywordsPredicate;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 
 /**
@@ -35,26 +32,9 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        boolean hasName = argMultimap.getValue(PREFIX_NAME).isPresent();
-        boolean hasJob = argMultimap.getValue(PREFIX_JOBPOSITION).isPresent();
+        Predicate<Person> predicate = PersonSearchPredicateBuilder.buildPredicate(argMultimap);
 
-        Predicate<Person> combinedPredicate = person -> true;
-
-        if (hasName) {
-            String name = argMultimap.getValue(PREFIX_NAME).get().trim();
-            String[] nameKeywords = name.split("\\s+");
-            Predicate<Person> namePredicate = new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords));
-            combinedPredicate = combinedPredicate.and(namePredicate);
-        }
-
-        if (hasJob) {
-            String job = argMultimap.getValue(PREFIX_JOBPOSITION).get().trim();
-            String[] jobKeywords = job.split("\\s+");
-            Predicate<Person> jpPredicate = new JobPositionContainsKeywordsPredicate(Arrays.asList(jobKeywords));
-            combinedPredicate = combinedPredicate.and(jpPredicate);
-        }
-
-        return new FindCommand(combinedPredicate);
+        return new FindCommand(predicate);
     }
 
     /**
