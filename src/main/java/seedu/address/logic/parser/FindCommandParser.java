@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_EMPTY_FIELD_WITH_PREFIX;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOBPOSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
@@ -25,11 +26,17 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_JOBPOSITION);
 
-        // Handles if the user inputs an empty string or has no prefix or prefix is empty
+        // Handles if the user inputs an empty string or has no prefix
         if (!areAnyPrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_JOBPOSITION)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+        }
+
+        // Handles if the user inputs a blank string for both name and job position
+        if (argMultimap.getValue(PREFIX_NAME).map(String::isBlank).orElse(true)
+                && argMultimap.getValue(PREFIX_JOBPOSITION).map(String::isBlank).orElse(true)) {
+            throw new ParseException(MESSAGE_EMPTY_FIELD_WITH_PREFIX);
         }
 
         Predicate<Person> predicate = PersonSearchPredicateBuilder.buildPredicate(argMultimap);
