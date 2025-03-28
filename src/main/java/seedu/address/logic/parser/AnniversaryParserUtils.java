@@ -66,9 +66,6 @@ public class AnniversaryParserUtils {
      */
     public static List<Anniversary> multiAddAnniversary(ArgumentMultimap argMultimap) throws ParseException {
         List<Anniversary> anniversaries = new ArrayList<>();
-        if (arePresent(argMultimap, PREFIX_ANNIVERSARY_NAME, PREFIX_ANNIVERSARY_TYPE)) {
-            anniversaries.add(parseAnniversary(argMultimap));
-        }
         if (arePresent(argMultimap, PREFIX_BIRTHDAY, PREFIX_NAME)) {
             anniversaries.add(parseBirthday(argMultimap));
         }
@@ -104,7 +101,7 @@ public class AnniversaryParserUtils {
     private static Anniversary parseBirthday(ArgumentMultimap argMultimap) throws ParseException {
         Name personName = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String date = argMultimap.getValue(PREFIX_BIRTHDAY).get();
-        return ParserUtil.parseAnniversaryWithName(personName, date, PREFIX_BIRTHDAY, null);
+        return ParserUtil.parseAnniversaryWithName(personName, date, PREFIX_BIRTHDAY);
     }
 
     /**
@@ -117,7 +114,7 @@ public class AnniversaryParserUtils {
     private static Anniversary parseWorkAnniversary(ArgumentMultimap argMultimap) throws ParseException {
         Name personName = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String date = argMultimap.getValue(PREFIX_WORK_ANNIVERSARY).get();
-        return ParserUtil.parseAnniversaryWithName(personName, date, PREFIX_WORK_ANNIVERSARY, null);
+        return ParserUtil.parseAnniversaryWithName(personName, date, PREFIX_WORK_ANNIVERSARY);
     }
 
     /**
@@ -133,7 +130,6 @@ public class AnniversaryParserUtils {
 
     /**
      * Creates a standard error message related to anniversary fields.
-     *
      * @return A formatted error message.
      */
     private static String errorMsg() {

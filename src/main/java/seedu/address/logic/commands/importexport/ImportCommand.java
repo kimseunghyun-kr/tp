@@ -38,6 +38,7 @@ public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
     public static final String MESSAGE_USAGE = "import "
             + PREFIX_FILETYPE + "<json/csv> "
+            + PREFIX_FILEPATH + "<fileName> "
             + PREFIX_FILEPATH + "<path> "
             + PREFIX_WRITE_MODE + "<append/overwrite>";
     public static final String MESSAGE_SUCCESS_OVERWRITE = "Successfully imported %d contacts,"

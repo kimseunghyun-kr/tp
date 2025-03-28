@@ -170,7 +170,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
      *
-     * @param name the name of the anniversary
+     * @param name the name of the anniversary for custom anniversaries
      * @param description the description of the anniversary
      * @param dateStr the date of the anniversary
      * @param type the type of the anniversary
@@ -198,13 +198,13 @@ public class ParserUtil {
     /**
      * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
      *
-     * @param name the name of the person
+     * @param name the name of the person attributed to prebuilt-anniversaries
      * @param dateStr the date of the anniversary
      * @param type the prefix of the anniversary
      * @throws ParseException if the given {@code dateStr} is invalid.
      */
     public static Anniversary parseAnniversaryWithName(Name name, String dateStr,
-                                                       Prefix type, String typeDescription) throws ParseException {
+                                                       Prefix type) throws ParseException {
         String trimmedAnniversaryDate = dateStr.trim();
         LocalDate date;
         try {

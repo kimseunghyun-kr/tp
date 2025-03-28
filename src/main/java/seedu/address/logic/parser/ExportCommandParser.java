@@ -14,7 +14,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses input arguments and creates a new ExportCommand object
  */
 public class ExportCommandParser implements Parser<ExportCommand> {
-    private static final String BLANK = "";
+
     /**
      * Parses the given {@code String} of arguments in the context of the ExportCommand
      * and returns a ExportCommand object for execution.
@@ -29,7 +29,7 @@ public class ExportCommandParser implements Parser<ExportCommand> {
         );
 
         String trimmedArgs = args.trim();
-        verifyFileTypePresentAndValid(argMultimap, BLANK);
+        verifyFileTypePresentAndValid(argMultimap, ExportCommand.MESSAGE_USAGE);
         String filePath = argMultimap.getValue(PREFIX_FILEPATH).orElse(null);
         String filename = argMultimap.getValue(PREFIX_FILENAME).orElse(null);
         String fileType = argMultimap.getValue(PREFIX_FILETYPE).get();

@@ -2,11 +2,6 @@ package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.AnniversaryParserUtils.multiAddAnniversary;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DESC;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE_DESC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
@@ -46,9 +41,7 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
     public AddPersonCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_EMPLOYEEID, PREFIX_NAME, PREFIX_PHONE,
-                        PREFIX_EMAIL, PREFIX_JOBPOSITION, PREFIX_TAG, PREFIX_BIRTHDAY, PREFIX_WORK_ANNIVERSARY,
-                        PREFIX_ANNIVERSARY_NAME, PREFIX_ANNIVERSARY_DATE, PREFIX_ANNIVERSARY_DESC,
-                        PREFIX_ANNIVERSARY_TYPE, PREFIX_ANNIVERSARY_TYPE_DESC);
+                        PREFIX_EMAIL, PREFIX_JOBPOSITION, PREFIX_TAG, PREFIX_BIRTHDAY, PREFIX_WORK_ANNIVERSARY);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_JOBPOSITION, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {

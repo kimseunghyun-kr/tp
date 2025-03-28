@@ -30,7 +30,7 @@ public class ImportCommandParser implements Parser<ImportCommand> {
                 PREFIX_FILENAME,
                 PREFIX_WRITE_MODE
         );
-        verifyFileTypePresentAndValid(argMultimap, BLANK);
+        verifyFileTypePresentAndValid(argMultimap, ImportCommand.MESSAGE_USAGE);
         String filePath = argMultimap.getValue(PREFIX_FILEPATH).orElse(null);
         String filename = argMultimap.getValue(PREFIX_FILENAME).orElse(null);
         String fileType = argMultimap.getValue(PREFIX_FILETYPE).get();
