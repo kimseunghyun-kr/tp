@@ -78,6 +78,7 @@ Adds a person to the address book.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… bd/DATE wa/DATE​`
 
+Date format: `YYYY-MM-DD`
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 A person can have any number of tags (including 0)
 </div>
@@ -85,13 +86,11 @@ A person can have any number of tags (including 0)
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 bd/ stands for birthday and wa/ stands for work anniversary.
 
-Both are compulsory.
+Both are optional.
 
 Both of which are standard anniversaries that the app will make for you
 with just the date!
 Other anniversaries can be added as well with `Add Anniversary` command below.
-
-Date format: `YYYY-MM-DD`
 </div>
 
 Examples:
@@ -125,22 +124,47 @@ Examples:
 
 ### Locating persons by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds employees whose names or/and job positions contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can use this format in 3 ways!
+</div>
+
+Format 1 (Searching for name): `find n/KEYWORD [MORE_KEYWORDS]`
+
+Format 2 (Searching for job positions): `find jp/KEYWORD [MORE_KEYWORDS]`
+
+Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYWORDS] jp/KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* [For **Job Positions**] Only full words will be matched e.g. `Mana` will not match `Manager`
+* [For **Name**] Partial words can be matched e.g. `Han` will match `Hans`
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the find command:**<br>
+
+* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match — it's an OR search.
+
+  * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` or `Bo Yang`.
+
+* When you use multiple fields together, the command finds people who match all of them — it becomes an AND search.
+
+  * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
+
+* In the case of multiple fields and keywords, you will only see a person on the list if they match at least one keyword from each field.
+
+  * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
+</div>
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+* `find n/li` returns `David Li` and `Real Li`
+* `find n/david Li` returns `David Li` and `Real Li`
+* `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
 
+![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
 ### Deleting a person: `delete`
 
 Deletes the specified person from the address book.

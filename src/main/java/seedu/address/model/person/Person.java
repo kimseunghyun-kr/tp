@@ -75,6 +75,8 @@ public class Person {
 
     /**
      * Returns true if both persons have the same user details.
+     * this excludes the employee id and anniversaryList.
+     * This defines a weaker notion of equality between two persons.
      */
     public boolean hasSameDetails(Person otherPerson) {
         return name.equals(otherPerson.name)

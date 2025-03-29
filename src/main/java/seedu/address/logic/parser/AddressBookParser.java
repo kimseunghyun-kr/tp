@@ -22,6 +22,8 @@ import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.anniversary.AddAnniversaryCommand;
 import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
 import seedu.address.logic.commands.anniversary.ShowAnniversaryCommand;
+import seedu.address.logic.commands.importexport.ExportCommand;
+import seedu.address.logic.commands.importexport.ImportCommand;
 import seedu.address.logic.parser.anniversary.AddAnniversaryCommandParser;
 import seedu.address.logic.parser.anniversary.DeleteAnniversaryCommandParser;
 import seedu.address.logic.parser.anniversary.ShowAnniversaryCommandParser;
@@ -100,6 +102,12 @@ public class AddressBookParser {
         case ReminderCommand.COMMAND_WORD:
             return new ReminderCommandParser().parse(arguments);
 
+        case ExportCommand.COMMAND_WORD:
+            return new ExportCommandParser().parse(arguments);
+
+        case ImportCommand.COMMAND_WORD:
+            return new ImportCommandParser().parse(arguments);
+            
         default:
             logger.finer("This user input caused a ParseException: " + userInput);
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
