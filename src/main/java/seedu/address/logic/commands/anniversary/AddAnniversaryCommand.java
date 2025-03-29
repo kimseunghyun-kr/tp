@@ -31,7 +31,7 @@ import seedu.address.model.person.Person;
 @Getter
 public class AddAnniversaryCommand extends Command {
 
-    public static final String COMMAND_WORD = "anniversary";
+    public static final String COMMAND_WORD = "addAnni";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an anniversary to the person identified by "
             + "a prefix of their Employee ID.\n"
