@@ -21,16 +21,18 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
     - [Add anniversaries: `addAnni`](#add-anniversaries-addanniversarycommand)
     - [Show anniversaries: `showAnni`](#show-anniversaries-showanni)
     - [DeleteAnniversaryCommand `deleteAnni`](#delete-anniversaries-deleteanni)
-4. [Clearing all entries: `clear`](#clearing-all-entries-clear)
-5. [Exiting the program: `exit`](#exiting-the-program-exit)
-6. [Saving the data](#saving-the-data)
-7. [Editing the data file](#editing-the-data-file)
-8. [ImportCommand `import`](#importcommand-import)
-9. [ExportCommand `export`](#exportcommand-export)
-10. [FAQ](#faq)
-11. [Known issues](#known-issues)
-12. [Command summary](#command-summary)
-
+4. [Reminder](#reminder)
+    - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-reminder-bd)
+    - [Viewing upcoming work anniversaries: `reminder wa`](#viewing-upcoming-work-anniversaries-reminder-wa)
+5. [Clearing all entries: `clear`](#clearing-all-entries-clear)
+6. [Exiting the program: `exit`](#exiting-the-program-exit)
+7. [Saving the data](#saving-the-data)
+8. [Editing the data file](#editing-the-data-file)
+9. [ImportCommand `import`](#importcommand-import)
+10. [ExportCommand `export`](#exportcommand-export)
+11. [FAQ](#faq)
+12. [Known issues](#known-issues)
+13. [Command summary](#command-summary)
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
@@ -361,6 +363,63 @@ deleteAnniversary eid/0c2414da ad/1
 - **Disambiguate Employee IDs**  
   If you suspect multiple employees share a prefix, provide a longer portion of the ID.
 </details>
+
+---
+## Reminder
+
+H'Reers includes a smart **Reminder** feature that helps HRs stay on top of upcoming birthdays and work anniversaries. It provides a focused view of employees with these events occurring within the next 3 days. When the command is used, new panels appear beside the main list, displaying the filtered employees.
+
+### Viewing upcoming birthdays: `reminder bd`
+
+Filters and displays a list of employees whose birthdays are occurring within the next 3 days.
+
+**Format:**
+`reminder bd'
+
+**What happens:**
+- A panel will show up on the right side of the UI under “🎂 Birthday”.
+- Each reminder card will show:
+    - The employee’s **name**
+    - **Job position**
+    - **Birthday date**
+    - **Days remaining** until the birthday
+
+> 💡 The command only affects display; no data is modified.
+
+---
+
+### Viewing upcoming work anniversaries: `reminder wa`
+
+Filters and displays a list of employees whose work anniversaries are occurring within the next 3 days.
+
+**Format:**
+'reminder wa'
+
+**What happens:**
+- A panel will show up next to the birthday panel under “🎉 Work Anniversary”.
+- Each reminder card will include:
+    - The employee’s **name**
+    - **Job position**
+    - **Work anniversary date**
+    - **Days remaining** until the anniversary
+
+---
+
+### How it works
+
+- The command triggers a refresh of a filtered list.
+- A birthday or anniversary is considered “upcoming” if it falls within the next 3 days (inclusive).
+- Even if the actual date has passed this year, the system rolls the reminder forward to the next year for comparison.
+
+---
+
+### Visual Reference
+
+Below is an example of how the reminders appear on the UI:
+
+![reminderListUI.png](images/reminderListUI.png)
+
+Each panel updates when you enter `reminder bd` or `reminder wa`.
 
 ---
 ### Clearing all entries: `clear`
