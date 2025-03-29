@@ -32,7 +32,7 @@ public class AddPersonCommand extends Command {
             + "[" + PREFIX_TAG + "TAG]..."
             + PREFIX_BIRTHDAY + "BIRTHDAY"
             + PREFIX_WORK_ANNIVERSARY + "WORK_ANNIVERSARY "
-            + PREFIX_EMPLOYEEID + "EMPLOYEEID(optional)\n"
+            + PREFIX_EMPLOYEEID + "[EMPLOYEEID]\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
