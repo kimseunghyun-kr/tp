@@ -126,12 +126,12 @@ public class Person {
     /**
      * Returns the next upcoming date for the given anniversary type.
      *
-     * @param anniversaryClass The class representing the anniversary type (e.g., Birthday.class).
+     * @param anniversaryTypeName The class representing the anniversary type (e.g., Birthday.class).
      * @return The next upcoming date, or {@code null} if no matching anniversary is found.
      */
-    private LocalDate getNextUpcomingDateByType(Class<? extends AnniversaryType> anniversaryClass) {
+    private LocalDate getNextUpcomingDateByType(String anniversaryTypeName) {
         return anniversaries.stream()
-                .filter(a -> anniversaryClass.isInstance(a.getType()))
+                .filter(a -> a.getType().getName().equalsIgnoreCase(anniversaryTypeName))
                 .map(Anniversary::getDate)
                 .filter(Objects::nonNull)
                 .map(this::calculateNextUpcomingDate)
@@ -145,7 +145,7 @@ public class Person {
      * @return The upcoming birthday as a {@code LocalDate}, or {@code null} if none found.
      */
     public LocalDate getNextUpcomingBirthdayDate() {
-        return getNextUpcomingDateByType(Birthday.class);
+        return getNextUpcomingDateByType("Birthday");
     }
 
     /**
@@ -154,7 +154,7 @@ public class Person {
      * @return The upcoming work anniversary as a {@code LocalDate}, or {@code null} if none found.
      */
     public LocalDate getNextUpcomingWorkAnniversaryDate() {
-        return getNextUpcomingDateByType(WorkAnniversary.class);
+        return getNextUpcomingDateByType("Work Anniversary");
     }
 
     public String getEmployeeIdAsString() {
@@ -170,48 +170,13 @@ public class Person {
      * @return {@code true} if the next upcoming date is within the specified number of days,
      *         {@code false} otherwise or if no upcoming date is available.
      */
-    public boolean isUpcomingWithinDays(int days) {
-        LocalDate nextDate = getNextUpcomingDate();
+    public boolean isUpcomingWithinDays(String anniversaryTypeName, int days) {
+        LocalDate nextDate = getNextUpcomingDateByType(anniversaryTypeName);
         if (nextDate == null) {
             return false;
         }
         LocalDate today = LocalDate.now();
         return !nextDate.isBefore(today) && !nextDate.isAfter(today.plusDays(days));
-    }
-
-    /**
-     * Checks if the person's next birthday is within the specified number of days from today.
-     *
-     * @param days The number of days to check.
-     * @return True if the birthday is within the range, false otherwise.
-     */
-    public boolean isBirthdayUpcomingWithinDays(int days) {
-        LocalDate upcoming = getNextUpcomingBirthdayDate();
-        return isWithinDays(upcoming, days);
-    }
-
-    /**
-     * Checks if the person's next work anniversary is within the specified number of days from today.
-     *
-     * @param days The number of days to check.
-     * @return True if the work anniversary is within the range, false otherwise.
-     */
-    public boolean isWorkAnniversaryUpcomingWithinDays(int days) {
-        LocalDate upcoming = getNextUpcomingWorkAnniversaryDate();
-        return isWithinDays(upcoming, days);
-    }
-
-    /**
-     * Utility method to check if a given date is within the next N days from today.
-     *
-     * @param date The date to check.
-     * @param days The number of days to consider.
-     * @return True if date is not null and within the range, false otherwise.
-     */
-    private boolean isWithinDays(LocalDate date, int days) {
-        if (date == null) return false;
-        LocalDate today = LocalDate.now();
-        return !date.isBefore(today) && !date.isAfter(today.plusDays(days));
     }
 
     /**

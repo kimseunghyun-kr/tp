@@ -112,6 +112,10 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+    ObservableList<Person> getBirthdayReminderList();
+
+    ObservableList<Person> getWorkAnniversaryReminderList();
+
     void commitChanges();
 
     /**

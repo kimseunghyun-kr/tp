@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -50,7 +51,7 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(person -> true);
 
         this.birthdayReminderList = new FilteredList<>(this.addressBook.getPersonList());
-        this.birthdayReminderList.setPredicate(person ->false);
+        this.birthdayReminderList.setPredicate(person -> false);
 
         this.workAnniversaryReminderList = new FilteredList<>(this.addressBook.getPersonList());
         this.workAnniversaryReminderList.setPredicate(person -> false);
@@ -110,12 +111,22 @@ public class ModelManager implements Model {
 
     @Override
     public void updateBirthdayReminderList() {
-        birthdayReminderList.setPredicate(person -> person.isBirthdayUpcomingWithinDays(3));
+        birthdayReminderList.setPredicate(person -> {
+            boolean isUpcoming = person.isUpcomingWithinDays("Birthday", 3);
+            System.out.println(person.getName() + ": " + isUpcoming);
+            return isUpcoming;
+        });
+        System.out.println("Filtered birthday list: " + birthdayReminderList.size());
     }
 
     @Override
     public void updateWorkAnniversaryReminderList() {
-        workAnniversaryReminderList.setPredicate(person -> person.isWorkAnniversaryUpcomingWithinDays(3));
+        workAnniversaryReminderList.setPredicate(person -> {
+            boolean isUpcoming = person.isUpcomingWithinDays("Work Anniversary", 3);
+            System.out.println(person.getName() + ": " + isUpcoming);
+            return isUpcoming;
+        });
+        System.out.println("Filtered wa list: " + workAnniversaryReminderList.size());
     }
 
     @Override
@@ -182,6 +193,16 @@ public class ModelManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public ObservableList<Person> getBirthdayReminderList() {
+        return birthdayReminderList;
+    }
+
+    @Override
+    public ObservableList<Person> getWorkAnniversaryReminderList() {
+        return workAnniversaryReminderList;
     }
 
     @Override
