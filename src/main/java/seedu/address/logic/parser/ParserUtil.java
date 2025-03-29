@@ -214,11 +214,11 @@ public class ParserUtil {
         }
         if (type.equals(PREFIX_BIRTHDAY)) {
             String birthdayAppend = "Birthday";
-            return new Anniversary(date, new WorkAnniversary(), name + "'s " + birthdayAppend, birthdayAppend);
+            return new Anniversary(date, new Birthday(), name + "'s " + birthdayAppend, birthdayAppend);
         }
         if (type.equals(PREFIX_WORK_ANNIVERSARY)) {
             String workAnniversaryAppend = "work anniversary";
-            return new Anniversary(date, new Birthday(), name + "'s "
+            return new Anniversary(date, new WorkAnniversary(), name + "'s "
                     + workAnniversaryAppend, workAnniversaryAppend);
         }
         throw new ParseException("Invalid anniversary type");
