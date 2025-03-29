@@ -1,13 +1,13 @@
 package seedu.address.ui;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.Person;
-
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 /**
  * A lightweight UI component that displays a birthday or work anniversary reminder for a {@code Person}.

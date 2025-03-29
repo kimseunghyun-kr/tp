@@ -69,12 +69,6 @@ public class PersonCard extends UiPart<Region> {
         person.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
-
-//        if (person.isUpcomingWithinDays(3)) {
-//            cardPane.setStyle("-fx-background-color: rgb(85, 147, 255, 0.5);");
-//        } else {
-//            cardPane.setStyle(""); // Reset to default if not within 3 days
-//        }
     }
 
     @FXML

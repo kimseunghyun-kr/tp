@@ -13,9 +13,6 @@ import lombok.Builder;
 import lombok.Data;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.anniversary.Anniversary;
-import seedu.address.model.anniversary.AnniversaryType;
-import seedu.address.model.anniversary.Birthday;
-import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.tag.Tag;
 
 

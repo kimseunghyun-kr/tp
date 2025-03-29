@@ -185,17 +185,6 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
-    public void showBirthdayReminderPanel() {
-        System.out.println("DDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-        birthdayReminderListPanel = new ReminderListPanel(logic.getBirthdayReminderList(), true);
-        birthdayReminderPanelPlaceholder.getChildren().setAll(birthdayReminderListPanel.getRoot());
-    }
-
-    public void showWorkAnniversaryReminderPanel() {
-        workAnniversaryReminderListPanel = new ReminderListPanel(logic.getWorkAnniversaryReminderList(), false);
-        workAnniversaryReminderPanelPlaceholder.getChildren().add(workAnniversaryReminderListPanel.getRoot());
-    }
-
     /**
      * Sets the default size based on {@code guiSettings}.
      */
