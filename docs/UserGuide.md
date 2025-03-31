@@ -204,15 +204,16 @@ Examples:
 
 # Anniversary Commands
 
-# **Add Anniversaries `AddAnniversaryCommand`**
+# **Add Anniversaries `addAnni`**
 
-The `AddAnniversaryCommand` adds a new anniversary to an existing employee record in the address book.
+The `addAnni` adds a new anniversary to an existing employee record in the address book.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
 ## **Command Format**
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
+
 | **Prefix** | **Meaning**                           | **Required?** | **Example Value**                   |
 |------------|---------------------------------------|---------------|-------------------------------------|
 | `e/`       | A partial prefix of the Employee ID   | Required      | `0c2414da`                          |
