@@ -18,7 +18,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
     - [Locating persons by name: `find`](#locating-persons-by-name-find)
     - [Deleting a person: `delete`](#deleting-a-person-delete)
 3. [Anniversary Commands](#anniversary-commands)
-    - [Add anniversaries: `addAnni`](#add-anniversaries-addanniversarycommand)
+    - [Add anniversaries: `addAnni`](#add-anniversaries-addanni)
     - [Show anniversaries: `showAnni`](#show-anniversaries-showanni)
     - [DeleteAnniversaryCommand `deleteAnni`](#delete-anniversaries-deleteanni)
 4. [Clearing all entries: `clear`](#clearing-all-entries-clear)
@@ -204,9 +204,8 @@ Examples:
 
 # Anniversary Commands
 
-# **Add Anniversaries `addAnni`**
-
-The `addAnni` adds a new anniversary to an existing employee record in the address book.
+# **Add Anniversaries:**  `addAnni`
+You can use `addAnni` to add an anniversary to an employee's record in the address book.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
 ## **Command Format**
@@ -304,8 +303,8 @@ Examples:
 * showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
 
 ---
-## Delete Anniversaries: `deleteAnni`
-Use this command to remove a specific anniversary from an existing employee’s record, based on the anniversary's
+## **Delete Anniversaries:** `deleteAnni`
+You can use `deleteAnni` to remove a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
 If successful, the chosen anniversary will no longer appear in that employee’s list of anniversaries.
 
@@ -394,7 +393,8 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 
 ---
 ## **ImportCommand** `import`
-Use the `import` command to bring external data (in CSV or JSON) into your current address book. Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
+You can use `import` to bring external data (in CSV or JSON) into your current address book. 
+Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 
 ## **Command Format**
 ```plaintext
@@ -461,7 +461,10 @@ import ft/json fp/data/ fn/contacts wm/append
 
 ---
 ## **ExportCommand** `export`
-Use the `export` command to save the currently visible list of people in the address book to a file (JSON or CSV). If you provide a specific directory path (`fp/`), the system will export the file there. If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type.
+You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
+If you provide a specific directory path (`fp/`), the system will export the file there. 
+If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
+This means that you do **not** need to include the extension behind the file name.
 
 ## **Command Format**
 ```plaintext
