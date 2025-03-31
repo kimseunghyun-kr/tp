@@ -213,6 +213,7 @@ This command can create custom Anniversaries that were otherwise not supported w
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
+
 | **Prefix** | **Meaning**                           | **Required?** | **Example Value**                   |
 |------------|---------------------------------------|---------------|-------------------------------------|
 | `e/`       | A partial prefix of the Employee ID   | Required      | `0c2414da`                          |

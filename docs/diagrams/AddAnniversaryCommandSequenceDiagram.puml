@@ -1,10 +1,10 @@
 @startuml
 actor User as U
-participant AddAnniversaryCommandParser as AACP
-participant ParserUtils as PU
-participant AnniversaryParserUtils as APU
-participant AddAnniversaryCommand as AAC
-participant Model as M
+participant ":AddAnniversaryCommandParser" as AACP
+participant ":ParserUtils" as PU
+participant ":AnniversaryParserUtils" as APU
+participant ":AddAnniversaryCommand" as AAC
+participant ":Model" as M
 
 
 U -> AACP: parse(String args)
