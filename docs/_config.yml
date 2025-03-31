@@ -6,7 +6,7 @@ header_pages:
   - DeveloperGuide.md
   - AboutUs.md
 
-markdown: kramdown
+markdown: GFM
 
 repository: "AY2425S2-CS2103T-F12-4/tp"
 github_icon: "images/github-icon.png"
