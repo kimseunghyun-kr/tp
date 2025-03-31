@@ -204,9 +204,9 @@ Examples:
 
 # Anniversary Commands
 
-# **Add Anniversaries `AddAnniversaryCommand`**
+# **Add Anniversaries `addAnni`**
 
-The `AddAnniversaryCommand` adds a new anniversary to an existing employee record in the address book.
+The `addAnni` adds a new anniversary to an existing employee record in the address book.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
 ## **Command Format**
