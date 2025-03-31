@@ -374,7 +374,7 @@ H'Reers includes a smart **Reminder** feature that helps HRs stay on top of upco
 Filters and displays a list of employees whose birthdays are occurring within the next 3 days.
 
 **Format:**
-`reminder bd'
+`reminder bd`
 
 **What happens:**
 - A panel will show up on the right side of the UI under “🎂 Birthday”.
@@ -393,7 +393,7 @@ Filters and displays a list of employees whose birthdays are occurring within th
 Filters and displays a list of employees whose work anniversaries are occurring within the next 3 days.
 
 **Format:**
-'reminder wa'
+`reminder wa`
 
 **What happens:**
 - A panel will show up next to the birthday panel under “🎉 Work Anniversary”.
@@ -404,16 +404,6 @@ Filters and displays a list of employees whose work anniversaries are occurring 
     - **Days remaining** until the anniversary
 
 ---
-
-### How it works
-
-- The command triggers a refresh of a filtered list.
-- A birthday or anniversary is considered “upcoming” if it falls within the next 3 days (inclusive).
-- Even if the actual date has passed this year, the system rolls the reminder forward to the next year for comparison.
-
----
-
-### Visual Reference
 
 Below is an example of how the reminders appear on the UI:
 
