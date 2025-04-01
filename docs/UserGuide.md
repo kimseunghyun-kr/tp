@@ -18,7 +18,7 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 
 1. [Quick Start](#quick-start)
 2. [Features](#features)
-2. [Basic Commands](#Basic Commands)
+2. [Basic Commands](#basic-commands)
     - [Viewing help: `help`](#viewing-help-help)
     - [Adding an employee: `add`](#adding-an-employee-add)
     - [Listing all employees: `list`](#listing-all-employees-list)
