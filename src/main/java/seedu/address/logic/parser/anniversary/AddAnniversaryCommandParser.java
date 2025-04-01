@@ -44,7 +44,7 @@ public class AddAnniversaryCommandParser implements Parser<AddAnniversaryCommand
         // parse required fields
         EmployeeId employeeIdPrefix = ParserUtil.parseEmployeeIdPrefix(argMultimap.getValue(PREFIX_EMPLOYEEID).get());
         try {
-            Anniversary anniversary = AnniversaryParserUtils.parseAnniversary(argMultimap);
+            Anniversary anniversary = AnniversaryParserUtils.resolveAnniversaryInput(argMultimap);
             return new AddAnniversaryCommand(employeeIdPrefix, anniversary);
         } catch (ParseException pe) {
             throw pe;
