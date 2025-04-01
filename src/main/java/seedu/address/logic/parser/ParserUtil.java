@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -25,7 +26,11 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = "Employee id prefix not specified!";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_FORMAT = "Employee id can't start contain spaces!";
-
+    private static final int MAX_ALLOWED_LENGTH = 1000; // Maximum allowed length for input strings
+    private static final Pattern DANGEROUS_INPUT_PATTERN = Pattern.compile(
+            "(?i)\\b(drop|delete|insert|update|truncate|exec|script)\\b|<[^>]+>"
+    );
+    private static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile("[\\p{Cntrl}&&[^\r\n\t]]");
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -165,4 +170,29 @@ public class ParserUtil {
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
+    /**
+     * Validates that the input string does not contain any dangerous content or control characters.
+     * @param input the input string to validate
+     * @param fieldName the name of the field for error messages
+     * @throws ParseException if the input string is invalid
+     */
+    public static void validateSafeContent(String input, String fieldName, boolean isNullPossible)
+            throws ParseException {
+        if (!isNullPossible && (input == null || input.trim().isEmpty())) {
+            throw new ParseException("The " + fieldName + " cannot be empty.");
+        }
+
+        if (input.length() > MAX_ALLOWED_LENGTH) {
+            throw new ParseException("The " + fieldName + " is too long (max " + MAX_ALLOWED_LENGTH + " characters).");
+        }
+
+        if (DANGEROUS_INPUT_PATTERN.matcher(input).find()) {
+            throw new ParseException("The " + fieldName + " contains potentially dangerous content.");
+        }
+
+        if (CONTROL_CHAR_PATTERN.matcher(input).find()) {
+            throw new ParseException("The " + fieldName + " contains invalid control characters.");
+        }
+    }
+
 }
