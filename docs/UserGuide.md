@@ -9,16 +9,22 @@ For HR professionals, keeping track of all this information manually can become 
 
 With features like [adding](#adding-an-employee-add), [editing](#editing-an-employee-edit), and [deleting](#deleting-an-employee-delete) employee records and [adding birthdays and anniversaries](#anniversary-commands),
 H'Reers helps you to stay organized, accurate, and on top of important milestones.
-The [Reminder](#reminder-commands) system provides a focused view of your employees with these events occurring within the next 3 days.
+The [Reminder](#reminder-commands) system provides a focused view of your employees with upcoming events occurring within the next 3 days.
 When the [command](#viewing-upcoming-birthdays-reminder-bd) is used, new panels appear beside the main list, displaying the filtered employees.
 
 By centralizing these tasks in one tool, H'Reers makes employee management more efficient and less error-prone, saving you time and improving overall workflow.
 
-## Table of Contents
+Whether you need to track employee milestones, update records, or generate quick reports, H'Reers gives you command-line precision with a simple, friendly interface to back it up.
+
+✅ Designed for fast-paced HR workflows.<br>
+🧠 CLI-first so power users get things done quickly.<br>
+🎯 Never miss an anniversary, birthday, or detail again.<br>
+
+## 📚 What You’ll Find in This Guide
 
 1. [Quick Start](#quick-start)
 2. [Features](#features)
-3. [Basic Commands](#basic-commands)
+3. [Core Commands](#core-commands)
     - [Viewing help: `help`](#viewing-help-codehelpcode)
     - [Adding an employee: `add`](#adding-an-employee-codeaddcode)
     - [Listing all employees: `list`](#listing-all-employees-codelistcode)
@@ -36,33 +42,54 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
+7. [Data Management](#data-management)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
-7. [Import and Export](#import-and-export)
     - [Importing data: `import`](#importing-data-codeimportcode)
     - [Exporting data: `export`](#exporting-data-codeexportcode)
-8. [FAQ](#faq)
+8. [FAQ & TroubleShooting](#faq)
 9. [Known issues](#known-issues)
-10. [Command summary](#command-summary)
+10. [All Commands at a Glance](#command-summary)
 11. [Glossary](#glossary)
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. ✅ Step 1: Make sure Java is installed
 
-2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17 or above installed on your computer.
 
-3. Copy the file to the folder you want to use as the _home folder_ for your H'Reers.
+    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions
+    👉 Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
+    🔍 Not sure if Java is already installed?
+    Open your terminal or command prompt and type:
+    ```bash
+    java -version
+    ```
+    If the version shows 17 or higher, you're good to go!
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar H'Reers.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+2. Step 2: Download H'Reers (MINSEOK GO ADD SCREENSHOT HERE)
+   1. go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
+   2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
+   3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
+
+3. Step 3: Start the Application (TERR TERR GO ADD SCREENSHOT HERE)
+   1. Open your command prompt (on Windows) or terminal (on Mac/Linux). 
+   2. Navigate to the folder where you saved the .jar file. For example:
+       ```bash
+        cd /path/to/your/folder
+       ```
+   3. Run this command:
+       ```bash
+       java -jar hreers.jar <MINSEOK HELP MODIFY THIS>
+       ```
+   4. H'Reers will open in a few seconds with a simple GUI, ready to use!
    ![Ui](images/MockUI.png)
 
-5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+4. Step 4: Try a Few Commands
+   H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
+   Here is our recommended list of commands to try - just type them in the command box and press Enter:
 
     * `list` : Lists all contacts.
 
@@ -74,26 +101,35 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 
     * `exit` : Exits the app.
 
-6. Refer to the [Features](#features) below for details of each command.
+5. Learn More
+- You can explore all available features and commands in the [Features](#features) below.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
+This section walks you through the essential commands for managing your employee records — from adding new hires to updating details or removing old entries.
+
+Whether you’re onboarding someone, searching through your team list, or making quick edits, these commands help you get it done fast — all from the command line.
+
+You’ll also find helpful notes below on how to format your commands, including optional fields, parameter order, and best practices.
+
+---
+
 <div markdown="block" class="alert alert-info">
 
-<br>**:information_source: Notes about the command format:**<br>
+<br>**:information_source: How to Read the Command Formats**<br>
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+* Words in `UPPER_CASE` are placeholders — you replace them with actual data.<br>
+  e.g. in `add n/NAME`, `NAME` -> `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
+* Items with `…`​ can appear multiple times or not at all.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
-* Parameters can be in any order.<br>
+* Parameter order doesn’t matter.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
@@ -103,7 +139,7 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 </div>
 
 ---
-## Basic Commands
+## Core Commands
 
 ---
 ### Viewing help: `help`
@@ -242,26 +278,49 @@ Examples:
 * `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
 
 ---
+# Anniversary Commands
+Great HR isn’t just about managing people — it’s about remembering what matters.
+
+This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
+With just a few commands, you can:
+
+- Add meaningful events tied to specific employees
+- View Anniversaries related to a specific employee
+- View all upcoming anniversaries (Minseok go add this)
+- Remove outdated or incorrect entries
+---
 ## Anniversary Commands
 
 ---
+
 ### Adding Anniversaries: `addAnni`
-You can use `addAnni` to add an anniversary to an employee's record in the address book.
+You can use `addAnni` to add an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
 #### Command Format
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
+short form support for Birthdays
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
+```
+short form support for Work Anniversaries
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
+```
 
-| **Prefix** | **Meaning**                           | **Required?** | **Example Value**                   |
-|------------|---------------------------------------|---------------|-------------------------------------|
-| `e/`       | A partial prefix of the Employee ID   | Required      | `0c2414da`                          |
-| `d/`       | The date of the anniversary           | Required      | `2025-03-13`                        |
-| `n/`       | A short name for the anniversary      | Required      | `Silver Wedding`                    |
-| `t/`       | The main category/type of the event   | Required      | `Wedding`                           |
-| `desc/`    | A text description of the anniversary | Optional      | `Celebrating 25 years`             |
-| `td/`      | Additional type descriptors           | Optional      | `Personal`, `Work`, etc. (repeatable) |
+| **Prefix** | **Meaning**                                               | **Required?**                     | **Example Value**      |
+|------------|-----------------------------------------------------------|-----------------------------------|------------------------|
+| `eid/`      | A partial prefix of the Employee ID                       | Required                          | `0c2414da`             |
+| `d/`       | The date of the anniversary                               | Required                          | `2025-03-13`           |
+| `an/`      | A short name for the anniversary                          | Required                          | `Silver Wedding`       |
+| `at/`      | The main category/type of the event                       | Required                          | `Wedding`              |
+| `desc/`    | A text description of the anniversary                     | Optional                          | `Celebrating 25 years` |
+| `atdesc/`  | A description of the type                                 | Optional                          | `Personal`, `Work`     |
+| `bd/`      | A short name for the birthday                             | Optional                          | `Birthday`             |
+| `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
+| `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
 
 > **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
 
@@ -269,17 +328,36 @@ addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [a
 ```plaintext 
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
 ```
-- Employee ID prefix: `0c2414da`
-- Date: `2025-03-13`
-- Anniversary Name: `Silver Wedding`
-- Anniversary Type: `Wedding`
-- Description: `Celebrating 25 years` (optional)
-- Additional Type: `Personal` (optional)
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
+- `at/Wedding`: The name of the anniversary type - `Wedding`
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
 
 If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
 
+```plaintext 
+addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+
+```plaintext 
+addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 **1. Employee ID Prefix Ambiguity**
 - If the prefix matches multiple employees, an error displays.
@@ -364,16 +442,19 @@ deleteAnniversary eid/EMPLOYEE_ID ad/INDEX
 | **Prefix** | **Meaning**                                                   | **Required?** | **Example**  |
 |------------|---------------------------------------------------------------|---------------|-------------|
 | `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
-| `ad/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
+| `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
 
 #### **Example Usage**
 ```plaintext
-deleteAnniversary eid/0c2414da ad/1
+deleteAnniversary eid/0c2414da ai/1
 ```
-
+- `deleteAnniversary` - the command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `ai/1`: the index of the anniversary you want to delete
+this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 - **Employee ID Prefix Ambiguity**  
   If multiple employees share the same prefix, an error is thrown, prompting you to use a longer or full ID.
@@ -473,6 +554,9 @@ Exits the program.
 Format: `exit`
 
 ---
+## Data Management
+
+---
 ### Saving the data
 
 H'Reers data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
@@ -480,7 +564,7 @@ H'Reers data are saved in the hard disk automatically after any command that cha
 ---
 ### Editing the data file
 
-H'Reers data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+H'Reers data are saved automatically as a JSON file `[JAR file location]/data/H'Reers.json`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, H'Reers will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
@@ -488,12 +572,10 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 </div>
 
 ---
-## Import and Export
-
----
 ### Importing data: `import`
-You can use `import` to bring external data (in CSV or JSON) into your current address book.
+You can use `import` to bring external data (in CSV or JSON) into your current Hreers application. 
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
+For CSV based inputs, multiple rows with same employeeId and same details(name, job position, phone number, email) will be collapsed into one entry in Hreers
 
 #### Command Format
 ```plaintext
@@ -513,9 +595,34 @@ import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 ```plaintext 
 import ft/json fp/data/ fn/contacts wm/append
 ```
+Explanation:
+`import` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+this will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
+
+```plaintext 
+import ft/json fp/data/ fn/contacts wm/overwrite
+```
+Explanation:
+`import` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
+
+```plaintext 
+import ft/csv fp/data/contacts.csv wm/append
+```
+Explanation:
+`import` — the command you're running
+`ft/csv` — file type is CSV
+`fp/data/contacts.csv` — file path is the data/ directory
+this will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
 
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 1. **File Type Validation**
     - Supported only `json` or `csv`.
@@ -559,10 +666,12 @@ import ft/json fp/data/ fn/contacts wm/append
 
 ---
 ### Exporting data: `export`
-You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
-If you provide a specific directory path (`fp/`), the system will export the file there.
+You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
+If you provide a specific directory path (`fp/`), the system will export the file there. 
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
 This means that you do **not** need to include the extension behind the file name.
+For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
+with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
 
 #### **Command Format**
 ```plaintext
@@ -581,10 +690,48 @@ export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 ```plaintext
 export ft/json fp/data/ fn/contacts
 ```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+✅ This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/csv fp/data/contacts.csv
+```
+Explanation:
+`export` — the command you're running
+`ft/csv` — file type is CSV
+`fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
+
+✅ This will save your current contact list as a file named contacts.csv in the data/ folder.
+
+```plaintext
+export ft/json fp/data/ fn/contacts
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+✅ This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/json
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+
+✅ This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+
 
 
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 1. **File Type Restrictions**
     - You must specify either `json` or `csv` using `ft/`.
@@ -633,8 +780,13 @@ export ft/json fp/data/ fn/contacts
 _Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
+## Frequently asked questions and Troubleshooting
+We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
 
-## FAQ
+Whether you're setting up H'Reers on a new machine or wondering why the help window isn't showing up, we’ve got you covered.
+
+---
+### FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous H'Reers home folder.<br>
@@ -662,7 +814,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **addAnni** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
 **showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ad/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ad/1`
+**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ad/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
 **import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
 **export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 
