@@ -96,6 +96,9 @@ H'Reers includes a smart **[Reminder](#reminder-commands)** feature that helps H
 </div>
 
 ---
+## Basic Commands
+
+---
 ### Viewing help: `help`
 
 Shows a message explaining how to access the help page.
@@ -235,11 +238,11 @@ Examples:
 ## Anniversary Commands
 
 ---
-### **Adding Anniversaries:**  `addAnni`
+### Adding Anniversaries:  `addAnni`
 You can use `addAnni` to add an anniversary to an employee's record in the address book.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
-#### **Command Format**
+#### Command Format
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
@@ -255,16 +258,16 @@ addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [a
 
 > **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
 
-#### **Example Usage**
+#### Example Usage
 ```plaintext 
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
 ```
-- **Employee ID prefix**: `0c2414da`
-- **Date**: `2025-03-13`
-- **Anniversary Name**: `Silver Wedding`
-- **Anniversary Type**: `Wedding`
-- **Description**: `Celebrating 25 years` (optional)
-- **Additional Type**: `Personal` (optional)
+- Employee ID prefix: `0c2414da`
+- Date: `2025-03-13`
+- Anniversary Name: `Silver Wedding`
+- Anniversary Type: `Wedding`
+- Description: `Celebrating 25 years` (optional)
+- Additional Type: `Personal` (optional)
 
 If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
 
