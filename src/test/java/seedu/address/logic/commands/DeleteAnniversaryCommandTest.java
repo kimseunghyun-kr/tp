@@ -3,8 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
-import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
 import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class DeleteAnniversaryCommandTest {
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
         String feedback = cmd.execute(model).getFeedbackToUser();
-        Mockito.verify(model).setPerson(Mockito.eq(baseEmployee), Mockito.any(Employee.class));
+        Mockito.verify(model).setEmployee(Mockito.eq(baseEmployee), Mockito.any(Employee.class));
         assertEquals("anniversary deleted: " + anniversaryOne, feedback);
     }
 

@@ -199,8 +199,8 @@ public class ImportCommand extends Command {
      * none are aggregated and all are flagged as internal conflicts.
      *
      * @return an AggregationResult containing:
-     * - aggregated: a list of valid Employee objects ready for import.
-     * - conflicts: a list of Employee objects that were removed due to conflicting details.
+     *          - aggregated: a list of valid Employee objects ready for import.
+     *          - conflicts: a list of Employee objects that were removed due to conflicting details.
      */
     private AggregationResult aggregateImportedData(JsonSerializableAddressBook importedData)
             throws IllegalValueException {

@@ -71,8 +71,8 @@ public class ImportCommandTest {
         csvFilePathNormalCase = Paths.get("src/test/data/ImportCommandTest/test.csv");
         csvFilePathDuplicateCase = Paths.get("src/test/data/ImportCommandTest/testDuplicateInvalid.csv");
         csvFilePathAggregateCase = Paths.get("src/test/data/ImportCommandTest/testAggregate.csv");
-        addressBookUnique = new AddressBookBuilder().withPerson(AMY).withPerson(BOB).build();
-        addressBookDuplicate = new AddressBookBuilder().withPerson(ALICE).build();
+        addressBookUnique = new AddressBookBuilder().withEmployee(AMY).withEmployee(BOB).build();
+        addressBookDuplicate = new AddressBookBuilder().withEmployee(ALICE).build();
     }
 
     /**
@@ -107,7 +107,7 @@ public class ImportCommandTest {
             importCommand = new ImportCommand("csv", csvFilePathNormalCase, "append");
             CommandResult result = importCommand.execute(model);
 
-            verify(model, times(2)).addPerson(any(Employee.class));
+            verify(model, times(2)).addEmployee(any(Employee.class));
             assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_APPEND, 2, 0, "Conflicting records found:\n"),
                     result.getFeedbackToUser());
         }
@@ -158,7 +158,7 @@ public class ImportCommandTest {
             CommandResult result = importCommand.execute(model);
 
             // Only AMY should be added, BOB should be skipped
-            verify(model, times(1)).addPerson(any(Employee.class));
+            verify(model, times(1)).addEmployee(any(Employee.class));
 
             // Check feedback message contains expected values
             String feedback = result.getFeedbackToUser();
@@ -262,7 +262,7 @@ public class ImportCommandTest {
 
             // Create actual persons for the conflict test
             AddressBook conflictBook = new AddressBookBuilder()
-                    .withPerson(ALICE).withPerson(BOB).build();
+                    .withEmployee(ALICE).withEmployee(BOB).build();
             // Mock JsonAdaptedPerson list
             List<JsonAdaptedPerson> mockJsonPersons = new ArrayList<>();
 
@@ -294,7 +294,7 @@ public class ImportCommandTest {
             CommandResult result = importCommand.execute(model);
 
             // Only BOB should be added
-            verify(model, times(1)).addPerson(eq(BOB));
+            verify(model, times(1)).addEmployee(eq(BOB));
             assertTrue(result.getFeedbackToUser().contains(mockConflictEmployee.getName().toString()));
         }
     }
@@ -315,7 +315,7 @@ public class ImportCommandTest {
                     .thenReturn(jsonSerializableAddressBook);
 
             // Prepare real model data — employee with same ID but different details
-            AddressBook modifiedBook = new AddressBookBuilder().withPerson(ALICE).build();
+            AddressBook modifiedBook = new AddressBookBuilder().withEmployee(ALICE).build();
             // Create and mock a JsonAdaptedPerson to return ALICE
             JsonAdaptedPerson mockAliceJson = mock(JsonAdaptedPerson.class);
             when(mockAliceJson.toModelType()).thenReturn(ALICE);
@@ -338,7 +338,7 @@ public class ImportCommandTest {
             CommandResult result = importCommand.execute(model);
 
             // Verify no addition happens due to conflict
-            verify(model, times(0)).addPerson(any(Employee.class));
+            verify(model, times(0)).addEmployee(any(Employee.class));
             assertTrue(result.getFeedbackToUser().contains(mockExistingEmployee.getName().toString()));
             assertTrue(result.getFeedbackToUser().contains(mockExistingEmployee.getEmployeeId().toString()));
         }

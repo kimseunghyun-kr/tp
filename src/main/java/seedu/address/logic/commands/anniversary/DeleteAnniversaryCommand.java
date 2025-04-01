@@ -23,7 +23,8 @@ import seedu.address.model.person.EmployeeId;
 public class DeleteAnniversaryCommand extends Command {
     public static final String MESSAGE_SUCCESS = "anniversary deleted: %1$s";
     public static final String COMMAND_WORD = "deleteAnni";
-    public static final Object MESSAGE_USAGE = COMMAND_WORD + ": deletes an anniversary to the employee identified by a "
+    public static final Object MESSAGE_USAGE = COMMAND_WORD
+            + ": deletes an anniversary to the employee identified by a "
             + "prefix of their Employee ID.\n"
             + "Parameters: "
             + "eid/EMPLOYEE_ID "

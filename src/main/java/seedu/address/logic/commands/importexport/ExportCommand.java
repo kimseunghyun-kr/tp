@@ -56,7 +56,7 @@ public class ExportCommand extends Command {
         } catch (Exception e) {
             throw new CommandException("Error exporting data: " + e.getMessage());
         }
-        return new CommandResult("Exported " + displayedPeople + " people in " + filetype
+        return new CommandResult("Exported " + displayedPeople + " employees in " + filetype
                 + " format to " + path);
     }
 }

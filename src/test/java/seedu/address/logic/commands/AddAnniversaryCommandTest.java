@@ -3,8 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_ANNIVERSARY;
-import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
 import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class AddAnniversaryCommandTest {
         var result = command.execute(model);
 
         // Assert
-        Mockito.verify(model).setPerson(Mockito.eq(baseEmployee), Mockito.any(Employee.class));
+        Mockito.verify(model).setEmployee(Mockito.eq(baseEmployee), Mockito.any(Employee.class));
         assertEquals("New anniversary added: " + validAnniversary, result.getFeedbackToUser());
     }
 

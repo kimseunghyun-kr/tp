@@ -23,10 +23,10 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Employee;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -111,7 +111,8 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Employee} with the details of {@code employeeToEdit}
      * edited with {@code editEmployeeDescriptor}.
      */
-    private static Employee createEditedEmployee(Employee employeeToEdit, EditEmployeeDescriptor editEmployeeDescriptor) {
+    private static Employee createEditedEmployee(Employee employeeToEdit,
+                                                 EditEmployeeDescriptor editEmployeeDescriptor) {
         assert employeeToEdit != null;
         /*
          * this is purposefully kept as employeeToEdit.getEmployeeId(), currently changing EmployeeID is not supported,
@@ -121,7 +122,8 @@ public class EditCommand extends Command {
         Name updatedName = editEmployeeDescriptor.getName().orElse(employeeToEdit.getName());
         Phone updatedPhone = editEmployeeDescriptor.getPhone().orElse(employeeToEdit.getPhone());
         Email updatedEmail = editEmployeeDescriptor.getEmail().orElse(employeeToEdit.getEmail());
-        JobPosition updatedjobPosition = editEmployeeDescriptor.getjobPosition().orElse(employeeToEdit.getJobPosition());
+        JobPosition updatedjobPosition = editEmployeeDescriptor.getJobPosition()
+                                            .orElse(employeeToEdit.getJobPosition());
         Set<Tag> updatedTags = editEmployeeDescriptor.getTags().orElse(employeeToEdit.getTags());
         List<Anniversary> anniversaryList = employeeToEdit.getAnniversaries();
         return new Employee(employeeId, updatedName, updatedPhone,
@@ -175,7 +177,6 @@ public class EditCommand extends Command {
         private JobPosition jobPosition;
 
         public EditEmployeeDescriptor() {}
-        
         /**
          * Copy constructor.
          * A defensive copy of {@code tags} is used internally.
@@ -212,7 +213,7 @@ public class EditCommand extends Command {
             return Optional.ofNullable(email);
         }
 
-        public Optional<JobPosition> getjobPosition() {
+        public Optional<JobPosition> getJobPosition() {
             return Optional.ofNullable(jobPosition);
         }
 

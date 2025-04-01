@@ -18,13 +18,13 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.EmployeeBuilder;
 
 public class EmployeeTest {
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Employee employee = new PersonBuilder().build();
+        Employee employee = new EmployeeBuilder().build();
         assertThrows(UnsupportedOperationException.class, () -> employee.getTags().remove(0));
     }
 
@@ -37,19 +37,19 @@ public class EmployeeTest {
         assertFalse(ALICE.isSameEmployee(null));
 
         // same name, all other attributes different -> returns true
-        Employee editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
+        Employee editedAlice = new EmployeeBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withJobPosition(VALID_JOBPOSITION_BOB).withTags(VALID_TAG_HUSBAND).build();
         assertTrue(ALICE.isSameEmployee(editedAlice));
 
         // different employee id, all other attributes same -> returns false
-        editedAlice = new PersonBuilder(ALICE).withEmployeeId(VALID_EMPLOYEE_ID_BOB).build();
+        editedAlice = new EmployeeBuilder(ALICE).withEmployeeId(VALID_EMPLOYEE_ID_BOB).build();
         assertFalse(ALICE.isSameEmployee(editedAlice));
     }
 
     @Test
     public void equals() {
         // same values -> returns true
-        Employee aliceCopy = new PersonBuilder(ALICE).build();
+        Employee aliceCopy = new EmployeeBuilder(ALICE).build();
         assertTrue(ALICE.equals(aliceCopy));
 
         // same object -> returns true
@@ -65,23 +65,23 @@ public class EmployeeTest {
         assertFalse(ALICE.equals(BOB));
 
         // different name -> returns false
-        Employee editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        Employee editedAlice = new EmployeeBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different phone -> returns false
-        editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
+        editedAlice = new EmployeeBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different email -> returns false
-        editedAlice = new PersonBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
+        editedAlice = new EmployeeBuilder(ALICE).withEmail(VALID_EMAIL_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different address -> returns false
-        editedAlice = new PersonBuilder(ALICE).withJobPosition(VALID_JOBPOSITION_BOB).build();
+        editedAlice = new EmployeeBuilder(ALICE).withJobPosition(VALID_JOBPOSITION_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false
-        editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
+        editedAlice = new EmployeeBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
         assertFalse(ALICE.equals(editedAlice));
     }
 
@@ -96,14 +96,14 @@ public class EmployeeTest {
 
     @Test
     public void getNextUpcomingDate_noAnniversaries_returnsNull() {
-        Employee employee = new PersonBuilder().withBirthdayAndWorkAnniversary(null, null).build();
+        Employee employee = new EmployeeBuilder().withBirthdayAndWorkAnniversary(null, null).build();
         assertNull(employee.getNextUpcomingDate());
     }
 
     @Test
     public void getNextUpcomingDate_singleFutureBirthday_returnsDate() {
         LocalDate futureBirthday = LocalDate.now().plusDays(10);
-        Employee employee = new PersonBuilder()
+        Employee employee = new EmployeeBuilder()
                 .withBirthdayAndWorkAnniversary(futureBirthday, null)
                 .build();
 
@@ -113,7 +113,7 @@ public class EmployeeTest {
     @Test
     public void getNextUpcomingDate_pastBirthday_rollsToNextYear() {
         LocalDate pastBirthday = LocalDate.now().minusDays(10);
-        Employee employee = new PersonBuilder()
+        Employee employee = new EmployeeBuilder()
                 .withBirthdayAndWorkAnniversary(pastBirthday, null)
                 .build();
 

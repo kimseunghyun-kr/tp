@@ -21,9 +21,9 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.testutil.EditEmployeeDescriptorBuilder;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.testutil.EditEmployeeDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -140,7 +140,7 @@ public class CommandTestUtil {
      * Updates {@code model}'s filtered list to show only the employee at the given {@code targetIndex} in the
      * {@code model}'s address book.
      */
-    public static void showPersonAtIndex(Model model, Index targetIndex) {
+    public static void showEmployeeAtIndex(Model model, Index targetIndex) {
         assertTrue(targetIndex.getZeroBased() < model.getFilteredEmployeeList().size());
 
         Employee employee = model.getFilteredEmployeeList().get(targetIndex.getZeroBased());
@@ -149,5 +149,4 @@ public class CommandTestUtil {
 
         assertEquals(1, model.getFilteredEmployeeList().size());
     }
-
 }

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.AddPersonCommand;
+import seedu.address.logic.commands.AddEmployeeCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -26,11 +26,11 @@ import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Employee;
-import seedu.address.testutil.EditPersonDescriptorBuilder;
-import seedu.address.testutil.PersonBuilder;
-import seedu.address.testutil.PersonUtil;
+import seedu.address.model.person.EmployeeId;
+import seedu.address.testutil.EditEmployeeDescriptorBuilder;
+import seedu.address.testutil.EmployeeBuilder;
+import seedu.address.testutil.EmployeeUtil;
 
 public class AddressBookParserTest {
 
@@ -38,9 +38,9 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Employee employee = PersonBuilder.defaultPerson();
-        AddPersonCommand command = (AddPersonCommand) parser.parseCommand(PersonUtil.getAddCommand(employee));
-        assertFieldEqualityFirst(new AddPersonCommand(employee), command);
+        Employee employee = EmployeeBuilder.defaultEmployee();
+        AddEmployeeCommand command = (AddEmployeeCommand) parser.parseCommand(EmployeeUtil.getAddCommand(employee));
+        assertFieldEqualityFirst(new AddEmployeeCommand(employee), command);
     }
 
     @Test
@@ -58,10 +58,10 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Employee employee = new PersonBuilder().build();
-        EditCommand.EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(employee).build();
+        Employee employee = new EmployeeBuilder().build();
+        EditCommand.EditEmployeeDescriptor descriptor = new EditEmployeeDescriptorBuilder(employee).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + VALID_EMPLOYEE_ID_PREFIX_AMY + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
+                + VALID_EMPLOYEE_ID_PREFIX_AMY + " " + EmployeeUtil.getEditEmployeeDescriptorDetails(descriptor));
         assertFieldEqualityFirst(
                 new EditCommand(EmployeeId.fromString(VALID_EMPLOYEE_ID_PREFIX_AMY), descriptor),
                 command
@@ -83,8 +83,8 @@ public class AddressBookParserTest {
                         + keywords.stream().collect(Collectors.joining(" ")));
 
         // Create a Employee that should match the keywords
-        Employee matchingEmployee = new PersonBuilder().withName("foo barson").build();
-        Employee nonMatchingEmployee = new PersonBuilder().withName("unrelated name").build();
+        Employee matchingEmployee = new EmployeeBuilder().withName("foo barson").build();
+        Employee nonMatchingEmployee = new EmployeeBuilder().withName("unrelated name").build();
 
         // Check that the command’s predicate filters correctly
         Predicate<Employee> predicate = command.getPredicate();

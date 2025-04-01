@@ -57,7 +57,7 @@ public interface Model {
      * Returns true if a employee with the same identity as {@code employee} exists in the address book.
      */
     boolean hasEmployee(Employee employee);
-    
+
     /**
      * Returns true if more than one employee with the same identity as {@code employee} exists in the address book.
      */
@@ -94,7 +94,8 @@ public interface Model {
     /**
      * Replaces the given employee {@code target} with {@code editedEmployee}.
      * {@code target} must exist in the address book.
-     * The employee identity of {@code editedEmployee} must not be the same as another existing employee in the address book.
+     * The employee identity of {@code editedEmployee} must not be the
+     * same as another existing employee in the address book.
      */
     void setEmployee(Employee target, Employee editedEmployee);
 

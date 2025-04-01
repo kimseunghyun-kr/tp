@@ -50,7 +50,8 @@ public class EditCommandTest {
         System.out.println(this.getEmployeeIdPrefixOf(0));
         EditCommand editCommand = new EditCommand(this.getEmployeeIdPrefixOf(0), descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS, Messages.format(editedEmployee));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS,
+                Messages.format(editedEmployee));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setEmployee(model.getFilteredEmployeeList().get(0), editedEmployee);
@@ -70,7 +71,8 @@ public class EditCommandTest {
                 .withPhone(VALID_PHONE_BOB).withTags(VALID_TAG_HUSBAND).build();
         EditCommand editCommand = new EditCommand(this.getEmployeeIdPrefixOf(indexLastEmployee), descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS, Messages.format(editedEmployee));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS,
+                Messages.format(editedEmployee));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setEmployee(lastEmployee, editedEmployee);
@@ -83,7 +85,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(this.getEmployeeIdPrefixOf(0), new EditEmployeeDescriptor());
         Employee editedEmployee = model.getFilteredEmployeeList().get(INDEX_FIRST_EMPLOYEE.getZeroBased());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS, Messages.format(editedEmployee));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS,
+                Messages.format(editedEmployee));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -99,7 +102,8 @@ public class EditCommandTest {
         EditCommand editCommand = new EditCommand(this.getEmployeeIdPrefixOf(0),
                 new EditEmployeeDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS, Messages.format(editedEmployee));
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_EMPLOYEE_SUCCESS,
+                Messages.format(editedEmployee));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setEmployee(model.getFilteredEmployeeList().get(0), editedEmployee);
@@ -193,5 +197,4 @@ public class EditCommandTest {
                 + editEmployeeDescriptor + "}";
         assertEquals(expected, editCommand.toString());
     }
-
 }

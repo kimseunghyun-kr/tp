@@ -16,7 +16,8 @@ public class ShowAnniversaryCommand extends Command {
 
     public static final String COMMAND_WORD = "showAnni"; // to be changed
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows the list of anniversary to the employee with the "
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Shows the list of anniversary to the employee with the "
             + "specified employee ID.\n"
             + "Parameters: "
             + "eid/EMPLOYEE_ID\n"
@@ -49,6 +50,7 @@ public class ShowAnniversaryCommand extends Command {
         if (employeeToEdit == null) {
             throw new CommandException(String.format(MESSAGE_EMPLOYEE_NOT_FOUND, employeeIdToFind));
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS), true, employeeToEdit.getEmployeeIdAsString());
+        return new CommandResult(String.format(MESSAGE_SUCCESS), true,
+                employeeToEdit.getEmployeeIdAsString());
     }
 }

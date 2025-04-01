@@ -21,17 +21,17 @@ import seedu.address.logic.commands.AddEmployeeCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Employee;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
  */
-public class AddPersonCommandParser implements Parser<AddEmployeeCommand> {
+public class AddEmployeeCommandParser implements Parser<AddEmployeeCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the AddEmployeeCommand

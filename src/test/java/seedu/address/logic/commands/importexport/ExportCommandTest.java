@@ -40,7 +40,7 @@ public class ExportCommandTest {
     }
 
     @Test
-    public void executeExportPersonsWithAnniversariesToJson_success() throws Exception {
+    public void executeExportEmployeesWithAnniversariesToJson_success() throws Exception {
         // Setup model with anniversary data
         Model model = new ModelManager(TypicalPersonsWithAnniversaries.getTypicalAddressBook(), new UserPrefs());
 
@@ -53,15 +53,15 @@ public class ExportCommandTest {
                 Paths.get("src/test/data/exportCommandTest/withAnniversary.json"));
 
         // Verify correct success message
-        String expectedMessage = String.format("Exported %d people in json format to %s",
-                model.getFilteredPersonList().size(), jsonPathWithAnniversaries);
+        String expectedMessage = String.format("Exported %d employees in json format to %s",
+                model.getFilteredEmployeeList().size(), jsonPathWithAnniversaries);
         assertEquals(expectedMessage,
                 result.getFeedbackToUser().replaceAll("\\[.*\\]",
-                        Integer.toString(model.getFilteredPersonList().size())));
+                        Integer.toString(model.getFilteredEmployeeList().size())));
     }
 
     @Test
-    public void executeExportPersonsWithAnniversariesToCsv_success() throws Exception {
+    public void executeExportEmployeesWithAnniversariesToCsv_success() throws Exception {
         // Setup model with anniversary data
         Model model = new ModelManager(TypicalPersonsWithAnniversaries.getTypicalAddressBook(), new UserPrefs());
 
@@ -74,15 +74,15 @@ public class ExportCommandTest {
                 Paths.get("src/test/data/exportCommandTest/withAnniversary.csv"));
 
         // Verify correct success message
-        String expectedMessage = String.format("Exported %d people in csv format to %s",
-                model.getFilteredPersonList().size(), csvPathWithAnniversaries);
+        String expectedMessage = String.format("Exported %d employees in csv format to %s",
+                model.getFilteredEmployeeList().size(), csvPathWithAnniversaries);
         assertEquals(expectedMessage,
                 result.getFeedbackToUser().replaceAll("\\[.*\\]",
-                        Integer.toString(model.getFilteredPersonList().size())));
+                        Integer.toString(model.getFilteredEmployeeList().size())));
     }
 
     @Test
-    public void executeExportPersonsWithoutAnniversariesToJson_success() throws Exception {
+    public void executeExportEmployeesWithoutAnniversariesToJson_success() throws Exception {
         // Setup model without anniversary data
         Model model = new ModelManager(TypicalPersonsWithoutAnniversaries.getTypicalAddressBook(), new UserPrefs());
 
@@ -95,15 +95,15 @@ public class ExportCommandTest {
                 Paths.get("src/test/data/exportCommandTest/noAnniversary.json"));
 
         // Verify correct success message
-        String expectedMessage = String.format("Exported %d people in json format to %s",
-                model.getFilteredPersonList().size(), jsonPathWithoutAnniversaries);
+        String expectedMessage = String.format("Exported %d employees in json format to %s",
+                model.getFilteredEmployeeList().size(), jsonPathWithoutAnniversaries);
         assertEquals(expectedMessage,
                 result.getFeedbackToUser().replaceAll("\\[.*\\]",
-                        Integer.toString(model.getFilteredPersonList().size())));
+                        Integer.toString(model.getFilteredEmployeeList().size())));
     }
 
     @Test
-    public void executeExportPersonsWithoutAnniversariesToCsv_success() throws Exception {
+    public void executeExportEmployeesWithoutAnniversariesToCsv_success() throws Exception {
         // Setup model without anniversary data
         Model model = new ModelManager(TypicalPersonsWithoutAnniversaries.getTypicalAddressBook(), new UserPrefs());
 
@@ -116,11 +116,11 @@ public class ExportCommandTest {
                 Paths.get("src/test/data/exportCommandTest/noAnniversary.csv"));
 
         // Verify correct success message
-        String expectedMessage = String.format("Exported %d people in csv format to %s",
-                model.getFilteredPersonList().size(), csvPathWithoutAnniversaries);
+        String expectedMessage = String.format("Exported %d employees in csv format to %s",
+                model.getFilteredEmployeeList().size(), csvPathWithoutAnniversaries);
         assertEquals(expectedMessage,
                 result.getFeedbackToUser().replaceAll("\\[.*\\]",
-                        Integer.toString(model.getFilteredPersonList().size())));
+                        Integer.toString(model.getFilteredEmployeeList().size())));
     }
 
     @Test
