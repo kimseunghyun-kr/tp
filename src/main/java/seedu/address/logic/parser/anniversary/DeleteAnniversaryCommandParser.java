@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
 import lombok.Getter;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
@@ -51,7 +50,7 @@ public class DeleteAnniversaryCommandParser implements Parser<DeleteAnniversaryC
             return new DeleteAnniversaryCommand(index, employeeIdPrefix);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAnniversaryCommand.MESSAGE_USAGE), pe);
         }
     }
 }

@@ -1,5 +1,6 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DESC;
@@ -10,12 +11,17 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.anniversary.AnniversaryType;
+import seedu.address.model.anniversary.Birthday;
+import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Name;
 
 /**
@@ -37,7 +43,7 @@ public class AnniversaryParserUtils {
      * @return A valid `Anniversary`.
      * @throws ParseException If arguments are not properly formatted.
      */
-    public static Anniversary parseAnniversary(ArgumentMultimap argMultimap) throws ParseException {
+    public static Anniversary resolveAnniversaryInput(ArgumentMultimap argMultimap) throws ParseException {
         boolean hasAnnivType = arePresent(argMultimap, PREFIX_ANNIVERSARY_NAME, PREFIX_ANNIVERSARY_TYPE);
         boolean hasBirthday = arePresent(argMultimap, PREFIX_BIRTHDAY, PREFIX_NAME);
         boolean hasWork = argMultimap.getValue(PREFIX_WORK_ANNIVERSARY).isPresent();
@@ -88,7 +94,7 @@ public class AnniversaryParserUtils {
         String date = argMultimap.getValue(PREFIX_ANNIVERSARY_DATE).orElseThrow(() -> new ParseException(dateMsg()));
         String type = argMultimap.getValue(PREFIX_ANNIVERSARY_TYPE).get();
         String typeDesc = argMultimap.getValue(PREFIX_ANNIVERSARY_TYPE_DESC).orElse("");
-        return ParserUtil.parseAnniversary(name, desc, date, type, typeDesc);
+        return parseAnniversary(name, desc, date, type, typeDesc);
     }
 
     /**
@@ -101,7 +107,7 @@ public class AnniversaryParserUtils {
     private static Anniversary parseBirthday(ArgumentMultimap argMultimap) throws ParseException {
         Name personName = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String date = argMultimap.getValue(PREFIX_BIRTHDAY).get();
-        return ParserUtil.parseAnniversaryWithName(personName, date, PREFIX_BIRTHDAY);
+        return parseAnniversaryWithName(personName, date, PREFIX_BIRTHDAY);
     }
 
     /**
@@ -114,7 +120,7 @@ public class AnniversaryParserUtils {
     private static Anniversary parseWorkAnniversary(ArgumentMultimap argMultimap) throws ParseException {
         Name personName = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         String date = argMultimap.getValue(PREFIX_WORK_ANNIVERSARY).get();
-        return ParserUtil.parseAnniversaryWithName(personName, date, PREFIX_WORK_ANNIVERSARY);
+        return parseAnniversaryWithName(personName, date, PREFIX_WORK_ANNIVERSARY);
     }
 
     /**
@@ -143,5 +149,60 @@ public class AnniversaryParserUtils {
      */
     private static String dateMsg() {
         return String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_DATE_CONSTRAINTS);
+    }
+    /**
+     * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
+     *
+     * @param name the name of the anniversary for custom anniversaries
+     * @param description the description of the anniversary
+     * @param dateStr the date of the anniversary
+     * @param type the type of the anniversary
+     * @throws ParseException if the given {@code dateStr} is invalid.
+     */
+    public static Anniversary parseAnniversary(String name, String description, String dateStr, String type,
+                                               String typeDescription) throws ParseException {
+        requireNonNull(dateStr);
+        String trimmedAnniversaryDate = dateStr.trim();
+        LocalDate date;
+        try {
+            date = LocalDate.parse(trimmedAnniversaryDate);
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
+        }
+        if (name == null || name.isEmpty()) {
+            return new Anniversary(date, new AnniversaryType(type, typeDescription),
+                    description, type);
+        } else {
+            return new Anniversary(date, new AnniversaryType(type, typeDescription),
+                    description, name);
+        }
+    }
+    /**
+     * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
+     *
+     * @param name the name of the person attributed to prebuilt-anniversaries
+     * @param dateStr the date of the anniversary
+     * @param type the prefix of the anniversary
+     * @throws ParseException if the given {@code dateStr} is invalid.
+     */
+    public static Anniversary parseAnniversaryWithName(Name name, String dateStr,
+                                                       Prefix type) throws ParseException {
+        String trimmedAnniversaryDate = dateStr.trim();
+        LocalDate date;
+        try {
+            date = LocalDate.parse(trimmedAnniversaryDate);
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
+        }
+        if (type.equals(PREFIX_BIRTHDAY)) {
+            String birthdayAppend = "Birthday";
+            return new Anniversary(date, new Birthday(), name + "'s " + birthdayAppend, birthdayAppend);
+        }
+        if (type.equals(PREFIX_WORK_ANNIVERSARY)) {
+            String workAnniversaryAppend = "work anniversary";
+            return new Anniversary(date, new WorkAnniversary(), name + "'s "
+                    + workAnniversaryAppend, workAnniversaryAppend);
+        }
+        throw new ParseException("Invalid anniversary type");
     }
 }
