@@ -1,37 +1,43 @@
 ---
 layout: page
-title: User Guide
+title: H'Reers User Guide
 ---
 
-H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI (Graphical User Interface), most of the user interactions happen using a CLI (Command Line Interface).
+H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a [GUI](#glossary), most of the user interactions happen using a [CLI](#glossary).
+
+H'Reers includes a smart **[Reminder](#reminder-commands)** feature that helps HRs stay on top of upcoming birthdays and work anniversaries. It provides a focused view of employees with these events occurring within the next 3 days. When the command is used, new panels appear beside the main list, displaying the filtered employees.
 
 ## Table of Contents
 
 1. [Quick Start](#quick-start)
 2. [Features](#features)
+2. [Basic Commands](#Basic Commands)
     - [Viewing help: `help`](#viewing-help-help)
-    - [Adding a person: `add`](#adding-a-person-add)
-    - [Listing all persons: `list`](#listing-all-persons-list)
-    - [Editing a person: `edit`](#editing-a-person-edit)
+    - [Adding an employee: `add`](#adding-an-employee-add)
+    - [Listing all employees: `list`](#listing-all-employees-list)
+    - [Editing an employee: `edit`](#editing-an-employee-edit)
     - [Undoing the last command: `undo`](#undoing-the-last-command-undo)
-    - [Locating persons by name: `find`](#locating-persons-by-name-find)
-    - [Deleting a person: `delete`](#deleting-a-person-delete)
+    - [Locating employees: `find`](#locating-employees-find)
+    - [Deleting an employee: `delete`](#deleting-an-employee-delete)
 3. [Anniversary Commands](#anniversary-commands)
-    - [Add anniversaries: `addAnni`](#add-anniversaries-addanni)
-    - [Show anniversaries: `showAnni`](#show-anniversaries-showanni)
-    - [DeleteAnniversaryCommand `deleteAnni`](#delete-anniversaries-deleteanni)
-4. [Quality of life features](#quality-of-life-features)
+    - [Adding anniversaries: `addAnni`](#adding-anniversaries-addanni)
+    - [Showing anniversaries: `showAnni`](#showing-anniversaries-showanni)
+    - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-deleteanni)
+4. [Reminder Commands](#reminder-commands)
+   - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-reminder-bd)
+   - [Viewing upcoming work anniversaries: `reminder wa`](#viewing-upcoming-work-anniversaries-reminder-wa)
+5. [Quality of life features](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-clear)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
-5. [Import and Export](#import-and-export)
-   - [ImportCommand `import`](#importcommand-import)
-   - [ExportCommand `export`](#exportcommand-export)
-6. [FAQ](#faq)
-7. [Known issues](#known-issues)
-8. [Command summary](#command-summary)
-9. [Glossary](#glossary)
+6. [Import and Export](#import-and-export)
+    - [Importing data: `import`](#importing-data-import)
+    - [Exporting data: `export`](#exporting-data-export)
+7. [FAQ](#faq)
+8. [Known issues](#known-issues)
+9. [Command summary](#command-summary)
+10. [Glossary](#glossary)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -51,15 +57,15 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to H'Reers.
+    * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to H'Reers.
 
-   * `delete Employee_ID_prefix` : Deletes the specified employee contact. _Note: Employee_ID_prefix has to pinpoint only one Employee for delete to work._
+    * `delete Employee_ID_prefix` : Deletes the specified employee contact. _Note: Employee_ID_prefix has to pinpoint only one Employee for delete to work._
 
-   * `clear` : Deletes all contacts.
+    * `clear` : Deletes all contacts.
 
-   * `exit` : Exits the app.
+    * `exit` : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -94,7 +100,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
 Shows a message explaining how to access the help page.
 
-![help message](images/HelpU.png)
+![help message](images/HelpMessage.png)
 
 Format: `help`
 
@@ -103,7 +109,7 @@ Format: `help`
 
 Adds an employee to H'Reers.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… bd/DATE wa/DATE​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
 
 Date format: `YYYY-MM-DD`
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -111,19 +117,16 @@ An employee can have any number of tags (including 0)
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+bd/ stands for birthday, and wa/ stands for work anniversary — these are standard anniversaries the app automatically creates for you when you provide a date.
+
+If you wish to track other types of anniversaries, you can add them using the [add anniversary command below](#add-anniversaries-addanni).
 bd/ stands for birthday and wa/ stands for work anniversary.
-
-Both are optional.
-
-Both of which are standard anniversaries that the app will make for you
-with just the date!
-Other anniversaries can be added as well with `Add Anniversary` command below.
 </div>
 
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` Adds `John Doe` into H'Reers
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com jp/Cleaner p/1234567 t/criminal bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of friend and criminal
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of Part Time Worker and Personal Trainer
 
 ---
 ### Listing all employees: `list`
@@ -144,7 +147,7 @@ Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] 
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the employee will be removed i.e adding of tags is not cumulative.
 * You can remove all the employee’s tags by typing `t/` without
-    specifying any tags after it.
+  specifying any tags after it.
 * You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
 
 Examples:
@@ -153,7 +156,7 @@ Examples:
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
 ---
-### Undo: `undo`
+### Undoing the last command: `undo`
 
 Will undo to before the data is changed.
 
@@ -170,7 +173,7 @@ Examples:
 * `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
 ---
-### Locating persons by name: `find`
+### Locating employees: `find`
 
 Finds employees whose names or/and job positions contain any of the given keywords.
 
@@ -196,15 +199,15 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
 * When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match — it's an OR search.
 
-  * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` or `Bo Yang`.
+    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` or `Bo Yang`.
 
 * When you use multiple fields together, the command finds people who match all of them — it becomes an AND search.
 
-  * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
+    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
 
 * In the case of multiple fields and keywords, you will only see a person on the list if they match at least one keyword from each field.
 
-  * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
+    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
 </div>
 
 Examples:
@@ -232,7 +235,7 @@ Examples:
 ## Anniversary Commands
 
 ---
-### **Add Anniversaries:**  `addAnni`
+### **Adding Anniversaries:**  `addAnni`
 You can use `addAnni` to add an anniversary to an employee's record in the address book.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
@@ -316,22 +319,27 @@ If exactly one employee’s ID starts with `0c2414da`, this will create a `Silve
 </details>
 
 ---
-### **Show anniversaries:** `showAnni`
+### **Showing anniversaries:** `showAnni`
 
-Shows the list of anniversary details of the employee specified by the Employee ID.
+You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
 
 Format: `showAnni eid/Employee_ID`
 
-* Displays a new window with a list of anniversaries of the employee specified by the Employee ID
-* Details like dates, description and name will be displayed as well.
-* Beginners can use the button in the GUI to do the same thing.
-* The employee ID refers to the ID of the employee in H'Reers, that you have specified when adding or generated if you did not.
+What will you see:
+
+* A new window will open showing the employee’s anniversaries.
+* You’ll see details like the date, name, and description of each anniversary.
+* If you’re new to the app, you can also use the button in the GUI to do the same thing.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+The Employee ID is the unique identifier assigned to each person in H'Reers — either one you provided when adding them, or one that was auto-generated.
+</div>
 
 Examples:
 * showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
 
 ---
-### **Delete Anniversaries:** `deleteAnni`
+### **Deleting Anniversaries:** `deleteAnni`
 You can use `deleteAnni` to remove a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
 If successful, the chosen anniversary will no longer appear in that employee’s list of anniversaries.
@@ -391,6 +399,53 @@ deleteAnniversary eid/0c2414da ad/1
 </details>
 
 ---
+## Reminder Commands
+
+---
+
+### Viewing upcoming birthdays: `reminder bd`
+
+Filters and displays a list of employees whose birthdays are occurring within the next 3 days.
+
+**Format:**
+`reminder bd`
+
+**What happens:**
+- A panel will show up on the right side of the UI under “🎂 Birthday”.
+- Each reminder card will show:
+    - The employee’s **name**
+    - **Job position**
+    - **Birthday date**
+    - **Days remaining** until the birthday
+
+> 💡 The command only affects display; no data is modified.
+
+---
+
+### Viewing upcoming work anniversaries: `reminder wa`
+
+Filters and displays a list of employees whose work anniversaries are occurring within the next 3 days.
+
+**Format:**
+`reminder wa`
+
+**What happens:**
+- A panel will show up next to the birthday panel under “🎉 Work Anniversary”.
+- Each reminder card will include:
+    - The employee’s **name**
+    - **Job position**
+    - **Work anniversary date**
+    - **Days remaining** until the anniversary
+
+---
+
+Below is an example of how the reminders appear on the UI:
+
+![reminderListUI.png](images/reminderListUI.png)
+
+Each panel updates when you enter `reminder bd` or `reminder wa`.
+
+---
 ## Quality of Life Features
 
 ---
@@ -426,8 +481,8 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 ## Import and Export
 
 ---
-### **ImportCommand** `import`
-You can use `import` to bring external data (in CSV or JSON) into your current address book. 
+### **Importing data:** `import`
+You can use `import` to bring external data (in CSV or JSON) into your current address book.
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 
 #### **Command Format**
@@ -493,9 +548,9 @@ import ft/json fp/data/ fn/contacts wm/append
 </details>
 
 ---
-### **ExportCommand** `export`
+### **Exporting data:** `export`
 You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
-If you provide a specific directory path (`fp/`), the system will export the file there. 
+If you provide a specific directory path (`fp/`), the system will export the file there.
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
 This means that you do **not** need to include the extension behind the file name.
 
