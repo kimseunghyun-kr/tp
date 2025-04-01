@@ -1,6 +1,6 @@
 ---
 layout: page
-title: User Guide
+title: H'Reers User Guide
 ---
 
 H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI (Graphical User Interface), most of the user interactions happen using a CLI (Command Line Interface).
@@ -10,11 +10,11 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 1. [Quick Start](#quick-start)
 2. [Features](#features)
     - [Viewing help: `help`](#viewing-help-help)
-    - [Adding a person: `add`](#adding-a-person-add)
-    - [Listing all persons: `list`](#listing-all-persons-list)
-    - [Editing a person: `edit`](#editing-a-person-edit)
-    - [Locating persons by name: `find`](#locating-persons-by-name-find)
-    - [Deleting a person: `delete`](#deleting-a-person-delete)
+    - [Adding an employee: `add`](#adding-an-employee-add)
+    - [Listing all employees: `list`](#listing-all-employees-list)
+    - [Editing an employee: `edit`](#editing-an-employee-edit)
+    - [Filtering employees by name or job position: `find`](#filtering-employees-by-name-or-job-position-find)
+    - [Deleting an employee: `delete`](#deleting-an-employee-delete)
 3. [Anniversary Commands](#anniversary-commands)
     - [Add anniversaries: `addAnni`](#add-anniversaries-addanni)
     - [Show anniversaries: `showAnni`](#show-anniversaries-showanni)
@@ -26,8 +26,8 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 6. [Exiting the program: `exit`](#exiting-the-program-exit)
 7. [Saving the data](#saving-the-data)
 8. [Editing the data file](#editing-the-data-file)
-9. [ImportCommand `import`](#importcommand-import)
-10. [ExportCommand `export`](#exportcommand-export)
+9. [ImportCommand: `import`](#importcommand-import)
+10. [ExportCommand: `export`](#exportcommand-export)
 11. [FAQ](#faq)
 12. [Known issues](#known-issues)
 13. [Command summary](#command-summary)
@@ -92,7 +92,7 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
 
 Shows a message explaining how to access the help page.
 
-![help message](images/HelpU.png)
+![help message](images/HelpMessage.png)
 
 Format: `help`
 
@@ -101,7 +101,7 @@ Format: `help`
 
 Adds an employee to H'Reers.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… bd/DATE wa/DATE​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
 
 Date format: `YYYY-MM-DD`
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -109,13 +109,10 @@ An employee can have any number of tags (including 0)
 </div>
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+bd/ stands for birthday, and wa/ stands for work anniversary — these are standard anniversaries the app automatically creates for you when you provide a date.
+
+If you wish to track other types of anniversaries, you can add them using the [add anniversary command below](#add-anniversaries-addanni).
 bd/ stands for birthday and wa/ stands for work anniversary.
-
-Both are optional.
-
-Both of which are standard anniversaries that the app will make for you
-with just the date!
-Other anniversaries can be added as well with `Add Anniversary` command below.
 </div>
 
 Examples:
@@ -168,7 +165,7 @@ Examples:
 * `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
 ---
-### Locating persons by name: `find`
+### Filtering employees by name or job position: `find`
 
 Finds employees whose names or/and job positions contain any of the given keywords.
 
@@ -227,7 +224,7 @@ Examples:
 * `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
 
 ---
-# Anniversary Commands
+## Anniversary Commands
 
 ---
 ### **Add Anniversaries:**  `addAnni`
@@ -316,14 +313,19 @@ If exactly one employee’s ID starts with `0c2414da`, this will create a `Silve
 ---
 ### **Show anniversaries:** `showAnni`
 
-Shows the list of anniversary details of the employee specified by the Employee ID.
+You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
 
 Format: `showAnni eid/Employee_ID`
 
-* Displays a new window with a list of anniversaries of the employee specified by the Employee ID
-* Details like dates, description and name will be displayed as well.
-* Beginners can use the button in the GUI to do the same thing.
-* The employee ID refers to the ID of the employee in H'Reers, that you have specified when adding or generated if you did not.
+What will you see:
+
+* A new window will open showing the employee’s anniversaries.
+* You’ll see details like the date, name, and description of each anniversary.
+* If you’re new to the app, you can also use the button in the GUI to do the same thing.
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+The Employee ID is the unique identifier assigned to each person in H'Reers — either one you provided when adding them, or one that was auto-generated.
+</div>
 
 Examples:
 * showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
@@ -465,7 +467,7 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 </div>
 
 ---
-## **ImportCommand** `import`
+## **ImportCommand: `import`**
 You can use `import` to bring external data (in CSV or JSON) into your current address book. 
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 
@@ -532,7 +534,7 @@ import ft/json fp/data/ fn/contacts wm/append
 </details>
 
 ---
-## **ExportCommand** `export`
+## **ExportCommand: `export`**
 You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
 If you provide a specific directory path (`fp/`), the system will export the file there. 
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
