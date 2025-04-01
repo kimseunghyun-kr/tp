@@ -286,15 +286,26 @@ This command can create custom Anniversaries that were otherwise not supported w
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
+short form support for Birthdays
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
+```
+short form support for Work Anniversaries
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
+```
 
-| **Prefix** | **Meaning**                           | **Required?** | **Example Value**                   |
-|------------|---------------------------------------|---------------|-------------------------------------|
-| `e/`       | A partial prefix of the Employee ID   | Required      | `0c2414da`                          |
-| `d/`       | The date of the anniversary           | Required      | `2025-03-13`                        |
-| `n/`       | A short name for the anniversary      | Required      | `Silver Wedding`                    |
-| `t/`       | The main category/type of the event   | Required      | `Wedding`                           |
-| `desc/`    | A text description of the anniversary | Optional      | `Celebrating 25 years`             |
-| `td/`      | Additional type descriptors           | Optional      | `Personal`, `Work`, etc. (repeatable) |
+| **Prefix** | **Meaning**                                               | **Required?**                     | **Example Value**      |
+|------------|-----------------------------------------------------------|-----------------------------------|------------------------|
+| `eid/`      | A partial prefix of the Employee ID                       | Required                          | `0c2414da`             |
+| `d/`       | The date of the anniversary                               | Required                          | `2025-03-13`           |
+| `an/`      | A short name for the anniversary                          | Required                          | `Silver Wedding`       |
+| `at/`      | The main category/type of the event                       | Required                          | `Wedding`              |
+| `desc/`    | A text description of the anniversary                     | Optional                          | `Celebrating 25 years` |
+| `atdesc/`  | A description of the type                                 | Optional                          | `Personal`, `Work`     |
+| `bd/`      | A short name for the birthday                             | Optional                          | `Birthday`             |
+| `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
+| `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
 
 > **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
 
@@ -302,17 +313,35 @@ addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [a
 ```plaintext 
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
 ```
-- **Employee ID prefix**: `0c2414da`
-- **Date**: `2025-03-13`
-- **Anniversary Name**: `Silver Wedding`
-- **Anniversary Type**: `Wedding`
-- **Description**: `Celebrating 25 years` (optional)
-- **Additional Type**: `Personal` (optional)
-
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
+- `at/Wedding`: The name of the anniversary type - `Wedding`
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
 If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
 
+```plaintext 
+addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+
+```plaintext 
+addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 **1. Employee ID Prefix Ambiguity**
 - If the prefix matches multiple employees, an error displays.
@@ -397,16 +426,19 @@ deleteAnniversary eid/EMPLOYEE_ID ad/INDEX
 | **Prefix** | **Meaning**                                                   | **Required?** | **Example**  |
 |------------|---------------------------------------------------------------|---------------|-------------|
 | `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
-| `ad/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
+| `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
 
 #### **Example Usage**
 ```plaintext
-deleteAnniversary eid/0c2414da ad/1
+deleteAnniversary eid/0c2414da ai/1
 ```
-
+- `deleteAnniversary` - the command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `ai/1`: the index of the anniversary you want to delete
+this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 - **Employee ID Prefix Ambiguity**  
   If multiple employees share the same prefix, an error is thrown, prompting you to use a longer or full ID.
@@ -554,9 +586,34 @@ import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 ```plaintext 
 import ft/json fp/data/ fn/contacts wm/append
 ```
+Explanation:
+`import` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+this will import the file `contacts.json` from `/data` directory and append the data to the current address book.
+
+```plaintext 
+import ft/json fp/data/ fn/contacts wm/overwrite
+```
+Explanation:
+`import` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current address book.
+
+```plaintext 
+import ft/csv fp/data/contacts.csv wm/append
+```
+Explanation:
+`import` — the command you're running
+`ft/csv` — file type is CSV
+`fp/data/contacts.csv` — file path is the data/ directory
+this will import the file `contacts.csv` from `/data` directory and append the data to the current address book.
 
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 1. **File Type Validation**
     - Supported only `json` or `csv`.
@@ -622,10 +679,48 @@ export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 ```plaintext
 export ft/json fp/data/ fn/contacts
 ```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+✅ This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/csv fp/data/contacts.csv
+```
+Explanation:
+`export` — the command you're running
+`ft/csv` — file type is CSV
+`fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
+
+✅ This will save your current contact list as a file named contacts.csv in the data/ folder.
+
+```plaintext
+export ft/json fp/data/ fn/contacts
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+✅ This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/json
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+
+✅ This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+
 
 
 <details>
-<summary>Quirks & Edge Cases</summary>
+<summary>Advanced command rules</summary>
 
 1. **File Type Restrictions**
     - You must specify either `json` or `csv` using `ft/`.
@@ -708,7 +803,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **addAnni** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
 **showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ad/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ad/1`
+**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ad/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
 **import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
 **export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 
