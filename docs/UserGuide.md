@@ -279,7 +279,7 @@ With just a few commands, you can:
 
 ---
 ### **Add Anniversaries:**  `addAnni`
-You can use `addAnni` to add an anniversary to an employee's record in the address book.
+You can use `addAnni` to add an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
 #### **Command Format**
@@ -565,9 +565,9 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 
 ---
 ## **ImportCommand: `import`**
-You can use `import` to bring external data (in CSV or JSON) into your current address book. 
+You can use `import` to bring external data (in CSV or JSON) into your current Hreers application. 
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
-
+For CSV based inputs, multiple rows with same employeeId and same details(name, job position, phone number, email) will be collapsed into one entry in Hreers
 ## **Command Format**
 ```plaintext
 import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
@@ -591,7 +591,7 @@ Explanation:
 `ft/json` — file type is JSON
 `fp/data/` — file path is the data/ directory
 `fn/contacts` — file name is contacts (without extension)
-this will import the file `contacts.json` from `/data` directory and append the data to the current address book.
+this will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
 
 ```plaintext 
 import ft/json fp/data/ fn/contacts wm/overwrite
@@ -601,7 +601,7 @@ Explanation:
 `ft/json` — file type is JSON
 `fp/data/` — file path is the data/ directory
 `fn/contacts` — file name is contacts (without extension)
-this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current address book.
+this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
 
 ```plaintext 
 import ft/csv fp/data/contacts.csv wm/append
@@ -610,7 +610,7 @@ Explanation:
 `import` — the command you're running
 `ft/csv` — file type is CSV
 `fp/data/contacts.csv` — file path is the data/ directory
-this will import the file `contacts.csv` from `/data` directory and append the data to the current address book.
+this will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
 
 <details>
 <summary>Advanced command rules</summary>
@@ -657,11 +657,12 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 
 ---
 ## **ExportCommand: `export`**
-You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
+You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
 If you provide a specific directory path (`fp/`), the system will export the file there. 
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
 This means that you do **not** need to include the extension behind the file name.
-
+For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
+with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
 ## **Command Format**
 ```plaintext
 export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
