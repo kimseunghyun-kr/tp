@@ -18,7 +18,7 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 
 1. [Quick Start](#quick-start)
 2. [Features](#features)
-2. [Basic Commands](#basic-commands)
+3. [Basic Commands](#basic-commands)
     - [Viewing help: `help`](#viewing-help-codehelpcode)
     - [Adding an employee: `add`](#adding-an-employee-codeaddcode)
     - [Listing all employees: `list`](#listing-all-employees-codelistcode)
@@ -26,25 +26,25 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
     - [Undoing the last command: `undo`](#undoing-the-last-command-codeundocode)
     - [Locating employees: `find`](#locating-employees-codefindcode)
     - [Deleting an employee: `delete`](#deleting-an-employee-codedeletecode)
-3. [Anniversary Commands](#anniversary-commands)
+4. [Anniversary Commands](#anniversary-commands)
     - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
     - [Showing anniversaries: `showAnni`](#showing-anniversaries-codeshowannicode)
     - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
-4. [Reminder Commands](#reminder-commands)
+5. [Reminder Commands](#reminder-commands)
     - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-codereminder-bdcode)
     - [Viewing upcoming work anniversaries: `reminder wa`](#viewing-upcoming-work-anniversaries-codereminder-wacode)
-5. [Quality of Life Commands](#quality-of-life-features)
+6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
-6. [Import and Export](#import-and-export)
+7. [Import and Export](#import-and-export)
     - [Importing data: `import`](#importing-data-codeimportcode)
     - [Exporting data: `export`](#exporting-data-codeexportcode)
-7. [FAQ](#faq)
-8. [Known issues](#known-issues)
-9. [Command summary](#command-summary)
-10. [Glossary](#glossary)
+8. [FAQ](#faq)
+9. [Known issues](#known-issues)
+10. [Command summary](#command-summary)
+11. [Glossary](#glossary)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -53,15 +53,15 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+2. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your H'Reers.
+3. Copy the file to the folder you want to use as the _home folder_ for your H'Reers.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar H'Reers.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar H'Reers.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/MockUI.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
     * `list` : Lists all contacts.
@@ -74,7 +74,7 @@ By centralizing these tasks in one tool, H'Reers makes employee management more 
 
     * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+6. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
