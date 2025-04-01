@@ -11,9 +11,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
 
-
 import org.junit.jupiter.api.Test;
 import org.mockito.junit.jupiter.MockitoSettings;
+
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Name;
