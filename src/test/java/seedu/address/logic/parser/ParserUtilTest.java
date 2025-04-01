@@ -271,7 +271,7 @@ public class ParserUtilTest {
     public void validateSafeContent_controlCharacters_throwsParseException() {
         String input = "Hello\u0007World"; // Bell character (non-printable)
         assertThrows(ParseException.class, () ->
-                ParserUtil.validateSafeContent(input, "control char field", false,false));
+                ParserUtil.validateSafeContent(input, "control char field", false, false));
     }
 
 }
