@@ -5,44 +5,44 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
-import seedu.address.model.person.Person;
+import seedu.address.model.reminder.Reminder;
 
 /**
- * Panel containing a list of reminders for either upcoming birthdays or work anniversaries.
+ * A UI panel that displays a list of upcoming reminders for employee anniversaries.
+ *
+ * This includes birthdays, work anniversaries, and custom anniversary types, each shown
+ * using a {@link ReminderCard}. Each reminder entry is associated with a specific
+ * {@link seedu.address.model.person.Person}, type, and upcoming date.
  */
 public class ReminderListPanel extends UiPart<Region> {
     private static final String FXML = "ReminderListPanel.fxml";
-    private boolean isBirthday;
 
     @FXML
-    private ListView<Person> reminderListView;
+    private ListView<Reminder> reminderListView;
 
     /**
-     * Creates a {@code ReminderListPanel} with the given {@code ObservableList} of persons
-     * and a flag indicating whether the reminders are for birthdays.
+     * Constructs a {@code ReminderListPanel} with the given list of reminders.
      *
-     * @param reminderList The list of persons to display in the reminder panel.
-     * @param isBirthday   True if this panel displays birthday reminders, false for work anniversaries.
+     * @param reminderList The observable list of {@link Reminder} objects to display.
      */
-    public ReminderListPanel(ObservableList<Person> reminderList, boolean isBirthday) {
+    public ReminderListPanel(ObservableList<Reminder> reminderList) {
         super(FXML);
-        this.isBirthday = isBirthday;
         reminderListView.setItems(reminderList);
         reminderListView.setCellFactory(listView -> new ReminderListViewCell());
     }
 
     /**
-     * Custom {@code ListCell} that displays a {@code Person} using a {@code ReminderCard}.
+     * A custom {@link ListCell} used to render each {@link Reminder} as a {@link ReminderCard}.
      */
-    class ReminderListViewCell extends ListCell<Person> {
+    class ReminderListViewCell extends ListCell<Reminder> {
         @Override
-        protected void updateItem(Person person, boolean empty) {
-            super.updateItem(person, empty);
-            if (empty || person == null) {
+        protected void updateItem(Reminder reminder, boolean empty) {
+            super.updateItem(reminder, empty);
+            if (empty || reminder == null) {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new ReminderCard(person, isBirthday).getRoot());
+                setGraphic(new ReminderCard(reminder).getRoot());
             }
         }
     }

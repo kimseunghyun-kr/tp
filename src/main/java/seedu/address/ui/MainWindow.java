@@ -37,8 +37,7 @@ public class MainWindow extends UiPart<Stage> {
 
     // Independent Ui parts residing in this Ui container
     private PersonListPanel personListPanel;
-    private ReminderListPanel birthdayReminderListPanel;
-    private ReminderListPanel workAnniversaryReminderListPanel;
+    private ReminderListPanel reminderListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
 
@@ -58,7 +57,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane statusbarPlaceholder;
 
     @FXML
-    private StackPane birthdayReminderPanelPlaceholder;
+    private StackPane reminderPanelPlaceholder;
 
     @FXML
     private StackPane workAnniversaryReminderPanelPlaceholder;
@@ -127,11 +126,8 @@ public class MainWindow extends UiPart<Stage> {
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         // New panels for reminders
-        birthdayReminderListPanel = new ReminderListPanel(logic.getBirthdayReminderList(), true);
-        birthdayReminderPanelPlaceholder.getChildren().add(birthdayReminderListPanel.getRoot());
-
-        workAnniversaryReminderListPanel = new ReminderListPanel(logic.getWorkAnniversaryReminderList(), false);
-        workAnniversaryReminderPanelPlaceholder.getChildren().add(workAnniversaryReminderListPanel.getRoot());
+        ReminderListPanel reminderListPanel = new ReminderListPanel(logic.getReminderList());
+        reminderPanelPlaceholder.getChildren().add(reminderListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
