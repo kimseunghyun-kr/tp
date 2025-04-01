@@ -3,34 +3,44 @@ layout: page
 title: H'Reers User Guide
 ---
 
-H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a GUI (Graphical User Interface), most of the user interactions happen using a CLI (Command Line Interface).
+H'Reers is a powerful desktop assistant designed specifically for Human Resource professionals to manage employee information with speed, clarity, and reliability.
 
-## Table of Contents
+Whether you want to track employee milestones, update records, or generate quick reports, H'Reers gives you command-line precision with a simple, friendly interface to back it up.
+
+✅ Designed for fast-paced HR workflows.
+🧠 CLI-first so power users get things done quickly.
+🎯 Never miss an anniversary, birthday, or detail again.
+
+
+## 📚 What You’ll Find in This Guide
 
 1. [Quick Start](#quick-start)
-2. [Features](#features)
-    - [Viewing help: `help`](#viewing-help-codehelpcode)
-    - [Adding an employee: `add`](#adding-an-employee-codeaddcode)
-    - [Listing all employees: `list`](#listing-all-employees-codelistcode)
-    - [Editing an employee: `edit`](#editing-an-employee-codeeditcode)
-    - [Filtering employees by name or job position: `find`](#filtering-employees-by-name-or-job-position-codefindcode)
-    - [Deleting an employee: `delete`](#deleting-an-employee-codedeletecode)
-3. [Anniversary Commands](#anniversary-commands)
-    - [Add anniversaries: `addAnni`](#add-anniversaries-codeaddannicode)
-    - [Show anniversaries: `showAnni`](#show-anniversaries-codeshowannicode)
-    - [DeleteAnniversaryCommand `deleteAnni`](#delete-anniversaries-codedeleteannicode)
+2. [Core Employee Management](#features)
+    - [Viewing help: `help`](#viewing-help-help)
+    - [Adding a person: `add`](#adding-a-person-add)
+    - [Listing all persons: `list`](#listing-all-persons-list)
+    - [Editing a person: `edit`](#editing-a-person-edit)
+    - [Locating persons by name: `find`](#locating-persons-by-name-find)
+    - [Deleting a person: `delete`](#deleting-a-person-delete)
+3. [Manage Anniversaries and Events](#anniversary-commands)
+    - [Add anniversaries: `addAnni`](#add-anniversaries-addanni)
+    - [Show anniversaries: `showAnni`](#show-anniversaries-showanni)
+    - [DeleteAnniversaryCommand: `deleteAnni`](#delete-anniversaries-deleteanni)
 4. [Reminder](#reminder)
     - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-codereminder-bdcode)
     - [Viewing upcoming work anniversaries: `reminder wa`](#viewing-upcoming-work-anniversaries-codereminder-wacode)
-5. [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
-6. [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
-7. [Saving the data](#saving-the-data)
-8. [Editing the data file](#editing-the-data-file)
-9. [Importing external files: `import`](#importcommand-codeimportcode)
-10. [Exporting to external files: `export`](#exportcommand-codeexportcode)
-11. [FAQ](#faq)
-12. [Known issues](#known-issues)
-13. [Command summary](#command-summary)
+5. [Data management & Utilities](#data-management--utilities)
+    - [Import Data to File `import`](#importcommand-import)
+    - [ExportCommand `export`](#exportcommand-export)
+    - [Clearing all entries: `clear`](#clearing-all-entries-clear)
+    - [Exiting the program: `exit`](#exiting-the-program-exit)
+    - [Saving data Automatically](#saving-the-data)
+    - [Editing the data file](#editing-the-data-file)
+5. [FAQ & TroubleShooting](#faq)
+    - [Frequently Asked Questions](#faq)
+    - [Known issues](#known-issues)
+6. [All Commands At a Glance](#command-summary)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Quick start
@@ -436,6 +446,20 @@ Below is an example of how the reminders appear on the UI:
 ![reminderListUI.png](images/reminderListUI.png)
 
 Each panel updates when you enter `reminder bd` or `reminder wa`.
+
+---
+## Data management & Utilities
+This section covers all the essential tools to organize, back up, and maintain your employee database efficiently.
+
+Whether you're importing a list of new hires, exporting data for audits, or just doing a bit of spring cleaning—H'Reers gives you the flexibility to manage your records safely and smoothly.
+
+Here’s what you can do in this section:
+- Import employee data from external sources
+- Export your records for backups or reporting
+- Clear all data (with caution!)
+- Exit the app properly and safely
+- Understand how your data is auto-saved
+- Manually tweak the saved file if needed
 
 ---
 ### Clearing all entries: `clear`
