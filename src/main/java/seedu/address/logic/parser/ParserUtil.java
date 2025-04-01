@@ -5,9 +5,11 @@ import static java.util.Objects.requireNonNull;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -26,11 +28,12 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = "Employee id prefix not specified!";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_FORMAT = "Employee id can't start contain spaces!";
-    private static final int MAX_ALLOWED_LENGTH = 1000; // Maximum allowed length for input strings
-    private static final Pattern DANGEROUS_INPUT_PATTERN = Pattern.compile(
+    public static final int MAX_ALLOWED_LENGTH = 1000; // Maximum allowed length for input strings
+    public static final Pattern DANGEROUS_INPUT_PATTERN = Pattern.compile(
             "(?i)\\b(drop|delete|insert|update|truncate|exec|script)\\b|<[^>]+>"
     );
-    private static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile("[\\p{Cntrl}&&[^\r\n\t]]");
+    public static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile("[\\p{Cntrl}&&[^\r\n\t]]");
+    private static final Logger logger = LogsCenter.getLogger(ParserUtil.class);
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -170,15 +173,30 @@ public class ParserUtil {
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
+
     /**
      * Validates that the input string does not contain any dangerous content or control characters.
+     * Validation can skip null and/or empty checks depending on the provided flags.
+     *
      * @param input the input string to validate
      * @param fieldName the name of the field for error messages
-     * @throws ParseException if the input string is invalid
+     * @param allowNull if true, allows null input and returns early
+     * @param allowEmpty if true, allows empty or whitespace-only input
+     * @throws ParseException if the input is invalid based on the active rules
      */
-    public static void validateSafeContent(String input, String fieldName, boolean isNullPossible)
+    public static void validateSafeContent(String input, String fieldName, boolean allowNull, boolean allowEmpty)
             throws ParseException {
-        if (!isNullPossible && (input == null || input.trim().isEmpty())) {
+
+        if (input == null) {
+            if (allowNull) {
+                logger.info(String.format("The %s is null.", fieldName));
+                return;
+            }
+            throw new ParseException("The " + fieldName + " cannot be null.");
+        }
+
+        String trimmedInput = input.trim();
+        if (trimmedInput.isEmpty() && !allowEmpty) {
             throw new ParseException("The " + fieldName + " cannot be empty.");
         }
 
@@ -194,5 +212,6 @@ public class ParserUtil {
             throw new ParseException("The " + fieldName + " contains invalid control characters.");
         }
     }
+
 
 }

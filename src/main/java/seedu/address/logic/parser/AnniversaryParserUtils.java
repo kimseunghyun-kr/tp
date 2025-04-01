@@ -166,9 +166,9 @@ public class AnniversaryParserUtils {
         String trimmedAnniversaryDate = dateStr.trim();
         LocalDate date;
         try {
-            validateSafeContent(name, "anniversary name", true);
-            validateSafeContent(type, "anniversary type", false);
-            validateSafeContent(description, "anniversary description", false);
+            validateSafeContent(name, "anniversary name", true, true);
+            validateSafeContent(type, "anniversary type", false, false);
+            validateSafeContent(description, "anniversary description", false, true);
             date = LocalDate.parse(trimmedAnniversaryDate);
         } catch (DateTimeParseException e) {
             throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
