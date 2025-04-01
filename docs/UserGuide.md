@@ -36,7 +36,7 @@ Whether you want to track employee milestones, update records, or generate quick
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Saving data Automatically](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
-5. [FAQ & TroubleShooting](#faq)
+5. [FAQ & TroubleShooting](#frequently-asked-questions-and-troubleshooting)
     - [Frequently Asked Questions](#faq)
     - [Known issues](#known-issues)
 6. [All Commands At a Glance](#command-summary)
@@ -45,19 +45,40 @@ Whether you want to track employee milestones, update records, or generate quick
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. ✅ Step 1: Make sure Java is installed
 
-1. Download the latest `.jar` file from [here](https://github.com/se-edu/addressbook-level3/releases).
+    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17 or above installed on your computer.
 
-1. Copy the file to the folder you want to use as the _home folder_ for your H'Reers.
+    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions
+    👉 Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
+    🔍 Not sure if Java is already installed?
+    Open your terminal or command prompt and type:
+    ```bash
+    java -version
+    ```
+    If the version shows 17 or higher, you're good to go!
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar H'Reers.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
+2. Step 2: Download H'Reers (MINSEOK GO ADD SCREENSHOT HERE)
+   1. go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
+   2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
+   3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
+
+3. Step 3: Start the Application (TERR TERR GO ADD SCREENSHOT HERE)
+   1. Open your command prompt (on Windows) or terminal (on Mac/Linux). 
+   2. Navigate to the folder where you saved the .jar file. For example:
+       ```bash
+        cd /path/to/your/folder
+       ```
+   3. Run this command:
+       ```bash
+       java -jar hreers.jar <MINSEOK HELP MODIFY THIS>
+       ```
+   4. H'Reers will open in a few seconds with a simple GUI, ready to use!
    ![Ui](images/MockUI.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+4. Step 4: Try a Few Commands
+   Hreers is shipped with a few sample data for you to try out a few commands to get used to it.
+   Here is our recommended list of commands to try - just type them in the command box and press Enter:
 
    * `list` : Lists all contacts.
 
@@ -69,26 +90,35 @@ Whether you want to track employee milestones, update records, or generate quick
 
    * `exit` : Exits the app.
 
-1. Refer to the [Features](#features) below for details of each command.
+5. Learn More
+- You can explore all available features and commands in the [Features](#features) below.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
+This section walks you through the essential commands for managing your employee records — from adding new hires to updating details or removing old entries.
+
+Whether you’re onboarding someone, searching through your team list, or making quick edits, these commands help you get it done fast — all from the command line.
+
+You’ll also find helpful notes below on how to format your commands, including optional fields, parameter order, and best practices.
+
+---
+
 <div markdown="block" class="alert alert-info">
 
-<br>**:information_source: Notes about the command format:**<br>
+<br>**:information_source: How to Read the Command Formats**<br>
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
+* Words in `UPPER_CASE` are placeholders — you replace them with actual data.<br>
+  e.g. in `add n/NAME`, `NAME` -> `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
+* Items with `…`​ can appear multiple times or not at all.<br>
   e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
 
-* Parameters can be in any order.<br>
+* Parameter order doesn’t matter.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
@@ -233,6 +263,17 @@ Format: `delete Employee_ID_prefix`
 Examples:
 * `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
 
+---
+# Anniversary Commands
+Great HR isn’t just about managing people — it’s about remembering what matters.
+
+This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
+With just a few commands, you can:
+
+- Add meaningful events tied to specific employees
+- View Anniversaries related to a specific employee
+- View all upcoming anniversaries (Minseok go add this)
+- Remove outdated or incorrect entries
 ---
 ## Anniversary Commands
 
@@ -633,7 +674,12 @@ export ft/json fp/data/ fn/contacts
 _Details coming soon ..._
 
 --------------------------------------------------------------------------------------------------------------------
+## Frequently asked questions and Troubleshooting
+We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
 
+Whether you're setting up H'Reers on a new machine or wondering why the help window isn't showing up, we’ve got you covered.
+
+---
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
