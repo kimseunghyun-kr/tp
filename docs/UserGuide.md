@@ -3,9 +3,16 @@ layout: page
 title: H'Reers User Guide
 ---
 
-H'Reers is a **desktop application** for *HRs* to keep details and anniversaries of their employees. While it has a [GUI](#glossary), most of the user interactions happen using a [CLI](#glossary).
+Managing *employee details, birthdays, and work anniversaries* can be time-consuming and prone to error. 
+For HR professionals, keeping track of all this information manually can become overwhelming, even in small to medium organizations. 
+**H'Reers** is designed to solve these issues by offering an intuitive desktop application with both a [GUI](#glossary) and [CLI](#glossary) for seamless interaction.
 
-H'Reers includes a smart **[Reminder](#reminder-commands)** feature that helps HRs stay on top of upcoming birthdays and work anniversaries. It provides a focused view of employees with these events occurring within the next 3 days. When the command is used, new panels appear beside the main list, displaying the filtered employees.
+With features like [adding](#adding-an-employee-add), [editing](#editing-an-employee-edit), and [deleting](#deleting-an-employee-delete) employee records and [adding birthdays and anniversaries](#anniversary-commands),
+H'Reers helps you to stay organized, accurate, and on top of important milestones.
+The [Reminder](#reminder-commands) system provides a focused view of your employees with these events occurring within the next 3 days.
+When the [command](#viewing-upcoming-birthdays-reminder-bd) is used, new panels appear beside the main list, displaying the filtered employees.
+
+By centralizing these tasks in one tool, H'Reers makes employee management more efficient and less error-prone, saving you time and improving overall workflow.
 
 ## Table of Contents
 
@@ -26,7 +33,7 @@ H'Reers includes a smart **[Reminder](#reminder-commands)** feature that helps H
 4. [Reminder Commands](#reminder-commands)
     - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-reminder-bd)
     - [Viewing upcoming work anniversaries: `reminder wa`](#viewing-upcoming-work-anniversaries-reminder-wa)
-5. [Quality of life Commands](#quality-of-life-features)
+5. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-clear)
     - [Exiting the program: `exit`](#exiting-the-program-exit)
     - [Saving the data](#saving-the-data)
@@ -115,11 +122,11 @@ Adds an employee to H'Reers.
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
 
 Date format: `YYYY-MM-DD`
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
 An employee can have any number of tags (including 0)
 </div>
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
 bd/ stands for birthday, and wa/ stands for work anniversary — these are standard anniversaries the app automatically creates for you when you provide a date.
 
 If you wish to track other types of anniversaries, you can add them using the [add anniversary command below](#add-anniversaries-addanni).
