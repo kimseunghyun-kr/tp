@@ -3,11 +3,15 @@ package seedu.address.logic.commands.anniversary;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_NOT_FOUND;
 
+import java.util.List;
+
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Employee;
+import seedu.address.model.person.EmployeeId;
 
 /**
  * Shows the list of anniversary of an existing employee with the specified employee ID.
@@ -26,14 +30,14 @@ public class ShowAnniversaryCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Anniversaries shown for employee: %s!";
 
-    private final String employeeIdToFind;
+    private EmployeeId employeeIdToFind;
 
     /**
      * Creates an ShowAnniversaryCommand with the given employee ID.
      *
      * @param employeeId the employee ID to find
      */
-    public ShowAnniversaryCommand(String employeeId) {
+    public ShowAnniversaryCommand(EmployeeId employeeId) {
         requireNonNull(employeeId);
         this.employeeIdToFind = employeeId;
     }
@@ -41,14 +45,21 @@ public class ShowAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        Employee employeeToShow = model.getFilteredEmployeeList().stream()
-                .filter(p -> p.getEmployeeId().toString().equals(employeeIdToFind))
-                .findFirst()
-                .orElseThrow(() -> new CommandException(String.format(MESSAGE_EMPLOYEE_NOT_FOUND, employeeIdToFind)));
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, employeeToShow.getName()), true,
-                employeeToShow.getEmployeeIdAsString());
+        List<Employee> personToEdit = model.getFilteredByEmployeeIdPrefixList(employeeIdToFind);
+        if (personToEdit.size() > 1) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
+                    employeeIdToFind
+            ));
+        }
+        if (personToEdit.isEmpty()) {
+            throw new CommandException(String.format(
+                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    employeeIdToFind
+            ));
+        }
+        return new CommandResult(String.format(MESSAGE_SUCCESS), true,
+                String.valueOf(personToEdit.get(0).getAnniversaries()));
     }
 
     @Override

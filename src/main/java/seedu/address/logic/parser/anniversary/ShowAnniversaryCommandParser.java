@@ -8,6 +8,7 @@ import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EmployeeId;
 
 /**
  * Parses input arguments and creates a new ShowAnniversaryCommand object
@@ -30,7 +31,6 @@ public class ShowAnniversaryCommandParser implements Parser<ShowAnniversaryComma
         }
 
         String employeeId = argMultimap.getValue(PREFIX_EMPLOYEEID).get();
-
-        return new ShowAnniversaryCommand(employeeId);
+        return new ShowAnniversaryCommand(EmployeeId.fromString(employeeId));
     }
 }
