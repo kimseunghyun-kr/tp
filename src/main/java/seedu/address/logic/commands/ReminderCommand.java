@@ -13,7 +13,8 @@ public class ReminderCommand extends Command {
             + ": Displays a list of upcoming anniversaries (within 3 days).\n"
             + "Example: " + COMMAND_WORD;
 
-    public static final String MESSAGE_SUCCESS = "Displayed employees with upcoming anniversaries!";
+    public static final String MESSAGE_SUCCESS = "Displayed employees with upcoming anniversaries! \n"
+            + "Only employees with anniversaries upcoming within 3 days will appear on the panel.";
 
     @Override
     public CommandResult execute(Model model) {
