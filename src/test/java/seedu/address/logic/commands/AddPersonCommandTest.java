@@ -24,6 +24,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
+import seedu.address.model.reminder.Reminder;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddPersonCommandTest {
@@ -181,12 +182,12 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public ObservableList<Person> getBirthdayReminderList() {
-            throw new AssertionError("This method should not be called.");
+        public void updateReminderList() {
+            // Stub implementation, no-op
         }
 
         @Override
-        public ObservableList<Person> getWorkAnniversaryReminderList() {
+        public ObservableList<Reminder> getReminderList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -195,15 +196,6 @@ public class AddPersonCommandTest {
             // Stub implementation, no-op
         }
 
-        @Override
-        public void updateBirthdayReminderList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateWorkAnniversaryReminderList() {
-            throw new AssertionError("This method should not be called.");
-        }
     }
 
     /**
@@ -253,13 +245,8 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public void updateBirthdayReminderList() {
-            // Stub implementation, no-op
-        }
-
-        @Override
-        public void updateWorkAnniversaryReminderList() {
-            // Stub implementation, no-op
+        public ObservableList<Reminder> getReminderList() {
+            return javafx.collections.FXCollections.observableArrayList(); // or stub list
         }
     }
 }

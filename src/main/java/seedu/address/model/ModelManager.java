@@ -4,22 +4,31 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.Person;
+import seedu.address.model.reminder.Reminder;
 
 /**
  * Represents the in-memory model of the address book data.
  */
 public class ModelManager implements Model {
+
+    /** The number of days ahead to include in reminder listings. */
+    private static final int REMINDED_DATE_RANGE = 3;
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
@@ -28,10 +37,10 @@ public class ModelManager implements Model {
     private int currentStatePointer = 0;
     private List<AddressBook> addressBookStates = new ArrayList<>();
 
+    private final ObservableList<Reminder> reminderList = FXCollections.observableArrayList();
     private final FilteredList<Person> birthdayReminderList;
 
     private final FilteredList<Person> workAnniversaryReminderList;
-
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -108,24 +117,84 @@ public class ModelManager implements Model {
         return addressBook;
     }
 
+    /**
+     * Updates the reminder list by scanning all persons in the address book and collecting
+     * upcoming anniversaries within a specified range (e.g. 3 days).
+     *
+     * Each upcoming anniversary is converted into a {@link seedu.address.model.reminder.Reminder}
+     * and added to the internal reminder list. The list is sorted chronologically.
+     */
     @Override
-    public void updateBirthdayReminderList() {
-        birthdayReminderList.setPredicate(person -> {
-            boolean isUpcoming = person.isUpcomingWithinDays("Birthday", 3);
-            System.out.println(person.getName() + ": " + isUpcoming);
-            return isUpcoming;
-        });
-        System.out.println("Filtered birthday list: " + birthdayReminderList.size());
+    public void updateReminderList() {
+        reminderList.clear();
+        addressBook.getPersonList().stream()
+                .map(this::extractRemindersFromPerson)
+                .flatMap(List::stream)
+                .sorted()
+                .forEach(reminderList::add);
     }
 
+    /**
+     * Extracts all upcoming anniversary reminders for a given person.
+     *
+     * @param person The person to check for upcoming anniversaries.
+     * @return A list of {@link Reminder} objects, one for each upcoming anniversary within range.
+     */
+    private List<Reminder> extractRemindersFromPerson(Person person) {
+        return person.getAnniversaries().stream()
+                .map(anni -> toReminderIfWithinRange(person, anni, REMINDED_DATE_RANGE))
+                .flatMap(Optional::stream)
+                .toList();
+    }
+
+    /**
+     * Converts an anniversary to a {@link Reminder} if its next occurrence is within a given range.
+     *
+     * @param person The person the anniversary belongs to.
+     * @param anniversary The anniversary to evaluate.
+     * @param daysRange The max number of days ahead to include.
+     * @return An Optional containing a Reminder if it qualifies, otherwise an empty Optional.
+     */
+    private Optional<Reminder> toReminderIfWithinRange(Person person, Anniversary anniversary, int daysRange) {
+        LocalDate nextDate = getNextOccurrence(anniversary.getDate());
+        if (nextDate == null) {
+            return Optional.empty();
+        }
+
+        long daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), nextDate);
+        if (daysLeft < 0 || daysLeft > daysRange) {
+            return Optional.empty();
+        }
+
+        Reminder reminder = new Reminder(
+                person,
+                nextDate,
+                anniversary.getType(),
+                anniversary.getDescription()
+        );
+        return Optional.of(reminder);
+    }
+
+    /**
+     * Computes the next upcoming occurrence of a given anniversary date, adjusted to the current or next year.
+     *
+     * @param date The anniversary's original date.
+     * @return A {@link LocalDate} representing the next occurrence of the anniversary.
+     */
+    private LocalDate getNextOccurrence(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalDate next = date.withYear(today.getYear());
+        return next.isBefore(today) ? next.plusYears(1) : next;
+    }
+
+
     @Override
-    public void updateWorkAnniversaryReminderList() {
-        workAnniversaryReminderList.setPredicate(person -> {
-            boolean isUpcoming = person.isUpcomingWithinDays("Work Anniversary", 3);
-            System.out.println(person.getName() + ": " + isUpcoming);
-            return isUpcoming;
-        });
-        System.out.println("Filtered wa list: " + workAnniversaryReminderList.size());
+    public ObservableList<Reminder> getReminderList() {
+        return FXCollections.unmodifiableObservableList(reminderList);
     }
 
     @Override
@@ -154,18 +223,21 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+        updateReminderList();
     }
 
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        updateReminderList();
     }
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
         addressBook.setPerson(target, editedPerson);
+        updateReminderList();
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -194,16 +266,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ObservableList<Person> getBirthdayReminderList() {
-        return birthdayReminderList;
-    }
-
-    @Override
-    public ObservableList<Person> getWorkAnniversaryReminderList() {
-        return workAnniversaryReminderList;
-    }
-
-    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
@@ -219,7 +281,6 @@ public class ModelManager implements Model {
                 && userPrefs.equals(otherModelManager.userPrefs)
                 && filteredPersons.equals(otherModelManager.filteredPersons);
     }
-
 
     /**
      * Checks if the address book can be undone.
