@@ -245,7 +245,7 @@ Examples:
 ## Anniversary Commands
 
 ---
-### Adding Anniversaries:  `addAnni`
+### Adding Anniversaries: `addAnni`
 You can use `addAnni` to add an anniversary to an employee's record in the address book.
 This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
@@ -329,7 +329,7 @@ If exactly one employee’s ID starts with `0c2414da`, this will create a `Silve
 </details>
 
 ---
-### **Showing anniversaries:** `showAnni`
+### Showing anniversaries: `showAnni`
 
 You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
 
@@ -349,7 +349,7 @@ Examples:
 * showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
 
 ---
-### **Deleting Anniversaries:** `deleteAnni`
+### Deleting Anniversaries: `deleteAnni`
 You can use `deleteAnni` to remove a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
 If successful, the chosen anniversary will no longer appear in that employee’s list of anniversaries.
@@ -491,11 +491,11 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 ## Import and Export
 
 ---
-### **Importing data:** `import`
+### Importing data: `import`
 You can use `import` to bring external data (in CSV or JSON) into your current address book.
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 
-#### **Command Format**
+#### Command Format
 ```plaintext
 import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 ```
@@ -558,7 +558,7 @@ import ft/json fp/data/ fn/contacts wm/append
 </details>
 
 ---
-### **Exporting data:** `export`
+### Exporting data: `export`
 You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
 If you provide a specific directory path (`fp/`), the system will export the file there.
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
