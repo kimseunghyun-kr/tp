@@ -8,7 +8,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
  * API of the Logic component
@@ -31,7 +31,7 @@ public interface Logic {
     ReadOnlyAddressBook getAddressBook();
 
     /** Returns an unmodifiable view of the filtered list of persons */
-    ObservableList<Person> getFilteredPersonList();
+    ObservableList<Employee> getFilteredPersonList();
 
     /**
      * Returns the user prefs' address book file path.
@@ -49,8 +49,8 @@ public interface Logic {
     void setGuiSettings(GuiSettings guiSettings);
 
     /** Returns an unmodifiable view of the birthday reminder list */
-    ObservableList<Person> getBirthdayReminderList();
+    ObservableList<Employee> getBirthdayReminderList();
 
     /** Returns an unmodifiable view of the work anniversary reminder list */
-    ObservableList<Person> getWorkAnniversaryReminderList();
+    ObservableList<Employee> getWorkAnniversaryReminderList();
 }

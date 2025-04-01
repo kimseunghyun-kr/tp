@@ -33,7 +33,7 @@ DAC -> P : getAnniversaryList()
 activate P
 P --> DAC : List<Anniversary>
 deactivate P
-DAC -> M : setPerson(Person target, Person editedPerson)
+DAC -> M : setPerson(Person target, Person editedEmployee)
 DAC --> U : CommandResult
 deactivate DAC
 @enduml

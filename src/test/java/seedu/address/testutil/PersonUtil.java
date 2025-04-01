@@ -13,40 +13,40 @@ import java.util.Set;
 
 import seedu.address.logic.commands.AddPersonCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 import seedu.address.model.tag.Tag;
 
 /**
- * A utility class for Person.
+ * A utility class for Employee.
  */
 public class PersonUtil {
 
     /**
-     * Returns an add command string for adding the {@code person}.
+     * Returns an add command string for adding the {@code employee}.
      */
-    public static String getAddCommand(Person person) {
-        return AddPersonCommand.COMMAND_WORD + " " + getPersonDetails(person);
+    public static String getAddCommand(Employee employee) {
+        return AddPersonCommand.COMMAND_WORD + " " + getPersonDetails(employee);
     }
 
     /**
-     * Returns the part of command string for the given {@code person}'s details.
+     * Returns the part of command string for the given {@code employee}'s details.
      */
-    public static String getPersonDetails(Person person) {
+    public static String getPersonDetails(Employee employee) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + person.getName().fullName + " ");
-        sb.append(PREFIX_PHONE + person.getPhone().value + " ");
-        sb.append(PREFIX_EMAIL + person.getEmail().value + " ");
-        sb.append(PREFIX_JOBPOSITION + person.getJobPosition().value + " ");
-        person.getTags().stream().forEach(
+        sb.append(PREFIX_NAME + employee.getName().fullName + " ");
+        sb.append(PREFIX_PHONE + employee.getPhone().value + " ");
+        sb.append(PREFIX_EMAIL + employee.getEmail().value + " ");
+        sb.append(PREFIX_JOBPOSITION + employee.getJobPosition().value + " ");
+        employee.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
-        sb.append(PREFIX_BIRTHDAY + person.getAnniversaries().get(0).getDate().toString() + " ");
-        sb.append(PREFIX_WORK_ANNIVERSARY + person.getAnniversaries().get(1).getDate().toString() + " ");
+        sb.append(PREFIX_BIRTHDAY + employee.getAnniversaries().get(0).getDate().toString() + " ");
+        sb.append(PREFIX_WORK_ANNIVERSARY + employee.getAnniversaries().get(1).getDate().toString() + " ");
         return sb.toString();
     }
 
     /**
-     * Returns the part of command string for the given {@code EditPersonDescriptor}'s details.
+     * Returns the part of command string for the given {@code EditEmployeeDescriptor}'s details.
      */
     public static String getEditPersonDescriptorDetails(EditPersonDescriptor descriptor) {
         StringBuilder sb = new StringBuilder();

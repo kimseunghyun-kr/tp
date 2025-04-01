@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
  * Container for user visible messages.
@@ -15,17 +15,17 @@ public class Messages {
     public static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command";
     public static final String MESSAGE_INVALID_COMMAND_FORMAT = "Invalid command format! \n%1$s";
     public static final String MESSAGE_EMPTY_FIELD_WITH_PREFIX = "At least one non-empty field is required.";
-    public static final String MESSAGE_PERSONS_LISTED_OVERVIEW = "%1$d persons listed!";
+    public static final String MESSAGE_EMPLOYEES_LISTED_OVERVIEW = "%1$d employees listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
 
     public static final String MESSAGE_SUCCESS = "New anniversary added: %1$s";
-    public static final String MESSAGE_PERSON_NOT_FOUND = "No person found with employeeId = %s";
-    public static final String MESSAGE_PERSON_PREFIX_NOT_FOUND = "No person found with employeeId starting with %s";
+    public static final String MESSAGE_EMPLOYEE_NOT_FOUND = "No employee found with employeeId = %s";
+    public static final String MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND = "No employee found with employeeId starting with %s";
     public static final String MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX =
             "Found multiple employees with employeeId starting with %s";
     public static final String MESSAGE_DUPLICATE_ANNIVERSARY =
-            "This exact anniversary (date + name + type + description) already exists for that person.";
+            "This exact anniversary (date + name + type + description) already exists for that employee.";
     public static final String MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS =
             "The index you are searching for is out of bounds for the anniversary.";
     public static final String MESSAGE_INVALID_REMINDER_TYPE =
@@ -46,19 +46,19 @@ public class Messages {
     }
 
     /**
-     * Formats the {@code person} for display to the user.
+     * Formats the {@code employee} for display to the user.
      */
-    public static String format(Person person) {
+    public static String format(Employee employee) {
         final StringBuilder builder = new StringBuilder();
-        builder.append(person.getName())
+        builder.append(employee.getName())
                 .append("; Phone: ")
-                .append(person.getPhone())
+                .append(employee.getPhone())
                 .append("; Email: ")
-                .append(person.getEmail())
+                .append(employee.getEmail())
                 .append("; Job: ")
-                .append(person.getJobPosition())
+                .append(employee.getJobPosition())
                 .append("; Tags: ");
-        person.getTags().forEach(builder::append);
+        employee.getTags().forEach(builder::append);
         return builder.toString();
     }
 

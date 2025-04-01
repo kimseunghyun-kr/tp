@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
 import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,16 +23,16 @@ import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.AnniversaryType;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 
 public class DeleteAnniversaryCommandTest {
 
     private Model model;
-    private Person basePerson;
+    private Employee baseEmployee;
     private EmployeeId employeeId;
     private Anniversary anniversaryOne;
     private Anniversary anniversaryTwo;
@@ -48,7 +48,7 @@ public class DeleteAnniversaryCommandTest {
         ArrayList<Anniversary> anniversaries = new ArrayList<>();
         anniversaries.add(anniversaryOne);
         anniversaries.add(anniversaryTwo);
-        basePerson = Person.builder()
+        baseEmployee = Employee.builder()
                 .employeeId(employeeId)
                 .name(new Name("Example"))
                 .phone(new Phone("12345"))
@@ -62,11 +62,11 @@ public class DeleteAnniversaryCommandTest {
     @Test
     void execute_deleteAnniversary_success() throws CommandException {
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee));
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
         String feedback = cmd.execute(model).getFeedbackToUser();
-        Mockito.verify(model).setPerson(Mockito.eq(basePerson), Mockito.any(Person.class));
+        Mockito.verify(model).setPerson(Mockito.eq(baseEmployee), Mockito.any(Employee.class));
         assertEquals("anniversary deleted: " + anniversaryOne, feedback);
     }
 
@@ -77,12 +77,12 @@ public class DeleteAnniversaryCommandTest {
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
         CommandException ex = assertThrows(CommandException.class, () -> cmd.execute(model));
-        assertEquals(String.format(MESSAGE_PERSON_PREFIX_NOT_FOUND, employeeId), ex.getMessage());
+        assertEquals(String.format(MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND, employeeId), ex.getMessage());
     }
 
     @Test
     void execute_multipleEmployeesFound_throwsCommandException() {
-        Person otherPerson = Person.builder()
+        Employee otherEmployee = Employee.builder()
                 .employeeId(EmployeeId.fromString("11111111-1111-1111-1111-111111111111"))
                 .name(new Name("Second"))
                 .phone(new Phone("54321"))
@@ -92,7 +92,7 @@ public class DeleteAnniversaryCommandTest {
                 .anniversaries(Collections.singletonList(anniversaryOne))
                 .build();
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson, otherPerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee, otherEmployee));
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
         CommandException ex = assertThrows(CommandException.class, () -> cmd.execute(model));
@@ -102,7 +102,7 @@ public class DeleteAnniversaryCommandTest {
     @Test
     void execute_outOfBoundsIndex_throwsCommandException() {
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee));
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(999), employeeId);
 
         CommandException ex = assertThrows(CommandException.class, () -> cmd.execute(model));

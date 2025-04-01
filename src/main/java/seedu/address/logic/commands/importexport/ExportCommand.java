@@ -13,7 +13,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
  * Exports currently visible persons data to a file.
@@ -29,7 +29,7 @@ public class ExportCommand extends Command {
     public final Path path;
 
     /**
-     * Creates an ExportCommand to export the specified {@code Person}
+     * Creates an ExportCommand to export the specified {@code Employee}
      * @param filetype json or csv source file
      * @param path path to the file
      */
@@ -39,7 +39,7 @@ public class ExportCommand extends Command {
     }
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        ObservableList<Person> displayedPeople = model.getFilteredPersonList();
+        ObservableList<Employee> displayedPeople = model.getFilteredEmployeeList();
         if (displayedPeople.isEmpty()) {
             throw new CommandException("No people to export.");
         }

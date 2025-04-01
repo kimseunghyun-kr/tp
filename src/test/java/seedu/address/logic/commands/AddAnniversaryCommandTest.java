@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_ANNIVERSARY;
 import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,17 +21,17 @@ import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.anniversary.AnniversaryType;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 
 public class AddAnniversaryCommandTest {
     private Model model;
     private Anniversary validAnniversary;
     private EmployeeId validEmployeeId;
-    private Person basePerson;
+    private Employee baseEmployee;
 
     @BeforeEach
     public void setUp() {
@@ -43,7 +43,7 @@ public class AddAnniversaryCommandTest {
                 "Sample Description",
                 "Sample Anniversary"
         );
-        basePerson = Person.builder()
+        baseEmployee = Employee.builder()
                 .employeeId(validEmployeeId)
                 .name(new Name("Alice"))
                 .phone(new Phone("12345678"))
@@ -58,14 +58,14 @@ public class AddAnniversaryCommandTest {
     public void execute_addValidAnniversary_success() throws Exception {
         // Arrange
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
         // Act
         var result = command.execute(model);
 
         // Assert
-        Mockito.verify(model).setPerson(Mockito.eq(basePerson), Mockito.any(Person.class));
+        Mockito.verify(model).setPerson(Mockito.eq(baseEmployee), Mockito.any(Employee.class));
         assertEquals("New anniversary added: " + validAnniversary, result.getFeedbackToUser());
     }
 
@@ -78,13 +78,13 @@ public class AddAnniversaryCommandTest {
 
         // Act & Assert
         CommandException ex = assertThrows(CommandException.class, () -> command.execute(model));
-        assertEquals(String.format(MESSAGE_PERSON_PREFIX_NOT_FOUND, validEmployeeId), ex.getMessage());
+        assertEquals(String.format(MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND, validEmployeeId), ex.getMessage());
     }
 
     @Test
     public void execute_multipleEmployeesFound_throwsCommandException() {
         // Arrange
-        Person secondPerson = Person.builder()
+        Employee secondEmployee = Employee.builder()
                 .employeeId(EmployeeId.fromString("11111111-1111-1111-1111-111111111111"))
                 .name(new Name("Bob"))
                 .phone(new Phone("87654321"))
@@ -94,7 +94,7 @@ public class AddAnniversaryCommandTest {
                 .anniversaries(new ArrayList<>())
                 .build();
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson, secondPerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee, secondEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
         // Act & Assert
@@ -107,17 +107,17 @@ public class AddAnniversaryCommandTest {
         // Arrange
         ArrayList<Anniversary> existing = new ArrayList<>();
         existing.add(validAnniversary);
-        Person personWithAnniversary = Person.builder()
+        Employee employeeWithAnniversary = Employee.builder()
                 .employeeId(validEmployeeId)
-                .name(basePerson.getName())
-                .phone(basePerson.getPhone())
-                .email(basePerson.getEmail())
-                .jobPosition(basePerson.getJobPosition())
-                .tags(basePerson.getTags())
+                .name(baseEmployee.getName())
+                .phone(baseEmployee.getPhone())
+                .email(baseEmployee.getEmail())
+                .jobPosition(baseEmployee.getJobPosition())
+                .tags(baseEmployee.getTags())
                 .anniversaries(existing)
                 .build();
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
-                .thenReturn(FXCollections.observableArrayList(personWithAnniversary));
+                .thenReturn(FXCollections.observableArrayList(employeeWithAnniversary));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
         // Act & Assert

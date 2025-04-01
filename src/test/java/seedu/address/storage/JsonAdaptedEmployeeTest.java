@@ -17,7 +17,7 @@ import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 
-public class JsonAdaptedPersonTest {
+public class JsonAdaptedEmployeeTest {
     private static final String INVALID_EMPLOYEEID = "@";
     private static final String INVALID_ANNIVERSARY = "@";
     private static final String INVALID_NAME = "R@chel";

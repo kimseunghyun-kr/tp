@@ -198,7 +198,7 @@ public class ParserUtil {
     /**
      * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
      *
-     * @param name the name of the person attributed to prebuilt-anniversaries
+     * @param name the name of the employee attributed to prebuilt-anniversaries
      * @param dateStr the date of the anniversary
      * @param type the prefix of the anniversary
      * @throws ParseException if the given {@code dateStr} is invalid.

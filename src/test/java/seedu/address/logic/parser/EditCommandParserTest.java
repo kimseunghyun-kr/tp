@@ -94,7 +94,7 @@ public class EditCommandParserTest {
         assertParseFailure(parser, VALID_EMPLOYEE_ID_AMY
                 + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
 
-        // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Person} being edited,
+        // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Employee} being edited,
         // parsing it together with a valid tag results in error
         assertParseFailure(parser, VALID_EMPLOYEE_ID_AMY
                 + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);

@@ -13,8 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -24,14 +24,13 @@ public class ModelManager implements Model {
 
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
-    private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Employee> filteredEmployees;
     private int currentStatePointer = 0;
     private List<AddressBook> addressBookStates = new ArrayList<>();
 
-    private final FilteredList<Person> birthdayReminderList;
+    private final FilteredList<Employee> birthdayReminderList;
 
-    private final FilteredList<Person> workAnniversaryReminderList;
-
+    private final FilteredList<Employee> workAnniversaryReminderList;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -44,16 +43,16 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
 
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredEmployees = new FilteredList<>(this.addressBook.getEmployeeList());
 
         // Apply default filtering
-        filteredPersons.setPredicate(person -> true);
+        filteredEmployees.setPredicate(employee -> true);
 
-        this.birthdayReminderList = new FilteredList<>(this.addressBook.getPersonList());
-        this.birthdayReminderList.setPredicate(person -> false);
+        this.birthdayReminderList = new FilteredList<>(this.addressBook.getEmployeeList());
+        this.birthdayReminderList.setPredicate(employee -> false);
 
-        this.workAnniversaryReminderList = new FilteredList<>(this.addressBook.getPersonList());
-        this.workAnniversaryReminderList.setPredicate(person -> false);
+        this.workAnniversaryReminderList = new FilteredList<>(this.addressBook.getEmployeeList());
+        this.workAnniversaryReminderList.setPredicate(employee -> false);
     }
 
     public ModelManager() {
@@ -110,9 +109,9 @@ public class ModelManager implements Model {
 
     @Override
     public void updateBirthdayReminderList() {
-        birthdayReminderList.setPredicate(person -> {
-            boolean isUpcoming = person.isUpcomingWithinDays("Birthday", 3);
-            System.out.println(person.getName() + ": " + isUpcoming);
+        birthdayReminderList.setPredicate(employee -> {
+            boolean isUpcoming = employee.isUpcomingWithinDays("Birthday", 3);
+            System.out.println(employee.getName() + ": " + isUpcoming);
             return isUpcoming;
         });
         System.out.println("Filtered birthday list: " + birthdayReminderList.size());
@@ -120,18 +119,18 @@ public class ModelManager implements Model {
 
     @Override
     public void updateWorkAnniversaryReminderList() {
-        workAnniversaryReminderList.setPredicate(person -> {
-            boolean isUpcoming = person.isUpcomingWithinDays("Work Anniversary", 3);
-            System.out.println(person.getName() + ": " + isUpcoming);
+        workAnniversaryReminderList.setPredicate(employee -> {
+            boolean isUpcoming = employee.isUpcomingWithinDays("Work Anniversary", 3);
+            System.out.println(employee.getName() + ": " + isUpcoming);
             return isUpcoming;
         });
         System.out.println("Filtered wa list: " + workAnniversaryReminderList.size());
     }
 
     @Override
-    public boolean hasPerson(Person person) {
-        requireNonNull(person);
-        return addressBook.hasPerson(person);
+    public boolean hasEmployee(Employee employee) {
+        requireNonNull(employee);
+        return addressBook.hasPerson(employee);
     }
 
     @Override
@@ -147,59 +146,60 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasDuplicatePersonDetails(Person person) {
-        requireNonNull(person);
-        return addressBook.hasDuplicatePersonDetails(person);
+    public boolean hasDuplicateEmployeeDetails(Employee employee) {
+        requireNonNull(employee);
+        return addressBook.hasDuplicatePersonDetails(employee);
     }
+
     @Override
-    public void deletePerson(Person target) {
+    public void deleteEmployee(Employee target) {
         addressBook.removePerson(target);
     }
 
     @Override
-    public void addPerson(Person person) {
-        addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    public void addEmployee(Employee employee) {
+        addressBook.addPerson(employee);
+        updateFilteredEmployeeList(PREDICATE_SHOW_ALL_EMPLOYEES);
     }
 
     @Override
-    public void setPerson(Person target, Person editedPerson) {
-        requireAllNonNull(target, editedPerson);
-        addressBook.setPerson(target, editedPerson);
+    public void setEmployee(Employee target, Employee editedEmployee) {
+        requireAllNonNull(target, editedEmployee);
+        addressBook.setPerson(target, editedEmployee);
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Filtered Employee List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Employee} backed by the internal list of
      * {@code versionedAddressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return filteredPersons;
+    public ObservableList<Employee> getFilteredEmployeeList() {
+        return filteredEmployees;
     }
 
     @Override
-    public ObservableList<Person> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
+    public ObservableList<Employee> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
         requireNonNull(employeeIdPrefix);
         return new FilteredList<>(
-                filteredPersons, person -> employeeIdPrefix.isPrefixOf(person.getEmployeeId())
+                filteredEmployees, employee -> employeeIdPrefix.isPrefixOf(employee.getEmployeeId())
         );
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public void updateFilteredEmployeeList(Predicate<Employee> predicate) {
         requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
+        filteredEmployees.setPredicate(predicate);
     }
 
     @Override
-    public ObservableList<Person> getBirthdayReminderList() {
+    public ObservableList<Employee> getBirthdayReminderList() {
         return birthdayReminderList;
     }
 
     @Override
-    public ObservableList<Person> getWorkAnniversaryReminderList() {
+    public ObservableList<Employee> getWorkAnniversaryReminderList() {
         return workAnniversaryReminderList;
     }
 
@@ -217,9 +217,8 @@ public class ModelManager implements Model {
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
                 && userPrefs.equals(otherModelManager.userPrefs)
-                && filteredPersons.equals(otherModelManager.filteredPersons);
+                && filteredEmployees.equals(otherModelManager.filteredEmployees);
     }
-
 
     /**
      * Checks if the address book can be undone.

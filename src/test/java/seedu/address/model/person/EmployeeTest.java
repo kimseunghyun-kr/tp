@@ -20,36 +20,36 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.testutil.PersonBuilder;
 
-public class PersonTest {
+public class EmployeeTest {
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+        Employee employee = new PersonBuilder().build();
+        assertThrows(UnsupportedOperationException.class, () -> employee.getTags().remove(0));
     }
 
     @Test
-    public void isSamePerson() {
+    public void isSameEmployee() {
         // same object -> returns true
-        assertTrue(ALICE.isSamePerson(ALICE));
+        assertTrue(ALICE.isSameEmployee(ALICE));
 
         // null -> returns false
-        assertFalse(ALICE.isSamePerson(null));
+        assertFalse(ALICE.isSameEmployee(null));
 
         // same name, all other attributes different -> returns true
-        Person editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
+        Employee editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withJobPosition(VALID_JOBPOSITION_BOB).withTags(VALID_TAG_HUSBAND).build();
-        assertTrue(ALICE.isSamePerson(editedAlice));
+        assertTrue(ALICE.isSameEmployee(editedAlice));
 
         // different employee id, all other attributes same -> returns false
         editedAlice = new PersonBuilder(ALICE).withEmployeeId(VALID_EMPLOYEE_ID_BOB).build();
-        assertFalse(ALICE.isSamePerson(editedAlice));
+        assertFalse(ALICE.isSameEmployee(editedAlice));
     }
 
     @Test
     public void equals() {
         // same values -> returns true
-        Person aliceCopy = new PersonBuilder(ALICE).build();
+        Employee aliceCopy = new PersonBuilder(ALICE).build();
         assertTrue(ALICE.equals(aliceCopy));
 
         // same object -> returns true
@@ -61,11 +61,11 @@ public class PersonTest {
         // different type -> returns false
         assertFalse(ALICE.equals(5));
 
-        // different person -> returns false
+        // different employee -> returns false
         assertFalse(ALICE.equals(BOB));
 
         // different name -> returns false
-        Person editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
+        Employee editedAlice = new PersonBuilder(ALICE).withName(VALID_NAME_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
         // different phone -> returns false
@@ -87,7 +87,7 @@ public class PersonTest {
 
     @Test
     public void toStringMethod() {
-        String expected = Person.class.getCanonicalName() + "{employeeId=" + ALICE.getEmployeeId()
+        String expected = Employee.class.getCanonicalName() + "{employeeId=" + ALICE.getEmployeeId()
                 + ", name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", job=" + ALICE.getJobPosition()
                 + ", tags=" + ALICE.getTags() + "}";
@@ -96,28 +96,28 @@ public class PersonTest {
 
     @Test
     public void getNextUpcomingDate_noAnniversaries_returnsNull() {
-        Person person = new PersonBuilder().withBirthdayAndWorkAnniversary(null, null).build();
-        assertNull(person.getNextUpcomingDate());
+        Employee employee = new PersonBuilder().withBirthdayAndWorkAnniversary(null, null).build();
+        assertNull(employee.getNextUpcomingDate());
     }
 
     @Test
     public void getNextUpcomingDate_singleFutureBirthday_returnsDate() {
         LocalDate futureBirthday = LocalDate.now().plusDays(10);
-        Person person = new PersonBuilder()
+        Employee employee = new PersonBuilder()
                 .withBirthdayAndWorkAnniversary(futureBirthday, null)
                 .build();
 
-        assertEquals(futureBirthday, person.getNextUpcomingDate());
+        assertEquals(futureBirthday, employee.getNextUpcomingDate());
     }
 
     @Test
     public void getNextUpcomingDate_pastBirthday_rollsToNextYear() {
         LocalDate pastBirthday = LocalDate.now().minusDays(10);
-        Person person = new PersonBuilder()
+        Employee employee = new PersonBuilder()
                 .withBirthdayAndWorkAnniversary(pastBirthday, null)
                 .build();
 
         LocalDate expectedDate = pastBirthday.plusYears(1);
-        assertEquals(expectedDate, person.getNextUpcomingDate());
+        assertEquals(expectedDate, employee.getNextUpcomingDate());
     }
 }

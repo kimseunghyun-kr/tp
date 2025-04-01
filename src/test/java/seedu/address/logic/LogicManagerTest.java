@@ -1,7 +1,7 @@
 package seedu.address.logic;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.CommandTestUtil.BIRTHDAY_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EID_DESC_AMY;
@@ -30,7 +30,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 import seedu.address.storage.JsonAddressBookStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.StorageManager;
@@ -65,7 +65,7 @@ public class LogicManagerTest {
     @Test
     public void execute_commandExecutionError_throwsCommandException() {
         String deleteCommand = "delete 9";
-        assertCommandException(deleteCommand, String.format(MESSAGE_PERSON_PREFIX_NOT_FOUND, "9"));
+        assertCommandException(deleteCommand, String.format(MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND, "9"));
     }
 
     @Test
@@ -171,9 +171,9 @@ public class LogicManagerTest {
         // Triggers the saveAddressBook method by executing an add command
         String addCommand = AddPersonCommand.COMMAND_WORD + EID_DESC_AMY + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + JOB_DESC_AMY + BIRTHDAY_DESC_AMY + WORK_ANNIVERSARY_DESC_AMY;
-        Person expectedPerson = new PersonBuilder(AMY).withTags().build();
+        Employee expectedEmployee = new PersonBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addPerson(expectedPerson);
+        expectedModel.addEmployee(expectedEmployee);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }

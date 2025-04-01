@@ -12,19 +12,19 @@ import seedu.address.model.anniversary.AnniversaryType;
 import seedu.address.model.anniversary.Birthday;
 import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
 /**
- * A utility class to help with building Person objects.
+ * A utility class to help with building Employee objects.
  */
 @Builder
-public class PersonBuilder {
+public class EmployeeBuilder {
 
     public static final String DEFAULT_EMPLOYEE_ID = "00000000-0000-0000-0000-000000000001";
     public static final String DEFAULT_NAME = "Amy Bee";
@@ -45,9 +45,9 @@ public class PersonBuilder {
     private List<Anniversary> anniversaries;
 
     /**
-     * Creates a {@code PersonBuilder} with the default details.
+     * Creates a {@code EmployeeBuilder} with the default details.
      */
-    public PersonBuilder() {
+    public EmployeeBuilder() {
         employeeId = EmployeeId.fromString(DEFAULT_EMPLOYEE_ID);
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
@@ -57,88 +57,88 @@ public class PersonBuilder {
         anniversaries = new ArrayList<>();
     }
     /**
-     * Initializes the PersonBuilder with the data of {@code personToCopy}.
+     * Initializes the EmployeeBuilder with the data of {@code employeeToCopy}.
      */
-    public PersonBuilder(Person personToCopy) {
-        employeeId = personToCopy.getEmployeeId();
-        name = personToCopy.getName();
-        phone = personToCopy.getPhone();
-        email = personToCopy.getEmail();
-        jobPosition = personToCopy.getJobPosition();
-        tags = new HashSet<>(personToCopy.getTags());
-        anniversaries = new ArrayList<>(personToCopy.getAnniversaries());
+    public EmployeeBuilder(Employee employeeToCopy) {
+        employeeId = employeeToCopy.getEmployeeId();
+        name = employeeToCopy.getName();
+        phone = employeeToCopy.getPhone();
+        email = employeeToCopy.getEmail();
+        jobPosition = employeeToCopy.getJobPosition();
+        tags = new HashSet<>(employeeToCopy.getTags());
+        anniversaries = new ArrayList<>(employeeToCopy.getAnniversaries());
     }
 
     /**
-     * Initializes the PersonBuilder with the data of {@code personToCopy}.
+     * Initializes the EmployeeBuilder with the data of {@code personToCopy}.
      * @return
      */
-    public static Person defaultPerson() {
-        Person person = new PersonBuilder()
+    public static Employee defaultEmployee() {
+        Employee employee = new EmployeeBuilder()
                 .withEmployeeId(DEFAULT_EMPLOYEE_ID)
                 .withName(DEFAULT_NAME)
                 .withEmail(DEFAULT_EMAIL)
                 .withPhone(DEFAULT_PHONE)
                 .withJobPosition(DEFAULT_JOBPOSITION)
                 .build();
-        person.getAnniversaries().add(DEFAULT_BIRTHDAY);
-        person.getAnniversaries().add(DEFAULT_WORK_ANNIVERSARY);
-        person.getTags();
-        return person;
+        employee.getAnniversaries().add(DEFAULT_BIRTHDAY);
+        employee.getAnniversaries().add(DEFAULT_WORK_ANNIVERSARY);
+        employee.getTags();
+        return employee;
     }
 
     /**
-     * Sets the {@code Name} of the {@code Person} that we are building.
+     * Sets the {@code Name} of the {@code Employee} that we are building.
      */
-    public PersonBuilder withName(String name) {
+    public EmployeeBuilder withName(String name) {
         this.name = new Name(name);
         return this;
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Employee} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
+    public EmployeeBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
     /**
-     * Sets the {@code Address} of the {@code Person} that we are building.
+     * Sets the {@code Address} of the {@code Employee} that we are building.
      */
-    public PersonBuilder withJobPosition(String jobposition) {
+    public EmployeeBuilder withJobPosition(String jobposition) {
         this.jobPosition = new JobPosition(jobposition);
         return this;
     }
 
     /**
-     * Sets the {@code Phone} of the {@code Person} that we are building.
+     * Sets the {@code Phone} of the {@code Employee} that we are building.
      */
-    public PersonBuilder withPhone(String phone) {
+    public EmployeeBuilder withPhone(String phone) {
         this.phone = new Phone(phone);
         return this;
     }
 
     /**
-     * Sets the {@code Email} of the {@code Person} that we are building.
+     * Sets the {@code Email} of the {@code Employee} that we are building.
      */
-    public PersonBuilder withEmail(String email) {
+    public EmployeeBuilder withEmail(String email) {
         this.email = new Email(email);
         return this;
     }
 
     /**
-     * Sets the {@code EmployeeID} of the {@code Person} that we are building.
+     * Sets the {@code EmployeeID} of the {@code Employee} that we are building.
      */
-    public PersonBuilder withEmployeeId(String employeeId) {
+    public EmployeeBuilder withEmployeeId(String employeeId) {
         this.employeeId = EmployeeId.fromString(employeeId);
         return this;
     }
 
     /**
-     * Sets both the Birthday and Work Anniversary for the {@code Person} that we are building.
+     * Sets both the Birthday and Work Anniversary for the {@code Employee} that we are building.
      */
-    public PersonBuilder withBirthdayAndWorkAnniversary(LocalDate localBDate, LocalDate localWaDate) {
+    public EmployeeBuilder withBirthdayAndWorkAnniversary(LocalDate localBDate, LocalDate localWaDate) {
         List<Anniversary> anni = new ArrayList<>();
         anni.add(new Anniversary(localBDate, new Birthday(),
                 "Birthday", name.fullName));
@@ -148,9 +148,9 @@ public class PersonBuilder {
         return this;
     }
     /**
-     * Adds an anniversary to the person's anniversary list.
+     * Adds an anniversary to the employee's anniversary list.
      */
-    public PersonBuilder withAnniversary(String date, String type, String name, String description) {
+    public EmployeeBuilder withAnniversary(String date, String type, String name, String description) {
         this.anniversaries.add(new Anniversary(
                 LocalDate.parse(date),
                 new AnniversaryType(type, ""),
@@ -158,8 +158,8 @@ public class PersonBuilder {
         return this;
     }
 
-    public Person build() {
-        return new Person(employeeId, name, phone, email, jobPosition, tags, anniversaries);
+    public Employee build() {
+        return new Employee(employeeId, name, phone, email, jobPosition, tags, anniversaries);
     }
 
 }

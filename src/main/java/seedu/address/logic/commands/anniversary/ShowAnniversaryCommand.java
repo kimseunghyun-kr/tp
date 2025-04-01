@@ -1,22 +1,22 @@
 package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_PERSON_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_NOT_FOUND;
 
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
- * Shows the list of anniversary of an existing person with the specified employee ID.
+ * Shows the list of anniversary of an existing employee with the specified employee ID.
  */
 public class ShowAnniversaryCommand extends Command {
 
     public static final String COMMAND_WORD = "showAnni"; // to be changed
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows the list of anniversary to the person with the "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Shows the list of anniversary to the employee with the "
             + "specified employee ID.\n"
             + "Parameters: "
             + "eid/EMPLOYEE_ID\n"
@@ -41,14 +41,14 @@ public class ShowAnniversaryCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Person personToEdit = model.getFilteredPersonList().stream()
+        Employee employeeToEdit = model.getFilteredEmployeeList().stream()
                 .filter(p -> p.getEmployeeId().toString().equals(employeeIdToFind))
                 .findFirst()
                 .orElse(null);
 
-        if (personToEdit == null) {
-            throw new CommandException(String.format(MESSAGE_PERSON_NOT_FOUND, employeeIdToFind));
+        if (employeeToEdit == null) {
+            throw new CommandException(String.format(MESSAGE_EMPLOYEE_NOT_FOUND, employeeIdToFind));
         }
-        return new CommandResult(String.format(MESSAGE_SUCCESS), true, personToEdit.getEmployeeIdAsString());
+        return new CommandResult(String.format(MESSAGE_SUCCESS), true, employeeToEdit.getEmployeeIdAsString());
     }
 }

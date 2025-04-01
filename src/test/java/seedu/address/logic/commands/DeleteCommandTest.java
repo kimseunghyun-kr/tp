@@ -20,8 +20,8 @@ import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -33,14 +33,14 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeleteCommand deleteCommand = new DeleteCommand(personToDelete.getEmployeeId());
+        Employee employeeToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        DeleteCommand deleteCommand = new DeleteCommand(employeeToDelete.getEmployeeId());
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-                Messages.format(personToDelete));
+                Messages.format(employeeToDelete));
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deletePerson(personToDelete);
+        expectedModel.deleteEmployee(employeeToDelete);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -50,7 +50,7 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = new DeleteCommand(EmployeeId.fromString(INVALID_EMPLOYEE_ID_PREFIX));
 
         assertCommandFailure(deleteCommand, model,
-                String.format(Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                String.format(Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
                         INVALID_EMPLOYEE_ID_PREFIX
                 ));
     }
@@ -59,14 +59,14 @@ public class DeleteCommandTest {
     public void execute_validIndexFilteredList_success() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
 
-        Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeleteCommand deleteCommand = new DeleteCommand(personToDelete.getEmployeeId());
+        Employee employeeToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        DeleteCommand deleteCommand = new DeleteCommand(employeeToDelete.getEmployeeId());
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
-                Messages.format(personToDelete));
+                Messages.format(employeeToDelete));
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.deletePerson(personToDelete);
+        expectedModel.deletePerson(employeeToDelete);
         showNoPerson(expectedModel);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
@@ -78,12 +78,12 @@ public class DeleteCommandTest {
 
         Index outOfBoundIndex = INDEX_SECOND_PERSON;
         // ensures that outOfBoundIndex is still in bounds of address book list
-        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
+        assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getEmployeeList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(EmployeeId.fromString(INVALID_EMPLOYEE_ID_PREFIX));
 
         assertCommandFailure(deleteCommand, model, String.format(
-                Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
                 INVALID_EMPLOYEE_ID_PREFIX
         ));
     }
@@ -106,7 +106,7 @@ public class DeleteCommandTest {
         // null -> returns false
         assertFalse(deleteFirstCommand.equals(null));
 
-        // different person -> returns false
+        // different employee -> returns false
         assertFalse(deleteFirstCommand.equals(deleteSecondCommand));
     }
 

@@ -197,7 +197,7 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
   * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
 
-* In the case of multiple fields and keywords, you will only see a person on the list if they match at least one keyword from each field.
+* In the case of multiple fields and keywords, you will only see a employee on the list if they match at least one keyword from each field.
 
   * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
 </div>
@@ -324,7 +324,7 @@ What will you see:
 * If you’re new to the app, you can also use the button in the GUI to do the same thing.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-The Employee ID is the unique identifier assigned to each person in H'Reers — either one you provided when adding them, or one that was auto-generated.
+The Employee ID is the unique identifier assigned to each employee in H'Reers — either one you provided when adding them, or one that was auto-generated.
 </div>
 
 Examples:

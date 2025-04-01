@@ -27,7 +27,7 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -38,9 +38,9 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_add() throws Exception {
-        Person person = PersonBuilder.defaultPerson();
-        AddPersonCommand command = (AddPersonCommand) parser.parseCommand(PersonUtil.getAddCommand(person));
-        assertFieldEqualityFirst(new AddPersonCommand(person), command);
+        Employee employee = PersonBuilder.defaultPerson();
+        AddPersonCommand command = (AddPersonCommand) parser.parseCommand(PersonUtil.getAddCommand(employee));
+        assertFieldEqualityFirst(new AddPersonCommand(employee), command);
     }
 
     @Test
@@ -58,8 +58,8 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_edit() throws Exception {
-        Person person = new PersonBuilder().build();
-        EditCommand.EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(person).build();
+        Employee employee = new PersonBuilder().build();
+        EditCommand.EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(employee).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
                 + VALID_EMPLOYEE_ID_PREFIX_AMY + " " + PersonUtil.getEditPersonDescriptorDetails(descriptor));
         assertFieldEqualityFirst(
@@ -82,14 +82,14 @@ public class AddressBookParserTest {
                 FindCommand.COMMAND_WORD + " " + PREFIX_NAME
                         + keywords.stream().collect(Collectors.joining(" ")));
 
-        // Create a Person that should match the keywords
-        Person matchingPerson = new PersonBuilder().withName("foo barson").build();
-        Person nonMatchingPerson = new PersonBuilder().withName("unrelated name").build();
+        // Create a Employee that should match the keywords
+        Employee matchingEmployee = new PersonBuilder().withName("foo barson").build();
+        Employee nonMatchingEmployee = new PersonBuilder().withName("unrelated name").build();
 
         // Check that the command’s predicate filters correctly
-        Predicate<Person> predicate = command.getPredicate();
-        assertTrue(predicate.test(matchingPerson));
-        assertFalse(predicate.test(nonMatchingPerson));
+        Predicate<Employee> predicate = command.getPredicate();
+        assertTrue(predicate.test(matchingEmployee));
+        assertFalse(predicate.test(nonMatchingEmployee));
     }
 
     @Test
