@@ -13,21 +13,25 @@ H'Reers is a **desktop application** for *HRs* to keep details and anniversaries
     - [Adding a person: `add`](#adding-a-person-add)
     - [Listing all persons: `list`](#listing-all-persons-list)
     - [Editing a person: `edit`](#editing-a-person-edit)
+    - [Undoing the last command: `undo`](#undoing-the-last-command-undo)
     - [Locating persons by name: `find`](#locating-persons-by-name-find)
     - [Deleting a person: `delete`](#deleting-a-person-delete)
 3. [Anniversary Commands](#anniversary-commands)
     - [Add anniversaries: `addAnni`](#add-anniversaries-addanni)
     - [Show anniversaries: `showAnni`](#show-anniversaries-showanni)
     - [DeleteAnniversaryCommand `deleteAnni`](#delete-anniversaries-deleteanni)
-4. [Clearing all entries: `clear`](#clearing-all-entries-clear)
-5. [Exiting the program: `exit`](#exiting-the-program-exit)
-6. [Saving the data](#saving-the-data)
-7. [Editing the data file](#editing-the-data-file)
-8. [ImportCommand `import`](#importcommand-import)
-9. [ExportCommand `export`](#exportcommand-export)
-10. [FAQ](#faq)
-11. [Known issues](#known-issues)
-12. [Command summary](#command-summary)
+4. [Quality of life features](#quality-of-life-features)
+    - [Clearing all entries: `clear`](#clearing-all-entries-clear)
+    - [Exiting the program: `exit`](#exiting-the-program-exit)
+    - [Saving the data](#saving-the-data)
+    - [Editing the data file](#editing-the-data-file)
+5. [Import and Export](#import-and-export)
+   - [ImportCommand `import`](#importcommand-import)
+   - [ExportCommand `export`](#exportcommand-export)
+6. [FAQ](#faq)
+7. [Known issues](#known-issues)
+8. [Command summary](#command-summary)
+9. [Glossary](#glossary)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -225,7 +229,7 @@ Examples:
 * `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
 
 ---
-# Anniversary Commands
+## Anniversary Commands
 
 ---
 ### **Add Anniversaries:**  `addAnni`
@@ -387,6 +391,9 @@ deleteAnniversary eid/0c2414da ad/1
 </details>
 
 ---
+## Quality of Life Features
+
+---
 ### Clearing all entries: `clear`
 
 Clears all entries from H'Reers.
@@ -416,16 +423,19 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 </div>
 
 ---
-## **ImportCommand** `import`
+## Import and Export
+
+---
+### **ImportCommand** `import`
 You can use `import` to bring external data (in CSV or JSON) into your current address book. 
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 
-## **Command Format**
+#### **Command Format**
 ```plaintext
 import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 ```
 
-## **Parameters**
+### **Parameters**
 
 | **Prefix** | **Meaning**                                       | **Required?**                          | **Example Value**           |
 |------------|---------------------------------------------------|----------------------------------------|-----------------------------|
@@ -434,7 +444,7 @@ import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 | `fn/`      | Optional filename (extension can be auto-added)   | At least one of `fp/` or `fn/` required| `myData.json`               |
 | `wm/`      | Write mode (`append` or `overwrite`)              | **Required**                           | `append` / `overwrite`      |
 
-## **Example Usage**
+### **Example Usage**
 ```plaintext 
 import ft/json fp/data/ fn/contacts wm/append
 ```
@@ -483,18 +493,18 @@ import ft/json fp/data/ fn/contacts wm/append
 </details>
 
 ---
-## **ExportCommand** `export`
+### **ExportCommand** `export`
 You can use `export` to save the currently visible list of people in the address book to a file (JSON or CSV).
 If you provide a specific directory path (`fp/`), the system will export the file there. 
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
 This means that you do **not** need to include the extension behind the file name.
 
-## **Command Format**
+#### **Command Format**
 ```plaintext
 export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 ```
 
-## **Parameters**
+### **Parameters**
 
 | **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
 |------------|-------------------------------------------------|----------------------------|------------------------|
@@ -502,7 +512,7 @@ export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 | `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
 | `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
-## **Example Usage**
+### **Example Usage**
 ```plaintext
 export ft/json fp/data/ fn/contacts
 ```
@@ -553,7 +563,7 @@ export ft/json fp/data/ fn/contacts
 </details>
 
 ---
-### Archiving data files `[coming in v2.0]`
+## Archiving data files `[coming in v2.0]`
 
 _Details coming soon ..._
 
@@ -592,6 +602,6 @@ Action | Format, Examples
 **export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 
 ---
-## Terms to know
+## Glossary
 * CLI (Command Line Interface): A text-based interface used to type commands
 * GUI (Graphical User Interface): A user interface that allows interaction with the software through visual elements like buttons and icons.
