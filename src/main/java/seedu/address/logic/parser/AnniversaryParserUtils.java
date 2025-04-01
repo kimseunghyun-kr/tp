@@ -10,6 +10,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE_DESC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
+import static seedu.address.logic.parser.ParserUtil.validateSafeContent;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -165,6 +166,9 @@ public class AnniversaryParserUtils {
         String trimmedAnniversaryDate = dateStr.trim();
         LocalDate date;
         try {
+            validateSafeContent(name, "anniversary name", true);
+            validateSafeContent(type, "anniversary type", false);
+            validateSafeContent(description, "anniversary description", false);
             date = LocalDate.parse(trimmedAnniversaryDate);
         } catch (DateTimeParseException e) {
             throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
