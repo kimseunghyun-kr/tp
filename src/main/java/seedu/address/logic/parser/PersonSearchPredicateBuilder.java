@@ -26,10 +26,12 @@ public class PersonSearchPredicateBuilder {
     public static Predicate<Employee> buildPredicate(ArgumentMultimap argMultimap) {
         Predicate<Employee> combinedPredicate = person -> true;
 
-        boolean hasName = argMultimap.getValue(PREFIX_NAME).isPresent();
-        boolean hasJob = argMultimap.getValue(PREFIX_JOBPOSITION).isPresent();
+        boolean hasNonEmptyName = argMultimap.getValue(PREFIX_NAME)
+                .map(name -> !name.isBlank()).orElse(false);
+        boolean hasNonEmptyJob = argMultimap.getValue(PREFIX_JOBPOSITION)
+                .map(jp -> !jp.isBlank()).orElse(false);
 
-        if (hasName) {
+        if (hasNonEmptyName) {
             String name = argMultimap.getValue(PREFIX_NAME).get().trim();
             String[] nameKeywords = name.split("\\s+");
             Predicate<Employee> namePredicate = new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords));
@@ -37,7 +39,7 @@ public class PersonSearchPredicateBuilder {
             combinedPredicate = combinedPredicate.and(namePredicate);
         }
 
-        if (hasJob) {
+        if (hasNonEmptyJob) {
             String job = argMultimap.getValue(PREFIX_JOBPOSITION).get().trim();
             String[] jobKeywords = job.split("\\s+");
             Predicate<Employee> jpPredicate = new JobPositionContainsKeywordsPredicate(Arrays.asList(jobKeywords));
