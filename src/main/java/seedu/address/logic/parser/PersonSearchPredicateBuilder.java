@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_JOBPOSITION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -22,49 +23,51 @@ public class PersonSearchPredicateBuilder {
 
     /**
      * Builds a {@code Predicate<Employee>} based on the given {@code ArgumentMultimap}.
+     * Within the Prefixes, the keywords are combined with OR logic.
+     * Between the Prefixes, the keywords are combined with AND logic.
      * @param argMultimap the argument multimap
      * @return the predicate
      */
     public static Predicate<Employee> buildPredicate(ArgumentMultimap argMultimap) {
         Predicate<Employee> combinedPredicate = person -> true;
 
-        boolean hasNonEmptyName = argMultimap.getValue(PREFIX_NAME)
-                .map(name -> !name.isBlank()).orElse(false);
-        boolean hasNonEmptyJob = argMultimap.getValue(PREFIX_JOBPOSITION)
-                .map(jp -> !jp.isBlank()).orElse(false);
+        boolean hasNonEmptyName = !argMultimap.getAllValues(PREFIX_NAME).stream().allMatch(String::isBlank);
+        boolean hasNonEmptyJp = !argMultimap.getAllValues(PREFIX_JOBPOSITION).stream().allMatch(String::isBlank);
 
+        // Name Search
         if (hasNonEmptyName) {
             List<String> names = argMultimap.getAllValues(PREFIX_NAME);
-            Predicate<Employee> combinedNamePredicate = person -> false;
-            for(String name : names) {
+            List<String> combinedNameKeywords = new ArrayList<>();
+            for (String name : names) {
                 if (name.isBlank()) {
                     continue;
                 }
                 name = name.trim();
                 String[] nameKeywords = name.split("\\s+");
-                Predicate<Employee> namePredicate = new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords));
-                logger.info("Predicate added: " + namePredicate);
-                combinedNamePredicate = combinedNamePredicate.or(namePredicate);
+                combinedNameKeywords.addAll(Arrays.asList(nameKeywords));
             }
-            combinedPredicate = combinedPredicate.and(combinedNamePredicate);
+            Predicate<Employee> namePredicate = new NameContainsKeywordsPredicate(combinedNameKeywords);
+            logger.info("Predicate added: " + namePredicate);
+            combinedPredicate = combinedPredicate.and(namePredicate);
         }
 
-        if (hasNonEmptyJob) {
+        // Job Position Search
+        if (hasNonEmptyJp) {
             List<String> jobs = argMultimap.getAllValues(PREFIX_JOBPOSITION);
-            Predicate<Employee> combinedJpPredicate = person -> false;
-            for(String job : jobs) {
+            List<String> combinedJpKeywords = new ArrayList<>();
+            for (String job : jobs) {
                 if (job.isBlank()) {
                     continue;
                 }
                 job = job.trim();
                 String[] jobKeywords = job.split("\\s+");
-                Predicate<Employee> jpPredicate = new JobPositionContainsKeywordsPredicate(Arrays.asList(jobKeywords));
-                logger.info("Predicate added: " + jpPredicate);
-                combinedJpPredicate = combinedJpPredicate.or(jpPredicate);
+                combinedJpKeywords.addAll(Arrays.asList(jobKeywords));
             }
+            Predicate<Employee> combinedJpPredicate = new JobPositionContainsKeywordsPredicate(combinedJpKeywords);
+            logger.info("Predicate added: " + combinedJpPredicate);
             combinedPredicate = combinedPredicate.and(combinedJpPredicate);
-        }
 
+        }
         return combinedPredicate;
     }
 }

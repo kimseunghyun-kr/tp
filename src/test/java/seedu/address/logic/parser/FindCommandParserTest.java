@@ -183,4 +183,11 @@ public class FindCommandParserTest {
         assertEquals(FindCommand.class, command.getClass());
     }
 
+    // Should pass as it will skip the empty field
+    @Test
+    public void parse_multipleBlankField_stillParses() throws Exception {
+        FindCommand command = parser.parse(" n/   n/jack jp/   \n jp/engineer ");
+        assertEquals(FindCommand.class, command.getClass());
+    }
+
 }
