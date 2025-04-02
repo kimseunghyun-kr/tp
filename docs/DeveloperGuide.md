@@ -8,13 +8,13 @@ title: Developer Guide
 <img src="./images/MockUI.png" alt="UI">
 
 ## *Table of Contents*
-1. [Add employee records: `add`](#add-employee-records)
-2. [Delete employee records: `delete`](#delete-employee-records)
-3. [Undo changes made: `undo`](#undo-changes)
-4. [Anniversary related commands: ](#Anniversaries)
-   1. [AddAnniversaryCommand: ] (#AddAnniversaries)
-   2. [DeleteAnniversaryCommand: ] (#DeleteAnniversaries)
-   3. [ShowAnniversaryCommand: ] (#ShowAnniversaries)
+1. [Add employee records: `add`](#add-employee-records-codeadd-code)    
+2. [Delete employee records: `delete`](#delete-employee-records-codedelete-code)
+   3. [Undo changes made: `undo`](#undo-changes-made-codeundo-code)
+4. [Anniversary related commands: ](#anniversary-related-commands)
+   1. [AddAnniversaryCommand: `addAnniy`](#addanniversarycommand--codeaddannicode)   
+   2. [DeleteAnniversaryCommand: `deleteAnni`](#deleteanniversarycommand--codedeleteannicode)
+   3. [ShowAnniversaryCommand: `showAnni`](#showanniversarycommand--codeshowannicode)
 5. [Reminder for events](#reminder-for-events)
 6. [Save employee records](#save-employee-records)
 
@@ -250,7 +250,7 @@ How the `Logic` component works:
 
 1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which is executed by the `LogicManager`.
-1. The command can communicate with the `Model` when it is executed (e.g. to delete a employee).<br>
+1. The command can communicate with the `Model` when it is executed (e.g. to delete an employee).<br>
    Note that although this is shown as a single step in the diagram above (for simplicity), in the code it can take several interactions (between the command object and the `Model`) to achieve.
 1. The result of the command execution is encapsulated as a `CommandResult` object which is returned back from `Logic`.
 
@@ -513,9 +513,9 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
-### Deleting a employee
+### Deleting an employee
 
-1. Deleting a employee while all employees are being shown
+1. Deleting an employee while all employees are being shown
 
    1. Prerequisites: List all employees using the `list` command. Multiple employees in the list.
 

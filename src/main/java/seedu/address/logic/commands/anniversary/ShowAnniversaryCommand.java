@@ -24,9 +24,9 @@ public class ShowAnniversaryCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + "eid/0c2414da-fafb-4e05-b4f7-befb22385381";
 
-    public static final String MESSAGE_SUCCESS = "Anniversaries shown!";
+    public static final String MESSAGE_SUCCESS = "Anniversaries shown for employee: %s!";
 
-    private String employeeIdToFind;
+    private final    String employeeIdToFind;
 
     /**
      * Creates an ShowAnniversaryCommand with the given employee ID.
@@ -42,15 +42,12 @@ public class ShowAnniversaryCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        Employee employeeToEdit = model.getFilteredEmployeeList().stream()
+        Employee employeeToShow = model.getFilteredEmployeeList().stream()
                 .filter(p -> p.getEmployeeId().toString().equals(employeeIdToFind))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new CommandException(String.format(MESSAGE_EMPLOYEE_NOT_FOUND, employeeIdToFind)));
 
-        if (employeeToEdit == null) {
-            throw new CommandException(String.format(MESSAGE_EMPLOYEE_NOT_FOUND, employeeIdToFind));
-        }
-        return new CommandResult(String.format(MESSAGE_SUCCESS), true,
-                employeeToEdit.getEmployeeIdAsString());
+        return new CommandResult(String.format(MESSAGE_SUCCESS, employeeToShow.getName()), true,
+                employeeToShow.getEmployeeIdAsString());
     }
 }

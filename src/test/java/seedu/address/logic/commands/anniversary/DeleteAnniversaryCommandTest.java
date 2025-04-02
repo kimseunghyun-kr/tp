@@ -1,4 +1,4 @@
-package seedu.address.logic.commands;
+package seedu.address.logic.commands.anniversary;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 
 import javafx.collections.FXCollections;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
