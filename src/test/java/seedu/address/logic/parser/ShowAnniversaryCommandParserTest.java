@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.commands.anniversary.ShowAnniversaryCommand;
 import seedu.address.logic.parser.anniversary.ShowAnniversaryCommandParser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.EmployeeId;
 
 public class ShowAnniversaryCommandParserTest {
 
@@ -22,7 +23,7 @@ public class ShowAnniversaryCommandParserTest {
         String userInput = " " + PREFIX_EMPLOYEEID + " " + employeeId;
         ShowAnniversaryCommand result = parser.parse(userInput);
 
-        assertEquals(new ShowAnniversaryCommand(employeeId), result);
+        assertEquals(new ShowAnniversaryCommand(EmployeeId.fromString(employeeId)), result);
     }
 
     @Test

@@ -12,7 +12,7 @@ title: Developer Guide
 2. [Delete employee records: `delete`](#delete-employee-records-codedelete-code)
    3. [Undo changes made: `undo`](#undo-changes-made-codeundo-code)
 4. [Anniversary related commands: ](#anniversary-related-commands)
-   1. [AddAnniversaryCommand: `addAnniy`](#addanniversarycommand--codeaddannicode)   
+   1. [AddAnniversaryCommand: `addAnni`](#addanniversarycommand--codeaddannicode)   
    2. [DeleteAnniversaryCommand: `deleteAnni`](#deleteanniversarycommand--codedeleteannicode)
    3. [ShowAnniversaryCommand: `showAnni`](#showanniversarycommand--codeshowannicode)
 5. [Reminder for events](#reminder-for-events)

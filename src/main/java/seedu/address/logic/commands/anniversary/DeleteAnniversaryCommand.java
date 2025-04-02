@@ -2,6 +2,8 @@ package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
 import java.util.List;
 
@@ -27,8 +29,8 @@ public class DeleteAnniversaryCommand extends Command {
             + ": deletes an anniversary to the employee identified by a "
             + "prefix of their Employee ID.\n"
             + "Parameters: "
-            + "eid/EMPLOYEE_ID "
-            + "ad/index ";
+            + PREFIX_EMPLOYEEID + "EMPLOYEE_ID "
+            + PREFIX_ANNIVERSARY_INDEX + "index ";
     private final Index targetIndex;
     private final EmployeeId employeeIdPrefix;
 
