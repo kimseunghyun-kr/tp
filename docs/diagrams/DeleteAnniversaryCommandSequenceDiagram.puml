@@ -25,7 +25,7 @@ deactivate DACP
 
 U -> DAC: execute(Model model)
 activate DAC
-DAC -> M : getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix)
+DAC -> M : getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix)
 activate M
 M --> DAC : List<Person>
 deactivate M
