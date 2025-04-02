@@ -1,0 +1,26 @@
+@startuml
+start
+
+:Retrieve all employees;
+:Initialize empty reminder list;
+
+while () is ([Has more employees to check?])
+  :Select next employee;
+  :Get all anniversaries of employee;
+
+  while () is ([Has more anniversaries to check?])
+    :Select next anniversary;
+
+    if () then ([Anniversary within 3-day range?])
+      :Create Reminder;
+      :Add to reminder list;
+    else ([No])
+    endif
+  endwhile
+endwhile ([checked all employees])
+
+:Sort reminder list by date;
+:Store in observable list;
+
+stop
+@enduml
