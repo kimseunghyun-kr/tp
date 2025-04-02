@@ -169,7 +169,8 @@ public class FindCommandParserTest {
         assertParseFailure(parser, " n/   jp/   ",
                 seedu.address.logic.Messages.MESSAGE_EMPTY_FIELD_WITH_PREFIX);
     }
-    
+
+    // Should fail as there should be no preamble
     @Test
     public void parse_preamble_throwsParseException() {
         assertParseFailure(parser, " 2134rt n/jack jp/engineer",

@@ -35,11 +35,17 @@ public class ShowAnniversaryCommandParserTest {
                 thrown.getMessage());
     }
 
-    //Solve in another branch
-    @Disabled
     @Test
     public void parse_emptyEidValue_throwsParseException() {
         String userInput = " " + PREFIX_EMPLOYEEID + " ";
+        ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
+        assertEquals(String.format(EmployeeId.MESSAGE_CONSTRAINTS),
+                thrown.getMessage());
+    }
+
+    @Test
+    public void parse_nonEmptyPreamble_throwsParseException() {
+        String userInput = " lwjfbopwou " + PREFIX_EMPLOYEEID + " " + employeeId;
         ParseException thrown = assertThrows(ParseException.class, () -> parser.parse(userInput));
         assertEquals(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowAnniversaryCommand.MESSAGE_USAGE),
                 thrown.getMessage());
