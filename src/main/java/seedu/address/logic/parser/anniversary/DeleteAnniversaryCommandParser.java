@@ -1,12 +1,12 @@
 package seedu.address.logic.parser.anniversary;
 
+import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
 import lombok.Getter;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.anniversary.DeleteAnniversaryCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
@@ -44,10 +44,13 @@ public class DeleteAnniversaryCommandParser implements Parser<DeleteAnniversaryC
                     argMultimap.getValue(PREFIX_EMPLOYEEID).get()
             );
             Index index = ParserUtil.parseIndex(argMultimap.getValue(PREFIX_ANNIVERSARY_INDEX).get());
+            if (index.getZeroBased() < 0) {
+                throw new ParseException(MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS);
+            }
             return new DeleteAnniversaryCommand(index, employeeIdPrefix);
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAnniversaryCommand.MESSAGE_USAGE), pe);
         }
     }
 }
