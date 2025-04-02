@@ -1,7 +1,6 @@
 package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.Messages.MESSAGE_EMPLOYEE_NOT_FOUND;
 
 import java.util.List;
 
@@ -54,7 +53,7 @@ public class ShowAnniversaryCommand extends Command {
         }
         if (personToEdit.isEmpty()) {
             throw new CommandException(String.format(
-                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
                     employeeIdToFind
             ));
         }

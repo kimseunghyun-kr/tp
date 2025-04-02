@@ -134,12 +134,12 @@ public class AddAnniversaryCommandTest {
         );
 
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, minimalAnniversary);
 
         var result = command.execute(model);
 
-        Mockito.verify(model).setPerson(Mockito.eq(basePerson), Mockito.argThat(updated ->
+        Mockito.verify(model).setEmployee(Mockito.eq(baseEmployee), Mockito.argThat(updated ->
                 updated.getAnniversaries().contains(minimalAnniversary)
         ));
         assertEquals("New anniversary added: " + minimalAnniversary, result.getFeedbackToUser());
@@ -161,13 +161,13 @@ public class AddAnniversaryCommandTest {
         );
         ArrayList<Anniversary> existingList = new ArrayList<>();
         existingList.add(existingAnni);
-        Person personWithAnni = Person.builder()
+        Employee personWithAnni = Employee.builder()
                 .employeeId(validEmployeeId)
-                .name(basePerson.getName())
-                .phone(basePerson.getPhone())
-                .email(basePerson.getEmail())
-                .jobPosition(basePerson.getJobPosition())
-                .tags(basePerson.getTags())
+                .name(baseEmployee.getName())
+                .phone(baseEmployee.getPhone())
+                .email(baseEmployee.getEmail())
+                .jobPosition(baseEmployee.getJobPosition())
+                .tags(baseEmployee.getTags())
                 .anniversaries(existingList)
                 .build();
 
@@ -177,7 +177,7 @@ public class AddAnniversaryCommandTest {
 
         var result = command.execute(model);
 
-        Mockito.verify(model).setPerson(Mockito.eq(personWithAnni), Mockito.argThat(updated ->
+        Mockito.verify(model).setEmployee(Mockito.eq(personWithAnni), Mockito.argThat(updated ->
                 updated.getAnniversaries().contains(newAnni)
         ));
         assertEquals("New anniversary added: " + newAnni, result.getFeedbackToUser());
@@ -186,13 +186,13 @@ public class AddAnniversaryCommandTest {
     @Test
     public void execute_addAnniversary_returnsNewPersonObject() throws Exception {
         Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
-                .thenReturn(FXCollections.observableArrayList(basePerson));
+                .thenReturn(FXCollections.observableArrayList(baseEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
         command.execute(model);
 
-        Mockito.verify(model).setPerson(Mockito.eq(basePerson), Mockito.argThat(updated ->
-                updated != basePerson && updated.getAnniversaries().contains(validAnniversary)
+        Mockito.verify(model).setEmployee(Mockito.eq(baseEmployee), Mockito.argThat(updated ->
+                updated != baseEmployee && updated.getAnniversaries().contains(validAnniversary)
         ));
     }
 
@@ -205,6 +205,4 @@ public class AddAnniversaryCommandTest {
     public void constructor_nullEmployeeId_throwsException() {
         assertThrows(NullPointerException.class, () -> new AddAnniversaryCommand(null, validAnniversary));
     }
-
-
 }
