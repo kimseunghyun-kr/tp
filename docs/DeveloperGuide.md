@@ -15,7 +15,7 @@ title: Developer Guide
    1. [AddAnniversaryCommand: `addAnni`](#addanniversarycommand--codeaddannicode)   
    2. [DeleteAnniversaryCommand: `deleteAnni`](#deleteanniversarycommand--codedeleteannicode)
    3. [ShowAnniversaryCommand: `showAnni`](#showanniversarycommand--codeshowannicode)
-5. [Reminder for events](#reminder-for-events)
+5. [Reminder Feature: `Reminder`](#reminder-feature)
 6. [Save employee records](#save-employee-records)
 
 - [User Stories](#user-stories)
@@ -141,20 +141,49 @@ Allows HR workers to manage employee anniversaries.
 Anniversaries
 ```
 ---
+### Reminder Feature
 
-### Reminder for Events
-#### Purpose:
-Notifies HR about upcoming employee birthdays and work anniversaries.
+The `reminder` feature displays a list of upcoming employee anniversaries (birthdays, work anniversaries, and custom anniversaries) occurring within the next 3 days. This section details the implementation of this feature.
 
-#### Command Format:
-No commands needed
+#### Design Overview
 
-#### Outputs:
-- **GUI Output:**
-```
-Jane Doe's birthday is today! (May 9, 1990).
-John Doe's birthday is tomorrow (May 10, 1990).
-Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
+The `reminder` command is implemented using the `ReminderCommand` class. It interacts with the `Model` to compute a list of upcoming reminders. These reminders are displayed in the UI using a custom `ReminderListPanel`.
+
+The model maintains an internal `ObservableList<Reminder>` that is updated when the command is executed. The `Reminder` class encapsulates:
+- A reference to the `Person` whose anniversary is being shown
+- The `AnniversaryType` (e.g., birthday, wedding)
+- The date of the anniversary
+- An optional description
+
+#### Execution Flow
+
+The execution of the `reminder` command proceeds as follows:
+
+1. `LogicManager` receives the command string `"reminder"` and passes it to the `ReminderCommandParser`.
+2. `ReminderCommandParser` creates a new `ReminderCommand` object.
+3. Upon execution, `ReminderCommand` calls `model.updateReminderList()`, which filters all `Person` objects to find anniversaries within the next 3 days.
+4. The `ModelManager` updates its internal observable reminder list.
+5. `ReminderCommand` then calls `model.getReminderList()` to retrieve this list.
+6. The UI listens to this observable list and renders a `ReminderCard` for each upcoming reminder in a `ReminderListPanel`.
+
+#### Sequence Diagram
+
+The following sequence diagram illustrates the steps described above:
+
+![Reminder Sequence Diagram](images/ReminderSequence.png)
+
+Note: The filtering logic (`within 3 days`) is abstracted into the model for separation of concerns.
+
+#### Activity Diagram
+
+The diagram below illustrates the internal logic of how the model filters the reminder list:
+
+![Reminder Activity Diagram](images/ReminderActivityDiagram.png)
+
+The filtering is based on whether an anniversary falls within the next 3 days. In code, this value is stored as a constant:
+
+```java
+public static final int REMINDED_DATE_RANGE = 3;
 ```
 ---
 ### **Save Employee Records**

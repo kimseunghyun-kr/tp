@@ -11,13 +11,13 @@ while () is ([Has more employees to check?])
   while () is ([Has more anniversaries to check?])
     :Select next anniversary;
 
-    if () then ([Anniversary within 3-day range?])
+    if () then ([Is anniversary within 3-day range?])
       :Create Reminder;
       :Add to reminder list;
-    else ([No])
+    else ([else])
     endif
-  endwhile
-endwhile ([checked all employees])
+  endwhile ([else])
+endwhile ([Checked all employees])
 
 :Sort reminder list by date;
 :Store in observable list;

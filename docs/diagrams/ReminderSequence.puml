@@ -44,7 +44,9 @@ deactivate ReminderCommand
 LogicManager -> ReminderListPanel : update(List<Reminder>)
 activate ReminderListPanel
 
-ReminderListPanel -> ReminderCard : new ReminderCard(...) (xN)
+loop For each reminder in list
+  ReminderListPanel -> ReminderCard : new ReminderCard(...)
+end
 deactivate ReminderListPanel
 
 deactivate LogicManager
