@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
  * Parses input arguments and creates a new FindCommand object
@@ -39,7 +39,7 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(MESSAGE_EMPTY_FIELD_WITH_PREFIX);
         }
 
-        Predicate<Person> predicate = PersonSearchPredicateBuilder.buildPredicate(argMultimap);
+        Predicate<Employee> predicate = PersonSearchPredicateBuilder.buildPredicate(argMultimap);
 
         return new FindCommand(predicate);
     }

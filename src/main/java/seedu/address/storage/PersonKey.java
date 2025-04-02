@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 import seedu.address.model.tag.Tag;
 
 /**
- * A key for a person that is used to determine if two persons are equal.
- * @param name the name of the person
- * @param phone the phone number of the person
- * @param email the email of the person
- * @param jobPosition the address of the person
- * @param employeeId the employee ID of the person
- * @param tags the tags of the person
+ * A key for a employee that is used to determine if two persons are equal.
+ * @param name the name of the employee
+ * @param phone the phone number of the employee
+ * @param email the email of the employee
+ * @param jobPosition the address of the employee
+ * @param employeeId the employee ID of the employee
+ * @param tags the tags of the employee
  */
 public record PersonKey(
         String name,
@@ -42,18 +42,18 @@ public record PersonKey(
     }
 
     /**
-     * Creates a PersonKey from a Person.
-     * @param person the Person to create the PersonKey from
-     * @return the PersonKey created from the Person
+     * Creates a PersonKey from a Employee.
+     * @param employee the Employee to create the PersonKey from
+     * @return the PersonKey created from the Employee
      */
-    public static PersonKey from(Person person) {
+    public static PersonKey from(Employee employee) {
         return new PersonKey(
-                person.getName().toString(),
-                person.getPhone().toString(),
-                person.getEmail().toString(),
-                person.getJobPosition().toString(),
-                person.getEmployeeId().toString(),
-                person.getTags().stream()
+                employee.getName().toString(),
+                employee.getPhone().toString(),
+                employee.getEmail().toString(),
+                employee.getJobPosition().toString(),
+                employee.getEmployeeId().toString(),
+                employee.getTags().stream()
                         .map(Tag::getTagName).collect(Collectors.toList())
         );
     }

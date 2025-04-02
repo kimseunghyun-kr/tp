@@ -10,8 +10,8 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.model.person.Employee;
+import seedu.address.testutil.EmployeeBuilder;
 
 class UndoCommandTest {
 
@@ -27,10 +27,10 @@ class UndoCommandTest {
     @Test
     void execute_undoAvailable_success() throws CommandException {
         // Simulate an initial state of the address book and commit a change
-        Person validPerson = new PersonBuilder().build();
+        Employee validEmployee = new EmployeeBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addPerson(validPerson);
+        expectedModel.addEmployee(validEmployee);
 
         model.commitChanges();
 
@@ -39,7 +39,7 @@ class UndoCommandTest {
 
         // Assert that undo was successful
         assertEquals(UndoCommand.MESSAGE_SUCCESS, result.getFeedbackToUser());
-        assertTrue(model.getFilteredPersonList().isEmpty());
+        assertTrue(model.getFilteredEmployeeList().isEmpty());
     }
 
     @Test

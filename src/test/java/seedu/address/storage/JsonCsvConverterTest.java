@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 public class JsonCsvConverterTest {
 
@@ -39,10 +39,10 @@ public class JsonCsvConverterTest {
         JsonSerializableAddressBook addressBook = converter.fromCsv(csvData, JsonSerializableAddressBook.class);
 
         assertNotNull(addressBook);
-        List<Person> persons = addressBook.toModelType().getPersonList();
-        assertEquals(7, persons.size());
-        assertEquals("Alice Pauline", persons.get(0).getName().toString());
-        assertEquals("94351253", persons.get(0).getPhone().toString());
+        List<Employee> employees = addressBook.toModelType().getEmployeeList();
+        assertEquals(7, employees.size());
+        assertEquals("Alice Pauline", employees.get(0).getName().toString());
+        assertEquals("94351253", employees.get(0).getPhone().toString());
     }
 
     @Test
@@ -50,14 +50,14 @@ public class JsonCsvConverterTest {
         String csvData = Files.readString(TEST_DATA_FOLDER.resolve(TEST_AGGREGATE_CSV));
 
         JsonSerializableAddressBook addressBook = converter.fromCsv(csvData, JsonSerializableAddressBook.class);
-        addressBook = addressBook.aggregatePersons(); // Aggregate persons with same ID
+        addressBook = addressBook.aggregatePersons(); // Aggregate employees with same ID
 
         assertNotNull(addressBook);
-        List<Person> persons = addressBook.toModelType().getPersonList();
-        assertEquals(2, persons.size()); // Should have 2 unique persons (Alice and Benson)
+        List<Employee> employees = addressBook.toModelType().getEmployeeList();
+        assertEquals(2, employees.size()); // Should have 2 unique employees (Alice and Benson)
 
         // Alice should have 3 unique anniversaries after aggregation
-        Person alice = persons.stream()
+        Employee alice = employees.stream()
                 .filter(p -> p.getName().toString().equals("Alice Pauline"))
                 .findFirst()
                 .orElseThrow();

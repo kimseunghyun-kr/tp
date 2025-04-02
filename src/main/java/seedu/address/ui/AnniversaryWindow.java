@@ -52,7 +52,7 @@ public class AnniversaryWindow extends UiPart<Region> {
      * Shows the anniversary window.
      */
     public void show() {
-        logger.fine("Showing anniversary page about the person.");
+        logger.fine("Showing anniversary page about the employee.");
         windowStage.show();
         windowStage.centerOnScreen();
     }

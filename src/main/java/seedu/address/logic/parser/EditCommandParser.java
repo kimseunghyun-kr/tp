@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.logic.commands.EditCommand;
-import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.EditCommand.EditEmployeeDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.tag.Tag;
@@ -58,33 +58,33 @@ public class EditCommandParser implements Parser<EditCommand> {
                 PREFIX_JOBPOSITION
         );
 
-        EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
+        EditEmployeeDescriptor editEmployeeDescriptor = new EditEmployeeDescriptor();
 
         if (argMultimap.getValue(PREFIX_EMPLOYEEID).isPresent()) {
-            editPersonDescriptor.setEmployeeId(ParserUtil.parseEmployeeId(
+            editEmployeeDescriptor.setEmployeeId(ParserUtil.parseEmployeeId(
                     argMultimap.getValue(PREFIX_EMPLOYEEID).get()
             ));
         }
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
+            editEmployeeDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
+            editEmployeeDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
         }
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
+            editEmployeeDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
         }
         if (argMultimap.getValue(PREFIX_JOBPOSITION).isPresent()) {
-            editPersonDescriptor.setJobPosition(ParserUtil.parseJobPosition(
+            editEmployeeDescriptor.setJobPosition(ParserUtil.parseJobPosition(
                     argMultimap.getValue(PREFIX_JOBPOSITION).get()));
         }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editEmployeeDescriptor::setTags);
 
-        if (!editPersonDescriptor.isAnyFieldEdited()) {
+        if (!editEmployeeDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new EditCommand(employeeIdPrefix, editPersonDescriptor);
+        return new EditCommand(employeeIdPrefix, editEmployeeDescriptor);
     }
 
     /**
@@ -101,5 +101,4 @@ public class EditCommandParser implements Parser<EditCommand> {
         Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
         return Optional.of(ParserUtil.parseTags(tagSet));
     }
-
 }

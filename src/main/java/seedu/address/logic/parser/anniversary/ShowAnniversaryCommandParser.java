@@ -23,7 +23,7 @@ public class ShowAnniversaryCommandParser implements Parser<ShowAnniversaryComma
     public ShowAnniversaryCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_EMPLOYEEID);
 
-        if (argMultimap.getValue(PREFIX_EMPLOYEEID).isEmpty()) {
+        if (argMultimap.getValue(PREFIX_EMPLOYEEID).isEmpty() || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, ShowAnniversaryCommand.MESSAGE_USAGE)
             );

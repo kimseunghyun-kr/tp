@@ -18,8 +18,8 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -147,7 +147,7 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Example method to show the AnniversaryWindow for a particular Person's anniversaries.
+     * Example method to show the AnniversaryWindow for a particular Employee's anniversaries.
      * Let's pretend you call this if the user clicks a button, or types a command like:
      * showAnniversaries eid//<someUUID/>
      */
@@ -157,14 +157,14 @@ public class MainWindow extends UiPart<Stage> {
             // Convert employeeIdString to employeeId
             EmployeeId employeeId = EmployeeId.fromString(employeeIdString);
 
-            // Find the person by employee id
-            Person selected = logic.getFilteredPersonList().stream()
+            // Find the employee by employee id
+            Employee selected = logic.getFilteredPersonList().stream()
                     .filter(person -> person.getEmployeeId().equals(employeeId))
                     .findFirst()
                     .orElse(null);
 
             if (selected == null) {
-                resultDisplay.setFeedbackToUser("No person found with employee ID: " + employeeId);
+                resultDisplay.setFeedbackToUser("No employee found with employee ID: " + employeeId);
                 return;
             }
 

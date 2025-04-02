@@ -18,12 +18,12 @@ import seedu.address.model.tag.Tag;
 
 
 /**
- * Represents a Person in the address book.
+ * Represents an Employee in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 @Data
 @Builder
-public class Person {
+public class Employee {
 
     // Identity fields
     private final EmployeeId employeeId;
@@ -41,8 +41,8 @@ public class Person {
     /**
      * Every field must be present and not null.
      */
-    public Person(EmployeeId employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set<Tag> tags,
-                  List<Anniversary> anniversaries) {
+    public Employee(EmployeeId employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set<Tag> tags,
+                    List<Anniversary> anniversaries) {
         this.employeeId = employeeId;
         requireAllNonNull(name, phone, email, jobPosition, tags);
         this.name = name;
@@ -66,11 +66,11 @@ public class Person {
      * Returns true if both persons have the same employee id.
      * This defines a clear notion of equality between two persons.
      */
-    public boolean isSamePerson(Person otherPerson) {
-        if (otherPerson == null) {
+    public boolean isSameEmployee(Employee otherEmployee) {
+        if (otherEmployee == null) {
             return false;
         }
-        return otherPerson.employeeId.equals(this.employeeId);
+        return otherEmployee.employeeId.equals(this.employeeId);
     }
 
     /**
@@ -78,17 +78,17 @@ public class Person {
      * this excludes the employee id and anniversaryList.
      * This defines a weaker notion of equality between two persons.
      */
-    public boolean hasSameDetails(Person otherPerson) {
-        return name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && jobPosition.equals(otherPerson.jobPosition)
-                && tags.equals(otherPerson.tags);
+    public boolean hasSameDetails(Employee otherEmployee) {
+        return name.equals(otherEmployee.name)
+                && phone.equals(otherEmployee.phone)
+                && email.equals(otherEmployee.email)
+                && jobPosition.equals(otherEmployee.jobPosition)
+                && tags.equals(otherEmployee.tags);
     }
 
     //TODO: Remove this method after finalising the feature
     /**
-     * Returns the next upcoming important date (birthday or work anniversary) for this person.
+     * Returns the next upcoming important date (birthday or work anniversary) for this employee.
      *
      * @return The next upcoming date as a {@code LocalDate} object, or {@code null} if none exists.
      */
@@ -139,7 +139,7 @@ public class Person {
     }
 
     /**
-     * Returns the next upcoming birthday date for this person.
+     * Returns the next upcoming birthday date for this employee.
      *
      * @return The upcoming birthday as a {@code LocalDate}, or {@code null} if none found.
      */
@@ -148,7 +148,7 @@ public class Person {
     }
 
     /**
-     * Returns the next upcoming work anniversary date for this person.
+     * Returns the next upcoming work anniversary date for this employee.
      *
      * @return The upcoming work anniversary as a {@code LocalDate}, or {@code null} if none found.
      */
@@ -163,7 +163,7 @@ public class Person {
     //TODO: Remove this method after finalising the feature
     /**
      * Checks if the next upcoming important date (birthday or work anniversary)
-     * for this person is within the specified number of days from today.
+     * for this employee is within the specified number of days from today.
      *
      * @param days The number of days from today to check for an upcoming date.
      * @return {@code true} if the next upcoming date is within the specified number of days,
@@ -189,17 +189,17 @@ public class Person {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof Person)) {
+        if (!(other instanceof Employee)) {
             return false;
         }
 
-        Person otherPerson = (Person) other;
-        return employeeId.equals(otherPerson.employeeId)
-                && name.equals(otherPerson.name)
-                && phone.equals(otherPerson.phone)
-                && email.equals(otherPerson.email)
-                && jobPosition.equals(otherPerson.jobPosition)
-                && tags.equals(otherPerson.tags);
+        Employee otherEmployee = (Employee) other;
+        return employeeId.equals(otherEmployee.employeeId)
+                && name.equals(otherEmployee.name)
+                && phone.equals(otherEmployee.phone)
+                && email.equals(otherEmployee.email)
+                && jobPosition.equals(otherEmployee.jobPosition)
+                && tags.equals(otherEmployee.tags);
     }
 
     @Override

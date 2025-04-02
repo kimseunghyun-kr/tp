@@ -20,8 +20,8 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.model.person.Employee;
+import seedu.address.testutil.EmployeeBuilder;
 
 public class FindCommandParserTest {
 
@@ -32,6 +32,7 @@ public class FindCommandParserTest {
     public void setUp() {
         model = Mockito.mock(Model.class);
     }
+
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
@@ -43,22 +44,22 @@ public class FindCommandParserTest {
         // no leading and trailing whitespaces
         FindCommand command = parser.parse(" n/Alice Bob");
 
-        Person matching1 = new PersonBuilder().withName("Alice Johnson").build();
-        Person matching2 = new PersonBuilder().withName("Bob Marley").build();
-        Person nonMatching = new PersonBuilder().withName("Charlie Brown").build();
+        Employee matching1 = new EmployeeBuilder().withName("Alice Johnson").build();
+        Employee matching2 = new EmployeeBuilder().withName("Bob Marley").build();
+        Employee nonMatching = new EmployeeBuilder().withName("Charlie Brown").build();
 
-        ObservableList<Person> baseList =
+        ObservableList<Employee> baseList =
                 FXCollections.observableArrayList(matching1, matching2, nonMatching);
-        FilteredList<Person> filteredList = new FilteredList<>(baseList);
+        FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
         //stub creation
-        when(model.getFilteredPersonList()).thenReturn(filteredList);
+        when(model.getFilteredEmployeeList()).thenReturn(filteredList);
 
         doAnswer(invocation -> {
-            Predicate<Person> predicate = invocation.getArgument(0);
+            Predicate<Employee> predicate = invocation.getArgument(0);
             filteredList.setPredicate(predicate);
             return null;
-        }).when(model).updateFilteredPersonList(any());
+        }).when(model).updateFilteredEmployeeList(any());
 
         command.execute(model);
 
@@ -72,7 +73,7 @@ public class FindCommandParserTest {
 
         whitespaceCommand.execute(model);
 
-        assertEquals(List.of(matching1, matching2), model.getFilteredPersonList());
+        assertEquals(List.of(matching1, matching2), model.getFilteredEmployeeList());
     }
 
     @Test
@@ -80,25 +81,25 @@ public class FindCommandParserTest {
         // Parse command with standard input
         FindCommand command = parser.parse(" jp/engineer manager");
 
-        Person matching1 = new PersonBuilder().withJobPosition("Software Engineer").build();
-        Person matching2 = new PersonBuilder().withJobPosition("Product Manager").build();
-        Person nonMatching = new PersonBuilder().withJobPosition("Sales Associate").build();
+        Employee matching1 = new EmployeeBuilder().withJobPosition("Software Engineer").build();
+        Employee matching2 = new EmployeeBuilder().withJobPosition("Product Manager").build();
+        Employee nonMatching = new EmployeeBuilder().withJobPosition("Sales Associate").build();
 
-        ObservableList<Person> baseList =
+        ObservableList<Employee> baseList =
                 FXCollections.observableArrayList(matching1, matching2, nonMatching);
-        FilteredList<Person> filteredList = new FilteredList<>(baseList);
+        FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
-        when(model.getFilteredPersonList()).thenReturn(filteredList);
+        when(model.getFilteredEmployeeList()).thenReturn(filteredList);
 
         doAnswer(invocation -> {
-            Predicate<Person> predicate = invocation.getArgument(0);
+            Predicate<Employee> predicate = invocation.getArgument(0);
             filteredList.setPredicate(predicate);
             return null;
-        }).when(model).updateFilteredPersonList(any());
+        }).when(model).updateFilteredEmployeeList(any());
 
         command.execute(model);
 
-        assertEquals(List.of(matching1, matching2), model.getFilteredPersonList());
+        assertEquals(List.of(matching1, matching2), model.getFilteredEmployeeList());
 
         //reset list
         filteredList.setPredicate(unused -> true);
@@ -108,7 +109,7 @@ public class FindCommandParserTest {
 
         whitespaceCommand.execute(model);
 
-        assertEquals(List.of(matching1, matching2), model.getFilteredPersonList());
+        assertEquals(List.of(matching1, matching2), model.getFilteredEmployeeList());
     }
 
     @Test
@@ -116,41 +117,41 @@ public class FindCommandParserTest {
         // Parse command with both name and job position
         FindCommand command = parser.parse(" n/jack jp/engineer");
 
-        Person matching = new PersonBuilder()
+        Employee matching = new EmployeeBuilder()
                 .withName("Jack Daniel")
                 .withJobPosition("Software Engineer")
                 .build();
 
-        Person wrongName = new PersonBuilder()
+        Employee wrongName = new EmployeeBuilder()
                 .withName("Alice")
                 .withJobPosition("Software Engineer")
                 .build();
 
-        Person wrongJob = new PersonBuilder()
+        Employee wrongJob = new EmployeeBuilder()
                 .withName("Jack")
                 .withJobPosition("Chef")
                 .build();
 
-        Person completelyOff = new PersonBuilder()
+        Employee completelyOff = new EmployeeBuilder()
                 .withName("Bob")
                 .withJobPosition("Accountant")
                 .build();
 
-        ObservableList<Person> baseList =
+        ObservableList<Employee> baseList =
                 FXCollections.observableArrayList(matching, wrongName, wrongJob, completelyOff);
-        FilteredList<Person> filteredList = new FilteredList<>(baseList);
+        FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
-        when(model.getFilteredPersonList()).thenReturn(filteredList);
+        when(model.getFilteredEmployeeList()).thenReturn(filteredList);
 
         doAnswer(invocation -> {
-            Predicate<Person> predicate = invocation.getArgument(0);
+            Predicate<Employee> predicate = invocation.getArgument(0);
             filteredList.setPredicate(predicate);
             return null;
-        }).when(model).updateFilteredPersonList(any());
+        }).when(model).updateFilteredEmployeeList(any());
 
         command.execute(model);
 
-        assertEquals(List.of(matching), model.getFilteredPersonList());
+        assertEquals(List.of(matching), model.getFilteredEmployeeList());
 
         //reset list
         filteredList.setPredicate(unused -> true);
@@ -160,6 +161,6 @@ public class FindCommandParserTest {
 
         messyCommand.execute(model);
 
-        assertEquals(List.of(matching), model.getFilteredPersonList());
+        assertEquals(List.of(matching), model.getFilteredEmployeeList());
     }
 }

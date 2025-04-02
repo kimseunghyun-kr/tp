@@ -46,7 +46,7 @@ package "seedu.address.logic.commands.importexport" {
             + static void exportToJson(ObservableList<Person> displayedPeople, Path filePath)
             + static void exportToCsv(ObservableList<Person> displayedPeople, Path filePath)
             --
-            - static ReadOnlyAddressBook createTempAddressBook(ObservableList<Person> personList)
+            - static ReadOnlyAddressBook createTempAddressBook(ObservableList<Person> employeeList)
             - static JsonSerializableAddressBook csvToAddressBook(String csvData)
             - static String addressBookToCsv(JsonSerializableAddressBook addressBook)
     }

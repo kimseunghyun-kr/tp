@@ -22,18 +22,18 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 
 /**
- * Adds an anniversary to an existing Person in the address book.
+ * Adds an anniversary to an existing Employee in the address book.
  */
 @Getter
 public class AddAnniversaryCommand extends Command {
 
     public static final String COMMAND_WORD = "addAnni";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an anniversary to the person identified by "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an anniversary to the employee identified by "
             + "a prefix of their Employee ID.\n"
             + "Parameters: [] indicates optional fields\n"
             + PREFIX_EMPLOYEEID + "EMPLOYEE_ID_PREFIX "
@@ -53,7 +53,7 @@ public class AddAnniversaryCommand extends Command {
     private final EmployeeId employeeIdPrefix;
 
     /**
-     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the person with given employeeId.
+     * Creates an AddAnniversaryCommand to add the specified {@code Anniversary} to the employee with given employeeId.
      */
     public AddAnniversaryCommand(EmployeeId employeeIdPrefix, Anniversary anniversary) {
         requireNonNull(employeeIdPrefix);
@@ -65,7 +65,7 @@ public class AddAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
+        List<Employee> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
         if (matchedEmployees.size() > 1) {
             throw new CommandException(String.format(
@@ -76,15 +76,15 @@ public class AddAnniversaryCommand extends Command {
 
         if (matchedEmployees.isEmpty()) {
             throw new CommandException(String.format(
-                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
                     employeeIdPrefix
             ));
         }
 
-        Person personToEdit = matchedEmployees.get(0);
+        Employee employeeToEdit = matchedEmployees.get(0);
 
         // Check if the same anniversary already exists
-        boolean duplicate = personToEdit.getAnniversaries().stream()
+        boolean duplicate = employeeToEdit.getAnniversaries().stream()
                 .anyMatch(existing ->
                         existing.getDate().equals(toAdd.getDate())
                                 && existing.getName().equals(toAdd.getName())
@@ -95,20 +95,20 @@ public class AddAnniversaryCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_ANNIVERSARY);
         }
 
-        // Create a new Person object with updated anniversaries
-        List<Anniversary> anniversaryList = new ArrayList<>(personToEdit.getAnniversaries());
+        // Create a new Employee object with updated anniversaries
+        List<Anniversary> anniversaryList = new ArrayList<>(employeeToEdit.getAnniversaries());
         anniversaryList.add(toAdd);
-        Person updatedPerson = Person.builder()
-                .employeeId(personToEdit.getEmployeeId())
-                .name(personToEdit.getName())
-                .jobPosition(personToEdit.getJobPosition())
-                .email(personToEdit.getEmail())
-                .phone(personToEdit.getPhone())
-                .tags(personToEdit.getTags())
+        Employee updatedEmployee = Employee.builder()
+                .employeeId(employeeToEdit.getEmployeeId())
+                .name(employeeToEdit.getName())
+                .jobPosition(employeeToEdit.getJobPosition())
+                .email(employeeToEdit.getEmail())
+                .phone(employeeToEdit.getPhone())
+                .tags(employeeToEdit.getTags())
                 .anniversaries(anniversaryList).build();
 
         // update the model
-        model.setPerson(personToEdit, updatedPerson);
+        model.setEmployee(employeeToEdit, updatedEmployee);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }

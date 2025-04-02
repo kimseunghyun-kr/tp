@@ -17,35 +17,35 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
-import seedu.address.logic.commands.AddPersonCommand;
+import seedu.address.logic.commands.AddEmployeeCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
  */
-public class AddPersonCommandParser implements Parser<AddPersonCommand> {
+public class AddEmployeeCommandParser implements Parser<AddEmployeeCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the AddEmployeeCommand
+     * and returns an AddEmployeeCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public AddPersonCommand parse(String args) throws ParseException {
+    public AddEmployeeCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_EMPLOYEEID, PREFIX_NAME, PREFIX_PHONE,
                         PREFIX_EMAIL, PREFIX_JOBPOSITION, PREFIX_TAG, PREFIX_BIRTHDAY, PREFIX_WORK_ANNIVERSARY);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_JOBPOSITION, PREFIX_PHONE, PREFIX_EMAIL)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPersonCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddEmployeeCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_EMPLOYEEID, PREFIX_NAME,
@@ -65,11 +65,11 @@ public class AddPersonCommandParser implements Parser<AddPersonCommand> {
             JobPosition jobPosition = ParserUtil.parseJobPosition(argMultimap.getValue(PREFIX_JOBPOSITION).get());
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
             List<Anniversary> anniversaryList = multiAddAnniversary(argMultimap);
-            Person person = new Person(employeeId, name, phone, email, jobPosition, tagList, anniversaryList);
+            Employee employee = new Employee(employeeId, name, phone, email, jobPosition, tagList, anniversaryList);
 
-            return new AddPersonCommand(person);
+            return new AddEmployeeCommand(employee);
         } catch (NoSuchElementException nsee) {
-            throw new ParseException(AddPersonCommand.MESSAGE_USAGE);
+            throw new ParseException(AddEmployeeCommand.MESSAGE_USAGE);
         }
     }
 }

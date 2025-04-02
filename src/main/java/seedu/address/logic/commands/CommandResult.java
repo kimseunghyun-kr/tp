@@ -22,10 +22,10 @@ public class CommandResult {
     /** The application should exit. */
     private final boolean exit;
 
-    /** Person Anniversary should be shown to the user**/
+    /** Employee Anniversary should be shown to the user**/
     private final boolean showAnniversary;
 
-    /** Employee ID of the person associated with this command**/
+    /** Employee ID of the employee associated with this command**/
     private final Optional<String> employeeId;
 
     /**

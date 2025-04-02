@@ -24,8 +24,8 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 import seedu.address.storage.JsonAdaptedPerson;
 import seedu.address.storage.JsonSerializableAddressBook;
 import seedu.address.storage.PersonKey;
@@ -56,7 +56,8 @@ public class ImportCommand extends Command {
     public final String mode;
 
     /**
-     * Creates an ImportCommand to import the specified {@code Person}
+     * Creates an ImportCommand to import the specified {@code Employee}
+     *
      * @param filetype json or csv source file
      * @param path path to the file
      * @param mode append or replace
@@ -74,10 +75,10 @@ public class ImportCommand extends Command {
             JsonSerializableAddressBook importedData;
             if (filetype.equalsIgnoreCase("json")) {
                 importedData = AddressBookFormatConverter.importFromJson(path);
-                logger.info(String.format("Importing from JSON + %s, %s", path , importedData));
+                logger.info(String.format("Importing from JSON + %s, %s", path, importedData));
             } else if (filetype.equalsIgnoreCase("csv")) {
                 importedData = AddressBookFormatConverter.importFromCsv(path);
-                logger.info(String.format("Importing from CSV + %s, %s", path , importedData));
+                logger.info(String.format("Importing from CSV + %s, %s", path, importedData));
             } else {
                 throw new CommandException(MESSAGE_INVALID_FILETYPE);
             }
@@ -113,11 +114,11 @@ public class ImportCommand extends Command {
             }
             // Build a new AddressBook from the aggregated persons.
             AddressBook newAddressBook = new AddressBook();
-            for (Person p : aggResult.aggregated) {
+            for (Employee p : aggResult.aggregated) {
                 newAddressBook.addPerson(p);
             }
             model.setAddressBook(newAddressBook);
-            int importedCount = newAddressBook.getPersonList().size();
+            int importedCount = newAddressBook.getEmployeeList().size();
             return new CommandResult(String.format(MESSAGE_SUCCESS_OVERWRITE, importedCount));
         } catch (IllegalValueException e) {
             throw new CommandException(String.format(MESSAGE_INVALID_DATA, e.getMessage()));
@@ -134,9 +135,9 @@ public class ImportCommand extends Command {
     private CommandResult handleAppendMode(Model model, JsonSerializableAddressBook importedData)
             throws CommandException {
         try {
-            List<List<Person>> importStats = processImportedPersonsWhenAppend(model, importedData);
+            List<List<Employee>> importStats = processImportedPersonsWhenAppend(model, importedData);
             int importedCount = importStats.get(0).size();
-            List<Person> skippedList = importStats.get(1);
+            List<Employee> skippedList = importStats.get(1);
             int skippedCount = skippedList.size();
             String skippedDetails = buildConflictErrorMessage(skippedList);
             return new CommandResult(String.format(MESSAGE_SUCCESS_APPEND,
@@ -148,47 +149,47 @@ public class ImportCommand extends Command {
 
     /**
      * Processes the imported data in append mode.
-     * First, it aggregates the imported persons by removing internal duplicates
+     * First, it aggregates the imported employees by removing internal duplicates
      * (i.e. those with the same employeeId but differing PersonKey details).
-     * Then, for each aggregated person, it checks for a conflict with the model:
-     * if the model already contains a person with the same employeeId but different details,
-     * the imported person is flagged as a conflict.
+     * Then, for each aggregated employee, it checks for a conflict with the model:
+     * if the model already contains a employee with the same employeeId but different details,
+     * the imported employee is flagged as a conflict.
      * Returns a list of two lists:
-     * - index 0: persons successfully imported (added or merged)
-     * - index 1: persons that were skipped due to conflicts.
+     * - index 0: employees successfully imported (added or merged)
+     * - index 1: employees that were skipped due to conflicts.
      */
-    private List<List<Person>> processImportedPersonsWhenAppend(Model model,
-                                                                JsonSerializableAddressBook importedData)
+    private List<List<Employee>> processImportedPersonsWhenAppend(Model model,
+                                                                  JsonSerializableAddressBook importedData)
             throws IllegalValueException, CommandException {
         // First, remove internal duplicates/conflicts from the imported data.
         AggregationResult aggResult = aggregateImportedData(importedData);
-        List<Person> aggregatedImported = aggResult.aggregated;
+        List<Employee> aggregatedImported = aggResult.aggregated;
         // Start with the internal conflicts as already omitted.
-        List<Person> omittedPersons = new ArrayList<>(aggResult.conflicts);
-        List<Person> importedPersons = new ArrayList<>();
+        List<Employee> omittedEmployees = new ArrayList<>(aggResult.conflicts);
+        List<Employee> importedEmployees = new ArrayList<>();
 
-        // Now check each aggregated person against the model.
-        for (Person personToImport : aggregatedImported) {
-            Person matchInModel = model.getFilteredByEmployeeIdPrefixList(
-                            EmployeeId.fromString(personToImport.getEmployeeId().toString()))
+        // Now check each aggregated employee against the model.
+        for (Employee employeeToImport : aggregatedImported) {
+            Employee matchInModel = model.getFilteredByEmployeeIdPrefixList(
+                            EmployeeId.fromString(employeeToImport.getEmployeeId().toString()))
                     .stream()
-                    .filter(p -> p.isSamePerson(personToImport))
+                    .filter(p -> p.isSameEmployee(employeeToImport))
                     .findFirst()
                     .orElse(null);
             if (matchInModel == null) {
-                // No matching person in model – add new record.
-                model.addPerson(personToImport);
-                importedPersons.add(personToImport);
-            } else if (matchInModel.hasSameDetails(personToImport)) {
-                // Matching person exists with same details – merge anniversary lists.
-                mergeAnniversaries(matchInModel, personToImport);
-                importedPersons.add(personToImport);
+                // No matching employee in model – add new record.
+                model.addEmployee(employeeToImport);
+                importedEmployees.add(employeeToImport);
+            } else if (matchInModel.hasSameDetails(employeeToImport)) {
+                // Matching employee exists with same details – merge anniversary lists.
+                mergeAnniversaries(matchInModel, employeeToImport);
+                importedEmployees.add(employeeToImport);
             } else {
                 // Conflict with an existing model record.
-                omittedPersons.add(personToImport);
+                omittedEmployees.add(employeeToImport);
             }
         }
-        return List.of(importedPersons, omittedPersons);
+        return List.of(importedEmployees, omittedEmployees);
     }
 
     /**
@@ -198,39 +199,39 @@ public class ImportCommand extends Command {
      * none are aggregated and all are flagged as internal conflicts.
      *
      * @return an AggregationResult containing:
-     *         - aggregated: a list of valid Person objects ready for import.
-     *         - conflicts: a list of Person objects that were removed due to conflicting details.
+     *          - aggregated: a list of valid Employee objects ready for import.
+     *          - conflicts: a list of Employee objects that were removed due to conflicting details.
      */
     private AggregationResult aggregateImportedData(JsonSerializableAddressBook importedData)
             throws IllegalValueException {
-        Map<String, Person> aggregated = new HashMap<>();
+        Map<String, Employee> aggregated = new HashMap<>();
         // For employeeIds that have conflicts, we use a set to record all differing PersonKeys.
         Set<String> conflictEmployeeIds = new HashSet<>();
 
         for (JsonAdaptedPerson adapted : importedData.getPersons()) {
-            Person person = adapted.toModelType();
-            String employeeId = person.getEmployeeId().toString();
+            Employee employee = adapted.toModelType();
+            String employeeId = employee.getEmployeeId().toString();
             PersonKey key = PersonKey.from(adapted);
             if (aggregated.containsKey(employeeId)) {
-                Person existing = aggregated.get(employeeId);
+                Employee existing = aggregated.get(employeeId);
                 PersonKey existingKey = PersonKey.from(existing);
                 if (!existingKey.equals(key)) {
-                    // Conflict: remove any previously aggregated person with this employeeId.
+                    // Conflict: remove any previously aggregated employee with this employeeId.
                     conflictEmployeeIds.add(employeeId);
                 } else {
                     // Same details: merge anniversary lists.
-                    mergeAnniversaries(existing, person);
+                    mergeAnniversaries(existing, employee);
                 }
             } else if (conflictEmployeeIds.contains(employeeId)) {
                 // Already flagged as conflict; do nothing.
                 continue;
             } else {
-                aggregated.put(employeeId, person);
+                aggregated.put(employeeId, employee);
             }
         }
 
         // Build conflict list: all adapted persons whose employeeId is flagged as conflicting.
-        List<Person> conflicts = importedData.getPersons().stream()
+        List<Employee> conflicts = importedData.getPersons().stream()
                 .map(adapted -> {
                     try {
                         return adapted.toModelType();
@@ -246,52 +247,42 @@ public class ImportCommand extends Command {
     }
 
     /**
-     * Merges the anniversaries from the source person into the target person.
+     * Merges the anniversaries from the source employee into the target employee.
      */
-    private void mergeAnniversaries(Person target, Person source) {
+    private void mergeAnniversaries(Employee target, Employee source) {
         target.getAnniversaries().addAll(source.getAnniversaries());
     }
 
     /**
      * Builds an error message listing the full details of persons that have conflicting records.
      */
-    private String buildConflictErrorMessage(List<Person> conflictPersons) {
-        return conflictPersons.stream()
+    private String buildConflictErrorMessage(List<Employee> conflictEmployees) {
+        return conflictEmployees.stream()
                 .map(this::formatPersonDetails)
                 .collect(Collectors.joining("\n", "Conflicting records found:\n", ""));
     }
+
     /**
-     * Formats the details of a Person into a readable string.
+     * Formats the details of a Employee into a readable string.
      */
-    private String formatPersonDetails(Person person) {
+    private String formatPersonDetails(Employee employee) {
         return String.format("Name: %s, Phone: %s, Email: %s, Job Position: %s, EmployeeID: %s, Tags: %s",
-                person.getName(), person.getPhone(), person.getEmail(), person.getJobPosition(),
-                person.getEmployeeId().toString(), person.getTags().toString());
+                employee.getName(), employee.getPhone(), employee.getEmail(), employee.getJobPosition(),
+                employee.getEmployeeId().toString(), employee.getTags().toString());
     }
+
     /**
      * A helper class to hold the result of aggregating imported persons.
      * Contains a list of aggregated persons (with internal duplicates merged) and
      * a list of persons that were removed due to internal conflicts.
      */
     private static class AggregationResult {
-        final List<Person> aggregated;
-        final List<Person> conflicts;
+        final List<Employee> aggregated;
+        final List<Employee> conflicts;
 
-        AggregationResult(List<Person> aggregated, List<Person> conflicts) {
+        AggregationResult(List<Employee> aggregated, List<Employee> conflicts) {
             this.aggregated = aggregated;
             this.conflicts = conflicts;
         }
-    }
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if (!(other instanceof ImportCommand otherCommand)) {
-            return false;
-        }
-        return filetype.equals(otherCommand.filetype)
-                && path.equals(otherCommand.path)
-                && mode.equals(otherCommand.mode);
     }
 }
