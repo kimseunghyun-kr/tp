@@ -17,15 +17,15 @@ package UI <<Rectangle>>  {
   Class StatusBarFooter
   Class CommandBox
 
-  package "UI Panels" {
+
     class PersonListPanel
     class ReminderListPanel
-  }
 
-  package "UI Cards" {
+
+
     class PersonCard
     class ReminderCard
-  }
+  
 }
 
 package Model <<Rectangle>> {
