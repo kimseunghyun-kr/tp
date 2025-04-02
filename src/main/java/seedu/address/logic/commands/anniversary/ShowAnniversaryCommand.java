@@ -26,7 +26,7 @@ public class ShowAnniversaryCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Anniversaries shown for employee: %s!";
 
-    private final    String employeeIdToFind;
+    private final String employeeIdToFind;
 
     /**
      * Creates an ShowAnniversaryCommand with the given employee ID.
@@ -49,5 +49,20 @@ public class ShowAnniversaryCommand extends Command {
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, employeeToShow.getName()), true,
                 employeeToShow.getEmployeeIdAsString());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ShowAnniversaryCommand)) {
+            return false;
+        }
+
+        ShowAnniversaryCommand otherShowEmployeeCommand = (ShowAnniversaryCommand) other;
+        return employeeIdToFind.equals(otherShowEmployeeCommand.employeeIdToFind);
     }
 }

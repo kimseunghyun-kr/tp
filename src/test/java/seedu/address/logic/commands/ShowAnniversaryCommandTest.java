@@ -1,10 +1,8 @@
-package seedu.address.logic.commands.anniversary;
+package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 import static seedu.address.logic.commands.anniversary.ShowAnniversaryCommand.MESSAGE_SUCCESS;
-
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,15 +11,17 @@ import org.mockito.Mockito;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.anniversary.ShowAnniversaryCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Employee;
 import seedu.address.testutil.EmployeeBuilder;
 
+//For some reason, this test can't be found when in Anniversary package
 public class ShowAnniversaryCommandTest {
 
     private Model model;
+
     @BeforeEach
     public void setUp() {
         model = Mockito.mock(Model.class);
@@ -37,7 +37,7 @@ public class ShowAnniversaryCommandTest {
                 FXCollections.observableArrayList(mockEmployee);
         FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
-        when(model.getFilteredEmployeeList()).thenReturn(filteredList);
+        Mockito.when(model.getFilteredEmployeeList()).thenReturn(filteredList);
 
         ShowAnniversaryCommand command = new ShowAnniversaryCommand(validId);
         CommandResult result = command.execute(model);
@@ -54,7 +54,7 @@ public class ShowAnniversaryCommandTest {
                 FXCollections.observableArrayList();
         FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
-        when(model.getFilteredEmployeeList()).thenReturn(filteredList); // no employees
+        Mockito.when(model.getFilteredEmployeeList()).thenReturn(filteredList); // no employees
 
         ShowAnniversaryCommand command = new ShowAnniversaryCommand(nonExistentId);
 

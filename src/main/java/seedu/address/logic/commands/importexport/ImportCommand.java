@@ -59,8 +59,8 @@ public class ImportCommand extends Command {
      * Creates an ImportCommand to import the specified {@code Employee}
      *
      * @param filetype json or csv source file
-     * @param path     path to the file
-     * @param mode     append or replace
+     * @param path path to the file
+     * @param mode append or replace
      */
     public ImportCommand(String filetype, Path path, String mode) {
         this.filetype = filetype;
@@ -149,14 +149,14 @@ public class ImportCommand extends Command {
 
     /**
      * Processes the imported data in append mode.
-     * First, it aggregates the imported persons by removing internal duplicates
+     * First, it aggregates the imported employees by removing internal duplicates
      * (i.e. those with the same employeeId but differing PersonKey details).
      * Then, for each aggregated employee, it checks for a conflict with the model:
      * if the model already contains a employee with the same employeeId but different details,
      * the imported employee is flagged as a conflict.
      * Returns a list of two lists:
-     * - index 0: persons successfully imported (added or merged)
-     * - index 1: persons that were skipped due to conflicts.
+     * - index 0: employees successfully imported (added or merged)
+     * - index 1: employees that were skipped due to conflicts.
      */
     private List<List<Employee>> processImportedPersonsWhenAppend(Model model,
                                                                   JsonSerializableAddressBook importedData)
