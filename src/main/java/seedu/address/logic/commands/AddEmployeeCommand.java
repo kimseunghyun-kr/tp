@@ -14,16 +14,16 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
- * Adds a person to the address book.
+ * Adds a employee to the address book.
  */
-public class AddPersonCommand extends Command {
+public class AddEmployeeCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a employee to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
@@ -44,19 +44,19 @@ public class AddPersonCommand extends Command {
             + PREFIX_WORK_ANNIVERSARY + "2020-07-08 "
             + PREFIX_EMPLOYEEID + "3b9417cc-cf4e-4231-bc4d-4fd167c2abc6";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New employee added: %1$s";
+    public static final String MESSAGE_DUPLICATE_EMPLOYEE = "This employee already exists in the address book";
     public static final String MESSAGE_EMPLOYEE_ID_CONFLICT = "This employee ID is either a prefix of another "
             + "existing employee ID or another existing employee ID is a prefix of this one";
 
-    private final Person toAdd;
+    private final Employee toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an AddCommand to add the specified {@code Employee}
      */
-    public AddPersonCommand(Person person) {
-        requireNonNull(person);
-        toAdd = person;
+    public AddEmployeeCommand(Employee employee) {
+        requireNonNull(employee);
+        toAdd = employee;
     }
 
     @Override
@@ -66,15 +66,15 @@ public class AddPersonCommand extends Command {
         // Save the state before any potential changes
         model.commitChanges();
 
-        if (model.hasPerson(toAdd)) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        if (model.hasEmployee(toAdd)) {
+            throw new CommandException(MESSAGE_DUPLICATE_EMPLOYEE);
         }
 
         if (model.hasEmployeeIdPrefixConflict(toAdd.getEmployeeId())) {
             throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);
         }
 
-        model.addPerson(toAdd);
+        model.addEmployee(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
     }
 
@@ -85,15 +85,15 @@ public class AddPersonCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddPersonCommand)) {
+        if (!(other instanceof AddEmployeeCommand)) {
             return false;
         }
 
-        AddPersonCommand otherAddPersonCommand = (AddPersonCommand) other;
-        return toAdd.equals(otherAddPersonCommand.toAdd);
+        AddEmployeeCommand otherAddEmployeeCommand = (AddEmployeeCommand) other;
+        return toAdd.equals(otherAddEmployeeCommand.toAdd);
     }
     /** Custom equals method to compare AddCommand objects while ignoring employeeId. */
-    public boolean hasSameDetails(AddPersonCommand other) {
+    public boolean hasSameDetails(AddEmployeeCommand other) {
         if (this == other) {
             return true;
         }

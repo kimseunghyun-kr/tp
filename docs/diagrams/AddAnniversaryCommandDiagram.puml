@@ -23,7 +23,7 @@ package "seedu.address.logic.commands {
 package seedu.address.model {
     interface Model {
         + getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) : List<Person>
-        + setPerson(Person target, Person editedPerson) : void
+        + setPerson(Person target, Person editedEmployee) : void
     }
 }
 
@@ -54,7 +54,7 @@ package seedu.address.model.anniversary {
     }
 }
 
-package seedu.address.model.person {
+package seedu.address.model.employee {
     class EmployeeId {
         - employeeId : UUID
         --

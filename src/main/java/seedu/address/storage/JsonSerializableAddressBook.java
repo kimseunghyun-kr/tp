@@ -14,7 +14,7 @@ import lombok.Getter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
  * An Immutable AddressBook that is serializable to JSON format.
@@ -23,7 +23,7 @@ import seedu.address.model.person.Person;
 @Getter
 public class JsonSerializableAddressBook {
 
-    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate person(s).";
+    public static final String MESSAGE_DUPLICATE_PERSON = "Persons list contains duplicate employee(s).";
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
 
@@ -41,7 +41,7 @@ public class JsonSerializableAddressBook {
      * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
-        persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
+        persons.addAll(source.getEmployeeList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
     }
 
     /**
@@ -52,11 +52,11 @@ public class JsonSerializableAddressBook {
     public AddressBook toModelType() throws IllegalValueException {
         AddressBook addressBook = new AddressBook();
         for (JsonAdaptedPerson jsonAdaptedPerson : persons) {
-            Person person = jsonAdaptedPerson.toModelType();
-            if (addressBook.hasPerson(person)) {
+            Employee employee = jsonAdaptedPerson.toModelType();
+            if (addressBook.hasPerson(employee)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);
             }
-            addressBook.addPerson(person);
+            addressBook.addPerson(employee);
         }
         return addressBook;
     }
@@ -78,7 +78,7 @@ public class JsonSerializableAddressBook {
         List<JsonAdaptedPerson> aggregatedPersons = new ArrayList<>();
 
         for (Map.Entry<PersonKey, List<JsonAdaptedAnniversary>> entry : groupedAnniversaries.entrySet()) {
-            JsonAdaptedPerson mergedPerson = entry.getKey().toJsonAdaptedPerson(); // base person
+            JsonAdaptedPerson mergedPerson = entry.getKey().toJsonAdaptedPerson(); // base employee
             List<JsonAdaptedAnniversary> merged = entry.getValue().stream()
                     .distinct() // remove duplicates if equals() is overridden in JsonAdaptedAnniversary
                     .collect(Collectors.toList());

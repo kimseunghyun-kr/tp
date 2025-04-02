@@ -7,7 +7,7 @@ import seedu.address.model.reminder.Reminder;
 
 /**
  * A lightweight UI component that displays an upcoming anniversary reminder for a
- * {@link seedu.address.model.person.Person}.
+ * {@link seedu.address.model.person.Employee}.
  *
  * This reminder could represent a birthday, work anniversary, or a custom anniversary type.
  * The card includes the employee's name, job position, type/description of anniversary, and the date.
@@ -19,19 +19,14 @@ public class ReminderCard extends UiPart<Region> {
 
     @FXML
     private Label name;
-
     @FXML
     private Label jobPosition;
-
     @FXML
     private Label type;
-
     @FXML
     private Label typeDescription;
-
     @FXML
     private Label anniversaryDescription;
-
     @FXML
     private Label dateInfo;
 
@@ -44,8 +39,8 @@ public class ReminderCard extends UiPart<Region> {
         super(FXML);
         this.reminder = reminder;
 
-        name.setText(reminder.getPerson().getName().fullName);
-        jobPosition.setText(reminder.getPerson().getJobPosition().value);
+        name.setText(reminder.getEmployee().getName().fullName);
+        jobPosition.setText(reminder.getEmployee().getJobPosition().value);
 
         type.setText("🎉 " + reminder.getType().getName()); // at/
         typeDescription.setText("📌 " + reminder.getType().getDescription()); // atdesc/

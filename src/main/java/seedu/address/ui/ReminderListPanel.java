@@ -12,7 +12,7 @@ import seedu.address.model.reminder.Reminder;
  *
  * This includes birthdays, work anniversaries, and custom anniversary types, each shown
  * using a {@link ReminderCard}. Each reminder entry is associated with a specific
- * {@link seedu.address.model.person.Person}, type, and upcoming date.
+ * {@link seedu.address.model.person.Employee}, type, and upcoming date.
  */
 public class ReminderListPanel extends UiPart<Region> {
     private static final String FXML = "ReminderListPanel.fxml";

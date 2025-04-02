@@ -4,18 +4,18 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 import seedu.address.model.anniversary.AnniversaryType;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
- * Represents a reminder for an upcoming anniversary related to a specific {@link Person}.
+ * Represents a reminder for an upcoming anniversary related to a specific {@link Employee}.
  * This could be a birthday, work anniversary, or any other custom anniversary.
  *
  * A {@code Reminder} contains the type and description of the anniversary,
- * the upcoming date of occurrence, and the associated person.
+ * the upcoming date of occurrence, and the associated employee.
  */
 public class Reminder implements Comparable<Reminder> {
 
-    private final Person person;
+    private final Employee employee;
     private final LocalDate date;
     private final AnniversaryType type;
     private final String description;
@@ -23,23 +23,23 @@ public class Reminder implements Comparable<Reminder> {
     /**
      * Constructs a {@code Reminder}.
      *
-     * @param person      The person to whom the anniversary belongs.
+     * @param employee    The employee to whom the anniversary belongs.
      * @param date        The upcoming date of the anniversary.
      * @param type        The type of the anniversary (e.g., Birthday, Work Anniversary).
      * @param description A short description for the anniversary.
      */
-    public Reminder(Person person, LocalDate date, AnniversaryType type, String description) {
-        this.person = person;
+    public Reminder(Employee employee, LocalDate date, AnniversaryType type, String description) {
+        this.employee = employee;
         this.date = date;
         this.type = type;
         this.description = description;
     }
 
     /**
-     * Returns the {@link Person} associated with this reminder.
+     * Returns the {@link Employee} associated with this reminder.
      */
-    public Person getPerson() {
-        return person;
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**

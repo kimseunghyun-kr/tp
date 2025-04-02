@@ -1,24 +1,18 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.AnniversaryParserUtils.MESSAGE_DATE_CONSTRAINTS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.anniversary.Anniversary;
-import seedu.address.model.anniversary.AnniversaryType;
-import seedu.address.model.anniversary.Birthday;
-import seedu.address.model.anniversary.WorkAnniversary;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
@@ -34,7 +28,12 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = "Employee id prefix not specified!";
     public static final String MESSAGE_EMPLOYEE_ID_PREFIX_FORMAT = "Employee id can't start contain spaces!";
-
+    public static final int MAX_ALLOWED_LENGTH = 1000; // Maximum allowed length for input strings
+    public static final Pattern DANGEROUS_INPUT_PATTERN = Pattern.compile(
+            "(?i)\\b(drop|delete|insert|update|truncate|exec|script)\\b|<[^>]+>"
+    );
+    public static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile("[\\p{Cntrl}&&[^\r\n\t]]");
+    private static final Logger logger = LogsCenter.getLogger(ParserUtil.class);
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
      * trimmed.
@@ -168,67 +167,51 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
-     *
-     * @param name the name of the anniversary for custom anniversaries
-     * @param description the description of the anniversary
-     * @param dateStr the date of the anniversary
-     * @param type the type of the anniversary
-     * @throws ParseException if the given {@code dateStr} is invalid.
-     */
-    public static Anniversary parseAnniversary(String name, String description, String dateStr, String type,
-                                               String typeDescription) throws ParseException {
-        requireNonNull(dateStr);
-        String trimmedAnniversaryDate = dateStr.trim();
-        LocalDate date;
-        try {
-            date = LocalDate.parse(trimmedAnniversaryDate);
-        } catch (DateTimeParseException e) {
-            throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
-        }
-        if (name == null || name.isEmpty()) {
-            return new Anniversary(date, new AnniversaryType(type, typeDescription),
-                    description, type);
-        } else {
-            return new Anniversary(date, new AnniversaryType(type, typeDescription),
-                    description, name);
-        }
-    }
-
-    /**
-     * Parses a {@code String name}, {@code String dateStr}, and a {@code String type} into an {@code Anniversary}.
-     *
-     * @param name the name of the person attributed to prebuilt-anniversaries
-     * @param dateStr the date of the anniversary
-     * @param type the prefix of the anniversary
-     * @throws ParseException if the given {@code dateStr} is invalid.
-     */
-    public static Anniversary parseAnniversaryWithName(Name name, String dateStr,
-                                                       Prefix type) throws ParseException {
-        String trimmedAnniversaryDate = dateStr.trim();
-        LocalDate date;
-        try {
-            date = LocalDate.parse(trimmedAnniversaryDate);
-        } catch (DateTimeParseException e) {
-            throw new ParseException(MESSAGE_DATE_CONSTRAINTS);
-        }
-        if (type.equals(PREFIX_BIRTHDAY)) {
-            String birthdayAppend = "Birthday";
-            return new Anniversary(date, new Birthday(), name + "'s " + birthdayAppend, birthdayAppend);
-        }
-        if (type.equals(PREFIX_WORK_ANNIVERSARY)) {
-            String workAnniversaryAppend = "work anniversary";
-            return new Anniversary(date, new WorkAnniversary(), name + "'s "
-                    + workAnniversaryAppend, workAnniversaryAppend);
-        }
-        throw new ParseException("Invalid anniversary type");
-    }
-
-    /**
      * Returns true if none of the prefixes contains empty {@code Optional} values in the given
      * {@code ArgumentMultimap}.
      */
     public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
+
+    /**
+     * Validates that the input string does not contain any dangerous content or control characters.
+     * Validation can skip null and/or empty checks depending on the provided flags.
+     *
+     * @param input the input string to validate
+     * @param fieldName the name of the field for error messages
+     * @param allowNull if true, allows null input and returns early
+     * @param allowEmpty if true, allows empty or whitespace-only input
+     * @throws ParseException if the input is invalid based on the active rules
+     */
+    public static void validateSafeContent(String input, String fieldName, boolean allowNull, boolean allowEmpty)
+            throws ParseException {
+
+        if (input == null) {
+            if (allowNull) {
+                logger.info(String.format("The %s is null.", fieldName));
+                return;
+            }
+            throw new ParseException("The " + fieldName + " cannot be null.");
+        }
+
+        String trimmedInput = input.trim();
+        if (trimmedInput.isEmpty() && !allowEmpty) {
+            throw new ParseException("The " + fieldName + " cannot be empty.");
+        }
+
+        if (input.length() > MAX_ALLOWED_LENGTH) {
+            throw new ParseException("The " + fieldName + " is too long (max " + MAX_ALLOWED_LENGTH + " characters).");
+        }
+
+        if (DANGEROUS_INPUT_PATTERN.matcher(input).find()) {
+            throw new ParseException("The " + fieldName + " contains potentially dangerous content.");
+        }
+
+        if (CONTROL_CHAR_PATTERN.matcher(input).find()) {
+            throw new ParseException("The " + fieldName + " contains invalid control characters.");
+        }
+    }
+
+
 }

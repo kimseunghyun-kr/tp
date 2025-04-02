@@ -8,22 +8,23 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Deletes an employee identified using it's displayed index from the address book.
  */
+
 public class DeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the person identified by the prefix of their Employee ID.\n"
+            + ": Deletes the employee identified by the prefix of their Employee ID.\n"
             + "Parameters: EMPLOYEE_ID_PREFIX (must be a prefix of exactly one employee in the list)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DELETE_EMPLOYEE_SUCCESS = "Deleted Employee: %1$s";
 
     private final EmployeeId employeeIdPrefix;
 
@@ -34,7 +35,7 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
+        List<Employee> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
         // Save the state before any potential changes
         model.commitChanges();
@@ -48,14 +49,14 @@ public class DeleteCommand extends Command {
 
         if (matchedEmployees.isEmpty()) {
             throw new CommandException(String.format(
-                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
                     employeeIdPrefix
             ));
         }
 
-        Person personToDelete = matchedEmployees.get(0);
-        model.deletePerson(personToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
+        Employee employeeToDelete = matchedEmployees.get(0);
+        model.deleteEmployee(employeeToDelete);
+        return new CommandResult(String.format(MESSAGE_DELETE_EMPLOYEE_SUCCESS, Messages.format(employeeToDelete)));
     }
 
     @Override

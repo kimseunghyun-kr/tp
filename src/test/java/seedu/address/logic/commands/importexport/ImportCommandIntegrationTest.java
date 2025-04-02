@@ -35,7 +35,7 @@ public class ImportCommandIntegrationTest {
         CommandResult commandResult = importCommand.execute(model);
 
         assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_OVERWRITE, 7), commandResult.getFeedbackToUser());
-        assertEquals(7, model.getAddressBook().getPersonList().size());
+        assertEquals(7, model.getAddressBook().getEmployeeList().size());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ImportCommandIntegrationTest {
 
         CommandResult commandResult = appendCommand.execute(model);
 
-        // Should have imported 2 person merged from the aggregate CSV
+        // Should have imported 2 employee merged from the aggregate CSV
         assertTrue(commandResult.getFeedbackToUser().contains("Successfully imported"));
         assertFalse(commandResult.getFeedbackToUser().contains("Alice Pauline"));
     }

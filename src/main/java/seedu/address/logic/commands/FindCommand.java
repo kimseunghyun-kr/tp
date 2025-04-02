@@ -10,11 +10,11 @@ import lombok.Getter;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
- * Keyword matching is case-insensitive.
+ * Executes a search using the given predicate.
+ * It is assumed the predicate implements all logical rules for keyword matching and field combinations.
  */
 @Getter
 public class FindCommand extends Command {
@@ -32,18 +32,18 @@ public class FindCommand extends Command {
                     + PREFIX_JOBPOSITION + "KEYWORD [MORE_KEYWORDS]...\n"
                     + "Example: " + COMMAND_WORD + " " + PREFIX_NAME + " alice bob charlie";
 
-    private final Predicate<Person> predicate;
+    private final Predicate<Employee> predicate;
 
-    public FindCommand(Predicate<Person> predicate) {
+    public FindCommand(Predicate<Employee> predicate) {
         this.predicate = predicate;
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredPersonList(predicate);
+        model.updateFilteredEmployeeList(predicate);
         return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+                String.format(Messages.MESSAGE_EMPLOYEES_LISTED_OVERVIEW, model.getFilteredEmployeeList().size()));
     }
 
     @Override

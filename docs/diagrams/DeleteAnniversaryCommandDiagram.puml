@@ -21,7 +21,7 @@ package seedu.address.logic.parser {
     }
 }
 
-package seedu.address.model.person {
+package seedu.address.model.employee {
     class EmployeeId {
         - employeeId : UUID
         --
@@ -66,7 +66,7 @@ package seedu.address.model.anniversary {
 package seedu.address.model {
     interface Model {
         + getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) : List<Person>
-        + setPerson(Person target, Person editedPerson) : void
+        + setPerson(Person target, Person editedEmployee) : void
     }
     class Index {
     - index : int
@@ -91,13 +91,13 @@ DeleteAnniversaryCommand -> "1" Anniversary : deletes
 
 
 /**
- * Deletes Anniversaries from a person
+ * Deletes Anniversaries from a employee
  */
 @Getter
 public class DeleteAnniversaryCommand extends Command {
     public static final String MESSAGE_SUCCESS = "anniversary deleted: %1$s";
     public static final String COMMAND_WORD = "deleteAnni";
-    public static final Object MESSAGE_USAGE = COMMAND_WORD + ": deletes an anniversary to the person identified by a "
+    public static final Object MESSAGE_USAGE = COMMAND_WORD + ": deletes an anniversary to the employee identified by a "
             + "prefix of their Employee ID.\n"
             + "Parameters: "
             + "eid/EMPLOYEE_ID "
@@ -134,8 +134,8 @@ public class DeleteAnniversaryCommand extends Command {
             ));
         }
 
-        Person personToEdit = matchedEmployees.get(0);
-        List<Anniversary> anniversaryList = personToEdit.getAnniversaries();
+        Person employeeToEdit = matchedEmployees.get(0);
+        List<Anniversary> anniversaryList = employeeToEdit.getAnniversaries();
 
 
         if (targetIndex.getZeroBased() >= anniversaryList.size()) {
@@ -144,16 +144,16 @@ public class DeleteAnniversaryCommand extends Command {
 
         Anniversary anniversaryToDelete = anniversaryList.get(targetIndex.getZeroBased());
         anniversaryList.remove(anniversaryToDelete);
-        Person updatedPerson = Person.builder()
-                .employeeId(personToEdit.getEmployeeId())
-                .name(personToEdit.getName())
-                .jobPosition(personToEdit.getJobPosition())
-                .email(personToEdit.getEmail())
-                .phone(personToEdit.getPhone())
-                .tags(personToEdit.getTags())
+        Person updatedEmployee = Person.builder()
+                .employeeId(employeeToEdit.getEmployeeId())
+                .name(employeeToEdit.getName())
+                .jobPosition(employeeToEdit.getJobPosition())
+                .email(employeeToEdit.getEmail())
+                .phone(employeeToEdit.getPhone())
+                .tags(employeeToEdit.getTags())
                 .anniversaries(anniversaryList).build();
         // update the model
-        model.setPerson(personToEdit, updatedPerson);
+        model.setPerson(employeeToEdit, updatedEmployee);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete));
     }

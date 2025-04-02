@@ -15,7 +15,7 @@ import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.JsonUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Employee;
 import seedu.address.storage.JsonCsvConverter;
 import seedu.address.storage.JsonSerializableAddressBook;
 import seedu.address.storage.QueryValidator;
@@ -35,13 +35,13 @@ public class AddressBookFormatConverter {
     /**
      * Creates a lightweight ReadOnlyAddressBook implementation from a list of persons.
      */
-    private static ReadOnlyAddressBook createTempAddressBook(ObservableList<Person> personList) {
-        return () -> personList;
+    private static ReadOnlyAddressBook createTempAddressBook(ObservableList<Employee> employeeList) {
+        return () -> employeeList;
     }
     /**
      * Exports the displayed people to JSON format.
      */
-    public static void exportToJson(ObservableList<Person> displayedPeople, Path filePath) throws IOException {
+    public static void exportToJson(ObservableList<Employee> displayedPeople, Path filePath) throws IOException {
         requireNonNull(displayedPeople);
         ReadOnlyAddressBook tempAddressBook = createTempAddressBook(displayedPeople);
         JsonSerializableAddressBook jsonData = new JsonSerializableAddressBook(tempAddressBook);
@@ -57,7 +57,7 @@ public class AddressBookFormatConverter {
     /**
      * Exports the displayed people to CSV format.
      */
-    public static void exportToCsv(ObservableList<Person> displayedPeople, Path filePath) throws IOException {
+    public static void exportToCsv(ObservableList<Employee> displayedPeople, Path filePath) throws IOException {
         requireNonNull(displayedPeople);
 
         ReadOnlyAddressBook tempAddressBook = createTempAddressBook(displayedPeople);

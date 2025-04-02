@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import static seedu.address.testutil.Assert.assertThrows;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_EMPLOYEE;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,10 +52,10 @@ public class ParserUtilTest {
     @Test
     public void parseIndex_validInput_success() throws Exception {
         // No whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("1"));
+        assertEquals(INDEX_FIRST_EMPLOYEE, ParserUtil.parseIndex("1"));
 
         // Leading and trailing whitespaces
-        assertEquals(INDEX_FIRST_PERSON, ParserUtil.parseIndex("  1  "));
+        assertEquals(INDEX_FIRST_EMPLOYEE, ParserUtil.parseIndex("  1  "));
     }
 
     @Test
@@ -195,4 +195,83 @@ public class ParserUtilTest {
 
         assertEquals(expectedTagSet, actualTagSet);
     }
+
+    /**
+     * EP: Valid string within safe content and length limits
+     */
+    @Test
+    public void validateSafeContent_validInput_success() throws Exception {
+        ParserUtil.validateSafeContent("Valid input name", "test field", false, false);
+    }
+
+    /**
+     * EP: Null input with isNullPossible = true → allowed
+     */
+    @Test
+    public void validateSafeContent_nullInputAllowed_success() throws Exception {
+        ParserUtil.validateSafeContent(null, "optional field", true , false);
+        ParserUtil.validateSafeContent(null, "optional field", true , true);
+    }
+
+    /**
+     * EP: Null input with isNullPossible = false → should fail
+     */
+    @Test
+    public void validateSafeContent_nullInputNotAllowed_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent(null, "required field", false, true));
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent(null, "required field", false, false));
+    }
+
+    /**
+     * EP: Empty input string with isNullPossible = false → should fail
+     */
+    @Test
+    public void validateSafeContent_emptyInputNotAllowed_throwsParseException() {
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent("   ", "required field", true, false));
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent("   ", "required field", false, false));
+    }
+
+    /**
+     * BVA: Input exactly at MAX_ALLOWED_LENGTH → should pass
+     */
+    @Test
+    public void validateSafeContent_maxLength_success() throws Exception {
+        String input = "a".repeat(ParserUtil.MAX_ALLOWED_LENGTH);
+        ParserUtil.validateSafeContent(input, "boundary field", false, false);
+    }
+
+    /**
+     * BVA: Input exceeding MAX_ALLOWED_LENGTH → should fail
+     */
+    @Test
+    public void validateSafeContent_exceedsMaxLength_throwsParseException() {
+        String input = "a".repeat(ParserUtil.MAX_ALLOWED_LENGTH + 1);
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent(input, "length field", false, false));
+    }
+
+    /**
+     * EP: Input containing dangerous content (e.g., HTML/JS injection) → should fail
+     */
+    @Test
+    public void validateSafeContent_dangerousContent_throwsParseException() {
+        String input = "<script>alert('x')</script>";
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent(input, "sanitization field", false, false));
+    }
+
+    /**
+     * EP: Input containing control characters → should fail
+     */
+    @Test
+    public void validateSafeContent_controlCharacters_throwsParseException() {
+        String input = "Hello\u0007World"; // Bell character (non-printable)
+        assertThrows(ParseException.class, () ->
+                ParserUtil.validateSafeContent(input, "control char field", false, false));
+    }
+
 }

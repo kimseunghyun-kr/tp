@@ -13,21 +13,21 @@ import lombok.Data;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.JobPosition;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
- * Jackson-friendly version of {@link Person}.
+ * Jackson-friendly version of {@link Employee}.
  */
 @Data
 public class JsonAdaptedPerson {
 
-    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Person's %s field is missing!";
-    public static final String MALFORMED_FIELD_MESSAGE_FORMAT = "Person's %s field is malformed!";
+    public static final String MISSING_FIELD_MESSAGE_FORMAT = "Employee's %s field is missing!";
+    public static final String MALFORMED_FIELD_MESSAGE_FORMAT = "Employee's %s field is malformed!";
     private final String employeeId;
     private final String name;
     private final String phone;
@@ -37,7 +37,7 @@ public class JsonAdaptedPerson {
     private final List<JsonAdaptedAnniversary> anniversaries = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonAdaptedPerson} with the given person details.
+     * Constructs a {@code JsonAdaptedPerson} with the given employee details.
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("employeeId") String employeeId,
@@ -59,9 +59,9 @@ public class JsonAdaptedPerson {
     }
 
     /**
-     * Converts a given {@code Person} into this class for Jackson use.
+     * Converts a given {@code Employee} into this class for Jackson use.
      */
-    public JsonAdaptedPerson(Person source) {
+    public JsonAdaptedPerson(Employee source) {
         employeeId = source.getEmployeeId().toString();
         name = source.getName().fullName;
         phone = source.getPhone().value;
@@ -76,11 +76,11 @@ public class JsonAdaptedPerson {
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     * Converts this Jackson-friendly adapted employee object into the model's {@code Employee} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
+     * @throws IllegalValueException if there were any data constraints violated in the adapted employee.
      */
-    public Person toModelType() throws IllegalValueException {
+    public Employee toModelType() throws IllegalValueException {
         final List<Tag> personTags = new ArrayList<>();
         final List<Anniversary> personAnniversaries = new ArrayList<>();
         for (JsonAdaptedTag tag : tags) {
@@ -134,7 +134,7 @@ public class JsonAdaptedPerson {
         final JobPosition modelJobPosition = new JobPosition(jobposition);
         final Set<Tag> modelTags = new HashSet<>(personTags);
         final List<Anniversary> modelAnniversaries = new ArrayList<>(personAnniversaries);
-        return new Person(employeeIdObj, modelName, modelPhone,
+        return new Employee(employeeIdObj, modelName, modelPhone,
                 modelEmail, modelJobPosition, modelTags, modelAnniversaries);
     }
 

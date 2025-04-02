@@ -2,6 +2,8 @@ package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
 import java.util.List;
 
@@ -13,21 +15,22 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.anniversary.Anniversary;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.person.Person;
 
 /**
- * Deletes Anniversaries from a person
+ * Deletes Anniversaries from a employee
  */
 @Getter
 public class DeleteAnniversaryCommand extends Command {
     public static final String MESSAGE_SUCCESS = "anniversary deleted: %1$s";
     public static final String COMMAND_WORD = "deleteAnni";
-    public static final Object MESSAGE_USAGE = COMMAND_WORD + ": deletes an anniversary to the person identified by a "
+    public static final Object MESSAGE_USAGE = COMMAND_WORD
+            + ": deletes an anniversary to the employee identified by a "
             + "prefix of their Employee ID.\n"
             + "Parameters: "
-            + "eid/EMPLOYEE_ID "
-            + "ad/index ";
+            + PREFIX_EMPLOYEEID + "EMPLOYEE_ID "
+            + PREFIX_ANNIVERSARY_INDEX + "index ";
     private final Index targetIndex;
     private final EmployeeId employeeIdPrefix;
 
@@ -44,7 +47,7 @@ public class DeleteAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
+        List<Employee> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
         if (matchedEmployees.size() > 1) {
             throw new CommandException(String.format(
@@ -55,13 +58,13 @@ public class DeleteAnniversaryCommand extends Command {
 
         if (matchedEmployees.isEmpty()) {
             throw new CommandException(String.format(
-                    Messages.MESSAGE_PERSON_PREFIX_NOT_FOUND,
+                    Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
                     employeeIdPrefix
             ));
         }
 
-        Person personToEdit = matchedEmployees.get(0);
-        List<Anniversary> anniversaryList = personToEdit.getAnniversaries();
+        Employee employeeToEdit = matchedEmployees.get(0);
+        List<Anniversary> anniversaryList = employeeToEdit.getAnniversaries();
 
 
         if (targetIndex.getZeroBased() >= anniversaryList.size()) {
@@ -70,16 +73,16 @@ public class DeleteAnniversaryCommand extends Command {
 
         Anniversary anniversaryToDelete = anniversaryList.get(targetIndex.getZeroBased());
         anniversaryList.remove(anniversaryToDelete);
-        Person updatedPerson = Person.builder()
-                .employeeId(personToEdit.getEmployeeId())
-                .name(personToEdit.getName())
-                .jobPosition(personToEdit.getJobPosition())
-                .email(personToEdit.getEmail())
-                .phone(personToEdit.getPhone())
-                .tags(personToEdit.getTags())
+        Employee updatedEmployee = Employee.builder()
+                .employeeId(employeeToEdit.getEmployeeId())
+                .name(employeeToEdit.getName())
+                .jobPosition(employeeToEdit.getJobPosition())
+                .email(employeeToEdit.getEmail())
+                .phone(employeeToEdit.getPhone())
+                .tags(employeeToEdit.getTags())
                 .anniversaries(anniversaryList).build();
         // update the model
-        model.setPerson(personToEdit, updatedPerson);
+        model.setEmployee(employeeToEdit, updatedEmployee);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete));
     }
