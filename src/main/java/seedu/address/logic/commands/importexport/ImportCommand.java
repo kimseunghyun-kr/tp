@@ -170,7 +170,7 @@ public class ImportCommand extends Command {
 
         // Now check each aggregated employee against the model.
         for (Employee employeeToImport : aggregatedImported) {
-            Employee matchInModel = model.getFilteredByEmployeeIdPrefixList(
+            Employee matchInModel = model.getFilteredByEmployeeIdPrefixListFromObservable(
                             EmployeeId.fromString(employeeToImport.getEmployeeId().toString()))
                     .stream()
                     .filter(p -> p.isSameEmployee(employeeToImport))

@@ -35,7 +35,7 @@ public class DeleteCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Employee> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
+        List<Employee> matchedEmployees = model.getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix);
 
         // Save the state before any potential changes
         model.commitChanges();

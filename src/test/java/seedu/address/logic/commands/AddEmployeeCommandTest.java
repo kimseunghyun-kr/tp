@@ -172,8 +172,13 @@ public class AddEmployeeCommandTest {
         }
 
         @Override
-        public ObservableList<Employee> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
+        public ObservableList<Employee> getFilteredByEmployeeIdPrefixListFromObservable(EmployeeId employeeIdPrefix) {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Employee> getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix) {
+            return null;
         }
 
         @Override
