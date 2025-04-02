@@ -1,5 +1,6 @@
 package seedu.address.logic.commands.importexport;
 
+import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILETYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WRITE_MODE;
@@ -15,6 +16,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javafx.util.Pair;
 import lombok.Getter;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
@@ -27,6 +29,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
 import seedu.address.storage.JsonAdaptedPerson;
 import seedu.address.storage.JsonSerializableAddressBook;
 import seedu.address.storage.PersonKey;
@@ -104,6 +107,7 @@ public class ImportCommand extends Command {
      * Handles the overwrite mode by replacing the entire address book.
      * Before overwriting, we aggregate the imported data and remove entries that have the same employeeId
      * but conflicting PersonKey details.
+     * if there are EmployeeID prefix , it throws.
      */
     private CommandResult handleOverwriteMode(Model model, JsonSerializableAddressBook importedData)
             throws CommandException {
@@ -117,6 +121,12 @@ public class ImportCommand extends Command {
             AddressBook newAddressBook = new AddressBook();
             for (Employee p : aggResult.aggregated) {
                 newAddressBook.addPerson(p);
+            }
+            List<Pair<EmployeeId, EmployeeId>> conflictingPairs =
+                    EmployeeIdPrefixValidationUtils.getPrefixConflictingPairs(newAddressBook.getEmployeeList());
+            if (!conflictingPairs.isEmpty()) {
+                throw new CommandException(String.format(MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
+                        conflictingPairs.get(0)));
             }
             model.setAddressBook(newAddressBook);
             int importedCount = newAddressBook.getEmployeeList().size();
@@ -132,6 +142,7 @@ public class ImportCommand extends Command {
      * and then compares each aggregated entry with the model. For entries that have the same employeeId
      * as an existing record but with different details (as determined by hasSameDetails), the import is skipped.
      * Both conflict lists (internal conflicts and model conflicts) are returned.
+     * if there are EmployeeID prefix conflicts, it is also included in skipped.
      */
     private CommandResult handleAppendMode(Model model, JsonSerializableAddressBook importedData)
             throws CommandException {
@@ -158,6 +169,7 @@ public class ImportCommand extends Command {
      * Returns a list of two lists:
      * - index 0: employees successfully imported (added or merged)
      * - index 1: employees that were skipped due to conflicts.
+     * if there are EmployeeID prefix conflicts, it is also included in omitted.
      */
     private List<List<Employee>> processImportedPersonsWhenAppend(Model model,
                                                                   JsonSerializableAddressBook importedData)
@@ -178,7 +190,13 @@ public class ImportCommand extends Command {
                     .findFirst()
                     .orElse(null);
             if (matchInModel == null) {
-                // No matching employee in model – add new record.
+                // No matching employee in model
+                if (model.hasEmployeeIdPrefixConflict(employeeToImport.getEmployeeId())) {
+                    // Prefix conflict with existing employee in model.
+                    omittedEmployees.add(employeeToImport);
+                    continue;
+                }
+                // No conflict in prefix – add new record.
                 model.addEmployee(employeeToImport);
                 importedEmployees.add(employeeToImport);
             } else if (matchInModel.hasSameDetails(employeeToImport)) {

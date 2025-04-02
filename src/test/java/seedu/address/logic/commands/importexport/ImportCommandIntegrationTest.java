@@ -134,4 +134,35 @@ public class ImportCommandIntegrationTest {
         // Ensures partial import still succeeds while reporting conflicts
         assertTrue(commandResult.getFeedbackToUser().contains("Successfully imported"));
     }
+
+    @Test
+    public void execute_importOverwriteEidConflict_throws() throws Exception {
+        // This CSV has multiple persons with conflicting EmployeeIds
+        Path overwriteConflictCsvPath = TEST_DATA_FOLDER.resolve("testEmployeeIdPrefixConflict.csv");
+        ImportCommand csvConflictCommand = new ImportCommand("csv", overwriteConflictCsvPath,
+                "overwrite");
+        assertThrows(CommandException.class, () -> csvConflictCommand.execute(model));
+
+        Path overwriteConflictJsonPath = TEST_DATA_FOLDER.resolve("testEmployeeIdPrefixConflict.json");
+        ImportCommand JsonConflictCommand = new ImportCommand("json", overwriteConflictJsonPath,
+                "overwrite");
+        assertThrows(CommandException.class, () -> JsonConflictCommand.execute(model));
+    }
+
+    @Test
+    public void execute_importAppendOnNewEidConflict_throws() throws Exception {
+        // This CSV has multiple persons with conflicting EmployeeIds
+        Path overwriteConflictCsvPath = TEST_DATA_FOLDER.resolve("testEmployeeIdPrefixConflict.csv");
+        ImportCommand csvConflictCommand = new ImportCommand("csv", overwriteConflictCsvPath,
+                "append");
+        CommandResult commandResult = csvConflictCommand.execute(model);
+        assertTrue(commandResult.getFeedbackToUser().contains("00000000-0000-0000-0000-00000000001"));
+
+        Path overwriteConflictJsonPath = TEST_DATA_FOLDER.resolve("testEmployeeIdPrefixConflict.json");
+        ImportCommand JsonConflictCommand = new ImportCommand("json", overwriteConflictJsonPath,
+                "append");
+        CommandResult commandResultJson = JsonConflictCommand.execute(model);
+        assertTrue(commandResultJson.getFeedbackToUser().contains("da4ef25d-2ad2-4a30-819e"));
+        assertTrue(commandResultJson.getFeedbackToUser().contains("df57c625-1bdb-4772-a5aa"));
+    }
 }
