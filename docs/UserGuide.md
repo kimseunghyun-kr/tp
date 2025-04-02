@@ -3,8 +3,8 @@ layout: page
 title: H'Reers User Guide
 ---
 
-Managing *employee details, birthdays, and work anniversaries* can be time-consuming and prone to error. 
-For HR professionals, keeping track of all this information manually can become overwhelming, even in small to medium organizations. 
+Managing *employee details, birthdays, and work anniversaries* can be time-consuming and prone to error.
+For HR professionals, keeping track of all this information manually can become overwhelming, even in small to medium organizations.
 **H'Reers** is designed to solve these issues by offering an intuitive desktop application with both a [GUI](#glossary) and [CLI](#glossary) for seamless interaction.
 
 With features like [adding](#adding-an-employee-add), [editing](#editing-an-employee-edit), and [deleting](#deleting-an-employee-delete) employee records and [adding birthdays and anniversaries](#anniversary-commands),
@@ -76,7 +76,7 @@ Whether you need to track employee milestones, update records, or generate quick
    3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
 
 3. Step 3: Start the Application (TERR TERR GO ADD SCREENSHOT HERE)
-   1. Open your command prompt (on Windows) or terminal (on Mac/Linux). 
+   1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
    2. Navigate to the folder where you saved the .jar file. For example:
        ```bash
         cd /path/to/your/folder
@@ -326,7 +326,7 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 > **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
 
 #### Example Usage
-```plaintext 
+```plaintext
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
 ```
 - `addAnni` - the addAnniversary command you are running
@@ -339,7 +339,7 @@ addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25
 
 If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
 
-```plaintext 
+```plaintext
 addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
 ```
 - `addAnni` - the addAnniversary command you are running
@@ -348,7 +348,7 @@ addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
 - `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
 If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
 
-```plaintext 
+```plaintext
 addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 ```
 - `addAnni` - the addAnniversary command you are running
@@ -457,42 +457,41 @@ this will delete the anniversary at index 1 of the employee with the Employee ID
 <details>
 <summary>Advanced command rules</summary>
 
-- **Employee ID Prefix Ambiguity**  
+- **Employee ID Prefix Ambiguity**
   If multiple employees share the same prefix, an error is thrown, prompting you to use a longer or full ID.
 
-- **Employee Not Found**  
+- **Employee Not Found**
   If no employee matches the given prefix, an error is displayed.
 
-- **Index Out of Bounds**  
+- **Index Out of Bounds**
   If the given index is greater than the number of anniversaries in the record, an error is displayed.
 </details>
 
 <details>
 <summary>Common Errors & Messages</summary>
 
-- **Multiple employees found with prefix**  
+- **Multiple employees found with prefix**
   Provide a longer or more specific ID prefix.
 
-- **Employee ID prefix not found**  
+- **Employee ID prefix not found**
   Check for typos or confirm that the employee exists.
 
-- **Anniversary index out of bounds**  
+- **Anniversary index out of bounds**
   The index must be within the valid range of the employee’s anniversary list.
 </details>
 
 <details>
 <summary>Tips</summary>
 
-- **Confirm the Anniversary Index**  
+- **Confirm the Anniversary Index**
   Because the code internally uses zero-based indexing, but the user command typically uses one-based indexing, verify that you’re specifying the correct anniversary number.
 
-- **Disambiguate Employee IDs**  
+- **Disambiguate Employee IDs**
   If you suspect multiple employees share a prefix, provide a longer portion of the ID.
 </details>
 
 ---
 ## Reminder Commands
-
 ---
 
 ### Viewing upcoming birthdays: `reminder bd`
@@ -574,7 +573,7 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 
 ---
 ### Importing data: `import`
-You can use `import` to bring external data (in CSV or JSON) into your current Hreers application. 
+You can use `import` to bring external data (in CSV or JSON) into your current Hreers application.
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 For CSV based inputs, multiple rows with same employeeId and same details(name, job position, phone number, email) will be collapsed into one entry in Hreers
 
@@ -593,7 +592,7 @@ import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 | `wm/`      | Write mode (`append` or `overwrite`)              | **Required**                           | `append` / `overwrite`      |
 
 ### **Example Usage**
-```plaintext 
+```plaintext
 import ft/json fp/data/ fn/contacts wm/append
 ```
 Explanation:
@@ -603,7 +602,7 @@ Explanation:
 `fn/contacts` — file name is contacts (without extension)
 this will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
 
-```plaintext 
+```plaintext
 import ft/json fp/data/ fn/contacts wm/overwrite
 ```
 Explanation:
@@ -613,7 +612,7 @@ Explanation:
 `fn/contacts` — file name is contacts (without extension)
 this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
 
-```plaintext 
+```plaintext
 import ft/csv fp/data/contacts.csv wm/append
 ```
 Explanation:
@@ -644,16 +643,16 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 <details>
 <summary>Common Errors & Messages</summary>
 
-- **`Invalid file type`**  
+- **`Invalid file type`**
   Provide either `json` or `csv` in `ft/`.
 
-- **`Write mode must be specified as either 'append' or 'overwrite'`**  
+- **`Write mode must be specified as either 'append' or 'overwrite'`**
   Ensure `wm/` is one of the two valid modes.
 
-- **`Provide either a full file path or a filename, not both`**  
+- **`Provide either a full file path or a filename, not both`**
   This occurs if you pass `fp/` that includes a filename and also use `fn/`.
 
-- **`Filename must be provided if path is just a directory`**  
+- **`Filename must be provided if path is just a directory`**
   If `fp/` is a directory, you must specify a filename (`fn/`).
 </details>
 
@@ -668,7 +667,7 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 ---
 ### Exporting data: `export`
 You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
-If you provide a specific directory path (`fp/`), the system will export the file there. 
+If you provide a specific directory path (`fp/`), the system will export the file there.
 If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
 This means that you do **not** need to include the extension behind the file name.
 For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
@@ -754,16 +753,16 @@ Explanation:
 <details>
 <summary>Common Errors & Messages</summary>
 
-- **`Invalid filetype`**  
+- **`Invalid filetype`**
   Occurs if you use something other than `json` or `csv` with `ft/`.
 
-- **`No people to export`**  
+- **`No people to export`**
   Raised if no records are currently displayed for export.
 
 - **`Provide either a full file path or a filename, not both`**  
   If `fp/` already includes a filename and `fn/` is also used.
 
-- **`Error exporting data`**  
+- **`Error exporting data`**
   If an IOException or other issue happens during file creation.
 </details>
 

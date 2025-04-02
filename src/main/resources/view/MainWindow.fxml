@@ -51,9 +51,8 @@
 
         <GridPane VBox.vgrow="ALWAYS" fx:id="mainGridPane">
           <columnConstraints>
-            <ColumnConstraints percentWidth="50"/>
-            <ColumnConstraints percentWidth="25"/>
-            <ColumnConstraints percentWidth="25"/>
+            <ColumnConstraints percentWidth="67"/>
+            <ColumnConstraints percentWidth="33"/>
           </columnConstraints>
 
           <rowConstraints>
@@ -61,10 +60,11 @@
           </rowConstraints>
 
           <StackPane fx:id="personListPanelPlaceholder" GridPane.columnIndex="0" />
-          <StackPane fx:id="birthdayReminderPanelPlaceholder" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS"
-                     style="-fx-border-color: white;"/>
-          <StackPane fx:id="workAnniversaryReminderPanelPlaceholder" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS"
-                     style="-fx-border-color: white;"/>
+          <StackPane fx:id="reminderPanelPlaceholder"
+                     GridPane.columnIndex="1"
+                     GridPane.columnSpan="2"
+                     GridPane.vgrow="ALWAYS"
+                     style="-fx-border-color: white;" />
         </GridPane>
 
         <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />

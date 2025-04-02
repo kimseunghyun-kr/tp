@@ -20,6 +20,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
+import seedu.address.model.reminder.Reminder;
 import seedu.address.storage.Storage;
 
 /**
@@ -103,12 +104,7 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<Employee> getBirthdayReminderList() {
-        return model.getBirthdayReminderList();
-    }
-
-    @Override
-    public ObservableList<Employee> getWorkAnniversaryReminderList() {
-        return model.getWorkAnniversaryReminderList();
+    public ObservableList<Reminder> getReminderList() {
+        return model.getReminderList();
     }
 }

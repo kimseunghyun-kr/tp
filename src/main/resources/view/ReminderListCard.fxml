@@ -5,11 +5,17 @@
 <?import javafx.scene.layout.VBox?>
 
 <HBox fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      spacing="10" style="-fx-background-color: #2b2b2b; -fx-padding: 10; -fx-background-radius: 8;">
-
-    <VBox spacing="5">
-        <Label fx:id="name" style="-fx-font-size: 18px; -fx-text-fill: white;" />
-        <Label fx:id="jobPosition" style="-fx-font-size: 14px; -fx-text-fill: lightgray;" />
-        <Label fx:id="dateInfo" style="-fx-font-size: 16px; -fx-text-fill: gold;" />
-    </VBox>
+      spacing="10" style="-fx-background-color: #2b2b2b; -fx-padding: 10; -fx-background-radius: 8;
+        -fx-border-width: 0 0 1 0; -fx-border-color: #666666;">
+    <children>
+        <VBox spacing="5">
+            <Label fx:id="name" style="-fx-font-size: 18px; -fx-text-fill: white;" />
+            <Label fx:id="jobPosition" style="-fx-font-size: 14px; -fx-text-fill: lightgray;" />
+            <Label fx:id="type" style="-fx-font-size: 14px; -fx-text-fill: deepskyblue;" />
+            <Label fx:id="typeDescription" style="-fx-font-size: 13px; -fx-text-fill: #a0cfff;" />
+            <Label fx:id="anniversaryDescription" style="-fx-font-size: 13px; -fx-text-fill: #f4eaa4;" />
+            <Label fx:id="dateInfo" style="-fx-font-size: 16px; -fx-text-fill: gold;" />
+        </VBox>
+    </children>
+    <VBox spacing="5"/>
 </HBox>
