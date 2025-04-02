@@ -163,4 +163,32 @@ public class FindCommandParserTest {
 
         assertEquals(List.of(matching), model.getFilteredEmployeeList());
     }
+
+    @Test
+    public void parse_emptyFieldsWithPrefixes_throwsParseException() {
+        assertParseFailure(parser, " n/   jp/   ",
+                seedu.address.logic.Messages.MESSAGE_EMPTY_FIELD_WITH_PREFIX);
+    }
+
+    // Should fail as there should be no preamble
+    @Test
+    public void parse_preamble_throwsParseException() {
+        assertParseFailure(parser, " 2134rt n/jack jp/engineer",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+    }
+
+    // Should pass as it will skip the empty field
+    @Test
+    public void parse_oneBlankField_stillParses() throws Exception {
+        FindCommand command = parser.parse(" n/   jp/engineer ");
+        assertEquals(FindCommand.class, command.getClass());
+    }
+
+    // Should pass as it will skip the empty field
+    @Test
+    public void parse_multipleBlankField_stillParses() throws Exception {
+        FindCommand command = parser.parse(" n/   n/jack jp/   \n jp/engineer ");
+        assertEquals(FindCommand.class, command.getClass());
+    }
+
 }
