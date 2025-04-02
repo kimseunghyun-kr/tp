@@ -39,7 +39,7 @@ public class ShowAnniversaryCommandTest {
                 FXCollections.observableArrayList(mockEmployee);
         FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(filteredList);
+        Mockito.when(model.getFilteredByEmployeeIdPrefixListFromObservable(any())).thenReturn(filteredList);
 
         ShowAnniversaryCommand command = new ShowAnniversaryCommand(EmployeeId.fromString(validId));
         CommandResult result = command.execute(model);
@@ -56,7 +56,8 @@ public class ShowAnniversaryCommandTest {
                 FXCollections.observableArrayList();
         FilteredList<Employee> filteredList = new FilteredList<>(baseList);
 
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(filteredList); // no employees
+        Mockito.when(model.getFilteredByEmployeeIdPrefixListFromObservable(any()))
+                .thenReturn(filteredList); // no employees
 
         ShowAnniversaryCommand command = new ShowAnniversaryCommand(EmployeeId.fromString(nonExistentId));
 

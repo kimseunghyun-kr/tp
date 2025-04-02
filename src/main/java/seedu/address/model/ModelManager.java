@@ -180,10 +180,19 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ObservableList<Employee> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
+    public ObservableList<Employee> getFilteredByEmployeeIdPrefixListFromObservable(EmployeeId employeeIdPrefix) {
         requireNonNull(employeeIdPrefix);
         return new FilteredList<>(
                 filteredEmployees, employee -> employeeIdPrefix.isPrefixOf(employee.getEmployeeId())
+        );
+    }
+
+    @Override
+    public ObservableList<Employee> getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix) {
+        requireNonNull(employeeIdPrefix);
+        return new FilteredList<>(
+                addressBook.getEmployeeList(),
+                employee -> employeeIdPrefix.isPrefixOf(employee.getEmployeeId())
         );
     }
 

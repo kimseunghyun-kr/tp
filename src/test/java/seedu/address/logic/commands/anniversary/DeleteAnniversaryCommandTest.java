@@ -60,7 +60,7 @@ public class DeleteAnniversaryCommandTest {
 
     @Test
     void execute_deleteAnniversary_success() throws CommandException {
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(employeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee));
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
@@ -71,7 +71,7 @@ public class DeleteAnniversaryCommandTest {
 
     @Test
     void execute_noMatchingEmployee_throwsCommandException() {
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(employeeId))
                 .thenReturn(FXCollections.observableArrayList());
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
@@ -90,7 +90,7 @@ public class DeleteAnniversaryCommandTest {
                 .tags(new HashSet<>())
                 .anniversaries(Collections.singletonList(anniversaryOne))
                 .build();
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(employeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee, otherEmployee));
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(1), employeeId);
 
@@ -100,7 +100,7 @@ public class DeleteAnniversaryCommandTest {
 
     @Test
     void execute_outOfBoundsIndex_throwsCommandException() {
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(employeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(employeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee));
         DeleteAnniversaryCommand cmd = new DeleteAnniversaryCommand(Index.fromOneBased(999), employeeId);
 
