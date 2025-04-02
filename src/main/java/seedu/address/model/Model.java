@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
+import seedu.address.model.reminder.Reminder;
 
 /**
  * The API of the Model component.
@@ -114,19 +115,9 @@ public interface Model {
      */
     void updateFilteredEmployeeList(Predicate<Employee> predicate);
 
-    ObservableList<Employee> getBirthdayReminderList();
-
-    ObservableList<Employee> getWorkAnniversaryReminderList();
-
     void commitChanges();
 
-    /**
-     * Updates the list of employees who have an upcoming birthday within the next N days.
-     */
-    void updateBirthdayReminderList();
+    ObservableList<Reminder> getReminderList();
 
-    /**
-     * Updates the list of employees who have an upcoming work anniversary within the next N days.
-     */
-    void updateWorkAnniversaryReminderList();
+    void updateReminderList();
 }
