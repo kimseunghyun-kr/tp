@@ -1,0 +1,41 @@
+@startuml
+actor User
+
+participant LogicManager
+participant ReminderCommandParser
+participant ReminderCommand
+participant Model
+participant ReminderListPanel
+participant ReminderCard
+
+User -> LogicManager : execute("reminder")
+activate LogicManager
+
+LogicManager -> ReminderCommandParser : parse("reminder")
+activate ReminderCommandParser
+ReminderCommandParser --> ReminderCommand : new ReminderCommand()
+deactivate ReminderCommandParser
+
+LogicManager -> ReminderCommand : execute(model)
+activate ReminderCommand
+
+ReminderCommand -> Model : updateReminderList()
+activate Model
+deactivate Model
+
+ReminderCommand -> Model : getReminderList()
+activate Model
+Model --> ReminderCommand : List<Reminder>
+deactivate Model
+
+ReminderCommand --> LogicManager : CommandResult
+deactivate ReminderCommand
+
+LogicManager -> ReminderListPanel : update(List<Reminder>)
+activate ReminderListPanel
+
+ReminderListPanel -> ReminderCard : new ReminderCard(...) (xN)
+deactivate ReminderListPanel
+
+deactivate LogicManager
+@enduml
