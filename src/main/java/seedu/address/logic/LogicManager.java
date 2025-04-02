@@ -3,9 +3,11 @@ package seedu.address.logic;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
@@ -16,6 +18,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Employee;
+import seedu.address.model.person.EmployeeId;
+import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
 import seedu.address.storage.Storage;
 
 /**
@@ -44,6 +48,18 @@ public class LogicManager implements Logic {
 
     @Override
     public CommandResult execute(String commandText) throws CommandException, ParseException {
+        logger.info("initiating data validity scan before command execution");
+        List<Pair<EmployeeId, EmployeeId>> conflictingPairs = EmployeeIdPrefixValidationUtils
+                .getPrefixConflictingPairs(model.getFilteredEmployeeList());
+        if (conflictingPairs.size() > 1) {
+            CommandResult commandResult = new CommandResult(String.format(
+                    "Data integrity error: Employee IDs have conflicting prefixes."
+                            + " Please resolve this issue before proceeding. \n"
+                            + "Manually modify the data file to resolve the conflicting prefixes \n"
+                            + "conflicting prefixes: %s", conflictingPairs)
+                    );
+            return commandResult;
+        }
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;

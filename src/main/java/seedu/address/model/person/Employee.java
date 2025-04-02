@@ -70,6 +70,7 @@ public class Employee {
         if (otherEmployee == null) {
             return false;
         }
+
         return otherEmployee.employeeId.equals(this.employeeId);
     }
 
