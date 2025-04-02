@@ -1,12 +1,22 @@
 @startuml
 actor User
 
+' === Group by architectural layer using AB3-style boxes ===
+
+box "Logic" #LightBlue
 participant LogicManager
 participant ReminderCommandParser
 participant ReminderCommand
+end box
+
+box "Model" #LightPink
 participant Model
+end box
+
+box "UI" #LightYellow
 participant ReminderListPanel
 participant ReminderCard
+end box
 
 User -> LogicManager : execute("reminder")
 activate LogicManager
