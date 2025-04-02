@@ -26,6 +26,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
+import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.storage.JsonAdaptedPerson;
 import seedu.address.storage.JsonSerializableAddressBook;
 import seedu.address.storage.PersonKey;
@@ -120,7 +121,7 @@ public class ImportCommand extends Command {
             model.setAddressBook(newAddressBook);
             int importedCount = newAddressBook.getEmployeeList().size();
             return new CommandResult(String.format(MESSAGE_SUCCESS_OVERWRITE, importedCount));
-        } catch (IllegalValueException e) {
+        } catch (IllegalValueException | DuplicatePersonException e) {
             throw new CommandException(String.format(MESSAGE_INVALID_DATA, e.getMessage()));
         }
     }
@@ -170,7 +171,7 @@ public class ImportCommand extends Command {
 
         // Now check each aggregated employee against the model.
         for (Employee employeeToImport : aggregatedImported) {
-            Employee matchInModel = model.getFilteredByEmployeeIdPrefixListFromObservable(
+            Employee matchInModel = model.getFullFilteredByEmployeeIdPrefixListFromData(
                             EmployeeId.fromString(employeeToImport.getEmployeeId().toString()))
                     .stream()
                     .filter(p -> p.isSameEmployee(employeeToImport))
@@ -204,13 +205,13 @@ public class ImportCommand extends Command {
      */
     private AggregationResult aggregateImportedData(JsonSerializableAddressBook importedData)
             throws IllegalValueException {
-        Map<String, Employee> aggregated = new HashMap<>();
+        Map<EmployeeId, Employee> aggregated = new HashMap<>();
         // For employeeIds that have conflicts, we use a set to record all differing PersonKeys.
-        Set<String> conflictEmployeeIds = new HashSet<>();
+        Set<EmployeeId> conflictEmployeeIds = new HashSet<>();
 
         for (JsonAdaptedPerson adapted : importedData.getPersons()) {
             Employee employee = adapted.toModelType();
-            String employeeId = employee.getEmployeeId().toString();
+            EmployeeId employeeId = employee.getEmployeeId();
             PersonKey key = PersonKey.from(adapted);
             if (aggregated.containsKey(employeeId)) {
                 Employee existing = aggregated.get(employeeId);
@@ -240,7 +241,7 @@ public class ImportCommand extends Command {
                         throw new RuntimeException(e);
                     }
                 })
-                .filter(person -> conflictEmployeeIds.contains(person.getEmployeeId().toString()))
+                .filter(person -> conflictEmployeeIds.contains(person.getEmployeeId()))
                 .collect(Collectors.toList());
 
         return new AggregationResult(new ArrayList<>(aggregated.values()), conflicts);
