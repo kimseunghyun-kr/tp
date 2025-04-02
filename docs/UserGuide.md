@@ -58,9 +58,10 @@ Whether you need to track employee milestones, update records, or generate quick
 
 1. ✅ Step 1: Make sure Java is installed
 
-    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17 or above installed on your computer.
+    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
 
-    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions
+    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
+
     👉 Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
     🔍 Not sure if Java is already installed?
     Open your terminal or command prompt and type:
