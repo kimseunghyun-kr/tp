@@ -1,10 +1,14 @@
 package seedu.address.ui;
 
+import java.util.logging.Logger;
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
+import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.LogicManager;
 import seedu.address.model.reminder.Reminder;
 
 /**
@@ -17,6 +21,8 @@ import seedu.address.model.reminder.Reminder;
 public class ReminderListPanel extends UiPart<Region> {
     private static final String FXML = "ReminderListPanel.fxml";
 
+    private final Logger logger = LogsCenter.getLogger(LogicManager.class);
+
     @FXML
     private ListView<Reminder> reminderListView;
 
@@ -27,6 +33,7 @@ public class ReminderListPanel extends UiPart<Region> {
      */
     public ReminderListPanel(ObservableList<Reminder> reminderList) {
         super(FXML);
+        logger.fine("Initializing ReminderListPanel with " + reminderList.size() + " items");
         reminderListView.setItems(reminderList);
         reminderListView.setCellFactory(listView -> new ReminderListViewCell());
     }
