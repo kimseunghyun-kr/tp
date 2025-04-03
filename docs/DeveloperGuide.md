@@ -10,32 +10,39 @@ title: H'Reers Developer Guide
 ## *Table of Contents*
 1. [Mock UI](#mock-ui)
 2. [Setting up, Getting started](#setting-up-getting-started)
-2. [Architecture](#architecture)
-    1. [UI Component](#ui-component)
-    2. [Logic Component](#logic-component)
-    3. [Model Component](#model-component)
-    4. [Storage Component](#storage-component)
-    5. [Common Classes](#common-classes)
+    2. [Architecture](#architecture)
+        1. [UI Component](#ui-component)
+        2. [Logic Component](#logic-component)
+        3. [Model Component](#model-component)
+        4. [Storage Component](#storage-component)
+        5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-    1. [Save Employee Records](#save-employee-records)
+    1. [Employee Identification](#employee-identification)
+    2. [Reminder Feature](#reminder-feature)
+    3. [Find Employees Feature](#find-employees-feature)
+    4. [Import Feature](#import-feature)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
-   1. [Product Scope](#product-scope)
-   2. [User Stories](#user-stories)
-   3. [Use Cases](#use-cases)
-   4. [Non-Functional Requirements](#non-functional-requirements)
-   5. [Glossary](#glossary)
+    1. [Product Scope](#product-scope)
+    2. [User Stories](#user-stories)
+    3. [Use Cases](#use-cases)
+    4. [Non-Functional Requirements](#non-functional-requirements)
+    5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-   1. [Core Features](#core-features)
-       1. [Add Employee Records](#add-employee-records)
-       2. [Edit Employee Records](#edit-employee-records)
-       3. [Delete Employee Records](#delete-employee-records)
-       4. [Undo Changes](#undo-changes)
-   2. [Anniversary Commands](#anniversary-commands)
-       1. [AddAnniversaryCommand](#addanniversarycommand)
-       2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
-       3. [ShowAnniversaryCommand](#showanniversarycommand)
-   3. [Reminder for Events](#reminder-for-events)
+    1. [Core Features](#core-features)
+        1. [Add Employee Records](#add-employee-records)
+        2. [Edit Employee Records](#edit-employee-records)
+        3. [Delete Employee Records](#delete-employee-records)
+        4. [Find Employee Records](#find-employee-records)
+        5. [Undo Changes](#undo-changes)
+    2. [Anniversary Commands](#anniversary-commands)
+        1. [AddAnniversaryCommand](#addanniversarycommand)
+        2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+        3. [ShowAnniversaryCommand](#showanniversarycommand)
+    3. [File Management](#file-management)
+        1. [Export Command](#export-command)
+    4. [Viewing Upcoming Anniversaries](#viewing-upcoming-anniversaries-reminder-feature)
+7. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -253,7 +260,7 @@ The filtering is based on whether an anniversary falls within the next 3 days. I
 public static final int REMINDED_DATE_RANGE = 3;
 ```
 
-### Find Employees Features
+### Find Employees Feature
 The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
 
 The Find feature is primarily driven by:
@@ -357,11 +364,11 @@ Depending on the `wm/` write mode:
 - `append`: New data is merged with existing `AddressBook`. Duplicate employees (based on ID) are replaced.
 - `overwrite`: The entire current address book is replaced with the newly imported address book.
 
-#### Step 4: Model and storage are updated 
+#### Step 4: Model and storage are updated
 
 - After merging or replacing, the model is updated using `model.setAddressBook()`, and the new data is committed to storage.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 The following sequence diagram illustrates the steps described above:
 
@@ -430,8 +437,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 4. The system displays confirmation: `Employee John Doe added successfully.`
 
 **Alternative Flows:**
-    - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
-    - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
+- If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
+- If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
 **Extensions**
 
@@ -462,16 +469,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Main Success Scenario (MSS)**:
 1. HR Worker enters the `showAnni` command with the specified employee’s ID.
-2. H'Reers retrieves the list of anniversaries associated with the employee. 
+2. H'Reers retrieves the list of anniversaries associated with the employee.
 3. H'Reers opens a new window or panel displaying:
-   - Each anniversary’s name, date, and description (if any).
-4. A confirmation message is displayed, indicating successful retrieval. 
+    - Each anniversary’s name, date, and description (if any).
+4. A confirmation message is displayed, indicating successful retrieval.
 5. Use case ends.
 
 **Extensions**:
 - 1a. Employee Not Found:
-  - H'Reers displays an error message indicating that no employee matches the specified ID. 
-  - Use case ends.
+    - H'Reers displays an error message indicating that no employee matches the specified ID.
+    - Use case ends.
 
 - 1b. Preamble Found:
     - H'Reers displays an error message indicating that the correct usage of the command.
@@ -508,20 +515,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**:
 - 1a. No Prefix Provided:
-  - H'Reers displays an error message indicating to add at least one prefix.
-  - Use case ends.
+    - H'Reers displays an error message indicating to add at least one prefix.
+    - Use case ends.
 
 - 1b. Preamble Found:
-  - H'Reers displays an error message indicating the command format is invalid.
-  - Use case ends.
+    - H'Reers displays an error message indicating the command format is invalid.
+    - Use case ends.
 
 - 1c. All Fields Empty:
-  - H'Reers displays an error message indicating to add at least one prefix.
-  - Use case ends.
+    - H'Reers displays an error message indicating to add at least one prefix.
+    - Use case ends.
 
 - 2a. No Matching Employees Found:
-  - H'Reers displays an empty list.
-  - Use case resume at step 3.
+    - H'Reers displays an empty list.
+    - Use case resume at step 3.
 ---
 
 ### Non-Functional Requirements
@@ -543,7 +550,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - CLI commands must follow consistent syntax patterns
 - New HR users should master core functions within 10 minutes
 - A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse
-- Error messages must clearly explain issues and suggest corrections 
+- Error messages must clearly explain issues and suggest corrections
 
 4. **Compatibility**
 - Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -703,7 +710,7 @@ The edit command also supports the undo/redo feature by preserving the previous 
 
 ---
 
-### **Find Command**
+### Find Employee Records
 
 #### Purpose:
 Allows HR workers to filter and view employees whose name or job position contains one or more specified keywords.
@@ -734,9 +741,9 @@ find n/John jp/Designer
 - Whitespace between keywords is allowed and they will be counted as different keywords to search for.
 
 #### Outputs:
-- **Success**: Employee list is filtered to show only matching results. 
-A confirmation message appears as follows:
-  - Example: `2 employees listed!`
+- **Success**: Employee list is filtered to show only matching results.
+  A confirmation message appears as follows:
+    - Example: `2 employees listed!`
 - **Failure**: Various error messages depending on the issue:
     - `Invalid command format!`
     - `At least one non-empty field is required.`
@@ -745,7 +752,7 @@ A confirmation message appears as follows:
 
 ---
 
-### **Undo Changes**
+### Undo Changes
 #### Purpose:
 Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
 
@@ -835,18 +842,18 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 #### Parameter Rules:
 - The eid/ prefix must contain a valid, non-empty partial Employee ID. It should not have spaces and must conform to the format expected by EmployeeId.isValidEmployeeId().
 - **For a Standard Anniversary:**
-  - The d/ (date) must follow the ISO format (YYYY-MM-DD). 
-  - Both an/ (anniversary name) and at/ (anniversary type) are required. 
-  - Optional fields like desc/ (description) and atdesc/ (type description) can be provided, but if provided, they should be in a valid text format. 
+    - The d/ (date) must follow the ISO format (YYYY-MM-DD).
+    - Both an/ (anniversary name) and at/ (anniversary type) are required.
+    - Optional fields like desc/ (description) and atdesc/ (type description) can be provided, but if provided, they should be in a valid text format.
 - **For Birthdays (short form):**
-  - The bd/ prefix should contain a valid date in the ISO format (YYYY-MM-DD). 
-  - The n/ prefix must be provided to denote the name for the birthday entry.
+    - The bd/ prefix should contain a valid date in the ISO format (YYYY-MM-DD).
+    - The n/ prefix must be provided to denote the name for the birthday entry.
 - **For Work Anniversaries (short form):**
-  - The wa/ prefix should contain a valid date in the ISO format (YYYY-MM-DD). 
-  - The n/ prefix must be provided to denote the name for the work anniversary entry. 
+    - The wa/ prefix should contain a valid date in the ISO format (YYYY-MM-DD).
+    - The n/ prefix must be provided to denote the name for the work anniversary entry.
 - Do not mix fields from different anniversary types. For example, providing both an/ with bd/ or wa/ in the same command will result in a conflict.
 - Last of same field win:
-  - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
+    - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
 
 #### Outputs:
 - **success:** `New anniversary added: <anniversary_details>`
@@ -902,22 +909,22 @@ deleteAnniversary eid/0c2414da ai/1
 
 #### Parameter Rules:
 - Employee ID Prefix (eid/):
-  - Must contain a valid, non-empty Employee ID prefix. 
-  - Must not include spaces. 
-  - Must conform to the format expected by EmployeeId.isValidEmployeeId().
+    - Must contain a valid, non-empty Employee ID prefix.
+    - Must not include spaces.
+    - Must conform to the format expected by EmployeeId.isValidEmployeeId().
 - Anniversary Index (ai/):
-  - Must be provided as a 1-based index (via the ai/ prefix). 
-  - The index must represent a valid position within the target employee’s anniversary list. 
-  - A negative or out-of-bounds index will trigger an error.
+    - Must be provided as a 1-based index (via the ai/ prefix).
+    - The index must represent a valid position within the target employee’s anniversary list.
+    - A negative or out-of-bounds index will trigger an error.
 - Field Exclusivity:
-  - Only the eid/ and ai/ prefixes are expected. If any unexpected fields are present, the command should be considered invalid.
+    - Only the eid/ and ai/ prefixes are expected. If any unexpected fields are present, the command should be considered invalid.
 - Last of same field win:
-  - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
+    - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
 
 #### Outputs:
 **Success:**
 - Returns a success message: `anniversary deleted: <anniversary_details>`
-** Failure Cases: **
+  ** Failure Cases: **
 - Missing Required Fields: `Invalid command format! <DeleteAnniversaryCommand MESSAGE_USAGE>`
 - Invalid Employee ID Format: `Employee ID prefix must be 1-36 characters long, containing only letters, digits, and '-'.`
 - Employee Resolution Issues:`Found multiple employees with employeeId starting with <employeeId_prefix>`
@@ -969,13 +976,13 @@ showAnni eid/efgh3123
 
 #### Outputs:
 - **Success**: A new window opens displaying the list of anniversaries for the specified employee.
-  - If the employee has no anniversaries, the window still opens, but the list will be empty.
-- **Failure**: 
-  - `Invalid command format!` – When no prefix is used or preamble text is detected.
-  - `No employee found with employeeId starting with XYZ` – If the specified Employee ID does not match any employee in the system.
-  - 
+    - If the employee has no anniversaries, the window still opens, but the list will be empty.
+- **Failure**:
+    - `Invalid command format!` – When no prefix is used or preamble text is detected.
+    - `No employee found with employeeId starting with XYZ` – If the specified Employee ID does not match any employee in the system.
+    -
 ---
-### **exportCommand**
+### **Export Command**
 #### Purpose
 You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
 If you provide a specific directory path (`fp/`), the system will export the file there.
@@ -1040,17 +1047,17 @@ Explanation:
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
 #### Parameter Rules:
 - File Type (ft/ via PREFIX_FILETYPE):
-  - Required. Must be provided as either "json" or "csv". If missing or invalid, an error is thrown indicating an invalid file type using the command usage message.
+    - Required. Must be provided as either "json" or "csv". If missing or invalid, an error is thrown indicating an invalid file type using the command usage message.
 
 - File Path (fp/ via PREFIX_FILEPATH):
-  - Optional. Represents either a full file path (including the filename) or a directory path. If provided as a full file path that includes a filename, no separate filename should be provided.
+    - Optional. Represents either a full file path (including the filename) or a directory path. If provided as a full file path that includes a filename, no separate filename should be provided.
 
 - Filename (fn/ via PREFIX_FILENAME):
-  - Optional. Must be provided if the file path only specifies a directory. If provided without an extension, the required extension (matching the file type) is automatically appended.
+    - Optional. Must be provided if the file path only specifies a directory. If provided without an extension, the required extension (matching the file type) is automatically appended.
 
 - Field Exclusivity & Consistency:
-  - If both a file path (with a filename) and a separate filename are provided, the parser throws an error to avoid ambiguity. 
-  - The final resolved file path must have an extension that exactly matches the provided file type (.json for json and .csv for csv).
+    - If both a file path (with a filename) and a separate filename are provided, the parser throws an error to avoid ambiguity.
+    - The final resolved file path must have an extension that exactly matches the provided file type (.json for json and .csv for csv).
 #### Outputs:
 Success:
 - On successful export, the command returns a message formatted as: `Exported <num_displayed_employees> employees in <filetype> format to <resolved_path>`
@@ -1060,14 +1067,14 @@ Success:
 Failure Cases:
 
 - No Data to Export:
-  - If the filtered employee list is empty, a CommandException is thrown with the message:No people to export.
+    - If the filtered employee list is empty, a CommandException is thrown with the message:No people to export.
 
 - Invalid File Type:
-  - If the file type provided is not "json" or "csv", a CommandException is thrown using the export command’s usage message.
+    - If the file type provided is not "json" or "csv", a CommandException is thrown using the export command’s usage message.
 
 - File Path Resolution Errors:
-  - If both a full file path (with filename) and a separate filename are provided, an error is thrown with the message:
-  Provide either a full file path or a filename, not both.
+    - If both a full file path (with filename) and a separate filename are provided, an error is thrown with the message:
+      Provide either a full file path or a filename, not both.
 
 - If a file path is provided as a directory and no filename is given, an error is thrown stating that the filename must be provided.
 
@@ -1076,22 +1083,22 @@ Failure Cases:
 #### Implementation:
 1. Parsing the Input:
 - The ExportCommandParser tokenizes the user input using the prefixes for file type (ft/), file path (fp/), and filename (fn/).
-- It calls verifyFileTypePresentAndValid from the FilePathResolverUtils to ensure the file type is provided and valid. 
-- The parser retrieves the optional file path and filename values. 
+- It calls verifyFileTypePresentAndValid from the FilePathResolverUtils to ensure the file type is provided and valid.
+- The parser retrieves the optional file path and filename values.
 - The final file path is determined by calling FilePathResolverUtils.resolveFilePath(filePath, filename, fileType).
 
 2. Command Construction:
-- After resolving the file type and file path, a new ExportCommand instance is created with these parameters. 
+- After resolving the file type and file path, a new ExportCommand instance is created with these parameters.
 - The command object stores the file type as a string and the file path as a Path object.
 
 3. Executing the Export:
 - In the execute method of ExportCommand, the command:
-- Retrieves the current list of filtered employees from the model. 
-- Checks whether there are any employees to export; if none, it throws a CommandException. 
+- Retrieves the current list of filtered employees from the model.
+- Checks whether there are any employees to export; if none, it throws a CommandException.
 - Depending on the file type:
-- If "json", it calls AddressBookFormatConverter.exportToJson(displayedEmployees, path). 
-- If "csv", it calls AddressBookFormatConverter.exportToCsv(displayedEmployees, path). 
-- The export process is logged using the application's logger for tracking purposes. 
+- If "json", it calls AddressBookFormatConverter.exportToJson(displayedEmployees, path).
+- If "csv", it calls AddressBookFormatConverter.exportToCsv(displayedEmployees, path).
+- The export process is logged using the application's logger for tracking purposes.
 - Any errors during file writing or conversion result in a caught exception and an appropriate error message.
 
 4. Returning the Outcome:
@@ -1101,23 +1108,23 @@ Failure Cases:
 
 #### Implementation (FileDataPathUtils)
 1. Determining the Final File Path:
-- The utility method resolveFilePath takes in three parameters: an optional file path, an optional filename, and the file type. 
+- The utility method resolveFilePath takes in three parameters: an optional file path, an optional filename, and the file type.
 - It first calculates the expected file extension based on the file type (e.g., .json or .csv).
 
 2. Handling Various Input Combinations:
-    2.1. Full File Path Provided:
-   - If the provided file path appears to include a filename (determined by the presence of a dot in the filename), the method validates the extension. 
-   - If a separate filename is also provided in this case, a ParseException is thrown to avoid ambiguity.
+   2.1. Full File Path Provided:
+    - If the provided file path appears to include a filename (determined by the presence of a dot in the filename), the method validates the extension.
+    - If a separate filename is also provided in this case, a ParseException is thrown to avoid ambiguity.
 
-    2.2. Directory Path Provided:
-   - If the file path represents a directory (i.e., it does not contain a filename), a filename must be provided. 
-   - The provided filename is then checked and automatically appended with the expected extension if it is missing.
+   2.2. Directory Path Provided:
+    - If the file path represents a directory (i.e., it does not contain a filename), a filename must be provided.
+    - The provided filename is then checked and automatically appended with the expected extension if it is missing.
 
-    2.3. Only Filename Provided:
-   - If no file path is given but a filename is provided, the filename is used (with the appropriate extension ensured).
+   2.3. Only Filename Provided:
+    - If no file path is given but a filename is provided, the filename is used (with the appropriate extension ensured).
 
 3. Validation of File Extension:
-- The method validateFileExtension checks that the actual file extension of the resolved file matches the expected extension. 
+- The method validateFileExtension checks that the actual file extension of the resolved file matches the expected extension.
 - If there is a mismatch, a ParseException is thrown with a message indicating the file extension conflict.
 
 4. Error Handling:
@@ -1183,28 +1190,28 @@ Ensures employee records persist across sessions.
 
 ## **Appendix: Planned Enhancements**
 
-Team Size: 5 
+Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
 1. **Address the fullscreen bug issue for all windows**
 - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
 - **Method to recreate (main)**
-  1. When running the app
-  2. Open the app in fullscreen
-  3. Type help
-  4. Close help window
-  5. Repeat 3 and 4 enough times and the app will crash
+    1. When running the app
+    2. Open the app in fullscreen
+    3. Type help
+    4. Close help window
+    5. Repeat 3 and 4 enough times and the app will crash
 - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
 - **Method to recreate (anniversary)**
-  1. Open app
-  2. Type showAnni xxx
-  3. Fullscreen app and tile them side to side
-  4. Close anni window
-  5. App stops running and hangs
+    1. Open app
+    2. Type showAnni xxx
+    3. Fullscreen app and tile them side to side
+    4. Close anni window
+    5. App stops running and hangs
 - **Current Workaround**: Do not use fullscreen mode.
 - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
-  
+
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
