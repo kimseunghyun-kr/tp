@@ -393,7 +393,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - The anniversaries associated with the specified employee are displayed.
 
 **Main Success Scenario (MSS)**:
-1. HR Worker enters the showAnni command with the specified employee’s ID. 
+1. HR Worker enters the `showAnni` command with the specified employee’s ID. 
 2. H'Reers validates that:
    - The Employee ID exists in the system. 
    - Nothing is added before `eid/`.
@@ -416,6 +416,43 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - H'Reers displays a new windows with no anniversaries found.
     - Use case resume at step 5.
 
+#### Use case 3: Find Employees
+
+**System**: H'Reers
+**Use case**: UC03 – Find Employees
+**Actor:** HR Worker
+
+**Preconditions**:
+- The system has at least one employee record stored.
+
+**Guarantees**:
+- Employees matching the specified search criteria are displayed.
+- The filtered list replaces the currently displayed list.
+- If no employees match the criteria, an empty list is shown.
+- The system state remains unchanged.
+
+**Main Success Scenario (MSS)**:
+1. HR Worker enters the `find` command with one or more search criteria using supported prefixes (`n/`, `jp/`).
+2. H'Reers validates that:
+   - At least one supported prefix is provided.
+   - No invalid preamble exists before the prefixes.
+   - At least one non-empty search field is present.
+3. H'Reers filters the employee list using a combined predicate and displays the filtered list.
+4. A confirmation message is shown, indicating how many matches were found.
+5. Use case ends.
+
+**Extensions**:
+- 2a. Employee Not Found:
+    - H'Reers displays an error message indicating that no employee matches the specified ID.
+    - Use case ends.
+
+- 2b. Preamble Found:
+    - H'Reers displays an error message indicating that the correct usage of the command.
+    - Use case ends.
+
+- 4a. No anniversaries found:
+    - H'Reers displays a new windows with no anniversaries found.
+    - Use case resume at step 5.
 
 ### Non-Functional Requirements
 
