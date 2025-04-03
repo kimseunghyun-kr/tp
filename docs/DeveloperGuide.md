@@ -17,8 +17,7 @@ title: H'Reers Developer Guide
     4. [Storage Component](#storage-component)
     5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-   1. [Save Employee Records](#save-employee-records)
-   2. smth
+    1. [Save Employee Records](#save-employee-records)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
    1. [Product Scope](#product-scope)
@@ -27,15 +26,15 @@ title: H'Reers Developer Guide
    4. [Non-Functional Requirements](#non-functional-requirements)
    5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-   1. [Core Features]()
+   1. Core Features
        1. [Add Employee Records](#add-employee-records)
        2. [Edit Employee Records](#edit-employee-records)
        3. [Delete Employee Records](#delete-employee-records)
        4. [Undo Changes](#undo-changes)
    2. [Anniversary Commands](#anniversary-commands)
-      1. [AddAnniversaryCommand](#addanniversarycommand)
-      2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
-      3. [ShowAnniversaryCommand](#showanniversarycommand)
+       1. [AddAnniversaryCommand](#addanniversarycommand)
+       2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+       3. [ShowAnniversaryCommand](#showanniversarycommand)
    3. [Reminder for Events](#reminder-for-events)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -563,7 +562,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Private contact detail**: A contact detail that is not meant to be shared with others
 
 --------------------------------------------------------------------------------------------------------------------
-## **Appendix: Instructions for manual testing**
+## Appendix: Instructions for manual testing
 
 Given below are instructions to test the app manually.
 
@@ -588,7 +587,7 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 ---
-### **Add Employee Records**
+### Add Employee Records
 
 #### Purpose:
 Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
@@ -621,7 +620,8 @@ add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
 - Import employee records from CSV.
 ---
 
-### **Delete Employee Records**
+### Delete Employee Records
+
 #### Purpose:
 Allows HR workers to remove outdated or incorrect employee records.
 
@@ -644,7 +644,7 @@ If multiple employees match, prompt for additional details to ensure correctness
 
 ---
 
-### **Edit Employee Records**
+### Edit Employee Records
 
 #### Purpose:
 Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
@@ -696,6 +696,8 @@ The edit command also supports the undo/redo feature by preserving the previous 
 
 ![EditCommandDiagram](images/EditSequenceDiagram.png)
 
+---
+
 ### **Find Command**
 
 #### Purpose:
@@ -736,6 +738,7 @@ A confirmation message appears as follows:
     - `Multiple employees found with prefix XYZ`
     - `No employee found with prefix XYZ`
 
+---
 
 ### **Undo Changes**
 #### Purpose:
@@ -753,12 +756,13 @@ undo
 * **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
 
 ---
-### **Anniversary commands**
+### Anniversary commands
 #### Purpose:
 Allows HR workers to manage employee anniversaries.
 
 ---
-### **AddAnniversaryCommand**
+### AddAnniversaryCommand
+
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
@@ -862,7 +866,8 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 ![AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
 
 ---
-### **DeleteAnniversaryCommand**
+### DeleteAnniversaryCommand
+
 #### Purpose
 removes a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
@@ -1174,4 +1179,7 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. 
+1. Stop enforcing the absence of prefix conflicts
+    - Current prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
+    - To resolve this, we plan to stop requiring the absence of prefix conflicts.
+    - Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.

@@ -1,0 +1,20 @@
+@startuml
+actor User
+participant AddressBook
+participant UndoCommand
+participant System
+
+== Clear Operation ==
+User -> AddressBook: clear()
+AddressBook -> AddressBook: Reset AddressBook state (new AddressBook)
+AddressBook -> UndoCommand: Save previous state (before clear)
+
+== Undo after clear ==
+User -> UndoCommand: undo()
+UndoCommand -> AddressBook: Undo clear action (but still gives new AddressBook)
+
+== Second Undo to get the original state ==
+User -> UndoCommand: undo()
+UndoCommand -> AddressBook: Restore previous AddressBook state
+
+@enduml
