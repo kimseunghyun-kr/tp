@@ -26,7 +26,7 @@ title: H'Reers Developer Guide
    4. [Non-Functional Requirements](#non-functional-requirements)
    5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-   1. Core Features
+   1. [Core Features](#core-features)
        1. [Add Employee Records](#add-employee-records)
        2. [Edit Employee Records](#edit-employee-records)
        3. [Delete Employee Records](#delete-employee-records)
@@ -587,6 +587,11 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 ---
+
+### Core Features
+
+---
+
 ### Add Employee Records
 
 #### Purpose:
