@@ -58,6 +58,6 @@ public class ExportCommand extends Command {
         }
         String pathString = path != null ? path.toString() : "jar file location";
         return new CommandResult("Exported " + displayedPeople.size() + " employees in " + filetype
-                + " format to " + pathString + ".\n");
+                + " format to " + pathString);
     }
 }
