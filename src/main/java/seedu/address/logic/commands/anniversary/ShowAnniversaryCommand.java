@@ -44,7 +44,7 @@ public class ShowAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Employee> personToEdit = model.getFilteredByEmployeeIdPrefixList(employeeIdToFind);
+        List<Employee> personToEdit = model.getFilteredByEmployeeIdPrefixListFromObservable(employeeIdToFind);
         if (personToEdit.size() > 1) {
             throw new CommandException(String.format(
                     Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
