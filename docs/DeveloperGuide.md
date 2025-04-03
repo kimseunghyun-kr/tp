@@ -1187,25 +1187,26 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-
-1. Address the fullscreen bug issue for all windows
-- Description : Closing windows in fullscreen may cause it to crash.
-- Method to recreate (main)
-  2. When running the app
-  3. Open the app in fullscreen
-  4. Type help
-  5. Close help window
-  6. Repeat 3 and 4 enough times and the app will crash
-- Description : Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-- Method to recreate (anniversary)
+1. **Address the fullscreen bug issue for all windows**
+- **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
+- **Method to recreate (main)**
+  1. When running the app
+  2. Open the app in fullscreen
+  3. Type help
+  4. Close help window
+  5. Repeat 3 and 4 enough times and the app will crash
+- **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+- **Method to recreate (anniversary)**
   1. Open app
   2. Type showAnni xxx
   3. Fullscreen app and tile them side to side
   4. Close anni window
   5. App stops running and hangs
+- **Current Workaround**: Do not use fullscreen mode.
+- **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
   
-2. Stop enforcing the absence of prefix conflicts
-    - Current prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
-    - To resolve this, we plan to stop requiring the absence of prefix conflicts.
-    - Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+2. **Stop enforcing the absence of prefix conflicts**
+    - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
+    - **Current Workaround**: Have limited space for employees in the system.
+    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
