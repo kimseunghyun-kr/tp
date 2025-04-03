@@ -764,6 +764,140 @@ testers are expected to do more *exploratory* testing.
 
 ---
 ### Add Anniversary Command
+1. Standard Anniversary Creation - Success
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+
+Expected:
+
+A new anniversary is added to the employee with ID starting with "<existing_employee_id_prefix>".
+The anniversary has name "Company Foundation Day", date "2024-06-15", type "Corporate" with type description "Annual company celebration" and description "Celebrating our company's founding".
+Success message: "New anniversary added: [anniversary details]" is displayed.
+
+2. Birthday Anniversary Creation - Success
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> bd/1990-05-20 n/John Smith
+
+Expected:
+
+
+A new birthday anniversary is added to the employee with ID starting with "<existing_employee_id_prefix>".
+The anniversary has name "John Smith's Birthday", date "1990-05-20", and type "Birthday".
+Success message: "New anniversary added: [anniversary details]" is displayed.
+
+3. Work Anniversary Creation - Success
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> wa/2018-03-01 n/Jane Doe
+
+Expected:
+
+
+A new work anniversary is added to the employee with ID starting with "<existing_employee_id_prefix>".
+The anniversary has name "Jane Doe's work anniversary", date "2018-03-01", and type "Work".
+Success message: "New anniversary added: [anniversary details]" is displayed.
+
+4. Anniversary Creation with Minimum Required Fields - Success
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-12-25 an/Christmas Party at/Holiday
+
+Expected:
+
+
+A new anniversary is added to the employee with ID starting with "<existing_employee_id_prefix>".
+The anniversary has name "Christmas Party", date "2024-12-25", type "Holiday" with empty description and type description.
+Success message: "New anniversary added: [anniversary details]" is displayed.
+
+5. Missing Employee ID - Failure
+   Prerequisites: Ensure the application is running.
+
+Test case: addanni d/2024-06-15 an/Company Foundation Day at/Corporate
+
+Expected:
+
+No anniversary is added.
+Error message: "Invalid command format! [usage information]" is displayed.
+
+6. Invalid Date Format - Failure
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/15-06-2024 an/Company Foundation Day at/Corporate
+
+Expected:
+
+No anniversary is added.
+Error message: "Anniversary date must be in YYYY-MM-DD format." is displayed.
+
+7. Non-existent Date - Failure
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-02-30 an/Impossible Day at/Corporate
+
+Expected:
+
+No anniversary is added.
+Error message: "Anniversary date must be in YYYY-MM-DD format." is displayed.
+
+8. Missing Anniversary Name - Failure
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-06-15 at/Corporate
+
+Expected:
+
+No anniversary is added.
+Error message: "Anniversary must include the following prefixes: an/NAME d/DATE at/type ad/description atdesc/typeDescription or bd/ for BIRTHDAY or wa/ for WORK_ANNIVERSARY" is displayed.
+
+9. Missing Anniversary Type - Failure
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Foundation Day
+
+Expected:
+
+No anniversary is added.
+Error message: "Anniversary must include the following prefixes: an/NAME d/DATE at/type ad/description atdesc/typeDescription or bd/ for BIRTHDAY or wa/ for WORK_ANNIVERSARY" is displayed.
+
+10. Mixing Custom Anniversary with Built-in Types - Failure
+    Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Day at/Corporate bd/1990-05-20 n/John Smith
+
+Expected:
+
+No anniversary is added.
+Error message: "custom anniversaries cannot be used with birthday or work anniversary." is displayed.
+
+11. Mixing Birthday and Work Anniversary - Failure
+    Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> bd/1990-05-20 wa/2018-03-01 n/John Smith
+
+Expected:
+
+No anniversary is added.
+Error message: "birthday cannot be created with work anniversary for addanniversaryCommand." is displayed.
+
+12. Anniversary with Excessively Long Description - Failure
+    Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addanni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Day at/Corporate ad/[1001+ character description]
+
+Expected:
+
+No anniversary is added.
+Error message: "The anniversary description is too long (max 1000 characters)." is displayed.
+13. Employee Not Found - Failure
+    Prerequisites: Ensure the application is running with no employee matching the given ID prefix.
+
+Test case: addanni eid/99999999-9999-9999-9999-999999999999 d/2024-06-15 an/Company Day at/Corporate
+
+Expected:
+No anniversary is added.
+Error message: "No employee found with employeeId starting with 99999999-9999-9999-9999-999999999999" is displayed when the command is executed.
 
 ---
 ### DeleteAnniversaryCommand
