@@ -503,8 +503,6 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
   If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
 
 #### Parameter Rules:
-
-Constraints:
 - The eid/ prefix must contain a valid, non-empty partial Employee ID. It should not have spaces and must conform to the format expected by EmployeeId.isValidEmployeeId().
 - **For a Standard Anniversary:**
   - The d/ (date) must follow the ISO format (YYYY-MM-DD). 
@@ -517,6 +515,8 @@ Constraints:
   - The wa/ prefix should contain a valid date in the ISO format (YYYY-MM-DD). 
   - The n/ prefix must be provided to denote the name for the work anniversary entry. 
 - Do not mix fields from different anniversary types. For example, providing both an/ with bd/ or wa/ in the same command will result in a conflict.
+- Last of same field win:
+  - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
 
 #### Outputs:
 - **success:** `New anniversary added: <anniversary_details>`
@@ -540,7 +540,7 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 6. The original employee record is replaced with the updated version in the model.
 7. A success message is returned confirming the addition of the anniversary.
 
-[AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
+![AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
 
 ---
 ### **DeleteAnniversaryCommand**
@@ -569,8 +569,52 @@ deleteAnniversary eid/0c2414da ai/1
   this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Parameter Rules:
+- Employee ID Prefix (eid/):
+  - Must contain a valid, non-empty Employee ID prefix. 
+  - Must not include spaces. 
+  - Must conform to the format expected by EmployeeId.isValidEmployeeId().
+- Anniversary Index (ai/):
+  - Must be provided as a 1-based index (via the ai/ prefix). 
+  - The index must represent a valid position within the target employee’s anniversary list. 
+  - A negative or out-of-bounds index will trigger an error.
+- Field Exclusivity:
+  - Only the eid/ and ai/ prefixes are expected. If any unexpected fields are present, the command should be considered invalid.
+- Last of same field win:
+  - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
 
 #### Outputs:
+**Success:**
+- Returns a success message: `anniversary deleted: <anniversary_details>`
+** Failure Cases: **
+- Missing Required Fields: `Invalid command format! <DeleteAnniversaryCommand MESSAGE_USAGE>`
+- Invalid Employee ID Format: `Employee ID prefix must be 1-36 characters long, containing only letters, digits, and '-'.`
+- Employee Resolution Issues:`Found multiple employees with employeeId starting with <employeeId_prefix>`
+- Employee Not Found: `No employee found with employeeId starting with <employeeId_prefix>`
+- Anniversary Index Out of Bounds:`The index you are searching for is out of bounds for the anniversary.`
+
+#### Implementation:
+1. Parsing the Input:
+- The DeleteAnniversaryCommandParser tokenizes the input using the PREFIX_EMPLOYEEID (eid/) and PREFIX_ANNIVERSARY_INDEX (ai/). It validates that both required prefixes are present. Missing prefixes trigger a ParseException with the usage message.
+
+2. Validating and Converting Input:
+- The parser uses ParserUtil.parseEmployeeIdPrefix() to validate and convert the employee ID prefix. It uses ParserUtil.parseIndex() to convert the anniversary index string into an Index object. An additional check confirms that the index is within acceptable bounds (non-negative).
+
+3. Identifying the Target Employee:
+- In the execute method of DeleteAnniversaryCommand, the system retrieves all employees whose IDs start with the given prefix.
+
+4. It verifies that exactly one employee matches:
+- If multiple employees are found, it throws a CommandException with a corresponding error message. If no employee is found, it also throws a CommandException.
+
+5. Deleting the Anniversary:
+- The command retrieves the target employee’s anniversary list. It checks whether the provided index is within the bounds of this list. If valid, the anniversary at the specified index is removed.
+
+6. Updating the Employee Record:
+- A new employee object is created using the builder pattern with the updated anniversary list while preserving unchanged fields (e.g., employee ID, name, job position, email, phone, tags). The model is updated by replacing the old employee record with the new one.
+
+7. Returning the Outcome:
+- On successful deletion, the command returns a success message that includes the details of the deleted anniversary.
+
+![DeleteAnniversaryCommand](images/DeleteAnniversaryCommandSequenceDiagram.png)
 ---
 ### Reminder for Events
 #### Purpose:
