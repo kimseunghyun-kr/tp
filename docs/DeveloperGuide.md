@@ -17,7 +17,6 @@ title: Developer Guide
     5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
     1. [Save Employee Records](#save-employee-records)
-    2. smth
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
     1. [Product Scope](#product-scope)
@@ -26,7 +25,7 @@ title: Developer Guide
     4. [Non-Functional Requirements](#non-functional-requirements)
     5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-    1. [Core Features]()
+    1. Core Features
         1. [Add Employee Records](#add-employee-records)
         2. [Edit Employee Records](#edit-employee-records)
         3. [Delete Employee Records](#delete-employee-records)
@@ -343,7 +342,8 @@ add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
 - Import employee records from CSV.
 ---
 
-### **Delete Employee Records**
+### Delete Employee Records
+
 #### Purpose:
 Allows HR workers to remove outdated or incorrect employee records.
 
