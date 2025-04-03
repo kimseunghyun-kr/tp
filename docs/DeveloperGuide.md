@@ -253,7 +253,7 @@ Given below is an explanation of how the Find feature works:
 When a user enters a command such as:
 `find n/Alice jp/engineer` the following steps occur:
 
-Step 1. FindCommandParser uses ArgumentTokenizer to extract the values for prefixes (n/, jp/, etc.).
+Step 1. FindCommandParser uses ArgumentTokenizer to extract the values for prefixes (`n/`, `jp/`).
 
 Step 2. It checks for errors such as:
 - No valid prefixes
@@ -272,8 +272,8 @@ The two predicates behave slightly differently to suit their field contexts:
     - `n/Ali` matches with "Alice Tan", "Khalid Ali"
 - JobPositionContainsKeywordsPredicate uses full-word matching.
   A keyword must match a whole word in the job position exactly (case-insensitive).
-    - `n/engineer` matches "Software Engineer", "Senior Engineer".
-    - `n/eng` does not match "Software Engineer", "Senior Engineer".
+    - `jp/engineer` matches "Software Engineer", "Senior Engineer".
+    - `jp/eng` does not match "Software Engineer", "Senior Engineer".
 
 This design was decided because:
 - Partial matching in names is user-friendly — users often search by fragments of names.
@@ -339,17 +339,24 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 *{More to be added}*
 
-### Use cases
+### **Use cases**
 
-**Use case: Adding an Employee**
+#### Use case 1: Adding an Employee
 
+**System**: H'Reers
+**Use case**: UC01 - Add New Employee
 **Actor:** HR Worker
+
 
 **Preconditions:**
 - The system is running.
 - The HR worker has valid employee data to input.
 
-**MSS**
+**Guarantees:**
+- The employee record is stored successfully in the system.
+- If an error occurred, the system remains unchanged.
+
+**Main Success Scenario (MSS)**:
 1. HR worker chooses to add new employee.
 2. HR worker enters required details
 3. If valid, the system adds the employee record to the database.
@@ -358,10 +365,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **Alternative Flows:**
     - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
     - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
-
-**Postconditions:**
-    - The employee record is stored successfully in the system.
-    - If an error occurred, the system remains unchanged.
 
 ---
 
@@ -377,7 +380,42 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-*{More to be added}*
+#### Use case 2: Showing Anniversaries
+
+**System**: H'Reers
+**Use case**: UC02 - Add New Employee
+**Actor:** HR Worker
+
+**Preconditions**:
+- The employee exists in the system, identified by their Employee ID.
+
+**Guarantees**:
+- The anniversaries associated with the specified employee are displayed.
+
+**Main Success Scenario (MSS)**:
+1. HR Worker enters the showAnni command with the specified employee’s ID. 
+2. H'Reers validates that:
+   - The Employee ID exists in the system. 
+   - Nothing is added before `eid/`.
+3. H'Reers retrieves the list of anniversaries associated with the employee. 
+4. H'Reers opens a new window or panel displaying:
+   - Each anniversary’s name, date, and description (if any).
+5. A confirmation message is displayed, indicating successful retrieval. 
+6. Use case ends.
+
+**Extensions**:
+- 2a. Employee Not Found:
+  - H'Reers displays an error message indicating that no employee matches the specified ID. 
+  - Use case ends.
+
+- 2b. Preamble Found:
+    - H'Reers displays an error message indicating that the correct usage of the command.
+    - Use case ends.
+
+- 4a. No anniversaries found:
+    - H'Reers displays a new windows with no anniversaries found.
+    - Use case resume at step 5.
+
 
 ### Non-Functional Requirements
 
@@ -886,7 +924,7 @@ No commands needed
 - **GUI Output:**
 ```
 Jane Doe's birthday is today! (May 9, 1990).
-John Doe's birthday is tomorrow (May 10, 1990).
+John Doe's birthday is tomorrow (May 10, 1990). 
 Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
 ```
 ---
@@ -909,5 +947,8 @@ Ensures employee records persist across sessions.
 
 ## **Appendix: Planned Enhancements**
 
-// GUYS ALL ADD BIG BUGS HERE SO IT WON'T BE PENALISED
+Team Size: 5 
 
+In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
+
+1. 
