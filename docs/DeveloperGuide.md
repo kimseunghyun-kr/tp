@@ -10,12 +10,12 @@ title: H'Reers Developer Guide
 ## *Table of Contents*
 1. [Mock UI](#mock-ui)
 2. [Setting up, Getting started](#setting-up-getting-started)
-2. [Architecture](#architecture)
-    1. [UI Component](#ui-component)
-    2. [Logic Component](#logic-component)
-    3. [Model Component](#model-component)
-    4. [Storage Component](#storage-component)
-    5. [Common Classes](#common-classes)
+    2. [Architecture](#architecture)
+      1. [UI Component](#ui-component)
+      2. [Logic Component](#logic-component)
+      3. [Model Component](#model-component)
+      4. [Storage Component](#storage-component)
+      5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
     1. [Save Employee Records](#save-employee-records)
     2. [Employee Identification](#employee-identification)
@@ -28,22 +28,26 @@ title: H'Reers Developer Guide
     9. [Export](#export-feature)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
-   1. [Product Scope](#product-scope)
-   2. [User Stories](#user-stories)
-   3. [Use Cases](#use-cases)
-   4. [Non-Functional Requirements](#non-functional-requirements)
-   5. [Glossary](#glossary)
+    1. [Product Scope](#product-scope)
+    2. [User Stories](#user-stories)
+    3. [Use Cases](#use-cases)
+    4. [Non-Functional Requirements](#non-functional-requirements)
+    5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-    1. Core Features
+    1. [Core Features](#core-features)
       1. [Add Employee Records](#add-employee-records)
       2. [Edit Employee Records](#edit-employee-records)
       3. [Delete Employee Records](#delete-employee-records)
-      4. [Undo Changes](#undo-changes)
+      4. [Find Employee Records](#find-employee-records)
+      5. [Undo Changes](#undo-changes)
     2. [Anniversary Commands](#anniversary-commands)
       1. [AddAnniversaryCommand](#addanniversarycommand)
       2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
       3. [ShowAnniversaryCommand](#showanniversarycommand)
-    3. [Reminder Feature](#viewing-upcoming-anniversaries-reminder-feature)
+    3. [File Management](#file-management)
+      1. [Export Command](#export-command)
+    4. [Viewing Upcoming Anniversaries](#viewing-upcoming-anniversaries-reminder-feature)
+7. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -358,7 +362,7 @@ The filtering is based on whether an anniversary falls within the next 3 days. I
 public static final int REMINDED_DATE_RANGE = 3;
 ```
 
-### Find Employees Features
+### Find Employees Feature
 The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
 
 The Find feature is primarily driven by:
@@ -614,16 +618,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Main Success Scenario (MSS)**:
 1. HR Worker enters the `showAnni` command with the specified employee’s ID.
-2. H'Reers retrieves the list of anniversaries associated with the employee. 
+2. H'Reers retrieves the list of anniversaries associated with the employee.
 3. H'Reers opens a new window or panel displaying:
-   - Each anniversary’s name, date, and description (if any).
-4. A confirmation message is displayed, indicating successful retrieval. 
+    - Each anniversary’s name, date, and description (if any).
+4. A confirmation message is displayed, indicating successful retrieval.
 5. Use case ends.
 
 **Extensions**:
 - 1a. Employee Not Found:
-  - H'Reers displays an error message indicating that no employee matches the specified ID. 
-  - Use case ends.
+    - H'Reers displays an error message indicating that no employee matches the specified ID.
+    - Use case ends.
 
 - 1b. Preamble Found:
     - H'Reers displays an error message indicating that the correct usage of the command.
@@ -659,20 +663,20 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**:
 - 1a. No Prefix Provided:
-  - H'Reers displays an error message indicating to add at least one prefix.
-  - Use case ends.
+    - H'Reers displays an error message indicating to add at least one prefix.
+    - Use case ends.
 
 - 1b. Preamble Found:
-  - H'Reers displays an error message indicating the command format is invalid.
-  - Use case ends.
+    - H'Reers displays an error message indicating the command format is invalid.
+    - Use case ends.
 
 - 1c. All Fields Empty:
-  - H'Reers displays an error message indicating to add at least one prefix.
-  - Use case ends.
+    - H'Reers displays an error message indicating to add at least one prefix.
+    - Use case ends.
 
 - 2a. No Matching Employees Found:
-  - H'Reers displays an empty list.
-  - Use case resume at step 3.
+    - H'Reers displays an empty list.
+    - Use case resume at step 3.
 ---
 
 ### Non-Functional Requirements
@@ -694,7 +698,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - CLI commands must follow consistent syntax patterns
 - New HR users should master core functions within 10 minutes
 - A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse
-- Error messages must clearly explain issues and suggest corrections 
+- Error messages must clearly explain issues and suggest corrections
 
 4. **Compatibility**
 - Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -760,7 +764,7 @@ testers are expected to do more *exploratory* testing.
 
 ---
 ### Add Anniversary Command
-
+  
 ---
 ### DeleteAnniversaryCommand
 
@@ -832,29 +836,31 @@ Ensures employee records persist across sessions.
 ---
 ## **Appendix: Planned Enhancements**
 
-Team Size: 5 
+Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
 1. **Address the fullscreen bug issue for all windows**
 - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
 - **Method to recreate (main)**
-  1. When running the app
-  2. Open the app in fullscreen
-  3. Type help
-  4. Close help window
-  5. Repeat 3 and 4 enough times and the app will crash
+    1. When running the app
+    2. Open the app in fullscreen
+    3. Type help
+    4. Close help window
+    5. Repeat 3 and 4 enough times and the app will crash
 - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
 - **Method to recreate (anniversary)**
-  1. Open app
-  2. Type showAnni xxx
-  3. Fullscreen app and tile them side to side
-  4. Close anni window
-  5. App stops running and hangs
+    1. Open app
+    2. Type showAnni xxx
+    3. Fullscreen app and tile them side to side
+    4. Close anni window
+    5. App stops running and hangs
 - **Current Workaround**: Do not use fullscreen mode.
 - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
-  
+
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
     -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+
+ 
