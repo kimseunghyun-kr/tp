@@ -7,10 +7,10 @@ Managing *employee details, birthdays, and work anniversaries* can be time-consu
 For HR professionals, keeping track of all this information manually can become overwhelming, even in small to medium organizations.
 **H'Reers** is designed to solve these issues by offering an intuitive desktop application with both a [GUI](#glossary) and [CLI](#glossary) for seamless interaction.
 
-With features like [adding](#adding-an-employee-add), [editing](#editing-an-employee-edit), and [deleting](#deleting-an-employee-delete) employee records and [adding birthdays and anniversaries](#anniversary-commands),
+With features like [adding](#adding-an-employee-codeaddcode), [editing](#editing-an-employee-codeeditcode), and [deleting](#deleting-an-employee-codedeletecode) employee records and [adding birthdays and anniversaries](#anniversary-commands),
 H'Reers helps you to stay organized, accurate, and on top of important milestones.
-The [Reminder](#reminder-commands) system provides a focused view of your employees with upcoming events occurring within the next 3 days.
-When the [command](#viewing-upcoming-birthdays-reminder-bd) is used, new panels appear beside the main list, displaying the filtered employees.
+The [Reminder](#reminder-command) system provides a focused view of your employees with upcoming events occurring within the next 3 days.
+When the [command](#viewing-upcoming-anniversaries-coderemindercode) is used, new panels appear beside the main list, displaying the filtered employees.
 
 By centralizing these tasks in one tool, H'Reers makes employee management more efficient and less error-prone, saving you time and improving overall workflow.
 
