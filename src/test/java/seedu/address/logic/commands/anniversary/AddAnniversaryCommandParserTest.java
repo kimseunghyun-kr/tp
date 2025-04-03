@@ -79,7 +79,7 @@ public class AddAnniversaryCommandParserTest {
 
     @Test
     public void parse_birthdayAnniversary_returnsAddAnniversaryCommand() throws Exception {
-        // 생일 기념일 파싱 테스트
+        // Test parsing birthday anniversary
         String personName = "hong gil dong";
         String userInput = " " + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
                 + PREFIX_BIRTHDAY + VALID_DATE + " "
