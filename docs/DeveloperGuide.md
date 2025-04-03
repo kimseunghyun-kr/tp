@@ -285,7 +285,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 
 --------------------------------------------------------------------------------------------------------------------
-## **Appendix: Instructions for manual testing**
+## Appendix: Instructions for manual testing
 
 Given below are instructions to test the app manually.
 
@@ -310,7 +310,7 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 ---
-### **Add Employee Records**
+### Add Employee Records
 
 #### Purpose:
 Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
@@ -366,7 +366,7 @@ If multiple employees match, prompt for additional details to ensure correctness
 
 ---
 
-### **Edit Employee Records**
+### Edit Employee Records
 
 #### Purpose:
 Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
@@ -434,12 +434,12 @@ undo
 * **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
 
 ---
-### **Anniversary commands**
+### Anniversary commands
 #### Purpose:
 Allows HR workers to manage employee anniversaries.
 
 ---
-### **AddAnniversaryCommand**
+### AddAnniversaryCommand
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
