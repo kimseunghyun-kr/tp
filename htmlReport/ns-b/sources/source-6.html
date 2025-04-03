@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CliSyntax</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.logic.parser</a>
+</div>
+
+<h1>Coverage Summary for Class: CliSyntax (seedu.address.logic.parser)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CliSyntax</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (18/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.logic.parser;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contains Command Line Interface (CLI) syntax definitions common to multiple commands
+&nbsp; */
+<b class="nc">&nbsp;public class CliSyntax {</b>
+&nbsp;
+&nbsp;    /* Prefix definitions */
+<b class="fc">&nbsp;    public static final Prefix PREFIX_EMPLOYEEID = new Prefix(&quot;eid/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_NAME = new Prefix(&quot;n/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_PHONE = new Prefix(&quot;p/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_EMAIL = new Prefix(&quot;e/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_TAG = new Prefix(&quot;t/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_JOBPOSITION = new Prefix(&quot;jp/&quot;);</b>
+&nbsp;
+&nbsp;    /* Prefix definitions for birthdays and work anniversaries */
+<b class="fc">&nbsp;    public static final Prefix PREFIX_BIRTHDAY = new Prefix(&quot;bd/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_WORK_ANNIVERSARY = new Prefix(&quot;wa/&quot;);</b>
+&nbsp;
+&nbsp;    /* Prefix definitions for custom anniversaries */
+<b class="fc">&nbsp;    public static final Prefix PREFIX_ANNIVERSARY_NAME = new Prefix(&quot;an/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_ANNIVERSARY_DATE = new Prefix(&quot;d/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_ANNIVERSARY_DESC = new Prefix(&quot;ad/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_ANNIVERSARY_TYPE = new Prefix(&quot;at/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_ANNIVERSARY_TYPE_DESC = new Prefix(&quot;atdesc/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_ANNIVERSARY_INDEX = new Prefix(&quot;ai/&quot;);</b>
+&nbsp;
+&nbsp;    /* Prefix definitions for import export */
+<b class="fc">&nbsp;    public static final Prefix PREFIX_FILEPATH = new Prefix(&quot;fp/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_FILENAME = new Prefix(&quot;fn/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_FILETYPE = new Prefix(&quot;ft/&quot;);</b>
+<b class="fc">&nbsp;    public static final Prefix PREFIX_WRITE_MODE = new Prefix(&quot;wm/&quot;);</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

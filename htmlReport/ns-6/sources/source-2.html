@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Messages</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.logic</a>
+</div>
+
+<h1>Coverage Summary for Class: Messages (seedu.address.logic)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Messages</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.logic;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;import seedu.address.logic.parser.Prefix;
+&nbsp;import seedu.address.model.person.Employee;
+&nbsp;
+&nbsp;/**
+&nbsp; * Container for user visible messages.
+&nbsp; */
+<b class="pc">&nbsp;public class Messages {</b>
+&nbsp;
+&nbsp;    public static final String MESSAGE_UNKNOWN_COMMAND = &quot;Unknown command&quot;;
+&nbsp;    public static final String MESSAGE_INVALID_COMMAND_FORMAT = &quot;Invalid command format! \n%1$s&quot;;
+&nbsp;    public static final String MESSAGE_EMPTY_FIELD_WITH_PREFIX = &quot;At least one non-empty field is required.&quot;;
+&nbsp;    public static final String MESSAGE_EMPLOYEES_LISTED_OVERVIEW = &quot;%1$d employees listed!&quot;;
+&nbsp;    public static final String MESSAGE_DUPLICATE_FIELDS =
+&nbsp;                &quot;Multiple values specified for the following single-valued field(s): &quot;;
+&nbsp;
+&nbsp;    public static final String MESSAGE_SUCCESS = &quot;New anniversary added: %1$s&quot;;
+&nbsp;    public static final String MESSAGE_EMPLOYEE_NOT_FOUND = &quot;No employee found with employeeId = %s&quot;;
+&nbsp;    public static final String MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND = &quot;No employee found with employeeId starting with %s&quot;;
+&nbsp;    public static final String MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX =
+&nbsp;            &quot;Found multiple employees with employeeId starting with %s&quot;;
+&nbsp;    public static final String MESSAGE_DUPLICATE_ANNIVERSARY =
+&nbsp;            &quot;This exact anniversary (date + name + type + description) already exists for that employee.&quot;;
+&nbsp;    public static final String MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS =
+&nbsp;            &quot;The index you are searching for is out of bounds for the anniversary.&quot;;
+&nbsp;    public static final String MESSAGE_INVALID_REMINDER_TYPE =
+&nbsp;            &quot;Invalid reminder type! Please use &#39;bd&#39; for birthday or &#39;wa&#39; for work anniversary.&quot;;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns an error message indicating the duplicate prefixes.
+&nbsp;     */
+&nbsp;    public static String getErrorMessageForDuplicatePrefixes(Prefix... duplicatePrefixes) {
+<b class="pc">&nbsp;        assert duplicatePrefixes.length &gt; 0;</b>
+&nbsp;
+<b class="fc">&nbsp;        Set&lt;String&gt; duplicateFields =</b>
+<b class="fc">&nbsp;                Stream.of(duplicatePrefixes).map(Prefix::toString).collect(Collectors.toSet());</b>
+&nbsp;
+<b class="fc">&nbsp;        return MESSAGE_DUPLICATE_FIELDS + String.join(&quot; &quot;, duplicateFields);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Formats the {@code employee} for display to the user.
+&nbsp;     */
+&nbsp;    public static String format(Employee employee) {
+<b class="fc">&nbsp;        final StringBuilder builder = new StringBuilder();</b>
+<b class="fc">&nbsp;        builder.append(employee.getName())</b>
+<b class="fc">&nbsp;                .append(&quot;; Phone: &quot;)</b>
+<b class="fc">&nbsp;                .append(employee.getPhone())</b>
+<b class="fc">&nbsp;                .append(&quot;; Email: &quot;)</b>
+<b class="fc">&nbsp;                .append(employee.getEmail())</b>
+<b class="fc">&nbsp;                .append(&quot;; Job: &quot;)</b>
+<b class="fc">&nbsp;                .append(employee.getJobPosition())</b>
+<b class="fc">&nbsp;                .append(&quot;; Tags: &quot;);</b>
+<b class="fc">&nbsp;        employee.getTags().forEach(builder::append);</b>
+<b class="fc">&nbsp;        return builder.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

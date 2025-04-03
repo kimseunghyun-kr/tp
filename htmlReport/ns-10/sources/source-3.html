@@ -1,0 +1,339 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Employee</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.model.person</a>
+</div>
+
+<h1>Coverage Summary for Class: Employee (seedu.address.model.person)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Employee</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (9/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (28/40)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.9%
+  </span>
+  <span class="absValue">
+    (51/69)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.model.person;
+&nbsp;import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import lombok.Builder;
+&nbsp;import lombok.Data;
+&nbsp;import seedu.address.commons.util.ToStringBuilder;
+&nbsp;import seedu.address.model.anniversary.Anniversary;
+&nbsp;import seedu.address.model.tag.Tag;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents an Employee in the address book.
+&nbsp; * Guarantees: details are present and not null, field values are validated, immutable.
+&nbsp; */
+&nbsp;@Data
+&nbsp;@Builder
+&nbsp;public class Employee {
+&nbsp;
+&nbsp;    // Identity fields
+&nbsp;    private final EmployeeId employeeId;
+&nbsp;    private final Name name;
+&nbsp;    private final Phone phone;
+&nbsp;    private final Email email;
+&nbsp;
+&nbsp;    // Data fields
+&nbsp;    private final JobPosition jobPosition;
+&nbsp;    private final Set&lt;Tag&gt; tags;
+&nbsp;
+&nbsp;    // Anniversary
+&nbsp;    private final List&lt;Anniversary&gt; anniversaries;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Every field must be present and not null.
+&nbsp;     */
+&nbsp;    public Employee(EmployeeId employeeId, Name name, Phone phone, Email email, JobPosition jobPosition, Set&lt;Tag&gt; tags,
+<b class="fc">&nbsp;                    List&lt;Anniversary&gt; anniversaries) {</b>
+<b class="fc">&nbsp;        this.employeeId = employeeId;</b>
+<b class="fc">&nbsp;        requireAllNonNull(name, phone, email, jobPosition, tags);</b>
+<b class="fc">&nbsp;        this.name = name;</b>
+<b class="fc">&nbsp;        this.phone = phone;</b>
+<b class="fc">&nbsp;        this.email = email;</b>
+<b class="fc">&nbsp;        this.jobPosition = jobPosition;</b>
+<b class="fc">&nbsp;        this.tags = new HashSet&lt;&gt;(tags);</b>
+<b class="fc">&nbsp;        this.tags.addAll(tags);</b>
+<b class="fc">&nbsp;        this.anniversaries = new ArrayList&lt;&gt;(anniversaries);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+&nbsp;     * if modification is attempted.
+&nbsp;     */
+&nbsp;    public Set&lt;Tag&gt; getTags() {
+<b class="fc">&nbsp;        return Collections.unmodifiableSet(tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if both persons have the same employee id.
+&nbsp;     * This defines a clear notion of equality between two persons.
+&nbsp;     */
+&nbsp;    public boolean isSameEmployee(Employee otherEmployee) {
+<b class="fc">&nbsp;        if (otherEmployee == null) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return otherEmployee.employeeId.equals(this.employeeId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if both persons have the same user details.
+&nbsp;     * this excludes the employee id and anniversaryList.
+&nbsp;     * This defines a weaker notion of equality between two persons.
+&nbsp;     */
+&nbsp;    public boolean hasSameDetails(Employee otherEmployee) {
+<b class="pc">&nbsp;        return name.equals(otherEmployee.name)</b>
+<b class="fc">&nbsp;                &amp;&amp; phone.equals(otherEmployee.phone)</b>
+<b class="pc">&nbsp;                &amp;&amp; email.equals(otherEmployee.email)</b>
+<b class="pc">&nbsp;                &amp;&amp; jobPosition.equals(otherEmployee.jobPosition)</b>
+<b class="pc">&nbsp;                &amp;&amp; tags.equals(otherEmployee.tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //TODO: Remove this method after finalising the feature
+&nbsp;    /**
+&nbsp;     * Returns the next upcoming important date (birthday or work anniversary) for this employee.
+&nbsp;     *
+&nbsp;     * @return The next upcoming date as a {@code LocalDate} object, or {@code null} if none exists.
+&nbsp;     */
+&nbsp;    public LocalDate getNextUpcomingDate() {
+<b class="fc">&nbsp;        return anniversaries.stream()</b>
+<b class="fc">&nbsp;                .map(Anniversary::getDate) // Get the anniversary dates</b>
+<b class="fc">&nbsp;                .filter(date -&gt; date != null) // Filter out null values</b>
+<b class="fc">&nbsp;                .map(date -&gt; {</b>
+<b class="fc">&nbsp;                    LocalDate today = LocalDate.now();</b>
+<b class="fc">&nbsp;                    LocalDate nextDate = date.withYear(today.getYear());</b>
+&nbsp;
+&nbsp;                    // If the date has already passed this year, set it to next year
+<b class="fc">&nbsp;                    if (nextDate.isBefore(today)) {</b>
+<b class="fc">&nbsp;                        nextDate = nextDate.plusYears(1);</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    return nextDate;</b>
+&nbsp;                })
+<b class="fc">&nbsp;                .min(LocalDate::compareTo) // Find the earliest upcoming date</b>
+<b class="fc">&nbsp;                .orElse(null); // Return null if no valid dates are found</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the next upcoming date for a given anniversary date.
+&nbsp;     *
+&nbsp;     * @param date The original anniversary date.
+&nbsp;     * @return The next upcoming anniversary date adjusted to the current or next year.
+&nbsp;     */
+&nbsp;    private LocalDate calculateNextUpcomingDate(LocalDate date) {
+<b class="nc">&nbsp;        LocalDate today = LocalDate.now();</b>
+<b class="nc">&nbsp;        LocalDate nextDate = date.withYear(today.getYear());</b>
+<b class="nc">&nbsp;        return nextDate.isBefore(today) ? nextDate.plusYears(1) : nextDate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the next upcoming date for the given anniversary type.
+&nbsp;     *
+&nbsp;     * @param anniversaryTypeName The class representing the anniversary type (e.g., Birthday.class).
+&nbsp;     * @return The next upcoming date, or {@code null} if no matching anniversary is found.
+&nbsp;     */
+&nbsp;    private LocalDate getNextUpcomingDateByType(String anniversaryTypeName) {
+<b class="nc">&nbsp;        return anniversaries.stream()</b>
+<b class="nc">&nbsp;                .filter(a -&gt; a.getType().getName().equalsIgnoreCase(anniversaryTypeName))</b>
+<b class="nc">&nbsp;                .map(Anniversary::getDate)</b>
+<b class="nc">&nbsp;                .filter(Objects::nonNull)</b>
+<b class="nc">&nbsp;                .map(this::calculateNextUpcomingDate)</b>
+<b class="nc">&nbsp;                .min(LocalDate::compareTo)</b>
+<b class="nc">&nbsp;                .orElse(null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the next upcoming birthday date for this employee.
+&nbsp;     *
+&nbsp;     * @return The upcoming birthday as a {@code LocalDate}, or {@code null} if none found.
+&nbsp;     */
+&nbsp;    public LocalDate getNextUpcomingBirthdayDate() {
+<b class="nc">&nbsp;        return getNextUpcomingDateByType(&quot;Birthday&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the next upcoming work anniversary date for this employee.
+&nbsp;     *
+&nbsp;     * @return The upcoming work anniversary as a {@code LocalDate}, or {@code null} if none found.
+&nbsp;     */
+&nbsp;    public LocalDate getNextUpcomingWorkAnniversaryDate() {
+<b class="nc">&nbsp;        return getNextUpcomingDateByType(&quot;Work Anniversary&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getEmployeeIdAsString() {
+<b class="fc">&nbsp;        return employeeId.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    //TODO: Remove this method after finalising the feature
+&nbsp;    /**
+&nbsp;     * Checks if the next upcoming important date (birthday or work anniversary)
+&nbsp;     * for this employee is within the specified number of days from today.
+&nbsp;     *
+&nbsp;     * @param days The number of days from today to check for an upcoming date.
+&nbsp;     * @return {@code true} if the next upcoming date is within the specified number of days,
+&nbsp;     *         {@code false} otherwise or if no upcoming date is available.
+&nbsp;     */
+&nbsp;    public boolean isUpcomingWithinDays(String anniversaryTypeName, int days) {
+<b class="nc">&nbsp;        LocalDate nextDate = getNextUpcomingDateByType(anniversaryTypeName);</b>
+<b class="nc">&nbsp;        if (nextDate == null) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        LocalDate today = LocalDate.now();</b>
+<b class="nc">&nbsp;        return !nextDate.isBefore(today) &amp;&amp; !nextDate.isAfter(today.plusDays(days));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if both persons have the same identity and data fields.
+&nbsp;     * This defines a stronger notion of equality between two persons.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="fc">&nbsp;        if (other == this) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // instanceof handles nulls
+<b class="fc">&nbsp;        if (!(other instanceof Employee)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Employee otherEmployee = (Employee) other;</b>
+<b class="fc">&nbsp;        return employeeId.equals(otherEmployee.employeeId)</b>
+<b class="fc">&nbsp;                &amp;&amp; name.equals(otherEmployee.name)</b>
+<b class="fc">&nbsp;                &amp;&amp; phone.equals(otherEmployee.phone)</b>
+<b class="fc">&nbsp;                &amp;&amp; email.equals(otherEmployee.email)</b>
+<b class="fc">&nbsp;                &amp;&amp; jobPosition.equals(otherEmployee.jobPosition)</b>
+<b class="fc">&nbsp;                &amp;&amp; tags.equals(otherEmployee.tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+&nbsp;        // use this method for custom fields hashing instead of implementing your own
+<b class="nc">&nbsp;        return Objects.hash(employeeId, name, phone, email, jobPosition, tags);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return new ToStringBuilder(this)</b>
+<b class="fc">&nbsp;                .add(&quot;employeeId&quot;, employeeId)</b>
+<b class="fc">&nbsp;                .add(&quot;name&quot;, name)</b>
+<b class="fc">&nbsp;                .add(&quot;phone&quot;, phone)</b>
+<b class="fc">&nbsp;                .add(&quot;email&quot;, email)</b>
+<b class="fc">&nbsp;                .add(&quot;job&quot;, jobPosition)</b>
+<b class="fc">&nbsp;                .add(&quot;tags&quot;, tags)</b>
+<b class="fc">&nbsp;                .toString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

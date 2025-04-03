@@ -1,0 +1,421 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > EditCommand</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.logic.commands</a>
+</div>
+
+<h1>Coverage Summary for Class: EditCommand (seedu.address.logic.commands)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EditCommand</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (15/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.8%
+  </span>
+  <span class="absValue">
+    (44/45)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">EditCommand$EditEmployeeDescriptor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.5%
+  </span>
+  <span class="absValue">
+    (10/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/32)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69.4%
+  </span>
+  <span class="absValue">
+    (25/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.7%
+  </span>
+  <span class="absValue">
+    (76/77)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.logic.commands;
+&nbsp;
+&nbsp;import static java.util.Objects.requireNonNull;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_JOBPOSITION;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+&nbsp;import static seedu.address.model.Model.PREDICATE_SHOW_ALL_EMPLOYEES;
+&nbsp;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Optional;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import lombok.Data;
+&nbsp;import seedu.address.commons.util.CollectionUtil;
+&nbsp;import seedu.address.commons.util.ToStringBuilder;
+&nbsp;import seedu.address.logic.Messages;
+&nbsp;import seedu.address.logic.commands.exceptions.CommandException;
+&nbsp;import seedu.address.model.Model;
+&nbsp;import seedu.address.model.anniversary.Anniversary;
+&nbsp;import seedu.address.model.person.Email;
+&nbsp;import seedu.address.model.person.Employee;
+&nbsp;import seedu.address.model.person.EmployeeId;
+&nbsp;import seedu.address.model.person.JobPosition;
+&nbsp;import seedu.address.model.person.Name;
+&nbsp;import seedu.address.model.person.Phone;
+&nbsp;import seedu.address.model.tag.Tag;
+&nbsp;
+&nbsp;/**
+&nbsp; * Edits the details of an existing employee in the address book.
+&nbsp; */
+<b class="pc">&nbsp;public class EditCommand extends Command {</b>
+&nbsp;
+&nbsp;    public static final String COMMAND_WORD = &quot;edit&quot;;
+&nbsp;
+<b class="fc">&nbsp;    public static final String MESSAGE_USAGE = COMMAND_WORD + &quot;: Edits the details of the employee identified &quot;</b>
+&nbsp;            + &quot;by a prefix of their Employee ID. &quot;
+&nbsp;            + &quot;Existing values will be overwritten by the input values.\n&quot;
+&nbsp;            + &quot;Parameters: EMPLOYEE_ID_PREFIX (there must be only one employee that matches this prefix) &quot;
+&nbsp;            + &quot;[&quot; + PREFIX_NAME + &quot;NAME] &quot;
+&nbsp;            + &quot;[&quot; + PREFIX_PHONE + &quot;PHONE] &quot;
+&nbsp;            + &quot;[&quot; + PREFIX_EMAIL + &quot;EMAIL] &quot;
+&nbsp;            + &quot;[&quot; + PREFIX_JOBPOSITION + &quot;JOBPOSITION] &quot;
+&nbsp;            + &quot;[&quot; + PREFIX_TAG + &quot;TAG] &quot;
+&nbsp;            + &quot;[&quot; + PREFIX_EMPLOYEEID + &quot;EMPLOYEE ID]...\n&quot;
+&nbsp;            + &quot;Example: &quot; + COMMAND_WORD + &quot; 1 &quot;
+&nbsp;            + PREFIX_PHONE + &quot;91234567 &quot;
+&nbsp;            + PREFIX_EMAIL + &quot;johndoe@example.com&quot;;
+&nbsp;
+&nbsp;    public static final String MESSAGE_EDIT_EMPLOYEE_SUCCESS = &quot;Edited Employee: %1$s&quot;;
+&nbsp;    public static final String MESSAGE_NOT_EDITED = &quot;At least one field to edit must be provided.&quot;;
+&nbsp;    public static final String MESSAGE_EMPLOYEE_ID_CONFLICT = &quot;The new employee ID is either a prefix of another &quot;
+&nbsp;            + &quot;existing employee ID or another existing employee ID is a prefix of this one&quot;;
+&nbsp;
+&nbsp;    private final EmployeeId employeeIdPrefix;
+&nbsp;    private final EditEmployeeDescriptor editEmployeeDescriptor;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @param employeeIdPrefix of the employee in the filtered employee list to edit
+&nbsp;     * @param editEmployeeDescriptor details to edit the employee with
+&nbsp;     */
+<b class="fc">&nbsp;    public EditCommand(EmployeeId employeeIdPrefix, EditEmployeeDescriptor editEmployeeDescriptor) {</b>
+<b class="fc">&nbsp;        requireNonNull(employeeIdPrefix);</b>
+<b class="fc">&nbsp;        requireNonNull(editEmployeeDescriptor);</b>
+&nbsp;
+<b class="fc">&nbsp;        this.employeeIdPrefix = employeeIdPrefix;</b>
+<b class="fc">&nbsp;        this.editEmployeeDescriptor = new EditEmployeeDescriptor(editEmployeeDescriptor);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public CommandResult execute(Model model) throws CommandException {
+<b class="fc">&nbsp;        requireNonNull(model);</b>
+<b class="fc">&nbsp;        List&lt;Employee&gt; matchedEmployees = model.getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (matchedEmployees.size() &gt; 1) {</b>
+<b class="nc">&nbsp;            throw new CommandException(String.format(</b>
+&nbsp;                    Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
+&nbsp;                    employeeIdPrefix
+&nbsp;            ));
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (matchedEmployees.isEmpty()) {</b>
+<b class="fc">&nbsp;            throw new CommandException(String.format(</b>
+&nbsp;                    Messages.MESSAGE_EMPLOYEE_PREFIX_NOT_FOUND,
+&nbsp;                    employeeIdPrefix
+&nbsp;            ));
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Employee employeeToEdit = matchedEmployees.get(0);</b>
+&nbsp;
+&nbsp;        // Save the state before any potential changes
+<b class="fc">&nbsp;        model.commitChanges();</b>
+&nbsp;
+<b class="fc">&nbsp;        Employee editedEmployee = createEditedEmployee(employeeToEdit, editEmployeeDescriptor);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (model.hasEmployeeIdPrefixConflictIgnoringSpecific(editedEmployee.getEmployeeId(),</b>
+<b class="fc">&nbsp;                employeeToEdit.getEmployeeId())) {</b>
+<b class="fc">&nbsp;            throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        model.setEmployee(employeeToEdit, editedEmployee);</b>
+<b class="fc">&nbsp;        model.updateFilteredEmployeeList(PREDICATE_SHOW_ALL_EMPLOYEES);</b>
+<b class="fc">&nbsp;        return new CommandResult(String.format(MESSAGE_EDIT_EMPLOYEE_SUCCESS, Messages.format(editedEmployee)));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates and returns a {@code Employee} with the details of {@code employeeToEdit}
+&nbsp;     * edited with {@code editEmployeeDescriptor}.
+&nbsp;     */
+&nbsp;    private static Employee createEditedEmployee(Employee employeeToEdit,
+&nbsp;                                                 EditEmployeeDescriptor editEmployeeDescriptor) {
+<b class="pc">&nbsp;        assert employeeToEdit != null;</b>
+&nbsp;        /*
+&nbsp;         * this is purposefully kept as employeeToEdit.getEmployeeId(), currently changing EmployeeID is not supported,
+&nbsp;         * under Roman to change as he suggests.
+&nbsp;         */
+<b class="fc">&nbsp;        EmployeeId employeeId = editEmployeeDescriptor.getEmployeeId().orElse(employeeToEdit.getEmployeeId());</b>
+<b class="fc">&nbsp;        Name updatedName = editEmployeeDescriptor.getName().orElse(employeeToEdit.getName());</b>
+<b class="fc">&nbsp;        Phone updatedPhone = editEmployeeDescriptor.getPhone().orElse(employeeToEdit.getPhone());</b>
+<b class="fc">&nbsp;        Email updatedEmail = editEmployeeDescriptor.getEmail().orElse(employeeToEdit.getEmail());</b>
+<b class="fc">&nbsp;        JobPosition updatedjobPosition = editEmployeeDescriptor.getJobPosition()</b>
+<b class="fc">&nbsp;                                            .orElse(employeeToEdit.getJobPosition());</b>
+<b class="fc">&nbsp;        Set&lt;Tag&gt; updatedTags = editEmployeeDescriptor.getTags().orElse(employeeToEdit.getTags());</b>
+<b class="fc">&nbsp;        List&lt;Anniversary&gt; anniversaryList = employeeToEdit.getAnniversaries();</b>
+<b class="fc">&nbsp;        return new Employee(employeeId, updatedName, updatedPhone,</b>
+&nbsp;                updatedEmail, updatedjobPosition, updatedTags, anniversaryList);
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="fc">&nbsp;        if (other == this) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // instanceof handles nulls
+<b class="fc">&nbsp;        if (!(other instanceof EditCommand otherEditCommand)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return this.employeeIdPrefix.equals(otherEditCommand.employeeIdPrefix)</b>
+<b class="pc">&nbsp;                &amp;&amp; editEmployeeDescriptor.equals(otherEditCommand.editEmployeeDescriptor);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return new ToStringBuilder(this)</b>
+<b class="fc">&nbsp;                .add(&quot;employeeIdPrefix&quot;, employeeIdPrefix)</b>
+<b class="fc">&nbsp;                .add(&quot;editEmployeeDescriptor&quot;, editEmployeeDescriptor)</b>
+<b class="fc">&nbsp;                .toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * checks if the editCommandDescriptor has the same details, excluding EmployeeId
+&nbsp;     * @param command the editCommand to compare with
+&nbsp;     * @return true if they have the same details
+&nbsp;     */
+&nbsp;    public boolean hasSameDetails(EditCommand command) {
+<b class="fc">&nbsp;        requireNonNull(command);</b>
+<b class="fc">&nbsp;        return editEmployeeDescriptor.hasSameDetails(command.editEmployeeDescriptor);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Stores the details to edit the employee with. Each non-empty field value will replace the
+&nbsp;     * corresponding field value of the employee.
+&nbsp;     */
+&nbsp;    @Data
+&nbsp;    public static class EditEmployeeDescriptor {
+&nbsp;        private EmployeeId employeeId;
+&nbsp;        private Name name;
+&nbsp;        private Phone phone;
+&nbsp;        private Email email;
+&nbsp;        private Set&lt;Tag&gt; tags;
+&nbsp;        private JobPosition jobPosition;
+&nbsp;
+<b class="fc">&nbsp;        public EditEmployeeDescriptor() {}</b>
+&nbsp;        /**
+&nbsp;         * Copy constructor.
+&nbsp;         * A defensive copy of {@code tags} is used internally.
+&nbsp;         */
+<b class="fc">&nbsp;        public EditEmployeeDescriptor(EditEmployeeDescriptor toCopy) {</b>
+<b class="fc">&nbsp;            setEmployeeId(toCopy.employeeId);</b>
+<b class="fc">&nbsp;            setName(toCopy.name);</b>
+<b class="fc">&nbsp;            setPhone(toCopy.phone);</b>
+<b class="fc">&nbsp;            setEmail(toCopy.email);</b>
+<b class="fc">&nbsp;            setJobPosition(toCopy.jobPosition);</b>
+<b class="fc">&nbsp;            setTags(toCopy.tags);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Returns true if at least one field is edited.
+&nbsp;         */
+&nbsp;        public boolean isAnyFieldEdited() {
+<b class="fc">&nbsp;            return CollectionUtil.isAnyNonNull(employeeId, name, phone, email, jobPosition, tags);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Optional&lt;EmployeeId&gt; getEmployeeId() {
+<b class="fc">&nbsp;            return Optional.ofNullable(employeeId);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Optional&lt;Name&gt; getName() {
+<b class="fc">&nbsp;            return Optional.ofNullable(name);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Optional&lt;Phone&gt; getPhone() {
+<b class="fc">&nbsp;            return Optional.ofNullable(phone);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Optional&lt;Email&gt; getEmail() {
+<b class="fc">&nbsp;            return Optional.ofNullable(email);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        public Optional&lt;JobPosition&gt; getJobPosition() {
+<b class="fc">&nbsp;            return Optional.ofNullable(jobPosition);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Sets {@code tags} to this object&#39;s {@code tags}.
+&nbsp;         * A defensive copy of {@code tags} is used internally.
+&nbsp;         */
+&nbsp;        public void setTags(Set&lt;Tag&gt; tags) {
+<b class="fc">&nbsp;            this.tags = (tags != null) ? new HashSet&lt;&gt;(tags) : null;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Returns an unmodifiable tag set, which throws {@code UnsupportedOperationException}
+&nbsp;         * if modification is attempted.
+&nbsp;         * Returns {@code Optional#empty()} if {@code tags} is null.
+&nbsp;         */
+&nbsp;        public Optional&lt;Set&lt;Tag&gt;&gt; getTags() {
+<b class="fc">&nbsp;            return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public String toString() {
+<b class="fc">&nbsp;            return new ToStringBuilder(this)</b>
+<b class="fc">&nbsp;                    .add(&quot;employeeId&quot;, employeeId)</b>
+<b class="fc">&nbsp;                    .add(&quot;name&quot;, name)</b>
+<b class="fc">&nbsp;                    .add(&quot;phone&quot;, phone)</b>
+<b class="fc">&nbsp;                    .add(&quot;email&quot;, email)</b>
+<b class="fc">&nbsp;                    .add(&quot;jobposition&quot;, jobPosition)</b>
+<b class="fc">&nbsp;                    .add(&quot;tags&quot;, tags)</b>
+<b class="fc">&nbsp;                    .toString();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * checks if the two EditPersonDescriptors have the same details, a weaker equality.
+&nbsp;         * @param editEmployeeDescriptor the other descriptor
+&nbsp;         * @return true if the same
+&nbsp;         */
+&nbsp;        public boolean hasSameDetails(EditEmployeeDescriptor editEmployeeDescriptor) {
+<b class="pc">&nbsp;            return editEmployeeDescriptor.employeeId.equals(this.employeeId)</b>
+<b class="pc">&nbsp;                    &amp;&amp; editEmployeeDescriptor.name.equals(this.name)</b>
+<b class="pc">&nbsp;                    &amp;&amp; editEmployeeDescriptor.phone.equals(this.phone)</b>
+<b class="pc">&nbsp;                    &amp;&amp; editEmployeeDescriptor.email.equals(this.email)</b>
+<b class="pc">&nbsp;                    &amp;&amp; editEmployeeDescriptor.jobPosition.equals(this.jobPosition)</b>
+<b class="pc">&nbsp;                    &amp;&amp; editEmployeeDescriptor.tags.equals(this.tags);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

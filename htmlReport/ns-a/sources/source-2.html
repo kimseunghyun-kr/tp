@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ExportCommand</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.logic.commands.importexport</a>
+</div>
+
+<h1>Coverage Summary for Class: ExportCommand (seedu.address.logic.commands.importexport)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ExportCommand</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.logic.commands.importexport;
+&nbsp;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
+&nbsp;import static seedu.address.logic.parser.CliSyntax.PREFIX_FILETYPE;
+&nbsp;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.logging.Logger;
+&nbsp;
+&nbsp;import javafx.collections.ObservableList;
+&nbsp;import lombok.Getter;
+&nbsp;import seedu.address.commons.core.LogsCenter;
+&nbsp;import seedu.address.logic.commands.Command;
+&nbsp;import seedu.address.logic.commands.CommandResult;
+&nbsp;import seedu.address.logic.commands.exceptions.CommandException;
+&nbsp;import seedu.address.model.Model;
+&nbsp;import seedu.address.model.person.Employee;
+&nbsp;
+&nbsp;/**
+&nbsp; * Exports currently visible persons data to a file.
+&nbsp; */
+&nbsp;@Getter
+&nbsp;public class ExportCommand extends Command {
+&nbsp;    public static final String COMMAND_WORD = &quot;export&quot;;
+<b class="fc">&nbsp;    public static final String MESSAGE_USAGE = &quot;export &quot;</b>
+&nbsp;            + PREFIX_FILETYPE + &quot;&lt;json / csv&gt; [&quot;
+&nbsp;            + PREFIX_FILEPATH + &quot;&lt;path&gt;]&quot;;
+<b class="fc">&nbsp;    private static final Logger logger = LogsCenter.getLogger(ExportCommand.class);</b>
+&nbsp;    public final String filetype;
+&nbsp;    public final Path path;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates an ExportCommand to export the specified {@code Employee}
+&nbsp;     * @param filetype json or csv source file
+&nbsp;     * @param path path to the file
+&nbsp;     */
+<b class="fc">&nbsp;    public ExportCommand(String filetype, Path path) {</b>
+<b class="fc">&nbsp;        this.filetype = filetype;</b>
+<b class="fc">&nbsp;        this.path = path;</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;    @Override
+&nbsp;    public CommandResult execute(Model model) throws CommandException {
+<b class="fc">&nbsp;        ObservableList&lt;Employee&gt; displayedPeople = model.getFilteredEmployeeList();</b>
+<b class="fc">&nbsp;        if (displayedPeople.isEmpty()) {</b>
+<b class="fc">&nbsp;            throw new CommandException(&quot;No people to export.&quot;);</b>
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            if (filetype.equals(&quot;json&quot;)) {</b>
+<b class="fc">&nbsp;                logger.info(String.format(&quot;Exporting to json + %s, %s&quot;, path , displayedPeople));</b>
+<b class="fc">&nbsp;                AddressBookFormatConverter.exportToJson(displayedPeople, path);</b>
+<b class="fc">&nbsp;            } else if (filetype.equals(&quot;csv&quot;)) {</b>
+<b class="fc">&nbsp;                logger.info(String.format(&quot;Exporting to CSV + %s, %s&quot;, path , displayedPeople));</b>
+<b class="fc">&nbsp;                AddressBookFormatConverter.exportToCsv(displayedPeople, path);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                throw new CommandException(&quot;Invalid filetype. &quot; + MESSAGE_USAGE);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        } catch (Exception e) {</b>
+<b class="fc">&nbsp;            throw new CommandException(&quot;Error exporting data: &quot; + e.getMessage());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new CommandResult(&quot;Exported &quot; + displayedPeople + &quot; employees in &quot; + filetype</b>
+&nbsp;                + &quot; format to &quot; + path);
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,362 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UniqueEmployeeList</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.model.person</a>
+</div>
+
+<h1>Coverage Summary for Class: UniqueEmployeeList (seedu.address.model.person)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UniqueEmployeeList</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    68.4%
+  </span>
+  <span class="absValue">
+    (13/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.3%
+  </span>
+  <span class="absValue">
+    (22/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (49/70)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.model.person;
+&nbsp;
+&nbsp;import static java.util.Objects.requireNonNull;
+&nbsp;import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.temporal.ChronoUnit;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import javafx.collections.FXCollections;
+&nbsp;import javafx.collections.ObservableList;
+&nbsp;import javafx.util.Pair;
+&nbsp;import seedu.address.model.person.exceptions.DuplicatePersonException;
+&nbsp;import seedu.address.model.person.exceptions.EmployeeNotFoundException;
+&nbsp;import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
+&nbsp;
+&nbsp;/**
+&nbsp; * A list of persons that enforces uniqueness between its elements and does not allow nulls.
+&nbsp; * An employee is considered unique by comparing using {@code Employee#isSameEmployee(Employee)}.
+&nbsp; * As such, adding and updating of persons uses Employee#isSameEmployee(Employee)
+&nbsp; * for equality so as to ensure that the employee being added or updated is
+&nbsp; * unique in terms of identity in the UniqueEmployeeList.
+&nbsp; * However, the removal of a employee uses Employee#equals(Object) so
+&nbsp; * as to ensure that the employee with exactly the same fields will be removed.
+&nbsp; *
+&nbsp; * Supports a minimal set of list operations.
+&nbsp; *
+&nbsp; * @see Employee#isSameEmployee(Employee)
+&nbsp; */
+<b class="fc">&nbsp;public class UniqueEmployeeList implements Iterable&lt;Employee&gt; {</b>
+&nbsp;
+<b class="fc">&nbsp;    private final ObservableList&lt;Employee&gt; internalList = FXCollections.observableArrayList();</b>
+<b class="fc">&nbsp;    private final ObservableList&lt;Employee&gt; internalUnmodifiableList =</b>
+<b class="fc">&nbsp;            FXCollections.unmodifiableObservableList(internalList);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if the list contains an equivalent employee as the given argument.
+&nbsp;     */
+&nbsp;    public boolean contains(Employee toCheck) {
+<b class="fc">&nbsp;        requireNonNull(toCheck);</b>
+<b class="fc">&nbsp;        return internalList.stream().anyMatch(toCheck::isSameEmployee);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sorts the list of persons by their next upcoming date (birthday or work anniversary).
+&nbsp;     * - Persons with the nearest upcoming date will appear first.
+&nbsp;     * - Persons without a birthday or anniversary will be placed at the end of the list.
+&nbsp;     */
+&nbsp;    public void sortByUpcomingDate() {
+<b class="nc">&nbsp;        List&lt;Employee&gt; sortedList = internalList.stream()</b>
+<b class="nc">&nbsp;                .sorted(Comparator</b>
+<b class="nc">&nbsp;                        .comparing(Employee::getNextUpcomingDate,</b>
+<b class="nc">&nbsp;                                Comparator.nullsLast(Comparator.naturalOrder()))</b>
+&nbsp;                )
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;
+&nbsp;        // Update the list after sorting
+<b class="nc">&nbsp;        internalList.setAll(sortedList);</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;    /**
+&nbsp;     * Calculates the number of days until the next occurrence of a birthday.
+&nbsp;     *
+&nbsp;     * @param birthday The date of the birthday.
+&nbsp;     * @return Number of days until the next birthday, or {@code null} if the birthday is {@code null}.
+&nbsp;     */
+&nbsp;    private Integer daysUntilNextBirthday(LocalDate birthday) {
+<b class="nc">&nbsp;        if (birthday == null) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        LocalDate today = LocalDate.now();</b>
+<b class="nc">&nbsp;        LocalDate nextBirthday = birthday.withYear(today.getYear());</b>
+&nbsp;
+&nbsp;        // If the birthday has already passed this year, adjust to next year
+<b class="nc">&nbsp;        if (nextBirthday.isBefore(today) || nextBirthday.isEqual(today)) {</b>
+<b class="nc">&nbsp;            nextBirthday = nextBirthday.plusYears(1);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Return the number of days until the next birthday
+<b class="nc">&nbsp;        return (int) ChronoUnit.DAYS.between(today, nextBirthday);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a employee to the list.
+&nbsp;     * The employee must not already exist in the list.
+&nbsp;     */
+&nbsp;    public void add(Employee toAdd) {
+<b class="fc">&nbsp;        requireNonNull(toAdd);</b>
+<b class="fc">&nbsp;        if (contains(toAdd)) {</b>
+<b class="fc">&nbsp;            throw new DuplicatePersonException();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        internalList.add(toAdd);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces the employee {@code target} in the list with {@code editedEmployee}.
+&nbsp;     * {@code target} must exist in the list.
+&nbsp;     * The employee identity of {@code editedEmployee} must not be the same as another existing employee in the list.
+&nbsp;     */
+&nbsp;    public void setPerson(Employee target, Employee editedEmployee) {
+<b class="fc">&nbsp;        requireAllNonNull(target, editedEmployee);</b>
+&nbsp;
+<b class="fc">&nbsp;        int index = internalList.indexOf(target);</b>
+<b class="fc">&nbsp;        if (index == -1) {</b>
+<b class="fc">&nbsp;            throw new EmployeeNotFoundException();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!target.isSameEmployee(editedEmployee) &amp;&amp; contains(editedEmployee)) {</b>
+<b class="fc">&nbsp;            throw new DuplicatePersonException();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        internalList.set(index, editedEmployee);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes the equivalent employee from the list.
+&nbsp;     * The employee must exist in the list.
+&nbsp;     */
+&nbsp;    public void remove(Employee toRemove) {
+<b class="fc">&nbsp;        requireNonNull(toRemove);</b>
+<b class="fc">&nbsp;        if (!internalList.remove(toRemove)) {</b>
+<b class="fc">&nbsp;            throw new EmployeeNotFoundException();</b>
+&nbsp;        }
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public void setPersons(UniqueEmployeeList replacement) {
+<b class="fc">&nbsp;        requireNonNull(replacement);</b>
+<b class="fc">&nbsp;        internalList.setAll(replacement.internalList);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Replaces the contents of this list with {@code employees}.
+&nbsp;     * {@code employees} must not contain duplicate employees.
+&nbsp;     */
+&nbsp;    public void setPersons(List&lt;Employee&gt; employees) {
+<b class="fc">&nbsp;        requireAllNonNull(employees);</b>
+<b class="fc">&nbsp;        if (!personsAreUnique(employees)) {</b>
+<b class="fc">&nbsp;            throw new DuplicatePersonException();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        internalList.setAll(employees);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the backing list as an unmodifiable {@code ObservableList}.
+&nbsp;     */
+&nbsp;    public ObservableList&lt;Employee&gt; asUnmodifiableObservableList() {
+<b class="fc">&nbsp;        return internalUnmodifiableList;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Iterator&lt;Employee&gt; iterator() {
+<b class="nc">&nbsp;        return internalList.iterator();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object other) {
+<b class="pc">&nbsp;        if (other == this) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // instanceof handles nulls
+<b class="pc">&nbsp;        if (!(other instanceof UniqueEmployeeList)) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        UniqueEmployeeList otherUniqueEmployeeList = (UniqueEmployeeList) other;</b>
+<b class="fc">&nbsp;        return internalList.equals(otherUniqueEmployeeList.internalList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return internalList.hashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return internalList.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if {@code employees} contains only unique employees.
+&nbsp;     */
+&nbsp;    private boolean personsAreUnique(List&lt;Employee&gt; employees) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; employees.size() - 1; i++) {</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; employees.size(); j++) {</b>
+<b class="fc">&nbsp;                if (employees.get(i).isSameEmployee(employees.get(j))) {</b>
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of pairs of employee IDs that have prefix conflicts.
+&nbsp;     * @return list of pairs of employee IDs with prefix conflicts
+&nbsp;     */
+&nbsp;    public List&lt;Pair&lt;EmployeeId, EmployeeId&gt;&gt; getPrefixConflictingPairs() {
+<b class="nc">&nbsp;        return EmployeeIdPrefixValidationUtils.getPrefixConflictingPairs(internalList);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if there exist a employee specifically duplicated
+&nbsp;     * @param toCheck the employee to check
+&nbsp;     * @return true if there exists more than one employee that are duplicated
+&nbsp;     */
+&nbsp;    public boolean hasDuplicatePersonDetails(Employee toCheck) {
+<b class="nc">&nbsp;        requireNonNull(toCheck);</b>
+<b class="nc">&nbsp;        return internalList.stream().anyMatch(checkPerson -&gt; checkPerson.hasSameDetails(toCheck));</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Checks if there is an employee ID in the list that has a prefix conflict
+&nbsp;     * with the given employee ID. A prefix conflict occurs when one employee ID
+&nbsp;     * is a prefix of another one.
+&nbsp;     *
+&nbsp;     * @param employeeId the employee ID to check for conflicts.
+&nbsp;     *                   Must not be null.
+&nbsp;     * @return true if a prefix conflict is found, false otherwise.
+&nbsp;     */
+&nbsp;    public boolean hasEmployeeIdPrefixConflict(EmployeeId employeeId) {
+<b class="fc">&nbsp;        requireNonNull(employeeId);</b>
+<b class="fc">&nbsp;        return internalList.stream().anyMatch(person -&gt; person.getEmployeeId().hasPrefixConflict(employeeId));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Checks if there is an employee ID in the list that has a prefix conflict
+&nbsp;     * with the given employee ID, while ignoring a specific employee ID.
+&nbsp;     * A prefix conflict occurs when one employee ID is a prefix of another.
+&nbsp;     *
+&nbsp;     * @param employeeId the employee ID to check for conflicts.
+&nbsp;     * @param toIgnore   the employee ID to be ignored during the check.
+&nbsp;     * @return true if a prefix conflict is found excluding the specified employee ID to ignore, false otherwise.
+&nbsp;     */
+&nbsp;    public boolean hasEmployeeIdPrefixConflictIgnoringSpecific(EmployeeId employeeId, EmployeeId toIgnore) {
+<b class="fc">&nbsp;        requireNonNull(employeeId);</b>
+<b class="fc">&nbsp;        requireNonNull(toIgnore);</b>
+<b class="fc">&nbsp;        return internalList.stream()</b>
+<b class="fc">&nbsp;                .filter(person -&gt; !person.getEmployeeId().equals(toIgnore))</b>
+<b class="fc">&nbsp;                .anyMatch(person -&gt; person.getEmployeeId().hasPrefixConflict(employeeId));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

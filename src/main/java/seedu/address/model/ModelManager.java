@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -187,7 +188,6 @@ public class ModelManager implements Model {
     public ObservableList<Reminder> getReminderList() {
         return FXCollections.unmodifiableObservableList(reminderList);
     }
-
     @Override
     public boolean hasEmployee(Employee employee) {
         requireNonNull(employee);

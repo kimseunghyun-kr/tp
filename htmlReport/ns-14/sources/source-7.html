@@ -1,0 +1,207 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JsonSerializableAddressBook</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.storage</a>
+</div>
+
+<h1>Coverage Summary for Class: JsonSerializableAddressBook (seedu.address.storage)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JsonSerializableAddressBook</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (32/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.storage;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonCreator;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import com.fasterxml.jackson.annotation.JsonRootName;
+&nbsp;
+&nbsp;import lombok.Getter;
+&nbsp;import seedu.address.commons.exceptions.IllegalValueException;
+&nbsp;import seedu.address.model.AddressBook;
+&nbsp;import seedu.address.model.ReadOnlyAddressBook;
+&nbsp;import seedu.address.model.person.Employee;
+&nbsp;
+&nbsp;/**
+&nbsp; * An Immutable AddressBook that is serializable to JSON format.
+&nbsp; */
+&nbsp;@JsonRootName(value = &quot;addressbook&quot;)
+&nbsp;@Getter
+&nbsp;public class JsonSerializableAddressBook {
+&nbsp;
+&nbsp;    public static final String MESSAGE_DUPLICATE_PERSON = &quot;Persons list contains duplicate employee(s).&quot;;
+&nbsp;
+<b class="fc">&nbsp;    private final List&lt;JsonAdaptedPerson&gt; persons = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
+&nbsp;     */
+&nbsp;    @JsonCreator
+<b class="fc">&nbsp;    public JsonSerializableAddressBook(@JsonProperty(&quot;persons&quot;) List&lt;JsonAdaptedPerson&gt; persons) {</b>
+<b class="fc">&nbsp;        this.persons.addAll(persons);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts a given {@code ReadOnlyAddressBook} into this class for Jackson use.
+&nbsp;     *
+&nbsp;     * @param source future changes to this will not affect the created {@code JsonSerializableAddressBook}.
+&nbsp;     */
+<b class="fc">&nbsp;    public JsonSerializableAddressBook(ReadOnlyAddressBook source) {</b>
+<b class="fc">&nbsp;        persons.addAll(source.getEmployeeList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts this address book into the model&#39;s {@code AddressBook} object.
+&nbsp;     *
+&nbsp;     * @throws IllegalValueException if there were any data constraints violated.
+&nbsp;     */
+&nbsp;    public AddressBook toModelType() throws IllegalValueException {
+<b class="fc">&nbsp;        AddressBook addressBook = new AddressBook();</b>
+<b class="fc">&nbsp;        for (JsonAdaptedPerson jsonAdaptedPerson : persons) {</b>
+<b class="fc">&nbsp;            Employee employee = jsonAdaptedPerson.toModelType();</b>
+<b class="fc">&nbsp;            if (addressBook.hasPerson(employee)) {</b>
+<b class="fc">&nbsp;                throw new IllegalValueException(MESSAGE_DUPLICATE_PERSON);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            addressBook.addPerson(employee);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return addressBook;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Aggregates persons with the same name and merges their anniversaries.
+&nbsp;     * @return a new JsonSerializableAddressBook with aggregated persons
+&nbsp;     */
+&nbsp;    public JsonSerializableAddressBook aggregatePersons() {
+<b class="fc">&nbsp;        Map&lt;PersonKey, List&lt;JsonAdaptedAnniversary&gt;&gt; groupedAnniversaries = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (JsonAdaptedPerson person : persons) {</b>
+<b class="fc">&nbsp;            PersonKey key = PersonKey.from(person);</b>
+<b class="fc">&nbsp;            groupedAnniversaries</b>
+<b class="fc">&nbsp;                    .computeIfAbsent(key, k -&gt; new ArrayList&lt;&gt;())</b>
+<b class="fc">&nbsp;                    .addAll(person.getAnniversaries());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;JsonAdaptedPerson&gt; aggregatedPersons = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Map.Entry&lt;PersonKey, List&lt;JsonAdaptedAnniversary&gt;&gt; entry : groupedAnniversaries.entrySet()) {</b>
+<b class="fc">&nbsp;            JsonAdaptedPerson mergedPerson = entry.getKey().toJsonAdaptedPerson(); // base employee</b>
+<b class="fc">&nbsp;            List&lt;JsonAdaptedAnniversary&gt; merged = entry.getValue().stream()</b>
+<b class="fc">&nbsp;                    .distinct() // remove duplicates if equals() is overridden in JsonAdaptedAnniversary</b>
+<b class="fc">&nbsp;                    .collect(Collectors.toList());</b>
+<b class="fc">&nbsp;            mergedPerson.getAnniversaries().addAll(merged);</b>
+<b class="fc">&nbsp;            aggregatedPersons.add(mergedPerson);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        return new JsonSerializableAddressBook(aggregatedPersons);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

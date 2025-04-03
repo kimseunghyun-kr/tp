@@ -1,0 +1,257 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JsonAdaptedPerson</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.storage</a>
+</div>
+
+<h1>Coverage Summary for Class: JsonAdaptedPerson (seedu.address.storage)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JsonAdaptedPerson</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (26/26)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.9%
+  </span>
+  <span class="absValue">
+    (62/64)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.storage;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonCreator;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;
+&nbsp;import lombok.Data;
+&nbsp;import seedu.address.commons.exceptions.IllegalValueException;
+&nbsp;import seedu.address.model.anniversary.Anniversary;
+&nbsp;import seedu.address.model.person.Email;
+&nbsp;import seedu.address.model.person.Employee;
+&nbsp;import seedu.address.model.person.EmployeeId;
+&nbsp;import seedu.address.model.person.JobPosition;
+&nbsp;import seedu.address.model.person.Name;
+&nbsp;import seedu.address.model.person.Phone;
+&nbsp;import seedu.address.model.tag.Tag;
+&nbsp;
+&nbsp;/**
+&nbsp; * Jackson-friendly version of {@link Employee}.
+&nbsp; */
+&nbsp;@Data
+&nbsp;public class JsonAdaptedPerson {
+&nbsp;
+&nbsp;    public static final String MISSING_FIELD_MESSAGE_FORMAT = &quot;Employee&#39;s %s field is missing!&quot;;
+&nbsp;    public static final String MALFORMED_FIELD_MESSAGE_FORMAT = &quot;Employee&#39;s %s field is malformed!&quot;;
+&nbsp;    private final String employeeId;
+&nbsp;    private final String name;
+&nbsp;    private final String phone;
+&nbsp;    private final String email;
+&nbsp;    private final String jobposition;
+<b class="fc">&nbsp;    private final List&lt;JsonAdaptedTag&gt; tags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;    private final List&lt;JsonAdaptedAnniversary&gt; anniversaries = new ArrayList&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructs a {@code JsonAdaptedPerson} with the given employee details.
+&nbsp;     */
+&nbsp;    @JsonCreator
+&nbsp;    public JsonAdaptedPerson(@JsonProperty(&quot;employeeId&quot;) String employeeId,
+&nbsp;                             @JsonProperty(&quot;name&quot;) String name, @JsonProperty(&quot;phone&quot;) String phone,
+&nbsp;                             @JsonProperty(&quot;email&quot;) String email, @JsonProperty(&quot;job&quot;) String jobposition,
+&nbsp;                             @JsonProperty(&quot;tags&quot;) List&lt;JsonAdaptedTag&gt; tags,
+<b class="fc">&nbsp;                             @JsonProperty(&quot;anniversaries&quot;) List&lt;JsonAdaptedAnniversary&gt; anniversaries) {</b>
+<b class="fc">&nbsp;        this.name = name;</b>
+<b class="fc">&nbsp;        this.phone = phone;</b>
+<b class="fc">&nbsp;        this.email = email;</b>
+<b class="fc">&nbsp;        this.jobposition = jobposition;</b>
+<b class="fc">&nbsp;        this.employeeId = employeeId;</b>
+<b class="fc">&nbsp;        if (tags != null) {</b>
+<b class="fc">&nbsp;            this.tags.addAll(tags);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (anniversaries != null) {</b>
+<b class="fc">&nbsp;            this.anniversaries.addAll(anniversaries);</b>
+&nbsp;        }
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts a given {@code Employee} into this class for Jackson use.
+&nbsp;     */
+<b class="fc">&nbsp;    public JsonAdaptedPerson(Employee source) {</b>
+<b class="fc">&nbsp;        employeeId = source.getEmployeeId().toString();</b>
+<b class="fc">&nbsp;        name = source.getName().fullName;</b>
+<b class="fc">&nbsp;        phone = source.getPhone().value;</b>
+<b class="fc">&nbsp;        email = source.getEmail().value;</b>
+<b class="fc">&nbsp;        jobposition = source.getJobPosition().value;</b>
+<b class="fc">&nbsp;        tags.addAll(source.getTags().stream()</b>
+<b class="fc">&nbsp;                .map(JsonAdaptedTag::new)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList()));</b>
+<b class="fc">&nbsp;        anniversaries.addAll(source.getAnniversaries().stream()</b>
+<b class="fc">&nbsp;                .map(JsonAdaptedAnniversary::new)</b>
+<b class="fc">&nbsp;                .collect(Collectors.toList()));</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Converts this Jackson-friendly adapted employee object into the model&#39;s {@code Employee} object.
+&nbsp;     *
+&nbsp;     * @throws IllegalValueException if there were any data constraints violated in the adapted employee.
+&nbsp;     */
+&nbsp;    public Employee toModelType() throws IllegalValueException {
+<b class="fc">&nbsp;        final List&lt;Tag&gt; personTags = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        final List&lt;Anniversary&gt; personAnniversaries = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (JsonAdaptedTag tag : tags) {</b>
+<b class="fc">&nbsp;            personTags.add(tag.toModelType());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        for (JsonAdaptedAnniversary anniversary : anniversaries) {</b>
+<b class="fc">&nbsp;            personAnniversaries.add(anniversary.toModelType());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if (employeeId == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,</b>
+<b class="fc">&nbsp;                    EmployeeId.class.getSimpleName()));</b>
+&nbsp;        }
+&nbsp;        EmployeeId employeeIdObj;
+&nbsp;        try {
+<b class="fc">&nbsp;            employeeIdObj = EmployeeId.fromString(employeeId);</b>
+&nbsp;        } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;            throw new IllegalValueException(String.format(MALFORMED_FIELD_MESSAGE_FORMAT,</b>
+<b class="nc">&nbsp;                    EmployeeId.class.getSimpleName()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (name == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!Name.isValidName(name)) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        final Name modelName = new Name(name);</b>
+<b class="fc">&nbsp;        if (phone == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!Phone.isValidPhone(phone)) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        final Phone modelPhone = new Phone(phone);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (email == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!Email.isValidEmail(email)) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        final Email modelEmail = new Email(email);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (jobposition == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,</b>
+<b class="fc">&nbsp;                    JobPosition.class.getSimpleName()));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!JobPosition.isValidJobPosition(jobposition)) {</b>
+<b class="fc">&nbsp;            throw new IllegalValueException(JobPosition.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        final JobPosition modelJobPosition = new JobPosition(jobposition);</b>
+<b class="fc">&nbsp;        final Set&lt;Tag&gt; modelTags = new HashSet&lt;&gt;(personTags);</b>
+<b class="fc">&nbsp;        final List&lt;Anniversary&gt; modelAnniversaries = new ArrayList&lt;&gt;(personAnniversaries);</b>
+<b class="fc">&nbsp;        return new Employee(employeeIdObj, modelName, modelPhone,</b>
+&nbsp;                modelEmail, modelJobPosition, modelTags, modelAnniversaries);
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>

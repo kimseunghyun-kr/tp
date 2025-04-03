@@ -1,0 +1,333 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ParserUtil</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">seedu.address.logic.parser</a>
+</div>
+
+<h1>Coverage Summary for Class: ParserUtil (seedu.address.logic.parser)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ParserUtil</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (34/34)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.5%
+  </span>
+  <span class="absValue">
+    (66/67)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package seedu.address.logic.parser;
+&nbsp;
+&nbsp;import static java.util.Objects.requireNonNull;
+&nbsp;
+&nbsp;import java.util.Collection;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Set;
+&nbsp;import java.util.logging.Logger;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;import seedu.address.commons.core.LogsCenter;
+&nbsp;import seedu.address.commons.core.index.Index;
+&nbsp;import seedu.address.commons.util.StringUtil;
+&nbsp;import seedu.address.logic.parser.exceptions.ParseException;
+&nbsp;import seedu.address.model.person.Email;
+&nbsp;import seedu.address.model.person.EmployeeId;
+&nbsp;import seedu.address.model.person.JobPosition;
+&nbsp;import seedu.address.model.person.Name;
+&nbsp;import seedu.address.model.person.Phone;
+&nbsp;import seedu.address.model.tag.Tag;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contains utility methods used for parsing strings in the various *Parser classes.
+&nbsp; */
+<b class="nc">&nbsp;public class ParserUtil {</b>
+&nbsp;
+&nbsp;    public static final String MESSAGE_INVALID_INDEX = &quot;Index is not a non-zero unsigned integer.&quot;;
+&nbsp;    public static final String MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED = &quot;Employee id prefix not specified!&quot;;
+&nbsp;    public static final String MESSAGE_EMPLOYEE_ID_PREFIX_FORMAT = &quot;Employee id can&#39;t start contain spaces!&quot;;
+&nbsp;    public static final int MAX_ALLOWED_LENGTH = 1000; // Maximum allowed length for input strings
+<b class="fc">&nbsp;    public static final Pattern DANGEROUS_INPUT_PATTERN = Pattern.compile(</b>
+&nbsp;            &quot;(?i)\\b(drop|delete|insert|update|truncate|exec|script)\\b|&lt;[^&gt;]+&gt;&quot;
+&nbsp;    );
+<b class="fc">&nbsp;    public static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile(&quot;[\\p{Cntrl}&amp;&amp;[^\r\n\t]]&quot;);</b>
+<b class="fc">&nbsp;    private static final Logger logger = LogsCenter.getLogger(ParserUtil.class);</b>
+&nbsp;    /**
+&nbsp;     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
+&nbsp;     * trimmed.
+&nbsp;     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+&nbsp;     */
+&nbsp;    public static Index parseIndex(String oneBasedIndex) throws ParseException {
+<b class="fc">&nbsp;        String trimmedIndex = oneBasedIndex.trim();</b>
+<b class="fc">&nbsp;        if (!StringUtil.isNonZeroUnsignedInteger(trimmedIndex)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(MESSAGE_INVALID_INDEX);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return Index.fromOneBased(Integer.parseInt(trimmedIndex));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String employeeId} into a {@code UUID}.
+&nbsp;     * Leading and trailing whitespaces will be trimmed.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code name} is invalid.
+&nbsp;     */
+&nbsp;    public static EmployeeId parseEmployeeId(String employeeId) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(employeeId);</b>
+<b class="fc">&nbsp;        String trimmedEmployeeId = employeeId.trim();</b>
+<b class="fc">&nbsp;        if (!EmployeeId.isValidEmployeeId(trimmedEmployeeId)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(EmployeeId.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return EmployeeId.fromString(trimmedEmployeeId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String employeeIdPrefix} into a {@code String}.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code employeeIdPrefix} is empty or contains spaces.
+&nbsp;     */
+&nbsp;    public static EmployeeId parseEmployeeIdPrefix(String employeeIdPrefix) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(employeeIdPrefix);</b>
+<b class="fc">&nbsp;        if (employeeIdPrefix.isEmpty()) {</b>
+<b class="fc">&nbsp;            throw new ParseException(MESSAGE_EMPLOYEE_ID_PREFIX_NOT_SPECIFIED);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        employeeIdPrefix = employeeIdPrefix.trim();</b>
+<b class="fc">&nbsp;        if (!EmployeeId.isValidEmployeeId(employeeIdPrefix)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(EmployeeId.MESSAGE_PREFIX_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return EmployeeId.fromString(employeeIdPrefix);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String name} into a {@code Name}.
+&nbsp;     * Leading and trailing whitespaces will be trimmed.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code name} is invalid.
+&nbsp;     */
+&nbsp;    public static Name parseName(String name) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(name);</b>
+<b class="fc">&nbsp;        String trimmedName = name.trim();</b>
+<b class="fc">&nbsp;        if (!Name.isValidName(trimmedName)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(Name.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new Name(trimmedName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String phone} into a {@code Phone}.
+&nbsp;     * Leading and trailing whitespaces will be trimmed.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code phone} is invalid.
+&nbsp;     */
+&nbsp;    public static Phone parsePhone(String phone) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(phone);</b>
+<b class="fc">&nbsp;        String trimmedPhone = phone.trim();</b>
+<b class="fc">&nbsp;        if (!Phone.isValidPhone(trimmedPhone)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new Phone(trimmedPhone);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String address} into an {@code Address}.
+&nbsp;     * Leading and trailing whitespaces will be trimmed.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code address} is invalid.
+&nbsp;     */
+&nbsp;    public static JobPosition parseJobPosition(String jobposition) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(jobposition);</b>
+<b class="fc">&nbsp;        String trimmedjobposition = jobposition.trim();</b>
+<b class="fc">&nbsp;        if (!JobPosition.isValidJobPosition(trimmedjobposition)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(JobPosition.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new JobPosition(trimmedjobposition);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String email} into an {@code Email}.
+&nbsp;     * Leading and trailing whitespaces will be trimmed.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code email} is invalid.
+&nbsp;     */
+&nbsp;    public static Email parseEmail(String email) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(email);</b>
+<b class="fc">&nbsp;        String trimmedEmail = email.trim();</b>
+<b class="fc">&nbsp;        if (!Email.isValidEmail(trimmedEmail)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(Email.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new Email(trimmedEmail);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses a {@code String tag} into a {@code Tag}.
+&nbsp;     * Leading and trailing whitespaces will be trimmed.
+&nbsp;     *
+&nbsp;     * @throws ParseException if the given {@code tag} is invalid.
+&nbsp;     */
+&nbsp;    public static Tag parseTag(String tag) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(tag);</b>
+<b class="fc">&nbsp;        String trimmedTag = tag.trim();</b>
+<b class="fc">&nbsp;        if (!Tag.isValidTagName(trimmedTag)) {</b>
+<b class="fc">&nbsp;            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new Tag(trimmedTag);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Parses {@code Collection&lt;String&gt; tags} into a {@code Set&lt;Tag&gt;}.
+&nbsp;     */
+&nbsp;    public static Set&lt;Tag&gt; parseTags(Collection&lt;String&gt; tags) throws ParseException {
+<b class="fc">&nbsp;        requireNonNull(tags);</b>
+<b class="fc">&nbsp;        final Set&lt;Tag&gt; tagSet = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (String tagName : tags) {</b>
+<b class="fc">&nbsp;            tagSet.add(parseTag(tagName));</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return tagSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+&nbsp;     * {@code ArgumentMultimap}.
+&nbsp;     */
+&nbsp;    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+<b class="fc">&nbsp;        return Stream.of(prefixes).allMatch(prefix -&gt; argumentMultimap.getValue(prefix).isPresent());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Validates that the input string does not contain any dangerous content or control characters.
+&nbsp;     * Validation can skip null and/or empty checks depending on the provided flags.
+&nbsp;     *
+&nbsp;     * @param input the input string to validate
+&nbsp;     * @param fieldName the name of the field for error messages
+&nbsp;     * @param allowNull if true, allows null input and returns early
+&nbsp;     * @param allowEmpty if true, allows empty or whitespace-only input
+&nbsp;     * @throws ParseException if the input is invalid based on the active rules
+&nbsp;     */
+&nbsp;    public static void validateSafeContent(String input, String fieldName, boolean allowNull, boolean allowEmpty)
+&nbsp;            throws ParseException {
+&nbsp;
+<b class="fc">&nbsp;        if (input == null) {</b>
+<b class="fc">&nbsp;            if (allowNull) {</b>
+<b class="fc">&nbsp;                logger.info(String.format(&quot;The %s is null.&quot;, fieldName));</b>
+<b class="fc">&nbsp;                return;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            throw new ParseException(&quot;The &quot; + fieldName + &quot; cannot be null.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String trimmedInput = input.trim();</b>
+<b class="fc">&nbsp;        if (trimmedInput.isEmpty() &amp;&amp; !allowEmpty) {</b>
+<b class="fc">&nbsp;            throw new ParseException(&quot;The &quot; + fieldName + &quot; cannot be empty.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (input.length() &gt; MAX_ALLOWED_LENGTH) {</b>
+<b class="fc">&nbsp;            throw new ParseException(&quot;The &quot; + fieldName + &quot; is too long (max &quot; + MAX_ALLOWED_LENGTH + &quot; characters).&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (DANGEROUS_INPUT_PATTERN.matcher(input).find()) {</b>
+<b class="fc">&nbsp;            throw new ParseException(&quot;The &quot; + fieldName + &quot; contains potentially dangerous content.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (CONTROL_CHAR_PATTERN.matcher(input).find()) {</b>
+<b class="fc">&nbsp;            throw new ParseException(&quot;The &quot; + fieldName + &quot; contains invalid control characters.&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-03 01:00</div>
+</div>
+</body>
+</html>
