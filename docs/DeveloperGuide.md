@@ -28,21 +28,21 @@ title: H'Reers Developer Guide
     9. [Export](#export-feature)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
-    1. [Product Scope](#product-scope)
-    2. [User Stories](#user-stories)
-    3. [Use Cases](#use-cases)
-    4. [Non-Functional Requirements](#non-functional-requirements)
-    5. [Glossary](#glossary)
+   1. [Product Scope](#product-scope)
+   2. [User Stories](#user-stories)
+   3. [Use Cases](#use-cases)
+   4. [Non-Functional Requirements](#non-functional-requirements)
+   5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
     1. Core Features
-        1. [Add Employee Records](#add-employee-records)
-        2. [Edit Employee Records](#edit-employee-records)
-        3. [Delete Employee Records](#delete-employee-records)
-        4. [Undo Changes](#undo-changes)
+      1. [Add Employee Records](#add-employee-records)
+      2. [Edit Employee Records](#edit-employee-records)
+      3. [Delete Employee Records](#delete-employee-records)
+      4. [Undo Changes](#undo-changes)
     2. [Anniversary Commands](#anniversary-commands)
-        1. [AddAnniversaryCommand](#addanniversarycommand)
-        2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
-        3. [ShowAnniversaryCommand](#showanniversarycommand)
+      1. [AddAnniversaryCommand](#addanniversarycommand)
+      2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+      3. [ShowAnniversaryCommand](#showanniversarycommand)
     3. [Reminder Feature](#viewing-upcoming-anniversaries-reminder-feature)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -299,6 +299,42 @@ This triggers the `ReminderCommand`, which performs the following steps internal
 > 💡 **Note:**  
 > If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
 
+Internally, this feature is supported by:
+- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
+- `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
+- `Model#getReminderList()` – Provides read-only access to the current list of reminders.
+- `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
+
+The `ReminderCommand` executes the following:
+1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
+2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
+3. Results are sorted by upcoming date and stored in an observable list.
+4. The UI automatically updates by binding to this observable list.
+
+Given below is an example use case showing how the reminder feature behaves step-by-step.
+
+**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
+
+**Step 2.** The user executes the command:
+```
+reminder
+```  
+This triggers the `ReminderCommand`, which performs the following steps internally:
+- Retrieves all employees via `Model#getFilteredPersonList()`.
+- For each employee, iterates through all anniversaries.
+- Checks whether each anniversary is within **3 days** from today.
+- Creates a `Reminder` object for each upcoming event.
+- Sorts the list of reminders by date.
+- Stores the sorted reminders in an observable list using `Model#updateReminderList()`.
+
+**Step 3.** The `ReminderListPanel` in the UI detects the update in the observable list and renders each reminder using a `ReminderCard`. Each card shows:
+- The employee’s name and job position.
+- The type of anniversary (e.g., "Birthday", "Work Anniversary").
+- A short description and how soon the event is (e.g., “upcoming in 2 days”).
+
+> 💡 **Note:**  
+> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
+
 > 🛡️ **Note:**  
 > Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
 
@@ -393,6 +429,24 @@ The `import` feature allows users to load external data from JSON or CSV files i
 It supports two write modes: `append` (to merge with existing records) and `overwrite` (to replace them entirely).
 
 This feature enhances user productivity by allowing them to integrate employee data from external sources such as HR software exports or spreadsheets.
+
+#### Implementation
+
+The import functionality is primarily handled by the following classes:
+
+- `ImportCommand`: Executes the import logic by calling the format converter and updating the model accordingly.
+- `ImportCommandParser`: Parses the user's import command input and constructs an `ImportCommand` with the appropriate parameters.
+- `AddressBookFormatConverter`: Handles reading from external JSON or CSV files and converting the content into the internal `AddressBook` data structure.
+
+Below is a walkthrough of how the feature works at runtime.
+
+#### Step 1: User executes import command
+
+When the user types a command such as:
+```
+import ft/json fp/data/ fn/contacts wm/append
+```
+the `LogicManager` delegates the parsing to `ImportCommandParser`, which constructs an `ImportCommand` using the provided arguments.
 
 #### Implementation
 
@@ -525,6 +579,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 4. The system displays confirmation: `Employee John Doe added successfully.`
 
 **Alternative Flows:**
+  
 - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
 - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
@@ -542,10 +597,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+---
 #### Use case 2: Showing Anniversaries
 
 **System**: H'Reers
+
 **Use case**: UC02 - Add New Employee
+
 **Actor:** HR Worker
 
 **Preconditions**:
@@ -556,32 +614,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Main Success Scenario (MSS)**:
 1. HR Worker enters the `showAnni` command with the specified employee’s ID.
-2. H'Reers validates that:
-    - The Employee ID exists in the system.
-    - Nothing is added before `eid/`.
-3. H'Reers retrieves the list of anniversaries associated with the employee.
-4. H'Reers opens a new window or panel displaying:
-    - Each anniversary’s name, date, and description (if any).
-5. A confirmation message is displayed, indicating successful retrieval.
-6. Use case ends.
+2. H'Reers retrieves the list of anniversaries associated with the employee. 
+3. H'Reers opens a new window or panel displaying:
+   - Each anniversary’s name, date, and description (if any).
+4. A confirmation message is displayed, indicating successful retrieval. 
+5. Use case ends.
 
 **Extensions**:
-- 2a. Employee Not Found:
-    - H'Reers displays an error message indicating that no employee matches the specified ID.
-    - Use case ends.
+- 1a. Employee Not Found:
+  - H'Reers displays an error message indicating that no employee matches the specified ID. 
+  - Use case ends.
 
-- 2b. Preamble Found:
+- 1b. Preamble Found:
     - H'Reers displays an error message indicating that the correct usage of the command.
     - Use case ends.
 
-- 4a. No anniversaries found:
-    - H'Reers displays a new windows with no anniversaries found.
-    - Use case resume at step 5.
+- 3a. No anniversaries found:
+    - H'Reers displays a new window with no anniversaries found.
+    - Use case resumes at step 5.
+
+---
 
 #### Use case 3: Find Employees
 
 **System**: H'Reers
 **Use case**: UC03 – Find Employees
+
 **Actor:** HR Worker
 
 **Preconditions**:
@@ -595,26 +653,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Main Success Scenario (MSS)**:
 1. HR Worker enters the `find` command with one or more search criteria using supported prefixes (`n/`, `jp/`).
-2. H'Reers validates that:
-    - At least one supported prefix is provided.
-    - No invalid preamble exists before the prefixes.
-    - At least one non-empty search field is present.
-3. H'Reers filters the employee list using a combined predicate and displays the filtered list.
-4. A confirmation message is shown, indicating how many matches were found.
-5. Use case ends.
+2. H'Reers filters the employee list using a combined predicate and displays the filtered list.
+3. A success message is shown indicating how many results were found.
+4. Use case ends.
 
 **Extensions**:
-- 2a. Employee Not Found:
-    - H'Reers displays an error message indicating that no employee matches the specified ID.
-    - Use case ends.
+- 1a. No Prefix Provided:
+  - H'Reers displays an error message indicating to add at least one prefix.
+  - Use case ends.
 
-- 2b. Preamble Found:
-    - H'Reers displays an error message indicating that the correct usage of the command.
-    - Use case ends.
+- 1b. Preamble Found:
+  - H'Reers displays an error message indicating the command format is invalid.
+  - Use case ends.
 
-- 4a. No anniversaries found:
-    - H'Reers displays a new windows with no anniversaries found.
-    - Use case resume at step 5.
+- 1c. All Fields Empty:
+  - H'Reers displays an error message indicating to add at least one prefix.
+  - Use case ends.
+
+- 2a. No Matching Employees Found:
+  - H'Reers displays an empty list.
+  - Use case resume at step 3.
+---
 
 ### Non-Functional Requirements
 
@@ -635,7 +694,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - CLI commands must follow consistent syntax patterns
 - New HR users should master core functions within 10 minutes
 - A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse
-- Error messages must clearly explain issues and suggest corrections
+- Error messages must clearly explain issues and suggest corrections 
 
 4. **Compatibility**
 - Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
@@ -679,6 +738,7 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 ---
+### Core Features
 
 ---
 ### Add Employee Records
@@ -736,7 +796,7 @@ testers are expected to do more *exploratory* testing.
     - Verify that if an employee has multiple upcoming anniversaries, they appear as **separate entries**.
     - Confirm that expired or future anniversaries **outside the 3-day window** are **not shown**.
 
-#### 3. Edge case testing
+3. Edge case testing
 
 - **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`  
   **Expected**: Reminder card for this birthday appears in the list.
@@ -750,6 +810,9 @@ testers are expected to do more *exploratory* testing.
 - **Test case**: Add reminders for multiple employees  
   **Expected**: All applicable reminders appear and are correctly sorted by date.
 
+4. Returning the Outcome:
+- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
+ 
 ---
 ### **Save Employee Records**
 #### Purpose:
@@ -767,11 +830,31 @@ Ensures employee records persist across sessions.
 - Intermediate .tmp file for autosave.
 
 ---
-
 ## **Appendix: Planned Enhancements**
 
-Team Size: 5
+Team Size: 5 
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. 
+1. **Address the fullscreen bug issue for all windows**
+- **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
+- **Method to recreate (main)**
+  1. When running the app
+  2. Open the app in fullscreen
+  3. Type help
+  4. Close help window
+  5. Repeat 3 and 4 enough times and the app will crash
+- **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+- **Method to recreate (anniversary)**
+  1. Open app
+  2. Type showAnni xxx
+  3. Fullscreen app and tile them side to side
+  4. Close anni window
+  5. App stops running and hangs
+- **Current Workaround**: Do not use fullscreen mode.
+- **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
+  
+2. **Stop enforcing the absence of prefix conflicts**
+    - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
+    - **Current Workaround**: Have limited space for employees in the system.
+    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.

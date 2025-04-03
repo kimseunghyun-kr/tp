@@ -56,7 +56,8 @@ public class ExportCommand extends Command {
         } catch (Exception e) {
             throw new CommandException("Error exporting data: " + e.getMessage());
         }
-        return new CommandResult("Exported " + displayedPeople + " employees in " + filetype
-                + " format to " + path);
+        String pathString = path != null ? path.toString() : "jar file location";
+        return new CommandResult("Exported " + displayedPeople.size() + " employees in " + filetype
+                + " format to " + pathString);
     }
 }
