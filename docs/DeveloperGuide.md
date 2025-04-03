@@ -438,9 +438,73 @@ undo
 #### Purpose:
 Allows HR workers to manage employee anniversaries.
 
+---
+
 ### **AddAnniversaryCommand**
-- **Description**: Creates a new anniversary entry for an existing employee.
-- **Usage**: `anniversary eid/EMPLOYEE_ID_PREFIX d/DATE n/ANNIVERSARY_NAME [ad/DESCRIPTION] [at/TYPE]...`
+### Adding Anniversaries: `addAnni`
+- **Description**: Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
+
+#### Command Format
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+```
+short form support for Birthdays
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
+```
+short form support for Work Anniversaries
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
+```
+
+| **Prefix** | **Meaning**                                               | **Required?**                     | **Example Value**      |
+|------------|-----------------------------------------------------------|-----------------------------------|------------------------|
+| `eid/`      | A partial prefix of the Employee ID                       | Required                          | `0c2414da`             |
+| `d/`       | The date of the anniversary                               | Required                          | `2025-03-13`           |
+| `an/`      | A short name for the anniversary                          | Required                          | `Silver Wedding`       |
+| `at/`      | The main category/type of the event                       | Required                          | `Wedding`              |
+| `desc/`    | A text description of the anniversary                     | Optional                          | `Celebrating 25 years` |
+| `atdesc/`  | A description of the type                                 | Optional                          | `Personal`, `Work`     |
+| `bd/`      | A short name for the birthday                             | Optional                          | `Birthday`             |
+| `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
+| `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
+
+> **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
+
+#### Example Usage
+```plaintext
+addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
+- `at/Wedding`: The name of the anniversary type - `Wedding`
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
+
+If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
+
+```plaintext
+addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+
+```plaintext
+addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+
+#### Parameter Rules:
+
 - **Constraints**:
     - Valid date format: YYYY-MM-DD
     - Must specify at least one `at/` prefix
@@ -449,8 +513,6 @@ Allows HR workers to manage employee anniversaries.
   - d/ must be a valid date in `YYYY-MM-DD`
   - n/ is the anniversary name
   - at/ is at least one type (e.g., personal, family)
-- **Optional**:
-  - ad/ is an extra description (e.g., birthday celebration, gift ideas)
 - **Example**:
   - `anniversary eid/abc d/2025-01-01 n/Birthday at/Personal`
   - `anniversary eid/1234 d/2023-12-25 n/ChristmasParty ad/GiftExchange at/Cultural`

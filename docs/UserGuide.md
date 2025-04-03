@@ -367,19 +367,13 @@ If exactly one employee’s ID starts with `0c2414da`, this will create a `work 
 **2. Duplicate Anniversary Detection**
 - The command checks existing anniversaries for the same date, name, description, and type.
 
-**3. Multiple Type Descriptors**
-- `atdesc/` can be repeated multiple times.
-
-**4. Prefix Order**
-- Required prefixes must appear: `eid/`, `d/`, `an/`, `at/`.
-
-**5. Date Formatting**
+**3. Date Formatting**
 - Must be in `YYYY-MM-DD` format.
 
-**6. Description Field**
+**4. Description Field**
 - `ad/` is optional.
 
-**7. Successful Addition**
+**5. Successful Addition**
 - A success message is displayed upon completion.
 </details>
 
