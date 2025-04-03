@@ -165,6 +165,7 @@ public class ModelManager implements Model {
         );
         return Optional.of(reminder);
     }
+    
     //@@author cscms03
     /**
      * Returns the next occurrence of a given date (month and day),
@@ -177,7 +178,8 @@ public class ModelManager implements Model {
      */
     private LocalDate getNextOccurrence(LocalDate date) {
         if (date == null) {
-            return null;}
+            return null;
+        }
 
         LocalDate today = LocalDate.now();
 
@@ -197,11 +199,11 @@ public class ModelManager implements Model {
         }
     }
 
-
     @Override
     public ObservableList<Reminder> getReminderList() {
         return FXCollections.unmodifiableObservableList(reminderList);
     }
+    
     @Override
     public boolean hasEmployee(Employee employee) {
         requireNonNull(employee);
