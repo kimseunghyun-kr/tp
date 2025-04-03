@@ -302,7 +302,6 @@ With just a few commands, you can:
 ### Adding Anniversaries: `addAnni`
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
-
 As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
 As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
