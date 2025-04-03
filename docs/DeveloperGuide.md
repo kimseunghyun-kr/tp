@@ -140,7 +140,7 @@ The edit command is implemented by the `EditCommand` class, which extends the ab
 
 The edit command also supports the undo/redo feature by preserving the previous state via the model's commit function.
 
-![EditCommandDiagram](images/EditCommandDiagram.png)
+![EditCommandDiagram](images/EditSequenceDiagram.png)
 
 ### **Undo Changes**
 #### Purpose:
