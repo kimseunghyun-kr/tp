@@ -770,6 +770,8 @@ Allows HR workers to manage employee anniversaries.
 
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
+As the app's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+As a precautionary measure against deliberate attacks, certain words, such as `drop` or other backspace characters are disallowed in usage in some fields.
 
 #### Command Format
 ``` plaintext
@@ -850,6 +852,7 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 - **success:** `New anniversary added: <anniversary_details>`
 - **Failure Cases**:
     - Missing Required Fields: `Invalid command format! <AddAnniversaryCommand MESSAGE_USAGE>`
+    - Dangerous content: `The anniversary name/type contains potentially dangerous content.`
     - Invalid employeeId format : `"Employee ID prefix must be 1-36 characters long, containing only letters, digits, and '-'.";`
     - Invalid mix of fields : `Invalid command format! Cannot mix standard anniversary fields with birthday or work anniversary fields.`
     - Invalid Date: `Invalid command format! Invalid date format! Please use the format YYYY-MM-DD.`
@@ -1050,8 +1053,8 @@ This will save your current contact list as a file named `output.json` in the fo
   - The final resolved file path must have an extension that exactly matches the provided file type (.json for json and .csv for csv).
 #### Outputs:
 Success:
-- On successful export, the command returns a message formatted as: `Exported <displayed_employees> employees in <filetype> format to <resolved_path>`
-- `<displayed_employees>` lists the employees that were visible at the time of export.
+- On successful export, the command returns a message formatted as: `Exported <num_displayed_employees> employees in <filetype> format to <resolved_path>`
+- `<num_displayed_employees>` number of employees that were visible at the time of export.
 - `<resolved_path>` is the final file path where data was exported.
 
 Failure Cases:
@@ -1092,7 +1095,7 @@ Failure Cases:
 - Any errors during file writing or conversion result in a caught exception and an appropriate error message.
 
 4. Returning the Outcome:
-- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees, file type, and resolved file path).
+- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
 
 ![exportCommand](images/ExportSequenceDiagram.png)
 
@@ -1184,7 +1187,25 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. Stop enforcing the absence of prefix conflicts
+
+1. Address the fullscreen bug issue for all windows
+- Description : Closing windows in fullscreen may cause it to crash.
+- Method to recreate (main)
+  2. When running the app
+  3. Open the app in fullscreen
+  4. Type help
+  5. Close help window
+  6. Repeat 3 and 4 enough times and the app will crash
+- Description : Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+- Method to recreate (anniversary)
+  1. Open app
+  2. Type showAnni xxx
+  3. Fullscreen app and tile them side to side
+  4. Close anni window
+  5. App stops running and hangs
+  
+2. Stop enforcing the absence of prefix conflicts
     - Current prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - To resolve this, we plan to stop requiring the absence of prefix conflicts.
     - Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+

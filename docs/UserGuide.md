@@ -118,6 +118,8 @@ Whether you’re onboarding someone, searching through your team list, or making
 
 You’ll also find helpful notes below on how to format your commands, including optional fields, parameter order, and best practices.
 
+All commands are **Case sensitive** and must be entered exactly as shown.
+
 ---
 
 <div markdown="block" class="alert alert-info">
@@ -300,7 +302,8 @@ With just a few commands, you can:
 ### Adding Anniversaries: `addAnni`
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
-
+As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can use this format in 3 ways!
@@ -688,6 +691,7 @@ Explanation:
 `ft/json` — file type is JSON
 
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+As a convenience, on the in-app output, it will show how many employees have been saved.
 
 
 #### Options Summary
