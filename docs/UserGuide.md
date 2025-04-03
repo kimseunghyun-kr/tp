@@ -170,6 +170,9 @@ Date format: `YYYY-MM-DD`
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the add command:**<br>
+* The name only allows letters, numbers, and spaces.
+  e.g. `n/John Doe` is valid, but `n/John@Doe` is not.
+
 * You can include as many tags per person as you like — or none at all.
 
 * Use bd/ for the employee’s birthday and wa/ for their work anniversary.

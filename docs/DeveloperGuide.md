@@ -772,35 +772,6 @@ add n/Linda Lee p/98765432 e/lindalee@example.com jp/Nurse bd/12-01-2000
 * Command fails with error message: `Anniversary date must be in YYYY-MM-DD format.`
 * No employee is added.
 
-#### Purpose:
-Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
-
-#### Command Format:
-```
-add n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY e/EMAIL t/TAGS
-```
-
-#### Example Commands:
-```
-add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
-```
-
-#### Parameter Rules:
-- **Name**: Alphabets and spaces only, case-insensitive.
-- **Position**: Must match predefined job titles.
-- **Birthday & Work Anniversary**: Format - YYYY-MM-DD.
-- **Email**: Must contain '@domainname.com'.
-
-#### Outputs:
-- **Success**: `Employee John Doe added successfully.`
-- **Failure**: `Error: Invalid date format.`
-
-#### Duplicate Handling:
-- If an employee with the same email exists: `Error: Employee already exists.`
-
-#### Additional Targets:
-- Partial addition of data.
-- Import employee records from CSV.
 ---
 ### Delete Employee Records
 
