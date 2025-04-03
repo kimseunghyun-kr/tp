@@ -418,7 +418,8 @@ The edit command also supports the undo/redo feature by preserving the previous 
 
 ![EditCommandDiagram](images/EditSequenceDiagram.png)
 
-### **Undo Changes**
+### Undo Changes
+
 #### Purpose:
 Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
 
@@ -440,6 +441,7 @@ Allows HR workers to manage employee anniversaries.
 
 ---
 ### AddAnniversaryCommand
+
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
@@ -544,6 +546,7 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 
 ---
 ### DeleteAnniversaryCommand
+
 #### Purpose
 removes a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
