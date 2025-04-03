@@ -991,11 +991,20 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. Address the fullscreen bug issue
-- Method to recreate
-  1. Closing windows in fullscreen may cause it to crash.
+1. Address the fullscreen bug issue for all windows
+- Description : Closing windows in fullscreen may cause it to crash.
+- Method to recreate (main)
+  1. 
   2. When running the app
   3. Open the app in fullscreen
   4. Type help
   5. Close help window
   6. Repeat 3 and 4 enough times and the app will crash
+- Description : Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+- Method to recreate (anniversary)
+  1. Open app
+  2. Type showAnni xxx
+  3. Fullscreen app and tile them side to side
+  4. Close anni window
+  5. App stops running and hangs
+2. 

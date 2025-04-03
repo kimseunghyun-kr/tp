@@ -118,6 +118,8 @@ Whether you’re onboarding someone, searching through your team list, or making
 
 You’ll also find helpful notes below on how to format your commands, including optional fields, parameter order, and best practices.
 
+All commands are **Case sensitive** and must be entered exactly as shown.
+
 ---
 
 <div markdown="block" class="alert alert-info">
