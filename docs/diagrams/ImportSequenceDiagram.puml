@@ -2,41 +2,46 @@
 
 title Sequence Diagram for ImportCommand
 
-actor User as U
-participant "ImportCommandParser" as ICP
-participant "ImportCommand" as IC
-participant "AddressBookFormatConverter" as ABC
-participant "Model" as M
-participant JsonSerializableAddressBook
+!include style.puml
+skinparam ArrowFontStyle plain
+box Logic LOGIC_COLOR_T1
+participant ": ImportCommandParser" as ICP LOGIC_COLOR
+participant "<<class>> \n FilePathResolverUtils" as FRU LOGIC_COLOR
+participant ": ImportCommand" as IC LOGIC_COLOR
+participant "<<class>> \n AddressBookFormatConverter" as ABC LOGIC_COLOR
+end box
+box Model MODEL_COLOR_T1
+participant ": Model" as M MODEL_COLOR
+end box
+box Storage STORAGE_COLOR_T1
+participant ": JsonSerializableAddressBook" as JsonSerializableAddressBook STORAGE_COLOR
+end box
 
-U -> ICP: parse(String args)
+[-> ICP: parse(String args)
 activate ICP
-
-ICP -> ICP: ArgumentTokenizer.tokenize(args, prefixes)
-ICP -> ICP: verifyFileTypePresentAndValid()
-ICP -> ICP: isValidWriteMode(...)
+ICP -> FRU: verifyFileTypePresentAndValid()
+ICP -> FRU: resolveFilePath()
+FRU --> ICP: Path
 create IC
 ICP -> IC: new ImportCommand(fileType, path, writeMode)
-deactivate ICP
 activate IC
 return ImportCommand
-
-U -> IC: execute(Model model)
+[<-- ICP :ImportCommand
+deactivate ICP
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ICP -[hidden]-> ICP
+destroy ICP
+[-> IC: execute(Model model)
 activate IC
-
-
 
 alt fileType == "json"
     IC -> ABC: importFromJson(path)
     activate ABC
-    ABC -> ABC: read Json content
     ABC --> IC : JsonSerializableAddressBook
     deactivate ABC
 else fileType == "csv"
     IC -> ABC: importFromCsv(path)
     activate ABC
-    ABC -> ABC: read CSV content
-    ABC -> ABC: parse CSV into\nJsonSerializableAddressBook
     ABC -> JsonSerializableAddressBook : aggregatePersons
     activate JsonSerializableAddressBook
     return JsonSerializableAddressBook
@@ -55,8 +60,11 @@ else mode == "append"
     IC -> M: addPerson(...) * n
 end
 
-'return CommandResult
-
+[<-- IC : CommandResult
 deactivate IC
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+IC -[hidden]-> IC
+destroy IC
+
 
 @enduml

@@ -159,6 +159,7 @@ public class ImportCommand extends Command {
         }
     }
 
+    //@@author
     /**
      * Processes the imported data in append mode.
      * First, it aggregates the imported employees by removing internal duplicates

@@ -1,12 +1,21 @@
 @startuml
-actor user as U
-participant ":DeleteAnniversaryCommandParser" as DACP
-participant ":DeleteAnniversaryCommand" as DAC
-participant ":ParserUtil" as PU
-participant ":Model" as M
-participant ":Person" as P
+title Sequence Diagram for DeleteAnniversaryCommand
 
-U -> DACP: parse(String args)
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":DeleteAnniversaryCommandParser" as DACP LOGIC_COLOR
+participant ":DeleteAnniversaryCommand" as DAC LOGIC_COLOR
+participant "<<class>> \n ParserUtil" as PU LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant ":Model" as M MODEL_COLOR
+participant ":Person" as P MODEL_COLOR
+end box
+
+[-> DACP: parse(String args)
 activate DACP
 DACP -> PU: parseEmployeeIdPrefix(String employeeIdPrefix)
 activate PU
@@ -20,10 +29,10 @@ create DAC
 DACP -> DAC: new DeleteAnniversaryCommand(EmployeeId employeeIdPrefix)
 Activate DAC
 return DeleteAnniversaryCommand
-DACP --> U : DeleteAnniversaryCommand
+[<-- DACP : DeleteAnniversaryCommand
 deactivate DACP
 
-U -> DAC: execute(Model model)
+[-> DAC: execute(Model model)
 activate DAC
 DAC -> M : getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix)
 activate M
@@ -34,6 +43,6 @@ activate P
 P --> DAC : List<Anniversary>
 deactivate P
 DAC -> M : setPerson(Person target, Person editedEmployee)
-DAC --> U : CommandResult
+[<--DAC : CommandResult
 deactivate DAC
 @enduml

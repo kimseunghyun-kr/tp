@@ -696,7 +696,7 @@ Explanation:
 `fp/data/` — file path is the data/ directory
 `fn/contacts` — file name is contacts (without extension)
 
-✅ This will save your current contact list as a file named contacts.json in the data/ folder.
+This will save your current contact list as a file named contacts.json in the data/ folder.
 
 ```plaintext
 export ft/csv fp/data/contacts.csv
@@ -706,7 +706,7 @@ Explanation:
 `ft/csv` — file type is CSV
 `fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
 
-✅ This will save your current contact list as a file named contacts.csv in the data/ folder.
+This will save your current contact list as a file named contacts.csv in the data/ folder.
 
 ```plaintext
 export ft/json fp/data/ fn/contacts
@@ -717,7 +717,7 @@ Explanation:
 `fp/data/` — file path is the data/ directory
 `fn/contacts` — file name is contacts (without extension)
 
-✅ This will save your current contact list as a file named contacts.json in the data/ folder.
+This will save your current contact list as a file named contacts.json in the data/ folder.
 
 ```plaintext
 export ft/json
@@ -726,7 +726,7 @@ Explanation:
 `export` — the command you're running
 `ft/json` — file type is JSON
 
-✅ This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
 
 
 

@@ -50,7 +50,12 @@ public class AnniversaryParserUtils {
         boolean hasWork = argMultimap.getValue(PREFIX_WORK_ANNIVERSARY).isPresent();
 
         if (hasAnnivType && (hasBirthday || hasWork)) {
-            throw new ParseException(errorMsg());
+            String msg = "custom anniversaries cannot be used with birthday or work anniversary.";
+            throw new ParseException(msg);
+        }
+        if (hasBirthday && hasWork) {
+            String msg = "birthday cannot be created with work anniversary for addanniversaryCommand.";
+            throw new ParseException(msg);
         }
         if (hasAnnivType) {
             return parseStandardAnniversary(argMultimap);

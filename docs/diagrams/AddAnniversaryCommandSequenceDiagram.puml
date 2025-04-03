@@ -1,13 +1,20 @@
 @startuml
-actor User as U
-participant ":AddAnniversaryCommandParser" as AACP
-participant ":ParserUtils" as PU
-participant ":AnniversaryParserUtils" as APU
-participant ":AddAnniversaryCommand" as AAC
-participant ":Model" as M
+title Sequence Diagram for AddAnniversaryCommand
 
+!include style.puml
+skinparam ArrowFontStyle plain
 
-U -> AACP: parse(String args)
+box Logic LOGIC_COLOR_T1
+participant ":AddAnniversaryCommandParser" as AACP LOGIC_COLOR
+participant "<<class>> \n ParserUtils" as PU LOGIC_COLOR
+participant "<<class>> \n AnniversaryParserUtils" as APU LOGIC_COLOR
+participant ":AddAnniversaryCommand" as AAC LOGIC_COLOR
+end box
+box Model MODEL_COLOR_T1
+participant ":Model" as M MODEL_COLOR
+end box
+
+[-> AACP: parse(String args)
 activate AACP
 AACP -> PU : parseEmployeeIdPrefix(String employeeIdPrefix)
 activate PU
@@ -21,16 +28,16 @@ create AAC
 AACP -> AAC : new AddAnniversaryCommand(EmployeeId employeeIdPrefix, Anniversary anniversary)
 Activate AAC
 return AddAnniversaryCommand
-AACP --> U : AddAnniversaryCommand
+[<--AACP: AddAnniversaryCommand
 deactivate AACP
 
-U -> AAC: execute(Model model)
+[-> AAC: execute(Model model)
 activate AAC
 AAC -> M : getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix)
 activate M
 M --> AAC : List<Person>
 deactivate M
 AAC -> M : setPerson(Person target, Person editedEmployee)
-return CommandResult
+[<--AAC : CommandResult
 
 @enduml
