@@ -63,7 +63,7 @@ Whether you need to track employee milestones, update records, or generate quick
     * Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
 
     *  Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
-    
+
     * Not sure if Java is already installed?
     Open your terminal or command prompt and type:
     ```bash
@@ -170,6 +170,9 @@ Date format: `YYYY-MM-DD`
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the add command:**<br>
+* The name only allows letters, numbers, and spaces.
+  e.g. `n/John Doe` is valid, but `n/John@Doe` is not.
+
 * You can include as many tags per person as you like — or none at all.
 
 * Use bd/ for the employee’s birthday and wa/ for their work anniversary.
@@ -183,9 +186,9 @@ Date format: `YYYY-MM-DD`
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` 
+* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
   * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21` 
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
   * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
@@ -253,8 +256,7 @@ Format: `list`
 ---
 ### Locating employees: `find`
 
-Finds employees whose names or/and job positions contain any of the given keywords.
-
+You can use this command to search for employees whose name or/and job position contains specific keywords.
 
 <div markdown="span" class="alert alert-primary">:bulb: Tip:
 You can use this format in 3 ways!
@@ -275,17 +277,17 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
 **:information_source: Notes about the find command:**<br>
 
-* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match — it's an OR search.
+* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match.
 
-    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` or `Bo Yang`.
+    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` **or** `Bo Yang`.
 
-* When you use multiple fields together, the command finds people who match all of them — it becomes an AND search.
+* When you use both fields together, the command finds people who match all of them.
 
-    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
+    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" **and** whose job position includes "engineer".
 
 * In the case of multiple fields and keywords, you will only see a employee on the list if they match at least one keyword from each field.
 
-    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
+    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
 </div>
 
 Examples:
@@ -293,12 +295,12 @@ Examples:
 * `find n/david Li` returns `David Li` and `Real Li`
 * `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
 
-
+The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
 
 ---
 
-# Anniversary Commands
+## Anniversary Commands
 Great HR isn’t just about managing people — it’s about remembering what matters.
 
 This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
@@ -308,8 +310,6 @@ With just a few commands, you can:
 - View Anniversaries related to a specific employee
 - View all upcoming anniversaries (Minseok go add this)
 - Remove outdated or incorrect entries
----
-## Anniversary Commands
 
 ---
 
@@ -368,7 +368,7 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 
 * When you put duplicated options , such as `eid\abcde eid\bcde`, the prefix value that occurs last (right) `eid\bcde` is used.
 
-    * For example : `addAnni an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`. 
+    * For example : `addAnni an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`.
 
 * When you try to mix the different formats together, they will fail.
 
@@ -451,7 +451,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 </div>
 
 Format:
-```plaintext 
+```plaintext
 deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
 ```
 
@@ -510,6 +510,7 @@ Example UI:
 ![remindersListUI](images/remindersListUI.png)
 
 Each card in the reminder panel corresponds to one upcoming anniversary for an employee.
+
 ---
 ## Quality of Life Features
 
@@ -646,10 +647,10 @@ saves the currently visible list of people in the Hreers application to a file (
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the export command:**<br>
-* If you provide a specific directory path (`fp/`), the system will export the file there. 
+* If you provide a specific directory path (`fp/`), the system will export the file there.
 * You must specify either `json` or `csv` using `ft/`
-* If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen 
-    * For example, If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.     
+* If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
+    * For example, If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.
 * This means that you do **not** need to include the extension behind the file name.
 * If you do not provide (`fp/`), the default export location will be where the `jar` file is located.
 * If you specify a full file path including file name at `fp`, do not use `fn/` together.
@@ -717,12 +718,6 @@ As a convenience, on the in-app output, it will show how many employees have bee
 | `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
 | `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
-
----
-## Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
-
 --------------------------------------------------------------------------------------------------------------------
 ## Frequently asked questions and Troubleshooting
 We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
@@ -739,8 +734,12 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. 
+   * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
+2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
+   * **Solution**: Manually restore the minimized Help Window.
+3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
+   * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
 
 --------------------------------------------------------------------------------------------------------------------
 

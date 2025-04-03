@@ -39,6 +39,8 @@ public class ReminderCard extends UiPart<Region> {
         super(FXML);
         this.reminder = reminder;
 
+        assert reminder.getEmployee() != null : "Reminder must have an associated employee";
+
         name.setText(reminder.getEmployee().getName().fullName);
         jobPosition.setText(reminder.getEmployee().getJobPosition().value);
 

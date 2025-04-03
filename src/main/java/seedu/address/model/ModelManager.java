@@ -165,12 +165,14 @@ public class ModelManager implements Model {
         );
         return Optional.of(reminder);
     }
+
     //@@author cscms03
     /**
      * Returns the next occurrence of a given date (month and day),
      * assuming it's a recurring annual event like a birthday or anniversary.
      * If the input date is in the future (including the year), it returns it as-is.
      * If the date has already passed this year, it returns the same month/day next year.
+     *
      * @param date The anniversary's original date to base the recurrence on
      * @return A {@link LocalDate} representing the next occurrence of the anniversary (preserving month and day) / null
      */
@@ -197,11 +199,11 @@ public class ModelManager implements Model {
         }
     }
 
-
     @Override
     public ObservableList<Reminder> getReminderList() {
         return FXCollections.unmodifiableObservableList(reminderList);
     }
+
     @Override
     public boolean hasEmployee(Employee employee) {
         requireNonNull(employee);
