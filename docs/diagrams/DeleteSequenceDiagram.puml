@@ -49,7 +49,21 @@ deactivate AddressBookParser
 LogicManager -> DeleteCommand : execute(m)
 activate DeleteCommand
 
-DeleteCommand -> Model : deletePerson(1)
+DeleteCommand -> Model : getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix)
+activate Model
+
+Model --> DeleteCommand : matchedEmployees
+deactivate Model
+
+DeleteCommand -> Model : commitChanges()
+activate Model
+
+Model --> DeleteCommand
+deactivate Model
+
+note right of DeleteCommand : Check if matchedEmployees size > 1 or empty\nThrow CommandException if true
+
+DeleteCommand -> Model : deleteEmployee(employeeToDelete)
 activate Model
 
 Model --> DeleteCommand

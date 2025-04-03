@@ -37,6 +37,7 @@ activate FindCommandParser
 FindCommandParser -> PersonSearchPredicateBuilder: buildPredicate(argMultimap)
 activate PersonSearchPredicateBuilder
 
+opt hasNonEmptyName
 PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildNamePredicate(argMultimap)
 activate PersonSearchPredicateBuilder
 PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildEachPredicate(argMultimap, PREFIX_NAME)
@@ -45,7 +46,9 @@ PersonSearchPredicateBuilder -[hidden]-> PersonSearchPredicateBuilder: combinedK
 deactivate PersonSearchPredicateBuilder
 PersonSearchPredicateBuilder -[hidden]-> PersonSearchPredicateBuilder: namePredicates
 deactivate PersonSearchPredicateBuilder
+end
 
+opt hasNonEmptyJp
 PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildJobPositionPredicate(argMultimap)
 activate PersonSearchPredicateBuilder
 PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildEachPredicate(argMultimap, PREFIX_JOBPOSITION)
@@ -54,6 +57,7 @@ PersonSearchPredicateBuilder -[hidden]-> PersonSearchPredicateBuilder: combinedK
 deactivate PersonSearchPredicateBuilder
 PersonSearchPredicateBuilder --[hidden]> PersonSearchPredicateBuilder: jpPredicates
 deactivate PersonSearchPredicateBuilder
+end
 
 PersonSearchPredicateBuilder --> FindCommandParser: combinedPredicate
 deactivate PersonSearchPredicateBuilder

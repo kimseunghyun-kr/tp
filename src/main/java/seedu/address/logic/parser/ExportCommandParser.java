@@ -28,7 +28,6 @@ public class ExportCommandParser implements Parser<ExportCommand> {
                 PREFIX_FILENAME
         );
 
-        String trimmedArgs = args.trim();
         verifyFileTypePresentAndValid(argMultimap, ExportCommand.MESSAGE_USAGE);
         String filePath = argMultimap.getValue(PREFIX_FILEPATH).orElse(null);
         String filename = argMultimap.getValue(PREFIX_FILENAME).orElse(null);

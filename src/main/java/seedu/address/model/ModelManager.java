@@ -187,7 +187,6 @@ public class ModelManager implements Model {
     public ObservableList<Reminder> getReminderList() {
         return FXCollections.unmodifiableObservableList(reminderList);
     }
-
     @Override
     public boolean hasEmployee(Employee employee) {
         requireNonNull(employee);

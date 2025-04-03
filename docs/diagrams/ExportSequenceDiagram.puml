@@ -1,31 +1,42 @@
 @startuml
-
 title Sequence Diagram for ExportCommand
 
-actor User as U
-participant "ExportCommandParser" as ECP
-participant FilePathResolverUtils as FRU
-participant "ExportCommand" as EC
-participant Files as F
-participant " <<class>> \n AddressBookFormatConverter" as ABC
+!include style.puml
+skinparam ArrowFontStyle plain
 
+box Logic LOGIC_COLOR_T1
+participant ":ExportCommandParser" as ECP LOGIC_COLOR
+participant "<<Class>> \n FilePathResolverUtils" as FRU LOGIC_COLOR
+participant ":ExportCommand" as EC LOGIC_COLOR
+participant " <<Class>> \n AddressBookFormatConverter" as ABC LOGIC_COLOR
+end box
+participant Files as F STORAGE_COLOR_T1
+box Storage STORAGE_COLOR_T1
+participant ":JsonSerializableAddressBook" as JsonSerializableAddressBook STORAGE_COLOR
+end box
 
-U -> ECP: parse(String args)
+[-> ECP: parse( arguments )
 activate ECP
-alt filetype != null || filename != null == true
 ECP -> FRU : verifyFileTypePresentAndValid()
+opt filetype != null || filename != null
+ECP -> FRU : resolveFilePath()
+
 activate FRU
 FRU --> ECP : Path
 deactivate FRU
-else filetype != null || filename != null == false
+
 end
+create EC
 ECP -> EC : new ExportCommand(fileType, path)
 activate EC
 return ExportCommand
-ECP --> U : ExportCommand
+[<-- ECP : ExportCommand
 deactivate ECP
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+ECP -[hidden]->
+destroy ECP
 
-U -> EC: execute(Model model)
+[-> EC : execute(Model model)
 activate EC
 alt filetype == json
 EC -> ABC: exportToJson(path)
@@ -42,11 +53,14 @@ ABC -> JsonSerializableAddressBook : new JsonSerializableAddressBook
 activate JsonSerializableAddressBook
 return JsonSerializableAddressBook
 ABC -> ABC : addressBookToCsv(JsonSerializableAddressBook)
+activate ABC
+deactivate ABC
 ABC -> F : write to path
 deactivate ABC
 end
-EC --> U : CommandResult
+[<-- EC  : CommandResult
 deactivate EC
-
-
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+EC -[hidden]->
+destroy EC
 @enduml

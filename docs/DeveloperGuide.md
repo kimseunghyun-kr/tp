@@ -9,7 +9,7 @@ title: Developer Guide
 
 ## *Table of Contents*
 1. [Mock UI](#mock-ui)
-   2. [Setting up, Getting started](#setting-up-getting-started)
+2. [Setting up, Getting started](#setting-up-getting-started)
 2. [Architecture](#architecture)
     1. [UI Component](#ui-component)
     2. [Logic Component](#logic-component)
@@ -52,200 +52,7 @@ Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
 --------------------------------------------------------------------------------------------------------------------
 
-### **Add Employee Records**
-
-#### Purpose:
-Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
-
-#### Command Format:
-```
-add n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY e/EMAIL t/TAGS
-```
-
-#### Example Commands:
-```
-add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
-```
-
-#### Parameter Rules:
-- **Name**: Alphabets and spaces only, case-insensitive.
-- **Position**: Must match predefined job titles.
-- **Birthday & Work Anniversary**: Format - YYYY-MM-DD.
-- **Email**: Must contain '@domainname.com'.
-
-#### Outputs:
-- **Success**: `Employee John Doe added successfully.`
-- **Failure**: `Error: Invalid date format.`
-
-#### Duplicate Handling:
-- If an employee with the same email exists: `Error: Employee already exists.`
-
-#### Additional Targets:
-- Partial addition of data.
-- Import employee records from CSV.
----
-
-### **Delete Employee Records**
-#### Purpose:
-Allows HR workers to remove outdated or incorrect employee records.
-
-#### Command Format:
-```
-delete n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY
-```
-
-#### Example Commands:
-```
-delete n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20
-```
-
-#### Outputs:
-- **Success:** `Employee John Doe deleted successfully.`
-- **Failure:** `Error: Employee not found.`
-
-#### Duplicate Handling:
-If multiple employees match, prompt for additional details to ensure correctness.
-
----
-
-### **Edit Employee Records**
-
-#### Purpose:
-Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
-
-#### Command Format:
-
-```
-edit EMPLOYEE_ID_PREFIX [n/NAME] [p/PHONE] [e/EMAIL] [j/JOBPOSITION] [t/TAG]... [eid/EMPLOYEE_ID]
-```
-
-#### Example Commands:
-
-```
-edit abcd12 p/91234567 e/johndoe@example.com eid/efgh3123
-```
-```
-edit 5678ef n/Jane Smith j/Senior Manager t/management
-```
-
-#### Parameter Rules:
-- **EMPLOYEE_ID_PREFIX**: Must match exactly one employee in the system
-- **NAME**: Alphabets and spaces only, case-insensitive
-- **PHONE**: Numbers only
-- **EMAIL**: Must contain '@' and valid domain
-- **JOBPOSITION**: Must be a valid job position
-- **TAG**: Alphanumeric words
-- **EMPLOYEE_ID**: Valid UUID format
-
-#### Outputs:
-- **Success**: `Edited Employee: [name] Phone: [phone] Email: [email] Job Position: [jobPosition] Tags: [tags]`
-- **Failure**: Various error messages depending on the issue:
-    - `At least one field to edit must be provided.`
-    - `Multiple employees found with prefix XYZ`
-    - `No employee found with prefix XYZ`
-    - `The new employee ID conflicts with existing employee IDs`
-
-#### Implementation:
-
-The edit command is implemented by the `EditCommand` class, which extends the abstract `Command` class. It works through the following process:
-
-1. The `EditCommandParser` parses the command input to create an `EditEmployeeDescriptor` containing the fields to be updated.
-2. The command identifies the target employee using the employee ID prefix.
-3. The system verifies that exactly one employee matches the provided prefix.
-4. A new employee object is created with updated fields from the descriptor, preserving unchanged fields from the original employee.
-5. The system validates that the new employee ID (if changed) doesn't conflict with existing IDs.
-6. The original employee record is replaced with the edited version in the model.
-
-The edit command also supports the undo/redo feature by preserving the previous state via the model's commit function.
-
-![EditCommandDiagram](images/EditSequenceDiagram.png)
-
-### **Undo Changes**
-#### Purpose:
-Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
-
-#### Command Format:
-```
-undo
-```
-
-#### Functionality:
-* **Undo Last Action**: Reverts the most recent change made to the employee data. If the last operation was adding a new employee, the employee will be removed. If the last operation was deleting an employee, the employee will be restored.
-##### Outputs:
-* **Success**: Undo successful. Last action reverted.
-* **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
-
----
-### **Anniversary commands**
-#### Purpose:
-Allows HR workers to manage employee anniversaries.
-
-### **AddAnniversaryCommand**
-- **Description**: Creates a new anniversary entry for an existing employee.
-- **Usage**: `anniversary eid/EMPLOYEE_ID_PREFIX d/DATE n/ANNIVERSARY_NAME [ad/DESCRIPTION] [at/TYPE]...`
-- **Constraints**:
-    - Valid date format: YYYY-MM-DD
-    - Must specify at least one `at/` prefix
-- **Required**:
-  - eid/ to match an existing employee ID prefix
-  - d/ must be a valid date in `YYYY-MM-DD`
-  - n/ is the anniversary name
-  - at/ is at least one type (e.g., personal, family)
-- **Optional**:
-  - ad/ is an extra description (e.g., birthday celebration, gift ideas)
-- **Example**:
-  - `anniversary eid/abc d/2025-01-01 n/Birthday at/Personal`
-  - `anniversary eid/1234 d/2023-12-25 n/ChristmasParty ad/GiftExchange at/Cultural`
-- **Success**:
-```
-  Anniversary: <Details> added successfully.  
-```
-- **Failure Cases**:
-  - Multiple Matches: `Multiple employees found with prefix XYZ`
-  - No Matches: `No employee found with prefix XYZ`
-  - Invalid Date: `Invalid date format: <date>`</date>
-  - Missing Required Prefix: `eid/`, `d/`, `n/`, or `at/` not provided
-  - Duplicate Anniversary: `This anniversary already exists.`
-  - Too Many/Too Few 'at/' Prefixes: Causes parse errors, prompting recheck of syntax.
-
-```
-Anniversaries
-```
----
-
-### Reminder for Events
-#### Purpose:
-Notifies HR about upcoming employee birthdays and work anniversaries.
-
-#### Command Format:
-No commands needed
-
-#### Outputs:
-- **GUI Output:**
-```
-Jane Doe's birthday is today! (May 9, 1990).
-John Doe's birthday is tomorrow (May 10, 1990).
-Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
-```
----
-### **Save Employee Records**
-#### Purpose:
-Ensures employee records persist across sessions.
-
-#### Command Format:
-- **Automatically saves every 30 seconds.**
-
-#### Outputs:
-- **Success:** `Save occurred successfully.`
-- **Failure:** `Save failed -> reverting to backup file.`
-
-#### Additional Targets:
-- Full flush backup (complete overwrite).
-- Intermediate .tmp file for autosave.
-
----
-
-### Architecture
+## Architecture
 
 <img src="images/ArchitectureDiagram.png" width="280" />
 
@@ -369,10 +176,18 @@ The `Storage` component,
 Classes used by multiple components are in the `seedu.address.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
-
-## **Implementation**
-
+## Implementation
 This section describes some noteworthy details on how certain features are implemented.
+
+### Employee Identification
+
+Our employeeId utilize a UUID based prefix matching system.
+The employeeId is generated using the `UUID` class in Java, which creates a universally unique identifier. This identifier is then used as a prefix for each employee's record, allowing for easy searching and retrieval of information.
+The prefix matching logic is primarily managed within the EmployeeId class.
+The prefix matching logic is mostly used by the Model and AddressBook class, which serves as the facade
+that maintains the internal UniquePersonsList.
+This feature is also present in the LogicManager class, where before every command is launched, it triggers a scan throughout the database to check if there are any entries
+that violate the prefix matching rule, following the lazy validation principle.
 
 ### Find Employees Features 
 The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
@@ -533,7 +348,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Private contact detail**: A contact detail that is not meant to be shared with others
 
 --------------------------------------------------------------------------------------------------------------------
-
 ## **Appendix: Instructions for manual testing**
 
 Given below are instructions to test the app manually.
@@ -545,42 +359,503 @@ testers are expected to do more *exploratory* testing.
 
 ### Launch and shutdown
 
-1. Initial launch
+- Initial launch
 
-   1. Download the jar file and copy into an empty folder
+    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
 
-1. Saving window preferences
+- Saving window preferences
 
-   1. Resize the window to an optimum size. Move the window to a different location. Close the window.
+    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-   1. Re-launch the app by double-clicking the jar file.<br>
+    2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+---
+### **Add Employee Records**
 
-### Deleting an employee
+#### Purpose:
+Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
 
-1. Deleting an employee while all employees are being shown
+#### Command Format:
+```
+add n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY e/EMAIL t/TAGS
+```
 
-   1. Prerequisites: List all employees using the `list` command. Multiple employees in the list.
+#### Example Commands:
+```
+add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
+```
 
-   1. Test case: `delete 1`<br>
-      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.
+#### Parameter Rules:
+- **Name**: Alphabets and spaces only, case-insensitive.
+- **Position**: Must match predefined job titles.
+- **Birthday & Work Anniversary**: Format - YYYY-MM-DD.
+- **Email**: Must contain '@domainname.com'.
 
-   1. Test case: `delete 0`<br>
-      Expected: No employee is deleted. Error details shown in the status message. Status bar remains the same.
+#### Outputs:
+- **Success**: `Employee John Doe added successfully.`
+- **Failure**: `Error: Invalid date format.`
 
-   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-      Expected: Similar to previous.
+#### Duplicate Handling:
+- If an employee with the same email exists: `Error: Employee already exists.`
 
-1. _{ more test cases …​ }_
+#### Additional Targets:
+- Partial addition of data.
+- Import employee records from CSV.
+---
 
-### Saving data
+### **Delete Employee Records**
+#### Purpose:
+Allows HR workers to remove outdated or incorrect employee records.
 
-1. Dealing with missing/corrupted data files
+#### Command Format:
+```
+delete n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY
+```
 
-   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
+#### Example Commands:
+```
+delete n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20
+```
 
-1. _{ more test cases …​ }_
+#### Outputs:
+- **Success:** `Employee John Doe deleted successfully.`
+- **Failure:** `Error: Employee not found.`
+
+#### Duplicate Handling:
+If multiple employees match, prompt for additional details to ensure correctness.
+
+---
+
+### **Edit Employee Records**
+
+#### Purpose:
+Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
+
+#### Command Format:
+
+```
+edit EMPLOYEE_ID_PREFIX [n/NAME] [p/PHONE] [e/EMAIL] [j/JOBPOSITION] [t/TAG]... [eid/EMPLOYEE_ID]
+```
+
+#### Example Commands:
+
+```
+edit abcd12 p/91234567 e/johndoe@example.com eid/efgh3123
+```
+```
+edit 5678ef n/Jane Smith j/Senior Manager t/management
+```
+
+#### Parameter Rules:
+- **EMPLOYEE_ID_PREFIX**: Must match exactly one employee in the system
+- **NAME**: Alphabets and spaces only, case-insensitive
+- **PHONE**: Numbers only
+- **EMAIL**: Must contain '@' and valid domain
+- **JOBPOSITION**: Must be a valid job position
+- **TAG**: Alphanumeric words
+- **EMPLOYEE_ID**: Valid UUID format
+
+#### Outputs:
+- **Success**: `Edited Employee: [name] Phone: [phone] Email: [email] Job Position: [jobPosition] Tags: [tags]`
+- **Failure**: Various error messages depending on the issue:
+    - `At least one field to edit must be provided.`
+    - `Multiple employees found with prefix XYZ`
+    - `No employee found with prefix XYZ`
+    - `The new employee ID conflicts with existing employee IDs`
+
+#### Implementation:
+
+The edit command is implemented by the `EditCommand` class, which extends the abstract `Command` class. It works through the following process:
+
+1. The `EditCommandParser` parses the command input to create an `EditEmployeeDescriptor` containing the fields to be updated.
+2. The command identifies the target employee using the employee ID prefix.
+3. The system verifies that exactly one employee matches the provided prefix.
+4. A new employee object is created with updated fields from the descriptor, preserving unchanged fields from the original employee.
+5. The system validates that the new employee ID (if changed) doesn't conflict with existing IDs.
+6. The original employee record is replaced with the edited version in the model.
+
+The edit command also supports the undo/redo feature by preserving the previous state via the model's commit function.
+
+![EditCommandDiagram](images/EditSequenceDiagram.png)
+
+### **Undo Changes**
+#### Purpose:
+Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
+
+#### Command Format:
+```
+undo
+```
+
+#### Functionality:
+* **Undo Last Action**: Reverts the most recent change made to the employee data. If the last operation was adding a new employee, the employee will be removed. If the last operation was deleting an employee, the employee will be restored.
+##### Outputs:
+* **Success**: Undo successful. Last action reverted.
+* **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
+
+---
+### **Anniversary commands**
+#### Purpose:
+Allows HR workers to manage employee anniversaries.
+
+---
+### **AddAnniversaryCommand**
+#### Purpose
+Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
+
+#### Command Format
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+```
+short form support for Birthdays
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
+```
+short form support for Work Anniversaries
+``` plaintext
+addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
+```
+
+| **Prefix** | **Meaning**                                               | **Required?**                     | **Example Value**      |
+|------------|-----------------------------------------------------------|-----------------------------------|------------------------|
+| `eid/`      | A partial prefix of the Employee ID                       | Required                          | `0c2414da`             |
+| `d/`       | The date of the anniversary                               | Required                          | `2025-03-13`           |
+| `an/`      | A short name for the anniversary                          | Required                          | `Silver Wedding`       |
+| `at/`      | The main category/type of the event                       | Required                          | `Wedding`              |
+| `desc/`    | A text description of the anniversary                     | Optional                          | `Celebrating 25 years` |
+| `atdesc/`  | A description of the type                                 | Optional                          | `Personal`, `Work`     |
+| `bd/`      | A short name for the birthday                             | Optional                          | `Birthday`             |
+| `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
+| `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
+
+> **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
+
+#### Example Command
+```plaintext
+addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
+- `at/Wedding`: The name of the anniversary type - `Wedding`
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
+
+If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
+
+```plaintext
+addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+
+```plaintext
+addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+
+#### Parameter Rules:
+- The eid/ prefix must contain a valid, non-empty partial Employee ID. It should not have spaces and must conform to the format expected by EmployeeId.isValidEmployeeId().
+- **For a Standard Anniversary:**
+  - The d/ (date) must follow the ISO format (YYYY-MM-DD). 
+  - Both an/ (anniversary name) and at/ (anniversary type) are required. 
+  - Optional fields like desc/ (description) and atdesc/ (type description) can be provided, but if provided, they should be in a valid text format. 
+- **For Birthdays (short form):**
+  - The bd/ prefix should contain a valid date in the ISO format (YYYY-MM-DD). 
+  - The n/ prefix must be provided to denote the name for the birthday entry.
+- **For Work Anniversaries (short form):**
+  - The wa/ prefix should contain a valid date in the ISO format (YYYY-MM-DD). 
+  - The n/ prefix must be provided to denote the name for the work anniversary entry. 
+- Do not mix fields from different anniversary types. For example, providing both an/ with bd/ or wa/ in the same command will result in a conflict.
+- Last of same field win:
+  - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
+
+#### Outputs:
+- **success:** `New anniversary added: <anniversary_details>`
+- **Failure Cases**:
+    - Missing Required Fields: `Invalid command format! <AddAnniversaryCommand MESSAGE_USAGE>`
+    - Invalid employeeId format : `"Employee ID prefix must be 1-36 characters long, containing only letters, digits, and '-'.";`
+    - Invalid mix of fields : `Invalid command format! Cannot mix standard anniversary fields with birthday or work anniversary fields.`
+    - Invalid Date: `Invalid command format! Invalid date format! Please use the format YYYY-MM-DD.`
+    - Employee Resolution Issue: `Found multiple employees with employeeId starting with <employeeId_prefix>`
+    - No Matching Employee: `No employee found with employeeId starting with <employeeId_prefix>`
+    - Duplicate Anniversary: `This exact anniversary (date + name + type + description) already exists for that employee.`
+
+#### Implementation:
+The add anniversary command is implemented by the AddAnniversaryCommand class, which extends the abstract Command class. It works through the following process:
+
+1. The AddAnniversaryCommandParser parses the command input to extract the employee ID prefix and the anniversary details.
+2. The command identifies the target employee using the employee ID prefix.
+3. The system verifies that exactly one employee matches the provided prefix.
+4. The command checks for duplicate anniversary entries in the target employee's record.
+5. If no duplicate exists, a new employee object is created with an updated anniversary list, while preserving unchanged fields from the original employee.
+6. The original employee record is replaced with the updated version in the model.
+7. A success message is returned confirming the addition of the anniversary.
+
+![AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
+
+---
+### **DeleteAnniversaryCommand**
+#### Purpose
+removes a specific anniversary from an existing employee’s record, based on the anniversary's
+order within the Employee's list of anniversaries.
+
+#### **Command Format**
+```plaintext 
+deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
+```
+#### **Parameters**
+
+| **Prefix** | **Meaning**                                                   | **Required?** | **Example**  |
+|------------|---------------------------------------------------------------|---------------|-------------|
+| `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
+| `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
+
+#### **Example Command**
+```plaintext
+deleteAnniversary eid/0c2414da ai/1
+```
+- `deleteAnniversary` - the command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `ai/1`: the index of the anniversary you want to delete
+  this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
+
+#### Parameter Rules:
+- Employee ID Prefix (eid/):
+  - Must contain a valid, non-empty Employee ID prefix. 
+  - Must not include spaces. 
+  - Must conform to the format expected by EmployeeId.isValidEmployeeId().
+- Anniversary Index (ai/):
+  - Must be provided as a 1-based index (via the ai/ prefix). 
+  - The index must represent a valid position within the target employee’s anniversary list. 
+  - A negative or out-of-bounds index will trigger an error.
+- Field Exclusivity:
+  - Only the eid/ and ai/ prefixes are expected. If any unexpected fields are present, the command should be considered invalid.
+- Last of same field win:
+  - the last occurence of a field will win. this means that for duplicated fields, the last occuring field will be used
+
+#### Outputs:
+**Success:**
+- Returns a success message: `anniversary deleted: <anniversary_details>`
+** Failure Cases: **
+- Missing Required Fields: `Invalid command format! <DeleteAnniversaryCommand MESSAGE_USAGE>`
+- Invalid Employee ID Format: `Employee ID prefix must be 1-36 characters long, containing only letters, digits, and '-'.`
+- Employee Resolution Issues:`Found multiple employees with employeeId starting with <employeeId_prefix>`
+- Employee Not Found: `No employee found with employeeId starting with <employeeId_prefix>`
+- Anniversary Index Out of Bounds:`The index you are searching for is out of bounds for the anniversary.`
+
+#### Implementation:
+1. Parsing the Input:
+- The DeleteAnniversaryCommandParser tokenizes the input using the PREFIX_EMPLOYEEID (eid/) and PREFIX_ANNIVERSARY_INDEX (ai/). It validates that both required prefixes are present. Missing prefixes trigger a ParseException with the usage message.
+
+2. Validating and Converting Input:
+- The parser uses ParserUtil.parseEmployeeIdPrefix() to validate and convert the employee ID prefix. It uses ParserUtil.parseIndex() to convert the anniversary index string into an Index object. An additional check confirms that the index is within acceptable bounds (non-negative).
+
+3. Identifying the Target Employee:
+- In the execute method of DeleteAnniversaryCommand, the system retrieves all employees whose IDs start with the given prefix.
+
+4. It verifies that exactly one employee matches:
+- If multiple employees are found, it throws a CommandException with a corresponding error message. If no employee is found, it also throws a CommandException.
+
+5. Deleting the Anniversary:
+- The command retrieves the target employee’s anniversary list. It checks whether the provided index is within the bounds of this list. If valid, the anniversary at the specified index is removed.
+
+6. Updating the Employee Record:
+- A new employee object is created using the builder pattern with the updated anniversary list while preserving unchanged fields (e.g., employee ID, name, job position, email, phone, tags). The model is updated by replacing the old employee record with the new one.
+
+7. Returning the Outcome:
+- On successful deletion, the command returns a success message that includes the details of the deleted anniversary.
+
+![DeleteAnniversaryCommand](images/DeleteAnniversaryCommandSequenceDiagram.png)
+---
+### **exportCommand**
+#### Purpose
+You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
+If you provide a specific directory path (`fp/`), the system will export the file there.
+If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
+This means that you do **not** need to include the extension behind the file name.
+For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
+with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
+
+#### **Command Format**
+```plaintext
+export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
+```
+
+#### **Parameters**
+
+| **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
+|------------|-------------------------------------------------|----------------------------|------------------------|
+| `ft/`      | The file type to export (`json` or `csv`)       | **Required**               | `json` or `csv`       |
+| `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
+| `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
+
+#### **Example Usage**
+```plaintext
+export ft/json fp/data/ fn/contacts
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/csv fp/data/contacts.csv
+```
+Explanation:
+`export` — the command you're running
+`ft/csv` — file type is CSV
+`fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
+
+This will save your current contact list as a file named contacts.csv in the data/ folder.
+
+```plaintext
+export ft/json fp/data/ fn/contacts
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/json
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+
+This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+#### Parameter Rules:
+- File Type (ft/ via PREFIX_FILETYPE):
+  - Required. Must be provided as either "json" or "csv". If missing or invalid, an error is thrown indicating an invalid file type using the command usage message.
+
+- File Path (fp/ via PREFIX_FILEPATH):
+  - Optional. Represents either a full file path (including the filename) or a directory path. If provided as a full file path that includes a filename, no separate filename should be provided.
+
+- Filename (fn/ via PREFIX_FILENAME):
+  - Optional. Must be provided if the file path only specifies a directory. If provided without an extension, the required extension (matching the file type) is automatically appended.
+
+- Field Exclusivity & Consistency:
+  - If both a file path (with a filename) and a separate filename are provided, the parser throws an error to avoid ambiguity. 
+  - The final resolved file path must have an extension that exactly matches the provided file type (.json for json and .csv for csv).
+#### Outputs:
+Success:
+- On successful export, the command returns a message formatted as: `Exported <displayed_employees> employees in <filetype> format to <resolved_path>`
+- `<displayed_employees>` lists the employees that were visible at the time of export.
+- `<resolved_path>` is the final file path where data was exported.
+
+Failure Cases:
+
+- No Data to Export:
+  - If the filtered employee list is empty, a CommandException is thrown with the message:No people to export.
+
+- Invalid File Type:
+  - If the file type provided is not "json" or "csv", a CommandException is thrown using the export command’s usage message.
+
+- File Path Resolution Errors:
+  - If both a full file path (with filename) and a separate filename are provided, an error is thrown with the message:
+  Provide either a full file path or a filename, not both.
+
+- If a file path is provided as a directory and no filename is given, an error is thrown stating that the filename must be provided.
+
+- If the resolved file’s extension does not match the provided file type, an error is thrown indicating the mismatch.
+
+#### Implementation:
+1. Parsing the Input:
+- The ExportCommandParser tokenizes the user input using the prefixes for file type (ft/), file path (fp/), and filename (fn/).
+- It calls verifyFileTypePresentAndValid from the FilePathResolverUtils to ensure the file type is provided and valid. 
+- The parser retrieves the optional file path and filename values. 
+- The final file path is determined by calling FilePathResolverUtils.resolveFilePath(filePath, filename, fileType).
+
+2. Command Construction:
+- After resolving the file type and file path, a new ExportCommand instance is created with these parameters. 
+- The command object stores the file type as a string and the file path as a Path object.
+
+3. Executing the Export:
+- In the execute method of ExportCommand, the command:
+- Retrieves the current list of filtered employees from the model. 
+- Checks whether there are any employees to export; if none, it throws a CommandException. 
+- Depending on the file type:
+- If "json", it calls AddressBookFormatConverter.exportToJson(displayedEmployees, path). 
+- If "csv", it calls AddressBookFormatConverter.exportToCsv(displayedEmployees, path). 
+- The export process is logged using the application's logger for tracking purposes. 
+- Any errors during file writing or conversion result in a caught exception and an appropriate error message.
+
+4. Returning the Outcome:
+- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees, file type, and resolved file path).
+
+![exportCommand](images/ExportSequenceDiagram.png)
+
+#### Implementation (FileDataPathUtils)
+1. Determining the Final File Path:
+- The utility method resolveFilePath takes in three parameters: an optional file path, an optional filename, and the file type. 
+- It first calculates the expected file extension based on the file type (e.g., .json or .csv).
+
+2. Handling Various Input Combinations:
+    2.1. Full File Path Provided:
+   - If the provided file path appears to include a filename (determined by the presence of a dot in the filename), the method validates the extension. 
+   - If a separate filename is also provided in this case, a ParseException is thrown to avoid ambiguity.
+
+    2.2. Directory Path Provided:
+   - If the file path represents a directory (i.e., it does not contain a filename), a filename must be provided. 
+   - The provided filename is then checked and automatically appended with the expected extension if it is missing.
+
+    2.3. Only Filename Provided:
+   - If no file path is given but a filename is provided, the filename is used (with the appropriate extension ensured).
+
+3. Validation of File Extension:
+- The method validateFileExtension checks that the actual file extension of the resolved file matches the expected extension. 
+- If there is a mismatch, a ParseException is thrown with a message indicating the file extension conflict.
+
+4. Error Handling:
+- If neither a file path nor a filename is provided, an IllegalArgumentException is thrown to indicate that at least one must be provided.
+
+---
+### Reminder for Events
+#### Purpose:
+Notifies HR about upcoming employee birthdays and work anniversaries.
+
+#### Command Format:
+No commands needed
+
+#### Outputs:
+- **GUI Output:**
+```
+Jane Doe's birthday is today! (May 9, 1990).
+John Doe's birthday is tomorrow (May 10, 1990).
+Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
+```
+---
+### **Save Employee Records**
+#### Purpose:
+Ensures employee records persist across sessions.
+
+#### Command Format:
+- **Automatically saves every 30 seconds.**
+
+#### Outputs:
+- **Success:** `Save occurred successfully.`
+- **Failure:** `Save failed -> reverting to backup file.`
+
+#### Additional Targets:
+- Full flush backup (complete overwrite).
+- Intermediate .tmp file for autosave.
+
+---
