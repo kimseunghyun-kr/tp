@@ -26,7 +26,7 @@ deactivate AACP
 
 U -> AAC: execute(Model model)
 activate AAC
-AAC -> M : getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix)
+AAC -> M : getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix)
 activate M
 M --> AAC : List<Person>
 deactivate M

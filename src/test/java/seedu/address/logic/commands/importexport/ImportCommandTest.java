@@ -102,7 +102,7 @@ public class ImportCommandTest {
 
             // Mock empty response list for employeeId lookups
             ObservableList<Employee> emptyList = FXCollections.observableArrayList();
-            when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(emptyList);
+            when(model.getFullFilteredByEmployeeIdPrefixListFromData(any())).thenReturn(emptyList);
 
             importCommand = new ImportCommand("csv", csvFilePathNormalCase, "append");
             CommandResult result = importCommand.execute(model);
@@ -149,10 +149,10 @@ public class ImportCommandTest {
             ObservableList<Employee> bobConflictList = FXCollections.observableArrayList(mockConflictingEmployee);
 
             // AMY behavior - no conflict
-            doReturn(emptyList).when(model).getFilteredByEmployeeIdPrefixList(AMY.getEmployeeId());
+            doReturn(emptyList).when(model).getFullFilteredByEmployeeIdPrefixListFromData(AMY.getEmployeeId());
 
             // Specific behavior for BOB
-            doReturn(bobConflictList).when(model).getFilteredByEmployeeIdPrefixList(BOB.getEmployeeId());
+            doReturn(bobConflictList).when(model).getFullFilteredByEmployeeIdPrefixListFromData(BOB.getEmployeeId());
 
             importCommand = new ImportCommand("csv", csvFilePathNormalCase, "append");
             CommandResult result = importCommand.execute(model);
@@ -232,7 +232,7 @@ public class ImportCommandTest {
 
             // Return our mock when searching for ALICE
             ObservableList<Employee> matchList = FXCollections.observableArrayList(mockExistingEmployee);
-            when(model.getFilteredByEmployeeIdPrefixList(ALICE.getEmployeeId()))
+            when(model.getFullFilteredByEmployeeIdPrefixListFromData(ALICE.getEmployeeId()))
                     .thenReturn(matchList);
 
             importCommand = new ImportCommand("json", jsonFilePathNormalCase, "append");
@@ -284,10 +284,10 @@ public class ImportCommandTest {
             when(mockConflictEmployee.isSameEmployee(any())).thenReturn(true);
             when(mockConflictEmployee.hasSameDetails(any())).thenReturn(false);
 
-            when(model.getFilteredByEmployeeIdPrefixList(ALICE.getEmployeeId()))
+            when(model.getFullFilteredByEmployeeIdPrefixListFromData(ALICE.getEmployeeId()))
                     .thenReturn(FXCollections.observableArrayList(mockConflictEmployee));
 
-            when(model.getFilteredByEmployeeIdPrefixList(BOB.getEmployeeId()))
+            when(model.getFullFilteredByEmployeeIdPrefixListFromData(BOB.getEmployeeId()))
                     .thenReturn(FXCollections.observableArrayList());
 
             importCommand = new ImportCommand("csv", csvFilePathDuplicateCase, "append");
@@ -331,7 +331,7 @@ public class ImportCommandTest {
 
             // When model is queried for existing employee, return this mock
             ObservableList<Employee> matchList = FXCollections.observableArrayList(mockExistingEmployee);
-            when(model.getFilteredByEmployeeIdPrefixList(any())).thenReturn(matchList);
+            when(model.getFullFilteredByEmployeeIdPrefixListFromData(any())).thenReturn(matchList);
 
             // Execute command
             importCommand = new ImportCommand("json", jsonFilePathDuplicateCase, "append");

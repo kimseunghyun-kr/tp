@@ -1,0 +1,107 @@
+{
+  "persons" : [ {
+    "employeeId" : "721bbf97-2f57-4365-b0f6-98644614b67b",
+    "name" : "Roy Balakrishnan",
+    "phone" : "92624417",
+    "email" : "royb@example.com",
+    "tags" : [ "colleagues" ],
+    "anniversaries" : [ ],
+    "jobposition" : "Blk 45 Aljunied Street 85, #11-31"
+  }, {
+    "employeeId" : "da4ef25d-2ad2-4a30-819e",
+    "name" : "Charlotte Oliveiro",
+    "phone" : "93210283",
+    "email" : "charlotte@example.com",
+    "tags" : [ "neighbours" ],
+    "anniversaries" : [ ],
+    "jobposition" : "Blk 11 Ang Mo Kio Street 74, #11-04"
+  }, {
+    "employeeId" : "da4ef25d-2ad2-4a30-819e-ddf9a0c2d54d",
+    "name" : "Irfan Ibrahim",
+    "phone" : "92492021",
+    "email" : "irfan@example.com",
+    "tags" : [ "classmates" ],
+    "anniversaries" : [ ],
+    "jobposition" : "Blk 47 Tampines Street 20, #17-35"
+  }, {
+    "employeeId" : "df57c625-1bdb-4772-a5aa-b",
+    "name" : "David Li",
+    "phone" : "91031282",
+    "email" : "lidavid@example.com",
+    "tags" : [ "family" ],
+    "anniversaries" : [ ],
+    "jobposition" : "Blk 436 Serangoon Gardens Street 26, #16-43"
+  }, {
+    "employeeId" : "df57c625-1bdb-4772-a5aa",
+    "name" : "Alex Poh",
+    "phone" : "87438807",
+    "email" : "terimakasih@gmail.com",
+    "tags" : [ "friends" ],
+    "anniversaries" : [ {
+      "date" : "2025-03-13",
+      "type" : {
+        "name" : "Family",
+        "description" : ""
+      },
+      "description" : "\"Celebrating 25 years\"",
+      "name" : "\"Silver Wedding\""
+    }, {
+      "date" : "2025-02-25",
+      "type" : {
+        "name" : "wedding",
+        "description" : ""
+      },
+      "description" : "things",
+      "name" : "silver wedding"
+    }, {
+      "date" : "2025-02-25",
+      "type" : {
+        "name" : "wedding",
+        "description" : "wedding"
+      },
+      "description" : "things",
+      "name" : "silver wedding"
+    }, {
+      "date" : "2025-02-25",
+      "type" : {
+        "name" : "Work Anniversary",
+        "description" : "Work Anniversary"
+      },
+      "description" : "alex's Birthday",
+      "name" : "Birthday"
+    }, {
+      "date" : "2025-03-13",
+      "type" : {
+        "name" : "Family",
+        "description" : ""
+      },
+      "description" : "\"Celebrating 25 years\"",
+      "name" : "\"Silver Wedding\""
+    }, {
+      "date" : "2025-02-25",
+      "type" : {
+        "name" : "wedding",
+        "description" : ""
+      },
+      "description" : "things",
+      "name" : "silver wedding"
+    }, {
+      "date" : "2025-02-25",
+      "type" : {
+        "name" : "wedding",
+        "description" : "wedding"
+      },
+      "description" : "things",
+      "name" : "silver wedding"
+    }, {
+      "date" : "2025-02-25",
+      "type" : {
+        "name" : "Work Anniversary",
+        "description" : "Work Anniversary"
+      },
+      "description" : "alex's Birthday",
+      "name" : "Birthday"
+    } ],
+    "jobposition" : "Blk 30 Geylang Street 29, #06-40"
+  } ]
+}

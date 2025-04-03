@@ -58,9 +58,10 @@ Whether you need to track employee milestones, update records, or generate quick
 
 1. ✅ Step 1: Make sure Java is installed
 
-    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17 or above installed on your computer.
+    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
 
-    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions
+    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
+
     👉 Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
     🔍 Not sure if Java is already installed?
     Open your terminal or command prompt and type:
@@ -434,8 +435,8 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 
 
 #### **Command Format**
-```plaintext
-deleteAnniversary eid/EMPLOYEE_ID ad/INDEX
+```plaintext 
+deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
 ```
 #### **Parameters**
 
@@ -813,7 +814,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **addAnni** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
 **showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ad/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
+**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
 **import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
 **export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 

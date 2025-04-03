@@ -47,7 +47,7 @@ public class DeleteAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Employee> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
+        List<Employee> matchedEmployees = model.getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix);
 
         if (matchedEmployees.size() > 1) {
             throw new CommandException(String.format(

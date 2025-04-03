@@ -56,7 +56,7 @@ public class AddAnniversaryCommandTest {
     @Test
     public void execute_addValidAnniversary_success() throws Exception {
         // Arrange
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
@@ -71,7 +71,7 @@ public class AddAnniversaryCommandTest {
     @Test
     public void execute_noMatchingEmployee_throwsCommandException() {
         // Arrange
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList());
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
@@ -92,7 +92,7 @@ public class AddAnniversaryCommandTest {
                 .tags(new HashSet<>())
                 .anniversaries(new ArrayList<>())
                 .build();
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee, secondEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
@@ -115,7 +115,7 @@ public class AddAnniversaryCommandTest {
                 .tags(baseEmployee.getTags())
                 .anniversaries(existing)
                 .build();
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList(employeeWithAnniversary));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
@@ -133,7 +133,7 @@ public class AddAnniversaryCommandTest {
                 "" // Name
         );
 
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, minimalAnniversary);
 
@@ -171,7 +171,7 @@ public class AddAnniversaryCommandTest {
                 .anniversaries(existingList)
                 .build();
 
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList(personWithAnni));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, newAnni);
 
@@ -185,7 +185,7 @@ public class AddAnniversaryCommandTest {
 
     @Test
     public void execute_addAnniversary_returnsNewPersonObject() throws Exception {
-        Mockito.when(model.getFilteredByEmployeeIdPrefixList(validEmployeeId))
+        Mockito.when(model.getFullFilteredByEmployeeIdPrefixListFromData(validEmployeeId))
                 .thenReturn(FXCollections.observableArrayList(baseEmployee));
         AddAnniversaryCommand command = new AddAnniversaryCommand(validEmployeeId, validAnniversary);
 
