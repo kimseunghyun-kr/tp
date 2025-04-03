@@ -3,29 +3,28 @@ layout: page
 title: H'Reers Developer Guide
 ---
 
-## *Mock UI*
+## UI
 
 <img src="images/Ui.png" alt="UI">
 
 ## *Table of Contents*
-1. [Mock UI](#mock-ui)
+1. [UI](#ui)
 2. [Setting up, Getting started](#setting-up-getting-started)
     2. [Architecture](#architecture)
-      1. [UI Component](#ui-component)
-      2. [Logic Component](#logic-component)
-      3. [Model Component](#model-component)
-      4. [Storage Component](#storage-component)
-      5. [Common Classes](#common-classes)
+        1. [UI Component](#ui-component)
+        2. [Logic Component](#logic-component)
+        3. [Model Component](#model-component)
+        4. [Storage Component](#storage-component)
+        5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-    1. [Save Employee Records](#save-employee-records)
-    2. [Employee Identification](#employee-identification)
-    3. [Edit Employee Records](#edit-employee-records)
-    4. [Add Anniversary](#addanniversarycommand)
-    5. [Delete Anniversary](#deleteanniversarycommand)
-    6. [Reminder](#reminder-feature)
-    7. [Find Employee](#find-employees-features)
-    8. [Import](#import-feature)
-    9. [Export](#export-feature)
+    1. [Employee Identification](#employee-identification)
+    2. [Edit Employee Records](#edit-employee-records)
+    3. [Add Anniversary](#addanniversarycommand)
+    4. [Delete Anniversary](#deleteanniversarycommand)
+    5. [Reminder](#reminder-feature)
+    6. [Find Employee Feature](#find-employees-feature)
+    7. [Import](#import-feature)
+    8. [Export](#export-feature)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
     1. [Product Scope](#product-scope)
@@ -35,17 +34,18 @@ title: H'Reers Developer Guide
     5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
     1. [Core Features](#core-features)
-      1. [Add Employee Records](#add-employee-records)
-      2. [Edit Employee Records](#edit-employee-records)
-      3. [Delete Employee Records](#delete-employee-records)
-      4. [Find Employee Records](#find-employee-records)
-      5. [Undo Changes](#undo-changes)
+        1. [Add Employee Records](#add-employee-records)
+        2. [Edit Employee Records](#edit-employee-records)
+        3. [Delete Employee Records](#delete-employee-records)
+        4. [Find Employee Records](#find-employee-records)
+        5. [Undo Changes](#undo-changes)
     2. [Anniversary Commands](#anniversary-commands)
-      1. [AddAnniversaryCommand](#addanniversarycommand)
-      2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
-      3. [ShowAnniversaryCommand](#showanniversarycommand)
+        1. [AddAnniversaryCommand](#add-anniversary-command)
+        2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+        3. [ShowAnniversaryCommand](#show-anniversary-command)
     3. [File Management](#file-management)
-      1. [Export Command](#export-command)
+        1. [Export Command](#export-command)
+        2. [Save Employee Records](#save-employee-records)
     4. [Viewing Upcoming Anniversaries](#viewing-upcoming-anniversaries-reminder-feature)
 7. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
 
@@ -564,7 +564,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 #### Use case 1: Adding an Employee
 
 **System**: H'Reers
+
 **Use case**: UC01 - Add New Employee
+
 **Actor:** HR Worker
 
 
@@ -642,6 +644,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 #### Use case 3: Find Employees
 
 **System**: H'Reers
+
 **Use case**: UC03 – Find Employees
 
 **Actor:** HR Worker
@@ -747,6 +750,28 @@ testers are expected to do more *exploratory* testing.
 ---
 ### Add Employee Records
 
+#### Prerequisites:
+H'Reers is running.
+
+#### Test Case 1: Add an employee with birthday and work anniversary
+```
+add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08
+```
+
+#### Expected Result:
+* `John Doe` is added to H'Reers.
+* His birthday and work anniversary are automatically created.
+* Success message is shown confirming the addition.
+
+#### Test Case 2: Invalid date format
+```
+add n/Linda Lee p/98765432 e/lindalee@example.com jp/Nurse bd/12-01-2000
+```
+
+#### Expected Result:
+* Command fails with error message: `Anniversary date must be in YYYY-MM-DD format.`
+* No employee is added.
+
 ---
 ### Delete Employee Records
 
@@ -754,8 +779,33 @@ testers are expected to do more *exploratory* testing.
 ### Edit Employee Records
 
 ---
-### Find Command
+### Find Employee Records
 
+#### Prerequisites:
+H'Reers is running and has employees:
+* Alex Yeoh (Hiring General)
+* David Li (Coding Manager)
+
+#### Test Case 1: Find by name only (partial match)
+```
+find n/Alex Li
+```
+
+#### Expected Result: No prefix provided
+* Employee list is filtered to show:
+    * Alex Yeoh
+    * David Li
+* Success message is shown: 2 employees listed.
+
+#### Test Case 2:
+```
+find Alice
+```
+
+#### Expected Result:
+* Command fails with:  `Invalid command format!`
+* No filtering occurs.
+*
 ---
 ### Undo Changes
 
@@ -769,11 +819,62 @@ testers are expected to do more *exploratory* testing.
 ### DeleteAnniversaryCommand
 
 ---
-### ShowAnniversary Command
+### Show Anniversary Command
+
+#### Prerequisites:
+H'Reers is running and has employee:
+* Alex Yeoh (eid: 4b190...)
+
+#### Test Case 1: Show anniversaries for an employee with no anniversaries
+Edit the eid accordingly.
+```
+showAnni eid/4b190
+```
+
+#### Expected Result:
+* A new window opens.
+* The anniversary list is empty.
+* Success message is still shown: Anniversaries shown for employeeId [full Eid]
+
+#### Test Case 2: Invalid command format (missing prefix)
+```
+showAnni 4b190
+```
+
+#### Expected Result:
+* Command fails with: Invalid command format!
+* No window opens.
+
+```
+showAnni eid/EMPLOYEE_ID
+```
+
+#### Example Commands:
+```
+showAnni eid/efgh3123
+```
+---
+### File Management
 
 ---
 ### Export Command
 
+### Save Employee Records
+#### Purpose:
+Ensures employee records persist across sessions.
+
+#### Command Format:
+- **Automatically saves every 30 seconds.**
+
+#### Outputs:
+- **Success:** `Save occurred successfully.`
+- **Failure:** `Save failed -> reverting to backup file.`
+
+#### Additional Targets:
+- Full flush backup (complete overwrite).
+- Intermediate .tmp file for autosave.
+
+---
 ---
 ### Viewing Upcoming Anniversaries (Reminder Feature)
 
@@ -818,22 +919,7 @@ testers are expected to do more *exploratory* testing.
 - Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
 
 ---
-### **Save Employee Records**
-#### Purpose:
-Ensures employee records persist across sessions.
 
-#### Command Format:
-- **Automatically saves every 30 seconds.**
-
-#### Outputs:
-- **Success:** `Save occurred successfully.`
-- **Failure:** `Save failed -> reverting to backup file.`
-
-#### Additional Targets:
-- Full flush backup (complete overwrite).
-- Intermediate .tmp file for autosave.
-
----
 ## **Appendix: Planned Enhancements**
 
 Team Size: 5

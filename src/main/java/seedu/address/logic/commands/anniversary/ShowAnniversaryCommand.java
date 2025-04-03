@@ -27,7 +27,7 @@ public class ShowAnniversaryCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + "eid/0c2414da-fafb-4e05-b4f7-befb22385381";
 
-    public static final String MESSAGE_SUCCESS = "Anniversaries shown! for employeeId %s";
+    public static final String MESSAGE_SUCCESS = "Anniversaries shown for employeeId %s";
 
     private EmployeeId employeeIdToFind;
 
