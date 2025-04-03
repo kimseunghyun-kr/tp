@@ -621,24 +621,29 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 ---
 ### Exporting data: `export`
 saves the currently visible list of people in the Hreers application to a file (JSON or CSV).
-If you provide a specific directory path (`fp/`), the system will export the file there.
-If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
-This means that you do **not** need to include the extension behind the file name.
-For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
-with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
 
-#### **Command Format**
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the export command:**<br>
+* If you provide a specific directory path (`fp/`), the system will export the file there. 
+* You must specify either `json` or `csv` using `ft/`
+* If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen 
+    * For example, If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.     
+* This means that you do **not** need to include the extension behind the file name.
+* If you do not provide (`fp/`), the default export location will be where the `jar` file is located.
+* If you specify a full file path including file name at `fp`, do not use `fn/` together.
+    * For example, do not do `fp/data/output.json fn/output`
+* For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
+* If the current list of displayed people is empty, export fails with an error.
+* Mismatched file types or inaccessible folders will cause an error.
+
+</div>
+
+Format
 ```plaintext
 export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 ```
-
-### **Parameters**
-
-| **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
-|------------|-------------------------------------------------|----------------------------|------------------------|
-| `ft/`      | The file type to export (`json` or `csv`)       | **Required**               | `json` or `csv`       |
-| `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
-| `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
 ### **Example Usage**
 ```plaintext
@@ -683,50 +688,14 @@ Explanation:
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
 
 
+#### Options Summary
 
-<details>
-<summary>Advanced command rules</summary>
+| **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
+|------------|-------------------------------------------------|----------------------------|------------------------|
+| `ft/`      | The file type to export (`json` or `csv`)       | **Required**               | `json` or `csv`       |
+| `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
+| `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
-1. **File Type Restrictions**
-    - You must specify either `json` or `csv` using `ft/`.
-
-2. **Empty Records**
-    - If the current list of displayed people is empty, export fails with an error.
-
-3. **File Path & Filename**
-    - Provide either just a path (e.g., `fp/output/`) and let the system use a default file name, or specify both a path and a filename.
-    - If you specify a full file path including a filename, do not also use `fn/`.
-
-4. **Auto-Extension**
-    - If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.
-
-5. **Error Handling**
-    - Mismatched file types or inaccessible directories (e.g., read/write issues) will cause an error.
-</details>
-
-<details>
-<summary>Common Errors & Messages</summary>
-
-- **`Invalid filetype`**
-  Occurs if you use something other than `json` or `csv` with `ft/`.
-
-- **`No people to export`**
-  Raised if no records are currently displayed for export.
-
-- **`Provide either a full file path or a filename, not both`**  
-  If `fp/` already includes a filename and `fn/` is also used.
-
-- **`Error exporting data`**
-  If an IOException or other issue happens during file creation.
-</details>
-
-<details>
-<summary>Tips</summary>
-
-- **Confirm the Output Path**: If none is provided, a default location may be used.
-- **Check the Exported File**: Verify the correct file extension and contents.
-- **Filtering**: Only exports the currently visible list of people, so use commands like `filter` or `search` beforehand.
-</details>
 
 ---
 ## Archiving data files `[coming in v2.0]`
