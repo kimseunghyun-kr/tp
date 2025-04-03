@@ -26,7 +26,7 @@ title: H'Reers Developer Guide
    4. [Non-Functional Requirements](#non-functional-requirements)
    5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-   1. Core Features
+   1. [Core Features](#core-features)
        1. [Add Employee Records](#add-employee-records)
        2. [Edit Employee Records](#edit-employee-records)
        3. [Delete Employee Records](#delete-employee-records)
@@ -409,7 +409,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 #### Use case 1: Adding an Employee
 
 **System**: H'Reers
+
 **Use case**: UC01 - Add New Employee
+
 **Actor:** HR Worker
 
 
@@ -431,8 +433,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
     - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
----
-
 **Extensions**
 
 * 2a. The list is empty.
@@ -445,10 +445,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+---
 #### Use case 2: Showing Anniversaries
 
 **System**: H'Reers
+
 **Use case**: UC02 - Add New Employee
+
 **Actor:** HR Worker
 
 **Preconditions**:
@@ -458,33 +461,34 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - The anniversaries associated with the specified employee are displayed.
 
 **Main Success Scenario (MSS)**:
-1. HR Worker enters the `showAnni` command with the specified employee’s ID. 
-2. H'Reers validates that:
-   - The Employee ID exists in the system. 
-   - Nothing is added before `eid/`.
-3. H'Reers retrieves the list of anniversaries associated with the employee. 
-4. H'Reers opens a new window or panel displaying:
+1. HR Worker enters the `showAnni` command with the specified employee’s ID.
+2. H'Reers retrieves the list of anniversaries associated with the employee. 
+3. H'Reers opens a new window or panel displaying:
    - Each anniversary’s name, date, and description (if any).
-5. A confirmation message is displayed, indicating successful retrieval. 
-6. Use case ends.
+4. A confirmation message is displayed, indicating successful retrieval. 
+5. Use case ends.
 
 **Extensions**:
-- 2a. Employee Not Found:
+- 1a. Employee Not Found:
   - H'Reers displays an error message indicating that no employee matches the specified ID. 
   - Use case ends.
 
-- 2b. Preamble Found:
+- 1b. Preamble Found:
     - H'Reers displays an error message indicating that the correct usage of the command.
     - Use case ends.
 
-- 4a. No anniversaries found:
-    - H'Reers displays a new windows with no anniversaries found.
-    - Use case resume at step 5.
+- 3a. No anniversaries found:
+    - H'Reers displays a new window with no anniversaries found.
+    - Use case resumes at step 5.
+
+---
 
 #### Use case 3: Find Employees
 
 **System**: H'Reers
+
 **Use case**: UC03 – Find Employees
+
 **Actor:** HR Worker
 
 **Preconditions**:
@@ -498,26 +502,27 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Main Success Scenario (MSS)**:
 1. HR Worker enters the `find` command with one or more search criteria using supported prefixes (`n/`, `jp/`).
-2. H'Reers validates that:
-   - At least one supported prefix is provided.
-   - No invalid preamble exists before the prefixes.
-   - At least one non-empty search field is present.
-3. H'Reers filters the employee list using a combined predicate and displays the filtered list.
-4. A confirmation message is shown, indicating how many matches were found.
-5. Use case ends.
+2. H'Reers filters the employee list using a combined predicate and displays the filtered list.
+3. A success message is shown indicating how many results were found.
+4. Use case ends.
 
 **Extensions**:
-- 2a. Employee Not Found:
-    - H'Reers displays an error message indicating that no employee matches the specified ID.
-    - Use case ends.
+- 1a. No Prefix Provided:
+  - H'Reers displays an error message indicating to add at least one prefix.
+  - Use case ends.
 
-- 2b. Preamble Found:
-    - H'Reers displays an error message indicating that the correct usage of the command.
-    - Use case ends.
+- 1b. Preamble Found:
+  - H'Reers displays an error message indicating the command format is invalid.
+  - Use case ends.
 
-- 4a. No anniversaries found:
-    - H'Reers displays a new windows with no anniversaries found.
-    - Use case resume at step 5.
+- 1c. All Fields Empty:
+  - H'Reers displays an error message indicating to add at least one prefix.
+  - Use case ends.
+
+- 2a. No Matching Employees Found:
+  - H'Reers displays an empty list.
+  - Use case resume at step 3.
+---
 
 ### Non-Functional Requirements
 
@@ -582,6 +587,11 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 ---
+
+### Core Features
+
+---
+
 ### Add Employee Records
 
 #### Purpose:
@@ -691,8 +701,51 @@ The edit command also supports the undo/redo feature by preserving the previous 
 
 ![EditCommandDiagram](images/EditSequenceDiagram.png)
 
-### Undo Changes
+---
 
+### **Find Command**
+
+#### Purpose:
+Allows HR workers to filter and view employees whose name or job position contains one or more specified keywords.
+
+#### Command Format:
+
+```
+find [n/NAME_KEYWORDS...] [jp/JOB_POSITION_KEYWORDS...]
+
+```
+
+#### Example Commands:
+
+```
+find n/Alice Bob
+```
+```
+find jp/Engineer Manager
+```
+```
+find n/John jp/Designer
+```
+
+#### Parameter Rules:
+- **NAME_KEYWORDS**: One or more name keywords separated by spaces. Partial matches allowed (e.g., n/Ali matches “Alice”).
+- **JOB_POSITION_KEYWORDS**: One or more whole-word keywords. Partial matches not allowed (e.g., jp/Eng does not match “Engineer”).
+- At least one prefix (n/ or jp/) must be present. Even though they are written as both optional as you can have one but not the other.
+- Whitespace between keywords is allowed and they will be counted as different keywords to search for.
+
+#### Outputs:
+- **Success**: Employee list is filtered to show only matching results. 
+A confirmation message appears as follows:
+  - Example: `2 employees listed!`
+- **Failure**: Various error messages depending on the issue:
+    - `Invalid command format!`
+    - `At least one non-empty field is required.`
+    - `Multiple employees found with prefix XYZ`
+    - `No employee found with prefix XYZ`
+
+---
+
+### **Undo Changes**
 #### Purpose:
 Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
 
@@ -894,6 +947,33 @@ deleteAnniversary eid/0c2414da ai/1
 - On successful deletion, the command returns a success message that includes the details of the deleted anniversary.
 
 ![DeleteAnniversaryCommand](images/DeleteAnniversaryCommandSequenceDiagram.png)
+
+---
+### **ShowAnniversaryCommand**
+
+#### Command Format:
+
+```
+showAnni eid/EMPLOYEE_ID
+```
+
+#### Example Commands:
+```
+showAnni eid/efgh3123
+```
+
+#### Parameter Rules:
+- **EMPLOYEE_ID**: Must be a valid UUID that uniquely identifies an employee.
+- The provided ID must exist in the system.
+- No preamble (text before the prefix) is allowed.
+
+#### Outputs:
+- **Success**: A new window opens displaying the list of anniversaries for the specified employee.
+  - If the employee has no anniversaries, the window still opens, but the list will be empty.
+- **Failure**: 
+  - `Invalid command format!` – When no prefix is used or preamble text is detected.
+  - `No employee found with employeeId starting with XYZ` – If the specified Employee ID does not match any employee in the system.
+  - 
 ---
 ### **exportCommand**
 #### Purpose
@@ -1107,25 +1187,26 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-
-1. Address the fullscreen bug issue for all windows
-- Description : Closing windows in fullscreen may cause it to crash.
-- Method to recreate (main)
-  2. When running the app
-  3. Open the app in fullscreen
-  4. Type help
-  5. Close help window
-  6. Repeat 3 and 4 enough times and the app will crash
-- Description : Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-- Method to recreate (anniversary)
+1. **Address the fullscreen bug issue for all windows**
+- **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
+- **Method to recreate (main)**
+  1. When running the app
+  2. Open the app in fullscreen
+  3. Type help
+  4. Close help window
+  5. Repeat 3 and 4 enough times and the app will crash
+- **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+- **Method to recreate (anniversary)**
   1. Open app
   2. Type showAnni xxx
   3. Fullscreen app and tile them side to side
   4. Close anni window
   5. App stops running and hangs
+- **Current Workaround**: Do not use fullscreen mode.
+- **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
   
-2. Stop enforcing the absence of prefix conflicts
-    - Current prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
-    - To resolve this, we plan to stop requiring the absence of prefix conflicts.
-    - Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+2. **Stop enforcing the absence of prefix conflicts**
+    - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
+    - **Current Workaround**: Have limited space for employees in the system.
+    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
