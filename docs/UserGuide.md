@@ -301,6 +301,7 @@ With just a few commands, you can:
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
 
+As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addtition of anniversaries that are in the future.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can use this format in 3 ways!
@@ -689,6 +690,7 @@ Explanation:
 `ft/json` — file type is JSON
 
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+As a convenience, on the in-app output, it will show how many employees have been saved.
 
 
 #### Options Summary

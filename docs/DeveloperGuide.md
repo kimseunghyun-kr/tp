@@ -627,7 +627,7 @@ Allows HR workers to manage employee anniversaries.
 ### **AddAnniversaryCommand**
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
-
+As the app's purpose is to keep track of **upcoming** anniversaries, it is allows the addtition of anniversaries that are in the future.
 #### Command Format
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
@@ -879,8 +879,8 @@ This will save your current contact list as a file named `output.json` in the fo
   - The final resolved file path must have an extension that exactly matches the provided file type (.json for json and .csv for csv).
 #### Outputs:
 Success:
-- On successful export, the command returns a message formatted as: `Exported <displayed_employees> employees in <filetype> format to <resolved_path>`
-- `<displayed_employees>` lists the employees that were visible at the time of export.
+- On successful export, the command returns a message formatted as: `Exported <num_displayed_employees> employees in <filetype> format to <resolved_path>`
+- `<num_displayed_employees>` number of employees that were visible at the time of export.
 - `<resolved_path>` is the final file path where data was exported.
 
 Failure Cases:
@@ -921,7 +921,7 @@ Failure Cases:
 - Any errors during file writing or conversion result in a caught exception and an appropriate error message.
 
 4. Returning the Outcome:
-- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees, file type, and resolved file path).
+- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
 
 ![exportCommand](images/ExportSequenceDiagram.png)
 
