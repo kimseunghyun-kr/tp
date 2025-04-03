@@ -534,8 +534,7 @@ Below is an example of how the reminders appear on the UI:
 
 ![reminderListUI.png](images/remindersListUI.png)
 
-The remainders appear on the panel when you type in `reminder`.
-
+The reminders appear on the panel when you type in `reminder`.
 ---
 ## Quality of Life Features
 
