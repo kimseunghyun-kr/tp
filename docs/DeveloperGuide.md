@@ -814,10 +814,71 @@ find Alice
 
 ---
 ### Add Anniversary Command
+1. Standard Anniversary Creation - Success
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addAnni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+
+Expected:
+
+A new anniversary is added to the employee with ID starting with "<existing_employee_id_prefix>".
+The anniversary has name "Company Foundation Day", date "2024-06-15", type "Corporate" with type description "Annual company celebration" and description "Celebrating our company's founding".
+Success message: "New anniversary added: [anniversary details]" is displayed.
+
+2. Missing Employee ID - Failure
+   Prerequisites: Ensure the application is running.
+
+Test case: addAnni d/2024-06-15 an/Company Foundation Day at/Corporate
+
+Expected:
+
+No anniversary is added.
+Error message: "Invalid command format! [usage information]" is displayed.
+
+3. Invalid Date Format - Failure
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: addAnni eid/<existing_employee_id_prefix> d/15-06-2024 an/Company Foundation Day at/Corporate
+
+Expected:
+
+No anniversary is added.
+Error message: "Anniversary date must be in YYYY-MM-DD format." is displayed.
 
 ---
 ### DeleteAnniversaryCommand
+1. Standard Anniversary Deletion - Success
+   Prerequisites: Ensure the application is running with an existing employee and AT LEAST ONE anniversary in the database.
 
+Test case: deleteAnni eid/<existing_employee_id_prefix> ai/1
+
+Expected:
+
+Anniversary with index 1 is removed from the given employee
+Success message: "Anniversary deleted: [anniversary details]" is displayed.
+
+2. Out of bound anniversary ID - Failure
+   Prerequisites: Ensure the application is running.
+   Ensure the application is running with an existing employee with no anniversary
+
+Test case: deleteAnni eid/<existing_employee_id_prefix> ai/1
+
+Expected:
+
+No anniversary is deleted.
+Error message: "The index you are searching for is out of bounds for the anniversary." is displayed.
+
+3. Missing Employee Id - Failure
+   Prerequisites: Ensure the application is running with an existing employee in the database.
+
+Test case: deleteAnni eid/ ai/1
+
+Expected:
+
+No anniversary is deleted.
+Error message: "Invalid command format!
+deleteAnni: deletes an anniversary to the employee identified by a prefix of their Employee ID.
+Parameters: eid/EMPLOYEE_ID ai/index " is displayed.
 ---
 ### Show Anniversary Command
 
@@ -858,6 +919,14 @@ showAnni eid/efgh3123
 
 ---
 ### Export Command
+1. Standard export - Success
+   Prerequisites: Ensure the application is displaying some data of choice
+
+Test case: export ft/json
+
+Expected:
+
+a json file containing data that is currently being displayed beside the jar file
 
 ### Save Employee Records
 #### Purpose:
