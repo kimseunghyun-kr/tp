@@ -834,6 +834,14 @@ Parameters: eid/EMPLOYEE_ID ai/index " is displayed.
 
 ---
 ### Export Command
+1. Standard export - Success
+   Prerequisites: Ensure the application is displaying some data of choice
+
+Test case: export ft/json
+
+Expected:
+
+a json file containing data that is currently being displayed beside the jar file
 
 ---
 ### Viewing Upcoming Anniversaries (Reminder Feature)
