@@ -165,7 +165,7 @@ public class ModelManager implements Model {
         );
         return Optional.of(reminder);
     }
-    
+
     //@@author cscms03
     /**
      * Returns the next occurrence of a given date (month and day),
@@ -203,7 +203,7 @@ public class ModelManager implements Model {
     public ObservableList<Reminder> getReminderList() {
         return FXCollections.unmodifiableObservableList(reminderList);
     }
-    
+
     @Override
     public boolean hasEmployee(Employee employee) {
         requireNonNull(employee);
