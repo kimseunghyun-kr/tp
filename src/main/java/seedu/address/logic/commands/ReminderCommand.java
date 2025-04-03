@@ -22,7 +22,7 @@ public class ReminderCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Displayed employees with upcoming anniversaries! \n"
             + "Only employees with anniversaries upcoming within 3 days will appear on the panel.";
 
-    private final Logger logger = LogsCenter.getLogger(LogicManager.class);
+    private final Logger logger = LogsCenter.getLogger(ReminderCommand.class);
 
 
     @Override
