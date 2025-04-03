@@ -1,0 +1,53 @@
+@startuml
+actor User
+
+' === Group by architectural layer using AB3-style boxes ===
+
+box "Logic" #LightBlue
+participant LogicManager
+participant ReminderCommandParser
+participant ReminderCommand
+end box
+
+box "Model" #LightPink
+participant Model
+end box
+
+box "UI" #LightYellow
+participant ReminderListPanel
+participant ReminderCard
+end box
+
+User -> LogicManager : execute("reminder")
+activate LogicManager
+
+LogicManager -> ReminderCommandParser : parse("reminder")
+activate ReminderCommandParser
+ReminderCommandParser --> ReminderCommand : new ReminderCommand()
+deactivate ReminderCommandParser
+
+LogicManager -> ReminderCommand : execute(model)
+activate ReminderCommand
+
+ReminderCommand -> Model : updateReminderList()
+activate Model
+deactivate Model
+
+ReminderCommand -> Model : getReminderList()
+activate Model
+Model --> ReminderCommand : List<Reminder>
+deactivate Model
+
+ReminderCommand --> LogicManager : CommandResult
+deactivate ReminderCommand
+
+LogicManager -> ReminderListPanel : update(List<Reminder>)
+activate ReminderListPanel
+
+loop For each reminder in list
+  ReminderListPanel -> ReminderCard : new ReminderCard(...)
+end
+deactivate ReminderListPanel
+
+deactivate LogicManager
+@enduml
