@@ -51,13 +51,13 @@ title: H'Reers Developer Guide
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Acknowledgements**
+## Acknowledgements
 
 * This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html),[github](https://github.com/se-edu/addressbook-level3))
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Setting up, getting started**
+## Setting up, getting started
 
 Refer to the guide [_Setting up and getting started_](SettingUp.md).
 
@@ -361,7 +361,7 @@ The filtering is based on whether an anniversary falls within the next 3 days. I
 ```java
 public static final int REMINDED_DATE_RANGE = 3;
 ```
-
+---
 ### Find Employees Feature
 The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
 
@@ -523,7 +523,7 @@ The following sequence diagram illustrates the steps described above:
 ![exportCommand](images/ExportSequenceDiagram.png)
 
 --------------------------------------------------------------------------------------------------------------------
-## **Documentation, logging, testing, configuration, dev-ops**
+## Documentation, logging, testing, configuration, dev-ops
 
 * [Documentation guide](Documentation.md)
 * [Testing guide](Testing.md)
@@ -533,7 +533,7 @@ The following sequence diagram illustrates the steps described above:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Appendix: Requirements**
+## Appendix: Requirements
 
 ### Product scope
 
@@ -559,7 +559,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 *{More to be added}*
 
-### **Use cases**
+### Use cases
 
 #### Use case 1: Adding an Employee
 
@@ -775,8 +775,52 @@ add n/Linda Lee p/98765432 e/lindalee@example.com jp/Nurse bd/12-01-2000
 ---
 ### Delete Employee Records
 
+#### Purpose:
+Allows HR workers to remove outdated or incorrect employee records.
+#### Command Format:
+```
+delete n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY
+```
+#### Example Commands:
+```
+delete n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20
+```
+#### Outputs:
+- **Success:** `Employee John Doe deleted successfully.`
+- **Failure:** `Error: Employee not found.`
+#### Duplicate Handling:
+If multiple employees match, prompt for additional details to ensure correctness.
+
 ---
 ### Edit Employee Records
+#### Purpose:
+Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
+#### Command Format:
+```
+edit EMPLOYEE_ID_PREFIX [n/NAME] [p/PHONE] [e/EMAIL] [j/JOBPOSITION] [t/TAG]... [eid/EMPLOYEE_ID]
+```
+#### Example Commands:
+```
+edit abcd12 p/91234567 e/johndoe@example.com eid/efgh3123
+```
+```
+edit 5678ef n/Jane Smith j/Senior Manager t/management
+```
+#### Parameter Rules:
+- **EMPLOYEE_ID_PREFIX**: Must match exactly one employee in the system
+- **NAME**: Alphabets and spaces only, case-insensitive
+- **PHONE**: Numbers only
+- **EMAIL**: Must contain '@' and valid domain
+- **JOBPOSITION**: Must be a valid job position
+- **TAG**: Alphanumeric words
+- **EMPLOYEE_ID**: Valid UUID format
+#### Outputs:
+- **Success**: `Edited Employee: [name] Phone: [phone] Email: [email] Job Position: [jobPosition] Tags: [tags]`
+- **Failure**: Various error messages depending on the issue:
+    - `At least one field to edit must be provided.`
+    - `Multiple employees found with prefix XYZ`
+    - `No employee found with prefix XYZ`
+    - `The new employee ID conflicts with existing employee IDs`
 
 ---
 ### Find Employee Records
@@ -805,9 +849,25 @@ find Alice
 #### Expected Result:
 * Command fails with:  `Invalid command format!`
 * No filtering occurs.
-*
+
 ---
 ### Undo Changes
+#### Purpose:
+Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
+
+#### Command Format:
+```
+undo
+```
+#### Functionality:
+* **Undo Last Action**: Reverts the most recent change made to the employee data. If the last operation was adding a new employee, the employee will be removed. If the last operation was deleting an employee, the employee will be restored.
+##### Outputs:
+* **Success**: Undo successful. Last action reverted.
+* **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
+---
+### Anniversary commands
+#### Purpose:
+Allows HR workers to manage employee anniversaries.
 
 ---
 ### Anniversary commands
@@ -879,6 +939,7 @@ No anniversary is deleted.
 Error message: "Invalid command format!
 deleteAnni: deletes an anniversary to the employee identified by a prefix of their Employee ID.
 Parameters: eid/EMPLOYEE_ID ai/index " is displayed.
+
 ---
 ### Show Anniversary Command
 
@@ -989,7 +1050,7 @@ Ensures employee records persist across sessions.
 
 ---
 
-## **Appendix: Planned Enhancements**
+## Appendix: Planned Enhancements
 
 Team Size: 5
 
