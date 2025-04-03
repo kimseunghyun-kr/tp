@@ -5,7 +5,7 @@ title: H'Reers Developer Guide
 
 ## *Mock UI*
 
-<img src="./images/MockUI.png" alt="UI">
+<img src="images/Ui.png" alt="UI">
 
 ## *Table of Contents*
 1. [Mock UI](#mock-ui)
@@ -456,13 +456,35 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  The product should be for a single user.
-5.  No usage of a shared file storage mechanism.
 
-*{More to be added}*
+1. **Performance**
+- Application must start within 3 seconds on standard hardware
+- All commands must execute with response time under 1 second
+- System must handle up to 1000 employee records without performance degradation
+- Reminder calculations must complete within 2 seconds even with maximum load
+
+2. **Reliability**
+- Data persistence with automatic saving after any modification
+- Backup creation before high-risk operations
+- Undo functionality must restore system to previous state with 100% accuracy
+
+3. **Usability**
+- The product should be for a single user
+- CLI commands must follow consistent syntax patterns
+- New HR users should master core functions within 10 minutes
+- A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse
+- Error messages must clearly explain issues and suggest corrections 
+
+4. **Compatibility**
+- Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+- Data files must maintain backward compatibility with previous versions
+- Export formats (JSON, CSV) must be compatible with standard HR tools like Excel
+
+5. **Maintainability**
+- Code documentation for all major components
+- Minimum 80% unit test coverage
+- Modular architecture allowing feature extensions
+- Clear separation of concerns between UI, Logic, Model, and Storage components
 
 ### Glossary
 
