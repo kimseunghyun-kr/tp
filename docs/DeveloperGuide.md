@@ -17,15 +17,14 @@ title: H'Reers Developer Guide
         4. [Storage Component](#storage-component)
         5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-    1. [Save Employee Records](#save-employee-records)
-    2. [Employee Identification](#employee-identification)
-    3. [Edit Employee Records](#edit-employee-records)
-    4. [Add Anniversary](#addanniversarycommand)
-    5. [Delete Anniversary](#deleteanniversarycommand)
-    6. [Reminder](#reminder-feature)
-    7. [Find Employee Feature](#find-employees-feature)
-    8. [Import](#import-feature)
-    9. [Export](#export-feature)
+    1. [Employee Identification](#employee-identification)
+    2. [Edit Employee Records](#edit-employee-records)
+    3. [Add Anniversary](#addanniversarycommand)
+    4. [Delete Anniversary](#deleteanniversarycommand)
+    5. [Reminder](#reminder-feature)
+    6. [Find Employee Feature](#find-employees-feature)
+    7. [Import](#import-feature)
+    8. [Export](#export-feature)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
     1. [Product Scope](#product-scope)
@@ -46,6 +45,7 @@ title: H'Reers Developer Guide
         3. [ShowAnniversaryCommand](#show-anniversary-command)
     3. [File Management](#file-management)
         1. [Export Command](#export-command)
+        2. [Save Employee Records](#save-employee-records)
     4. [Viewing Upcoming Anniversaries](#viewing-upcoming-anniversaries-reminder-feature)
 7. [Appendix: Planned Enhancements](#appendix-planned-enhancements)
 
@@ -192,23 +192,6 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 This section describes some noteworthy details on how certain features are implemented.
 
 ---
-### Save Employee Records
-#### Purpose:
-Ensures employee records persist across sessions.
-
-#### Command Format:
-- **Automatically saves every 30 seconds.**
-
-#### Outputs:
-- **Success:** `Save occurred successfully.`
-- **Failure:** `Save failed -> reverting to backup file.`
-
-#### Additional Targets:
-- Full flush backup (complete overwrite).
-- Intermediate .tmp file for autosave.
-
----
-
 ### Employee Identification
 
 Our employeeId utilize a UUID based prefix matching system.
@@ -905,6 +888,22 @@ showAnni eid/efgh3123
 ---
 ### Export Command
 
+### Save Employee Records
+#### Purpose:
+Ensures employee records persist across sessions.
+
+#### Command Format:
+- **Automatically saves every 30 seconds.**
+
+#### Outputs:
+- **Success:** `Save occurred successfully.`
+- **Failure:** `Save failed -> reverting to backup file.`
+
+#### Additional Targets:
+- Full flush backup (complete overwrite).
+- Intermediate .tmp file for autosave.
+
+---
 ---
 ### Viewing Upcoming Anniversaries (Reminder Feature)
 
