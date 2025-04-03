@@ -393,26 +393,23 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - The anniversaries associated with the specified employee are displayed.
 
 **Main Success Scenario (MSS)**:
-1. HR Worker enters the `showAnni` command with the specified employee’s ID. 
-2. H'Reers validates that:
-   - The Employee ID exists in the system. 
-   - Nothing is added before `eid/`.
-3. H'Reers retrieves the list of anniversaries associated with the employee. 
-4. H'Reers opens a new window or panel displaying:
+1. HR Worker enters the `showAnni` command with the specified employee’s ID.
+2. H'Reers retrieves the list of anniversaries associated with the employee. 
+3. H'Reers opens a new window or panel displaying:
    - Each anniversary’s name, date, and description (if any).
-5. A confirmation message is displayed, indicating successful retrieval. 
-6. Use case ends.
+4. A confirmation message is displayed, indicating successful retrieval. 
+5. Use case ends.
 
 **Extensions**:
-- 2a. Employee Not Found:
+- 1a. Employee Not Found:
   - H'Reers displays an error message indicating that no employee matches the specified ID. 
   - Use case ends.
 
-- 2b. Preamble Found:
+- 1b. Preamble Found:
     - H'Reers displays an error message indicating that the correct usage of the command.
     - Use case ends.
 
-- 4a. No anniversaries found:
+- 3a. No anniversaries found:
     - H'Reers displays a new windows with no anniversaries found.
     - Use case resume at step 5.
 
@@ -433,26 +430,26 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Main Success Scenario (MSS)**:
 1. HR Worker enters the `find` command with one or more search criteria using supported prefixes (`n/`, `jp/`).
-2. H'Reers validates that:
-   - At least one supported prefix is provided.
-   - No invalid preamble exists before the prefixes.
-   - At least one non-empty search field is present.
-3. H'Reers filters the employee list using a combined predicate and displays the filtered list.
-4. A confirmation message is shown, indicating how many matches were found.
-5. Use case ends.
+2. H'Reers filters the employee list using a combined predicate and displays the filtered list.
+3. A success message is shown indicating how many results were found.
+4. Use case ends.
 
 **Extensions**:
-- 2a. Employee Not Found:
-    - H'Reers displays an error message indicating that no employee matches the specified ID.
-    - Use case ends.
+- 1a. No Prefix Provided:
+  - H'Reers displays an error message indicating to add at least one prefix.
+  - Use case ends.
 
-- 2b. Preamble Found:
-    - H'Reers displays an error message indicating that the correct usage of the command.
-    - Use case ends.
+- 1b. Preamble Found:
+  - H'Reers displays an error message indicating the command format is invalid.
+  - Use case ends.
 
-- 4a. No anniversaries found:
-    - H'Reers displays a new windows with no anniversaries found.
-    - Use case resume at step 5.
+- 1c. All Fields Empty:
+  - H'Reers displays an error message indicating to add at least one prefix.
+  - Use case ends.
+
+- 2a. No Matching Employees Found:
+  - H'Reers displays an empty list.
+  - Use case resume at step 3.
 
 ### Non-Functional Requirements
 
