@@ -750,7 +750,7 @@ testers are expected to do more *exploratory* testing.
 ---
 ### Add Employee Records
 
-#### Prereequisites:
+#### Prerequisites:
 H'Reers is running.
 
 #### Test Case 1: Add an employee with birthday and work anniversary
