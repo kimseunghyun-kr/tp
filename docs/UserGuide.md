@@ -302,6 +302,7 @@ Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
 
 As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addtition of anniversaries that are in the future.
+As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 You can use this format in 3 ways!
