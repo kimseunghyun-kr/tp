@@ -19,8 +19,8 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
-import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
 import seedu.address.model.reminder.Reminder;
+import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
 import seedu.address.storage.Storage;
 
 /**
