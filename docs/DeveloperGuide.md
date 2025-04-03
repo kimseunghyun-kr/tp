@@ -543,7 +543,7 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 ![AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
 
 ---
-### **DeleteAnniversaryCommand**
+### DeleteAnniversaryCommand
 #### Purpose
 removes a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
