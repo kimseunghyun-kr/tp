@@ -5,8 +5,8 @@ skinparam ArrowFontStyle plain
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
-participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
-participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
+participant ":EditCommandParser" as EditCommandParser LOGIC_COLOR
+participant "e:EditCommand" as EditCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
 end box
 
@@ -14,56 +14,78 @@ box Model MODEL_COLOR_T1
 participant "m:Model" as Model MODEL_COLOR
 end box
 
-[-> LogicManager : execute("delete 1")
+[-> LogicManager : execute("edit 1 n/NewName")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("delete 1")
+LogicManager -> AddressBookParser : parseCommand("edit 1 n/NewName")
 activate AddressBookParser
 
-create DeleteCommandParser
-AddressBookParser -> DeleteCommandParser
-activate DeleteCommandParser
+create EditCommandParser
+AddressBookParser -> EditCommandParser
+activate EditCommandParser
 
-DeleteCommandParser --> AddressBookParser
-deactivate DeleteCommandParser
+EditCommandParser --> AddressBookParser
+deactivate EditCommandParser
 
-AddressBookParser -> DeleteCommandParser : parse("1")
-activate DeleteCommandParser
+AddressBookParser -> EditCommandParser : parse("1 n/NewName")
+activate EditCommandParser
 
-create DeleteCommand
-DeleteCommandParser -> DeleteCommand
-activate DeleteCommand
+create EditCommand
+EditCommandParser -> EditCommand
+activate EditCommand
 
-DeleteCommand --> DeleteCommandParser :
-deactivate DeleteCommand
+EditCommand --> EditCommandParser :
+deactivate EditCommand
 
-DeleteCommandParser --> AddressBookParser : d
-deactivate DeleteCommandParser
+EditCommandParser --> AddressBookParser : e
+deactivate EditCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-DeleteCommandParser -[hidden]-> AddressBookParser
-destroy DeleteCommandParser
+EditCommandParser -[hidden]-> AddressBookParser
+destroy EditCommandParser
 
-AddressBookParser --> LogicManager : d
+AddressBookParser --> LogicManager : e
 deactivate AddressBookParser
 
-LogicManager -> DeleteCommand : execute(m)
-activate DeleteCommand
+LogicManager -> EditCommand : execute(m)
+activate EditCommand
 
-DeleteCommand -> Model : deletePerson(1)
+EditCommand -> Model : getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix)
 activate Model
 
-Model --> DeleteCommand
+Model --> EditCommand
+deactivate Model
+
+EditCommand -> Model : commitChanges()
+activate Model
+
+Model --> EditCommand
+deactivate Model
+
+EditCommand -> EditCommand : createEditedEmployee(employeeToEdit, editEmployeeDescriptor)
+activate EditCommand
+deactivate EditCommand
+
+EditCommand -> Model : setEmployee(employeeToEdit, editedEmployee)
+activate Model
+
+Model --> EditCommand
+deactivate Model
+
+EditCommand -> Model : updateFilteredEmployeeList(PREDICATE_SHOW_ALL_EMPLOYEES)
+activate Model
+
+Model --> EditCommand
 deactivate Model
 
 create CommandResult
-DeleteCommand -> CommandResult
+EditCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> DeleteCommand
+CommandResult --> EditCommand
 deactivate CommandResult
 
-DeleteCommand --> LogicManager : r
-deactivate DeleteCommand
+EditCommand --> LogicManager : r
+deactivate EditCommand
 
 [<--LogicManager
 deactivate LogicManager
