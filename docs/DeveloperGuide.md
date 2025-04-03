@@ -439,10 +439,9 @@ undo
 Allows HR workers to manage employee anniversaries.
 
 ---
-
 ### **AddAnniversaryCommand**
-### Adding Anniversaries: `addAnni`
-- **Description**: Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
+#### Purpose
+Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 
 #### Command Format
 ``` plaintext
@@ -471,7 +470,7 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 
 > **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
 
-#### Example Usage
+#### Example Command
 ```plaintext
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
 ```
@@ -519,7 +518,7 @@ Constraints:
   - The n/ prefix must be provided to denote the name for the work anniversary entry. 
 - Do not mix fields from different anniversary types. For example, providing both an/ with bd/ or wa/ in the same command will result in a conflict.
 
-#### Output
+#### Outputs:
 - **success:** `New anniversary added: <anniversary_details>`
 - **Failure Cases**:
     - Missing Required Fields: `Invalid command format! <AddAnniversaryCommand MESSAGE_USAGE>`
@@ -530,8 +529,49 @@ Constraints:
     - No Matching Employee: `No employee found with employeeId starting with <employeeId_prefix>`
     - Duplicate Anniversary: `This exact anniversary (date + name + type + description) already exists for that employee.`
 
----
+#### Implementation:
+The add anniversary command is implemented by the AddAnniversaryCommand class, which extends the abstract Command class. It works through the following process:
 
+1. The AddAnniversaryCommandParser parses the command input to extract the employee ID prefix and the anniversary details.
+2. The command identifies the target employee using the employee ID prefix.
+3. The system verifies that exactly one employee matches the provided prefix.
+4. The command checks for duplicate anniversary entries in the target employee's record.
+5. If no duplicate exists, a new employee object is created with an updated anniversary list, while preserving unchanged fields from the original employee.
+6. The original employee record is replaced with the updated version in the model.
+7. A success message is returned confirming the addition of the anniversary.
+
+[AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
+
+---
+### **DeleteAnniversaryCommand**
+#### Purpose
+removes a specific anniversary from an existing employee’s record, based on the anniversary's
+order within the Employee's list of anniversaries.
+
+#### **Command Format**
+```plaintext 
+deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
+```
+#### **Parameters**
+
+| **Prefix** | **Meaning**                                                   | **Required?** | **Example**  |
+|------------|---------------------------------------------------------------|---------------|-------------|
+| `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
+| `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
+
+#### **Example Command**
+```plaintext
+deleteAnniversary eid/0c2414da ai/1
+```
+- `deleteAnniversary` - the command you are running
+- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
+- `ai/1`: the index of the anniversary you want to delete
+  this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
+
+#### Parameter Rules:
+
+#### Outputs:
+---
 ### Reminder for Events
 #### Purpose:
 Notifies HR about upcoming employee birthdays and work anniversaries.
