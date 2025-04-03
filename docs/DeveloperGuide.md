@@ -5,7 +5,7 @@ title: H'Reers Developer Guide
 
 ## *Mock UI*
 
-<img src="./images/MockUI.png" alt="UI">
+<img src="images/Ui.png" alt="UI">
 
 ## *Table of Contents*
 1. [Mock UI](#mock-ui)
@@ -17,8 +17,7 @@ title: H'Reers Developer Guide
     4. [Storage Component](#storage-component)
     5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-   1. [Save Employee Records](#save-employee-records)
-   2. smth
+    1. [Save Employee Records](#save-employee-records)
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
    1. [Product Scope](#product-scope)
@@ -27,15 +26,15 @@ title: H'Reers Developer Guide
    4. [Non-Functional Requirements](#non-functional-requirements)
    5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-   1. [Core Features]()
+   1. Core Features
        1. [Add Employee Records](#add-employee-records)
        2. [Edit Employee Records](#edit-employee-records)
        3. [Delete Employee Records](#delete-employee-records)
        4. [Undo Changes](#undo-changes)
    2. [Anniversary Commands](#anniversary-commands)
-      1. [AddAnniversaryCommand](#addanniversarycommand)
-      2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
-      3. [ShowAnniversaryCommand](#showanniversarycommand)
+       1. [AddAnniversaryCommand](#addanniversarycommand)
+       2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+       3. [ShowAnniversaryCommand](#showanniversarycommand)
    3. [Reminder for Events](#reminder-for-events)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -193,28 +192,46 @@ that violate the prefix matching rule, following the lazy validation principle.
 ---
 ### Reminder Feature
 
-The `reminder` feature displays a list of upcoming employee anniversaries (birthdays, work anniversaries, and custom anniversaries) occurring within the next 3 days. This section details the implementation of this feature.
+The **reminder** feature is facilitated by the `ReminderCommand`. It helps users view upcoming birthdays and work anniversaries by scanning through all stored employees and collecting relevant date-based reminders.
 
-#### Design Overview
+Internally, this feature is supported by:
+- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
+- `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
+- `Model#getReminderList()` – Provides read-only access to the current list of reminders.
+- `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
 
-The `reminder` command is implemented using the `ReminderCommand` class. It interacts with the `Model` to compute a list of upcoming reminders. These reminders are displayed in the UI using a custom `ReminderListPanel`.
+The `ReminderCommand` executes the following:
+1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
+2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
+3. Results are sorted by upcoming date and stored in an observable list.
+4. The UI automatically updates by binding to this observable list.
 
-The model maintains an internal `ObservableList<Reminder>` that is updated when the command is executed. The `Reminder` class encapsulates:
-- A reference to the `Person` whose anniversary is being shown
-- The `AnniversaryType` (e.g., birthday, wedding)
-- The date of the anniversary
-- An optional description
+Given below is an example use case showing how the reminder feature behaves step-by-step.
 
-#### Execution Flow
+**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
 
-The execution of the `reminder` command proceeds as follows:
+**Step 2.** The user executes the command:
+```
+reminder
+```  
+This triggers the `ReminderCommand`, which performs the following steps internally:
+- Retrieves all employees via `Model#getFilteredPersonList()`.
+- For each employee, iterates through all anniversaries.
+- Checks whether each anniversary is within **3 days** from today.
+- Creates a `Reminder` object for each upcoming event.
+- Sorts the list of reminders by date.
+- Stores the sorted reminders in an observable list using `Model#updateReminderList()`.
 
-1. `LogicManager` receives the command string `"reminder"` and passes it to the `ReminderCommandParser`.
-2. `ReminderCommandParser` creates a new `ReminderCommand` object.
-3. Upon execution, `ReminderCommand` calls `model.updateReminderList()`, which filters all `Person` objects to find anniversaries within the next 3 days.
-4. The `ModelManager` updates its internal observable reminder list.
-5. `ReminderCommand` then calls `model.getReminderList()` to retrieve this list.
-6. The UI listens to this observable list and renders a `ReminderCard` for each upcoming reminder in a `ReminderListPanel`.
+**Step 3.** The `ReminderListPanel` in the UI detects the update in the observable list and renders each reminder using a `ReminderCard`. Each card shows:
+- The employee’s name and job position.
+- The type of anniversary (e.g., "Birthday", "Work Anniversary").
+- A short description and how soon the event is (e.g., “upcoming in 2 days”).
+
+> 💡 **Note:**  
+> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
+
+> 🛡️ **Note:**  
+> Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
 
 #### Sequence Diagram
 
@@ -301,8 +318,56 @@ The diagram below illustrates the sequence of interactions when a user issues th
 <img src="images/FindSequenceDiagram.png" width="700" />
 
 ---
---------------------------------------------------------------------------------------------------------------------
+### Import Feature
 
+The `import` feature allows users to load external data from JSON or CSV files into the H'reers address book.
+It supports two write modes: `append` (to merge with existing records) and `overwrite` (to replace them entirely).
+
+This feature enhances user productivity by allowing them to integrate employee data from external sources such as HR software exports or spreadsheets.
+
+#### Implementation
+
+The import functionality is primarily handled by the following classes:
+
+- `ImportCommand`: Executes the import logic by calling the format converter and updating the model accordingly.
+- `ImportCommandParser`: Parses the user's import command input and constructs an `ImportCommand` with the appropriate parameters.
+- `AddressBookFormatConverter`: Handles reading from external JSON or CSV files and converting the content into the internal `AddressBook` data structure.
+
+Below is a walkthrough of how the feature works at runtime.
+
+#### Step 1: User executes import command
+
+When the user types a command such as:
+```
+import ft/json fp/data/ fn/contacts wm/append
+```
+the `LogicManager` delegates the parsing to `ImportCommandParser`, which constructs an `ImportCommand` using the provided arguments.
+
+#### Step 2: Input file is read and parsed
+
+`ImportCommand` calls `AddressBookFormatConverter.convert(...)`, which reads the file based on the given `ft` (file type), and converts it into an internal `AddressBook` object.
+
+- If `ft/json`, it is parsed using Jackson JSON utilities.
+- If `ft/csv`, it is manually parsed line-by-line and converted into employees.
+
+#### Step 3: Import is merged or replaces current state
+
+Depending on the `wm/` write mode:
+
+- `append`: New data is merged with existing `AddressBook`. Duplicate employees (based on ID) are replaced.
+- `overwrite`: The entire current address book is replaced with the newly imported address book.
+
+#### Step 4: Model and storage are updated 
+
+- After merging or replacing, the model is updated using `model.setAddressBook()`, and the new data is committed to storage.
+
+#### Sequence Diagram 
+
+The following sequence diagram illustrates the steps described above:
+
+![Import Sequence Diagram](images/ImportSequenceDiagram.png)
+
+--------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -456,13 +521,35 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 employees without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-4.  The product should be for a single user.
-5.  No usage of a shared file storage mechanism.
 
-*{More to be added}*
+1. **Performance**
+- Application must start within 3 seconds on standard hardware
+- All commands must execute with response time under 1 second
+- System must handle up to 1000 employee records without performance degradation
+- Reminder calculations must complete within 2 seconds even with maximum load
+
+2. **Reliability**
+- Data persistence with automatic saving after any modification
+- Backup creation before high-risk operations
+- Undo functionality must restore system to previous state with 100% accuracy
+
+3. **Usability**
+- The product should be for a single user
+- CLI commands must follow consistent syntax patterns
+- New HR users should master core functions within 10 minutes
+- A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse
+- Error messages must clearly explain issues and suggest corrections 
+
+4. **Compatibility**
+- Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
+- Data files must maintain backward compatibility with previous versions
+- Export formats (JSON, CSV) must be compatible with standard HR tools like Excel
+
+5. **Maintainability**
+- Code documentation for all major components
+- Minimum 80% unit test coverage
+- Modular architecture allowing feature extensions
+- Clear separation of concerns between UI, Logic, Model, and Storage components
 
 ### Glossary
 
@@ -470,7 +557,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Private contact detail**: A contact detail that is not meant to be shared with others
 
 --------------------------------------------------------------------------------------------------------------------
-## **Appendix: Instructions for manual testing**
+## Appendix: Instructions for manual testing
 
 Given below are instructions to test the app manually.
 
@@ -495,7 +582,7 @@ testers are expected to do more *exploratory* testing.
        Expected: The most recent window size and location is retained.
 
 ---
-### **Add Employee Records**
+### Add Employee Records
 
 #### Purpose:
 Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
@@ -528,7 +615,8 @@ add n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20 e/johndoe@abc.com
 - Import employee records from CSV.
 ---
 
-### **Delete Employee Records**
+### Delete Employee Records
+
 #### Purpose:
 Allows HR workers to remove outdated or incorrect employee records.
 
@@ -551,7 +639,7 @@ If multiple employees match, prompt for additional details to ensure correctness
 
 ---
 
-### **Edit Employee Records**
+### Edit Employee Records
 
 #### Purpose:
 Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
@@ -603,7 +691,8 @@ The edit command also supports the undo/redo feature by preserving the previous 
 
 ![EditCommandDiagram](images/EditSequenceDiagram.png)
 
-### **Undo Changes**
+### Undo Changes
+
 #### Purpose:
 Allows HR workers to revert the most recent change made to the employee records, such as undoing an added or deleted employee.
 
@@ -619,12 +708,13 @@ undo
 * **Failure**: Error: No changes to undo. (This will occur if there are no actions to undo or the history stack is empty.)
 
 ---
-### **Anniversary commands**
+### Anniversary commands
 #### Purpose:
 Allows HR workers to manage employee anniversaries.
 
 ---
-### **AddAnniversaryCommand**
+### AddAnniversaryCommand
+
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
 As the app's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
@@ -731,7 +821,8 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 ![AddAnniversaryCommandDiagram](images/AddAnniversaryCommandSequenceDiagram.png)
 
 ---
-### **DeleteAnniversaryCommand**
+### DeleteAnniversaryCommand
+
 #### Purpose
 removes a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
@@ -953,20 +1044,45 @@ Failure Cases:
 - If neither a file path nor a filename is provided, an IllegalArgumentException is thrown to indicate that at least one must be provided.
 
 ---
-### Reminder for Events
-#### Purpose:
-Notifies HR about upcoming employee birthdays and work anniversaries.
+### Viewing Upcoming Anniversaries (Reminder Feature)
 
-#### Command Format:
-No commands needed
+#### 1. Listing upcoming reminders
 
-#### Outputs:
-- **GUI Output:**
-```
-Jane Doe's birthday is today! (May 9, 1990).
-John Doe's birthday is tomorrow (May 10, 1990). 
-Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
-```
+1. Prerequisites: The application should contain employees with anniversaries (e.g., birthday, work anniversary) within 3 days from today.
+
+2. Test case: `reminder`  
+   **Expected**: A list of reminders is shown in the side panel. Each entry includes the employee’s name, job position, the type of anniversary, and how soon it will occur (e.g., “in 2 days”).
+
+3. Test case: `reminder` (when there are no upcoming anniversaries)  
+   **Expected**: The side panel is updated to show an empty list.
+
+#### 2. Reminder display formatting
+
+1. Reminder card fields to verify:
+    - **Employee Name**: Matches the name in the person list.
+    - **Job Position**: Matches the employee’s job title.
+    - **Anniversary Type + Description**: Shown as `Birthday - John’s birthday` or `Work Anniversary - Joined in 2019`, depending on type and description.
+    - **Date Display**: Shows relative time (e.g., “in 1 day”, “in 3 days”).
+
+2. Manual verification:
+    - Verify that reminders are **sorted by date** (soonest anniversary appears first).
+    - Verify that if an employee has multiple upcoming anniversaries, they appear as **separate entries**.
+    - Confirm that expired or future anniversaries **outside the 3-day window** are **not shown**.
+
+#### 3. Edge case testing
+
+- **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`  
+  **Expected**: Reminder card for this birthday appears in the list.
+
+- **Test case**: Add a birthday 4 days from now → Run `reminder`  
+  **Expected**: No reminder card shown.
+
+- **Test case**: Add both a birthday and a work anniversary for the same employee within 3 days  
+  **Expected**: Two separate reminder cards are shown, one for each anniversary.
+
+- **Test case**: Add reminders for multiple employees  
+  **Expected**: All applicable reminders appear and are correctly sorted by date.
+
 ---
 ### **Save Employee Records**
 #### Purpose:
@@ -991,10 +1107,10 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
+
 1. Address the fullscreen bug issue for all windows
 - Description : Closing windows in fullscreen may cause it to crash.
 - Method to recreate (main)
-  1. 
   2. When running the app
   3. Open the app in fullscreen
   4. Type help
@@ -1007,4 +1123,9 @@ In future versions of H'Reers, the following enhancements are planned to improve
   3. Fullscreen app and tile them side to side
   4. Close anni window
   5. App stops running and hangs
-2. 
+  
+2. Stop enforcing the absence of prefix conflicts
+    - Current prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
+    - To resolve this, we plan to stop requiring the absence of prefix conflicts.
+    - Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+
