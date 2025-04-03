@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.LogicManager;
 import seedu.address.model.Model;
 import seedu.address.model.reminder.Reminder;
 
