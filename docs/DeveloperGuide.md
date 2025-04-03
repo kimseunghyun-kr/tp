@@ -601,6 +601,28 @@ testers are expected to do more *exploratory* testing.
 
 ### Add Employee Records
 
+#### Prereequisites:
+H'Reers is running.
+
+#### Test Case 1: Add an employee with birthday and work anniversary
+```
+add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08
+```
+
+#### Expected Result:
+* `John Doe` is added to H'Reers.
+* His birthday and work anniversary are automatically created.
+* Success message is shown confirming the addition.
+
+#### Test Case 2: Invalid date format
+```
+add n/Linda Lee p/98765432 e/lindalee@example.com jp/Nurse bd/12-01-2000
+```
+
+#### Expected Result:
+* Command fails with error message: `Anniversary date must be in YYYY-MM-DD format.`
+* No employee is added.
+
 #### Purpose:
 Enables HR workers to store employee information, including name, position, birthday, and work anniversary.
 
@@ -711,6 +733,32 @@ The edit command also supports the undo/redo feature by preserving the previous 
 ---
 
 ### Find Employee Records
+
+#### Prerequisites:
+H'Reers is running and has employees:
+* Alex Yeoh (Hiring General)
+* David Li (Coding Manager)
+
+#### Test Case 1: Find by name only (partial match)
+```
+find n/Alex Li
+```
+
+#### Expected Result: No prefix provided
+* Employee list is filtered to show:
+  * Alex Yeoh
+  * David Li
+* Success message is shown: 2 employees listed.
+
+#### Test Case 2:
+```
+find Alice
+```
+
+#### Expected Result:
+* Command fails with:  `Invalid command format!`
+* No filtering occurs.
+
 
 #### Purpose:
 Allows HR workers to filter and view employees whose name or job position contains one or more specified keywords.
@@ -956,9 +1004,31 @@ deleteAnniversary eid/0c2414da ai/1
 ![DeleteAnniversaryCommand](images/DeleteAnniversaryCommandSequenceDiagram.png)
 
 ---
-### **ShowAnniversaryCommand**
+### ShowAnniversaryCommand
 
-#### Command Format:
+#### Prerequisites:
+H'Reers is running and has employee:
+* Alex Yeoh (eid: 4b190...)
+
+#### Test Case 1: Show anniversaries for an employee with no anniversaries
+Edit the eid accordingly.
+```
+showAnni eid/4b190
+```
+
+#### Expected Result:
+* A new window opens.
+* The anniversary list is empty.
+* Success message is still shown: Anniversaries shown for employeeId [full Eid]
+
+#### Test Case 2: Invalid command format (missing prefix)
+```
+showAnni 4b190
+```
+
+#### Expected Result:
+* Command fails with: Invalid command format!
+* No window opens.
 
 ```
 showAnni eid/EMPLOYEE_ID
@@ -982,7 +1052,7 @@ showAnni eid/efgh3123
     - `No employee found with employeeId starting with XYZ` – If the specified Employee ID does not match any employee in the system.
     -
 ---
-### **Export Command**
+### Export Command
 #### Purpose
 You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
 If you provide a specific directory path (`fp/`), the system will export the file there.
