@@ -10,13 +10,14 @@ title: Developer Guide
 ## *Table of Contents*
 1. [Add employee records: `add`](#add-employee-records-codeadd-code)    
 2. [Delete employee records: `delete`](#delete-employee-records-codedelete-code)
-   3. [Undo changes made: `undo`](#undo-changes-made-codeundo-code)
-4. [Anniversary related commands: ](#anniversary-related-commands)
+3. [Edit employee records: `edit`](#edit-employee-records)
+4. [Undo changes made: `undo`](#undo-changes-made-codeundo-code)
+5. [Anniversary related commands: ](#anniversary-related-commands)
    1. [AddAnniversaryCommand: `addAnni`](#addanniversarycommand--codeaddannicode)   
    2. [DeleteAnniversaryCommand: `deleteAnni`](#deleteanniversarycommand--codedeleteannicode)
    3. [ShowAnniversaryCommand: `showAnni`](#showanniversarycommand--codeshowannicode)
-5. [Reminder for events](#reminder-for-events)
-6. [Save employee records](#save-employee-records)
+6. [Reminder for events](#reminder-for-events)
+7. [Save employee records](#save-employee-records)
 
 - [User Stories](#user-stories)
 --------------------------------------------------------------------------------------------------------------------
@@ -88,6 +89,58 @@ delete n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20
 If multiple employees match, prompt for additional details to ensure correctness.
 
 ---
+
+### **Edit Employee Records**
+
+#### Purpose:
+Allows HR workers to modify existing employee information, such as name, phone number, email, job position, or tags.
+
+#### Command Format:
+
+```
+edit EMPLOYEE_ID_PREFIX [n/NAME] [p/PHONE] [e/EMAIL] [j/JOBPOSITION] [t/TAG]... [eid/EMPLOYEE_ID]
+```
+
+#### Example Commands:
+
+```
+edit abcd12 p/91234567 e/johndoe@example.com eid/efgh3123
+```
+```
+edit 5678ef n/Jane Smith j/Senior Manager t/management
+```
+
+#### Parameter Rules:
+- **EMPLOYEE_ID_PREFIX**: Must match exactly one employee in the system
+- **NAME**: Alphabets and spaces only, case-insensitive
+- **PHONE**: Numbers only
+- **EMAIL**: Must contain '@' and valid domain
+- **JOBPOSITION**: Must be a valid job position
+- **TAG**: Alphanumeric words
+- **EMPLOYEE_ID**: Valid UUID format
+
+#### Outputs:
+- **Success**: `Edited Employee: [name] Phone: [phone] Email: [email] Job Position: [jobPosition] Tags: [tags]`
+- **Failure**: Various error messages depending on the issue:
+    - `At least one field to edit must be provided.`
+    - `Multiple employees found with prefix XYZ`
+    - `No employee found with prefix XYZ`
+    - `The new employee ID conflicts with existing employee IDs`
+
+#### Implementation:
+
+The edit command is implemented by the `EditCommand` class, which extends the abstract `Command` class. It works through the following process:
+
+1. The `EditCommandParser` parses the command input to create an `EditEmployeeDescriptor` containing the fields to be updated.
+2. The command identifies the target employee using the employee ID prefix.
+3. The system verifies that exactly one employee matches the provided prefix.
+4. A new employee object is created with updated fields from the descriptor, preserving unchanged fields from the original employee.
+5. The system validates that the new employee ID (if changed) doesn't conflict with existing IDs.
+6. The original employee record is replaced with the edited version in the model.
+
+The edit command also supports the undo/redo feature by preserving the previous state via the model's commit function.
+
+![EditCommandDiagram](images/EditCommandDiagram.png)
 
 ### **Undo Changes**
 #### Purpose:
