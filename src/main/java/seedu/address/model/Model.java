@@ -1,12 +1,14 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
+import seedu.address.model.reminder.Reminder;
 
 /**
  * The API of the Model component.
@@ -104,9 +106,15 @@ public interface Model {
 
     /**
      * Returns an unmodifiable view of the filtered employee list that contains only employees with id starting with
-     * the provided one
+     * the provided one, from the current VIEW
      */
-    ObservableList<Employee> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix);
+    ObservableList<Employee> getFilteredByEmployeeIdPrefixListFromObservable(EmployeeId employeeIdPrefix);
+
+    /**
+     * Returns a List of the filtered employee list that contains only employees with id starting with
+     * the provided EmployeeId, from the full data
+     */
+    List<Employee> getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix);
 
     /**
      * Updates the filter of the filtered employee list to filter by the given {@code predicate}.
@@ -114,19 +122,9 @@ public interface Model {
      */
     void updateFilteredEmployeeList(Predicate<Employee> predicate);
 
-    ObservableList<Employee> getBirthdayReminderList();
-
-    ObservableList<Employee> getWorkAnniversaryReminderList();
-
     void commitChanges();
 
-    /**
-     * Updates the list of employees who have an upcoming birthday within the next N days.
-     */
-    void updateBirthdayReminderList();
+    ObservableList<Reminder> getReminderList();
 
-    /**
-     * Updates the list of employees who have an upcoming work anniversary within the next N days.
-     */
-    void updateWorkAnniversaryReminderList();
+    void updateReminderList();
 }

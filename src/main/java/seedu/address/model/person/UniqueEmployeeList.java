@@ -12,8 +12,10 @@ import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.EmployeeNotFoundException;
+import seedu.address.model.util.EmployeeIdPrefixValidationUtils;
 
 /**
  * A list of persons that enforces uniqueness between its elements and does not allow nulls.
@@ -138,7 +140,6 @@ public class UniqueEmployeeList implements Iterable<Employee> {
         if (!personsAreUnique(employees)) {
             throw new DuplicatePersonException();
         }
-
         internalList.setAll(employees);
     }
 
@@ -191,6 +192,14 @@ public class UniqueEmployeeList implements Iterable<Employee> {
             }
         }
         return true;
+    }
+
+    /**
+     * Returns a list of pairs of employee IDs that have prefix conflicts.
+     * @return list of pairs of employee IDs with prefix conflicts
+     */
+    public List<Pair<EmployeeId, EmployeeId>> getPrefixConflictingPairs() {
+        return EmployeeIdPrefixValidationUtils.getPrefixConflictingPairs(internalList);
     }
 
     /**

@@ -33,12 +33,15 @@ public class FindCommandParser implements Parser<FindCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
-        // Handles if the user inputs a blank string for both name and job position
-        if (argMultimap.getValue(PREFIX_NAME).map(String::isBlank).orElse(true)
-                && argMultimap.getValue(PREFIX_JOBPOSITION).map(String::isBlank).orElse(true)) {
+        boolean hasEmptyName = argMultimap.getAllValues(PREFIX_NAME).stream().allMatch(String::isBlank);
+        boolean hasEmptyJp = argMultimap.getAllValues(PREFIX_JOBPOSITION).stream().allMatch(String::isBlank);
+
+        // Handles if both fields are present but empty (e.g. n/   jp/   )
+        if (hasEmptyName && hasEmptyJp) {
             throw new ParseException(MESSAGE_EMPTY_FIELD_WITH_PREFIX);
         }
 
+        //buildPredicate will skip the empty field if one of them is empty
         Predicate<Employee> predicate = PersonSearchPredicateBuilder.buildPredicate(argMultimap);
 
         return new FindCommand(predicate);

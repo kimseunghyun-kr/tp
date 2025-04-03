@@ -1,5 +1,7 @@
 package seedu.address.model.person;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Represents a Employee's employee ID in the address book
  * Employee ID is used as a universal static identifier,
@@ -8,6 +10,7 @@ package seedu.address.model.person;
  * no employee id of one employee shall be prefix of the the employee id
  * of another employee.
  */
+@EqualsAndHashCode
 public class EmployeeId {
 
     public static final String MESSAGE_CONSTRAINTS =
@@ -73,17 +76,5 @@ public class EmployeeId {
         return value;
     }
 
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
 
-        if (!(other instanceof EmployeeId)) {
-            return false;
-        }
-
-        EmployeeId otherEmployeeId = (EmployeeId) other;
-        return value.equals(otherEmployeeId.value);
-    }
 }

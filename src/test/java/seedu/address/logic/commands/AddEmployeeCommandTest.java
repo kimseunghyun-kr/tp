@@ -25,6 +25,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
+import seedu.address.model.reminder.Reminder;
 import seedu.address.testutil.EmployeeBuilder;
 
 public class AddEmployeeCommandTest {
@@ -172,8 +173,13 @@ public class AddEmployeeCommandTest {
         }
 
         @Override
-        public ObservableList<Employee> getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) {
+        public ObservableList<Employee> getFilteredByEmployeeIdPrefixListFromObservable(EmployeeId employeeIdPrefix) {
             throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Employee> getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix) {
+            return null;
         }
 
         @Override
@@ -182,28 +188,18 @@ public class AddEmployeeCommandTest {
         }
 
         @Override
-        public ObservableList<Employee> getBirthdayReminderList() {
+        public void updateReminderList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Employee> getWorkAnniversaryReminderList() {
+        public ObservableList<Reminder> getReminderList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void commitChanges() {
             // Stub implementation, no-op
-        }
-
-        @Override
-        public void updateBirthdayReminderList() {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void updateWorkAnniversaryReminderList() {
-            throw new AssertionError("This method should not be called.");
         }
     }
 
@@ -254,13 +250,8 @@ public class AddEmployeeCommandTest {
         }
 
         @Override
-        public void updateBirthdayReminderList() {
-            // Stub implementation, no-op
-        }
-
-        @Override
-        public void updateWorkAnniversaryReminderList() {
-            // Stub implementation, no-op
+        public ObservableList<Reminder> getReminderList() {
+            return javafx.collections.FXCollections.observableArrayList(); // or stub list
         }
     }
 }

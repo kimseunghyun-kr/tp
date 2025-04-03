@@ -9,6 +9,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Employee;
+import seedu.address.model.reminder.Reminder;
 
 /**
  * API of the Logic component
@@ -48,9 +49,8 @@ public interface Logic {
      */
     void setGuiSettings(GuiSettings guiSettings);
 
-    /** Returns an unmodifiable view of the birthday reminder list */
-    ObservableList<Employee> getBirthdayReminderList();
-
-    /** Returns an unmodifiable view of the work anniversary reminder list */
-    ObservableList<Employee> getWorkAnniversaryReminderList();
+    /**
+     * Returns an unmodifiable view of the reminder list
+     */
+    ObservableList<Reminder> getReminderList();
 }

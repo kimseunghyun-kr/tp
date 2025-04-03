@@ -18,14 +18,11 @@ public class ReminderCommandParser implements Parser<ReminderCommand> {
      * @throws ParseException if the user input does not conform to expected format
      */
     public ReminderCommand parse(String args) throws ParseException {
-        String trimmedArgs = args.trim().toLowerCase();
-
-        if (!trimmedArgs.equals("bd") && !trimmedArgs.equals("wa")) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        String trimmedArgs = args.trim();
+        if (!trimmedArgs.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
-
-        return new ReminderCommand(trimmedArgs);
+        return new ReminderCommand();
     }
 }
 
