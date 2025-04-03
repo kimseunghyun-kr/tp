@@ -167,19 +167,35 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Computes the next upcoming occurrence of a given anniversary date, adjusted to the current or next year.
      *
-     * @param date The anniversary's original date.
-     * @return A {@link LocalDate} representing the next occurrence of the anniversary.
+     * Returns the next occurrence of a given date (month and day),
+     * assuming it's a recurring annual event like a birthday or anniversary.
+     * If the input date is in the future (including the year), it returns it as-is.
+     * If the date has already passed this year, it returns the same month/day next year.
+     *
+     * @param date The anniversary's original date to base the recurrence on
+     * @return A {@link LocalDate} representing the next occurrence of the anniversary (preserving month and day) / null
      */
     private LocalDate getNextOccurrence(LocalDate date) {
         if (date == null) {
-            return null;
-        }
+            return null;}
 
         LocalDate today = LocalDate.now();
-        LocalDate next = date.withYear(today.getYear());
-        return next.isBefore(today) ? next.plusYears(1) : next;
+
+        // If the original date is in the future (compared to today), return it directly
+        if (date.isAfter(today)) {
+            return date;
+        }
+
+        // Build a candidate date using today's year, but same month and day
+        LocalDate nextOccurrenceThisYear = LocalDate.of(today.getYear(), date.getMonth(), date.getDayOfMonth());
+
+        // If the candidate is before today, we need to move to next year
+        if (nextOccurrenceThisYear.isBefore(today)) {
+            return nextOccurrenceThisYear.plusYears(1);
+        } else {
+            return nextOccurrenceThisYear;
+        }
     }
 
 
