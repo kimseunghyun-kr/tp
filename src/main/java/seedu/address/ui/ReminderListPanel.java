@@ -21,7 +21,7 @@ import seedu.address.model.reminder.Reminder;
 public class ReminderListPanel extends UiPart<Region> {
     private static final String FXML = "ReminderListPanel.fxml";
 
-    private final Logger logger = LogsCenter.getLogger(LogicManager.class);
+    private final Logger logger = LogsCenter.getLogger(ReminderListPanel.class);
 
     @FXML
     private ListView<Reminder> reminderListView;
