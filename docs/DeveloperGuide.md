@@ -193,28 +193,46 @@ that violate the prefix matching rule, following the lazy validation principle.
 ---
 ### Reminder Feature
 
-The `reminder` feature displays a list of upcoming employee anniversaries (birthdays, work anniversaries, and custom anniversaries) occurring within the next 3 days. This section details the implementation of this feature.
+The **reminder** feature is facilitated by the `ReminderCommand`. It helps users view upcoming birthdays and work anniversaries by scanning through all stored employees and collecting relevant date-based reminders.
 
-#### Design Overview
+Internally, this feature is supported by:
+- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
+- `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
+- `Model#getReminderList()` – Provides read-only access to the current list of reminders.
+- `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
 
-The `reminder` command is implemented using the `ReminderCommand` class. It interacts with the `Model` to compute a list of upcoming reminders. These reminders are displayed in the UI using a custom `ReminderListPanel`.
+The `ReminderCommand` executes the following:
+1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
+2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
+3. Results are sorted by upcoming date and stored in an observable list.
+4. The UI automatically updates by binding to this observable list.
 
-The model maintains an internal `ObservableList<Reminder>` that is updated when the command is executed. The `Reminder` class encapsulates:
-- A reference to the `Person` whose anniversary is being shown
-- The `AnniversaryType` (e.g., birthday, wedding)
-- The date of the anniversary
-- An optional description
+Given below is an example use case showing how the reminder feature behaves step-by-step.
 
-#### Execution Flow
+**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
 
-The execution of the `reminder` command proceeds as follows:
+**Step 2.** The user executes the command:
+```
+reminder
+```  
+This triggers the `ReminderCommand`, which performs the following steps internally:
+- Retrieves all employees via `Model#getFilteredPersonList()`.
+- For each employee, iterates through all anniversaries.
+- Checks whether each anniversary is within **3 days** from today.
+- Creates a `Reminder` object for each upcoming event.
+- Sorts the list of reminders by date.
+- Stores the sorted reminders in an observable list using `Model#updateReminderList()`.
 
-1. `LogicManager` receives the command string `"reminder"` and passes it to the `ReminderCommandParser`.
-2. `ReminderCommandParser` creates a new `ReminderCommand` object.
-3. Upon execution, `ReminderCommand` calls `model.updateReminderList()`, which filters all `Person` objects to find anniversaries within the next 3 days.
-4. The `ModelManager` updates its internal observable reminder list.
-5. `ReminderCommand` then calls `model.getReminderList()` to retrieve this list.
-6. The UI listens to this observable list and renders a `ReminderCard` for each upcoming reminder in a `ReminderListPanel`.
+**Step 3.** The `ReminderListPanel` in the UI detects the update in the observable list and renders each reminder using a `ReminderCard`. Each card shows:
+- The employee’s name and job position.
+- The type of anniversary (e.g., "Birthday", "Work Anniversary").
+- A short description and how soon the event is (e.g., “upcoming in 2 days”).
+
+> 💡 **Note:**  
+> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
+
+> 🛡️ **Note:**  
+> Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
 
 #### Sequence Diagram
 
@@ -236,8 +254,56 @@ The filtering is based on whether an anniversary falls within the next 3 days. I
 public static final int REMINDED_DATE_RANGE = 3;
 ```
 ---
---------------------------------------------------------------------------------------------------------------------
+### Import Feature
 
+The `import` feature allows users to load external data from JSON or CSV files into the H'reers address book.
+It supports two write modes: `append` (to merge with existing records) and `overwrite` (to replace them entirely).
+
+This feature enhances user productivity by allowing them to integrate employee data from external sources such as HR software exports or spreadsheets.
+
+#### Implementation
+
+The import functionality is primarily handled by the following classes:
+
+- `ImportCommand`: Executes the import logic by calling the format converter and updating the model accordingly.
+- `ImportCommandParser`: Parses the user's import command input and constructs an `ImportCommand` with the appropriate parameters.
+- `AddressBookFormatConverter`: Handles reading from external JSON or CSV files and converting the content into the internal `AddressBook` data structure.
+
+Below is a walkthrough of how the feature works at runtime.
+
+#### Step 1: User executes import command
+
+When the user types a command such as:
+```
+import ft/json fp/data/ fn/contacts wm/append
+```
+the `LogicManager` delegates the parsing to `ImportCommandParser`, which constructs an `ImportCommand` using the provided arguments.
+
+#### Step 2: Input file is read and parsed
+
+`ImportCommand` calls `AddressBookFormatConverter.convert(...)`, which reads the file based on the given `ft` (file type), and converts it into an internal `AddressBook` object.
+
+- If `ft/json`, it is parsed using Jackson JSON utilities.
+- If `ft/csv`, it is manually parsed line-by-line and converted into employees.
+
+#### Step 3: Import is merged or replaces current state
+
+Depending on the `wm/` write mode:
+
+- `append`: New data is merged with existing `AddressBook`. Duplicate employees (based on ID) are replaced.
+- `overwrite`: The entire current address book is replaced with the newly imported address book.
+
+#### Step 4: Model and storage are updated 
+
+- After merging or replacing, the model is updated using `model.setAddressBook()`, and the new data is committed to storage.
+
+#### Sequence Diagram 
+
+The following sequence diagram illustrates the steps described above:
+
+![Import Sequence Diagram](images/ImportSequenceDiagram.png)
+
+--------------------------------------------------------------------------------------------------------------------
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -812,20 +878,44 @@ Failure Cases:
 - If neither a file path nor a filename is provided, an IllegalArgumentException is thrown to indicate that at least one must be provided.
 
 ---
-### Reminder for Events
-#### Purpose:
-Notifies HR about upcoming employee birthdays and work anniversaries.
+### Viewing Upcoming Anniversaries (Reminder Feature)
 
-#### Command Format:
-No commands needed
+#### 1. Listing upcoming reminders
 
-#### Outputs:
-- **GUI Output:**
-```
-Jane Doe's birthday is today! (May 9, 1990).
-John Doe's birthday is tomorrow (May 10, 1990).
-Jane Smith’s work anniversary is in 2 days! (November 1, 2010).
-```
+1. Prerequisites: The application should contain employees with anniversaries (e.g., birthday, work anniversary) within 3 days from today.
+
+2. Test case: `reminder`  
+   **Expected**: A list of reminders is shown in the side panel. Each entry includes the employee’s name, job position, the type of anniversary, and how soon it will occur (e.g., “in 2 days”).
+
+3. Test case: `reminder` (when there are no upcoming anniversaries)  
+   **Expected**: The side panel is updated to show an empty list.
+
+#### 2. Reminder display formatting
+
+1. Reminder card fields to verify:
+    - **Employee Name**: Matches the name in the person list.
+    - **Job Position**: Matches the employee’s job title.
+    - **Anniversary Type + Description**: Shown as `Birthday - John’s birthday` or `Work Anniversary - Joined in 2019`, depending on type and description.
+    - **Date Display**: Shows relative time (e.g., “in 1 day”, “in 3 days”).
+
+2. Manual verification:
+    - Verify that reminders are **sorted by date** (soonest anniversary appears first).
+    - Verify that if an employee has multiple upcoming anniversaries, they appear as **separate entries**.
+    - Confirm that expired or future anniversaries **outside the 3-day window** are **not shown**.
+
+#### 3. Edge case testing
+
+- **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`  
+  **Expected**: Reminder card for this birthday appears in the list.
+
+- **Test case**: Add a birthday 4 days from now → Run `reminder`  
+  **Expected**: No reminder card shown.
+
+- **Test case**: Add both a birthday and a work anniversary for the same employee within 3 days  
+  **Expected**: Two separate reminder cards are shown, one for each anniversary.
+
+- **Test case**: Add reminders for multiple employees  
+  **Expected**: All applicable reminders appear and are correctly sorted by date.
 ---
 ### **Save Employee Records**
 #### Purpose:

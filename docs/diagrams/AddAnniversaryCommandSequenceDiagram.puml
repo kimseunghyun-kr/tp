@@ -35,9 +35,9 @@ deactivate AACP
 activate AAC
 AAC -> M : getFullFilteredByEmployeeIdPrefixListFromData(EmployeeId employeeIdPrefix)
 activate M
-M --> AAC : List<Person>
+M --> AAC : List<Employee>
 deactivate M
-AAC -> M : setPerson(Person target, Person editedEmployee)
+AAC -> M : setEmployee(Employee target, Employee editedEmployee)
 [<--AAC : CommandResult
 
 @enduml
