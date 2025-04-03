@@ -1,0 +1,104 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
+participant "<<Class>> \n PersonSearchPredicateBuilder" as PersonSearchPredicateBuilder LOGIC_COLOR
+participant "command:FindCommand" as FindCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+end box
+
+
+
+[-> LogicManager : execute("find n/Alice jp/engineer")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("find n/Alice jp/engineer")
+activate AddressBookParser
+
+create FindCommandParser
+AddressBookParser -> FindCommandParser
+activate FindCommandParser
+
+FindCommandParser --> AddressBookParser
+deactivate FindCommandParser
+
+
+AddressBookParser -> FindCommandParser : parse("n/Alice jp/engineer")
+activate FindCommandParser
+
+FindCommandParser -> PersonSearchPredicateBuilder: buildPredicate(argMultimap)
+activate PersonSearchPredicateBuilder
+
+opt hasNonEmptyName
+PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildNamePredicate(argMultimap)
+activate PersonSearchPredicateBuilder
+PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildEachPredicate(argMultimap, PREFIX_NAME)
+activate PersonSearchPredicateBuilder
+PersonSearchPredicateBuilder -[hidden]-> PersonSearchPredicateBuilder: combinedKeywords
+deactivate PersonSearchPredicateBuilder
+PersonSearchPredicateBuilder -[hidden]-> PersonSearchPredicateBuilder: namePredicates
+deactivate PersonSearchPredicateBuilder
+end
+
+opt hasNonEmptyJp
+PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildJobPositionPredicate(argMultimap)
+activate PersonSearchPredicateBuilder
+PersonSearchPredicateBuilder -> PersonSearchPredicateBuilder: buildEachPredicate(argMultimap, PREFIX_JOBPOSITION)
+activate PersonSearchPredicateBuilder
+PersonSearchPredicateBuilder -[hidden]-> PersonSearchPredicateBuilder: combinedKeywords
+deactivate PersonSearchPredicateBuilder
+PersonSearchPredicateBuilder --[hidden]> PersonSearchPredicateBuilder: jpPredicates
+deactivate PersonSearchPredicateBuilder
+end
+
+PersonSearchPredicateBuilder --> FindCommandParser: combinedPredicate
+deactivate PersonSearchPredicateBuilder
+
+create FindCommand
+FindCommandParser -> FindCommand
+activate FindCommand
+
+FindCommand --> FindCommandParser
+deactivate FindCommand
+
+FindCommandParser --> AddressBookParser : command
+deactivate FindCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+FindCommandParser -[hidden]-> AddressBookParser
+destroy FindCommandParser
+
+AddressBookParser --> LogicManager : command
+deactivate AddressBookParser
+
+LogicManager -> FindCommand : execute(m)
+activate FindCommand
+
+FindCommand -> Model : updateFilteredEmployeeList(predicate)
+activate Model
+
+Model --> FindCommand
+deactivate Model
+
+create CommandResult
+FindCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> FindCommand
+deactivate CommandResult
+
+FindCommand --> LogicManager : CommandResult
+deactivate FindCommand
+FindCommand -[hidden]-> LogicManager
+destroy FindCommand
+
+[<--LogicManager
+deactivate LogicManager
+@enduml

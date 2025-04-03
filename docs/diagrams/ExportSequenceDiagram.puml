@@ -6,9 +6,9 @@ skinparam ArrowFontStyle plain
 
 box Logic LOGIC_COLOR_T1
 participant ":ExportCommandParser" as ECP LOGIC_COLOR
-participant "<<class>> \n FilePathResolverUtils" as FRU LOGIC_COLOR
+participant "<<Class>> \n FilePathResolverUtils" as FRU LOGIC_COLOR
 participant ":ExportCommand" as EC LOGIC_COLOR
-participant " <<class>> \n AddressBookFormatConverter" as ABC LOGIC_COLOR
+participant " <<Class>> \n AddressBookFormatConverter" as ABC LOGIC_COLOR
 end box
 participant Files as F STORAGE_COLOR_T1
 box Storage STORAGE_COLOR_T1
@@ -18,7 +18,7 @@ end box
 [-> ECP: parse( arguments )
 activate ECP
 ECP -> FRU : verifyFileTypePresentAndValid()
-opt filetype != null || filename != null == true
+opt filetype != null || filename != null
 ECP -> FRU : resolveFilePath()
 
 activate FRU
@@ -26,6 +26,7 @@ FRU --> ECP : Path
 deactivate FRU
 
 end
+create EC
 ECP -> EC : new ExportCommand(fileType, path)
 activate EC
 return ExportCommand
