@@ -478,8 +478,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 
 - 3a. No anniversaries found:
-    - H'Reers displays a new windows with no anniversaries found.
-    - Use case resume at step 5.
+    - H'Reers displays a new window with no anniversaries found.
+    - Use case resumes at step 5.
 
 ---
 
