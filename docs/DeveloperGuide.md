@@ -627,7 +627,7 @@ Allows HR workers to manage employee anniversaries.
 ### **AddAnniversaryCommand**
 #### Purpose
 Creates a new anniversary entry for an existing employee. This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
-As the app's purpose is to keep track of **upcoming** anniversaries, it is allows the addtition of anniversaries that are in the future.
+As the app's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
 As a precautionary measure against deliberate attacks, certain words, such as `drop` or other backspace characters are disallowed in usage in some fields.
 
 #### Command Format
