@@ -5,7 +5,7 @@ title: Developer Guide
 
 ## *Mock UI*
 
-<img src="./images/MockUI.png" alt="UI">
+<img src="images/Ui.png" alt="UI">
 
 ## *Table of Contents*
 
