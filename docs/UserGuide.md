@@ -89,7 +89,7 @@ Whether you need to track employee milestones, update records, or generate quick
        ```
    ![Step3_1](images/Step3_1.jpg)
    4. H'Reers will open in a few seconds with a simple GUI, ready to use!
-   ![Ui](images/MockUI.png)
+   ![Ui](images/Ui.png)
 
 4. Step 4: Try a Few Commands
    H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
@@ -489,10 +489,9 @@ Filters and displays a list of employees whose work anniversaries are occurring 
 
 Below is an example of how the reminders appear on the UI:
 
-![reminderListUI.png](images/reminderListUI.png)
+![reminderListUI.png](images/remindersListUI.png)
 
-Each panel updates when you enter `reminder bd` or `reminder wa`.
-
+The reminders appear on the panel when you type in `reminder`.
 ---
 ## Quality of Life Features
 

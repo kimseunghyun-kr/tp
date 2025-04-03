@@ -27,7 +27,7 @@ package seedu.address.model.employee {
         --
         + EmployeeId(UUID employeeId)
     }
-    class Person {
+    class Employee {
     - employeeId : EmployeeId
         - name : Name
         - jobPosition : JobPosition
@@ -36,7 +36,7 @@ package seedu.address.model.employee {
         - tags : Set<Tag>
         - anniversaries : List<Anniversary>
         --
-        + Person(EmployeeId employeeId, Name name, JobPosition jobPosition, Email email, Phone phone, Set<Tag> tags, List<Anniversary> anniversaries)
+        + Employee(EmployeeId employeeId, Name name, JobPosition jobPosition, Email email, Phone phone, Set<Tag> tags, List<Anniversary> anniversaries)
     }
 }
 
@@ -65,8 +65,8 @@ package seedu.address.model.anniversary {
 
 package seedu.address.model {
     interface Model {
-        + getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) : List<Person>
-        + setPerson(Person target, Person editedEmployee) : void
+        + getFilteredByEmployeeIdPrefixList(EmployeeId employeeIdPrefix) : List<Employee>
+        + setEmployee(Employee target, Employee editedEmployee) : void
     }
     class Index {
     - index : int
@@ -82,8 +82,8 @@ DeleteAnniversaryCommandParser -> "1" Index : uses
 DeleteAnniversaryCommandParser -> "1" EmployeeId : uses
 DeleteAnniversaryCommand -> "1" EmployeeId : contains
 DeleteAnniversaryCommand --> "1" Index : contains
-DeleteAnniversaryCommand -> Person : processes
-DeleteAnniversaryCommand -> "1" Person : finds for update
+DeleteAnniversaryCommand -> Employee : processes
+DeleteAnniversaryCommand -> "1" Employee : finds for update
 DeleteAnniversaryCommand -> Anniversary : finds for delete
 DeleteAnniversaryCommand -> "1" Anniversary : deletes
 
@@ -118,7 +118,7 @@ public class DeleteAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Person> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
+        List<Employee> matchedEmployees = model.getFilteredByEmployeeIdPrefixList(employeeIdPrefix);
 
         if (matchedEmployees.size() > 1) {
             throw new CommandException(String.format(
@@ -134,7 +134,7 @@ public class DeleteAnniversaryCommand extends Command {
             ));
         }
 
-        Person employeeToEdit = matchedEmployees.get(0);
+        Employee employeeToEdit = matchedEmployees.get(0);
         List<Anniversary> anniversaryList = employeeToEdit.getAnniversaries();
 
 
@@ -144,7 +144,7 @@ public class DeleteAnniversaryCommand extends Command {
 
         Anniversary anniversaryToDelete = anniversaryList.get(targetIndex.getZeroBased());
         anniversaryList.remove(anniversaryToDelete);
-        Person updatedEmployee = Person.builder()
+        Employee updatedEmployee = Employee.builder()
                 .employeeId(employeeToEdit.getEmployeeId())
                 .name(employeeToEdit.getName())
                 .jobPosition(employeeToEdit.getJobPosition())
@@ -153,7 +153,7 @@ public class DeleteAnniversaryCommand extends Command {
                 .tags(employeeToEdit.getTags())
                 .anniversaries(anniversaryList).build();
         // update the model
-        model.setPerson(employeeToEdit, updatedEmployee);
+        model.setEmployee(employeeToEdit, updatedEmployee);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete));
     }
