@@ -253,8 +253,7 @@ Format: `list`
 ---
 ### Locating employees: `find`
 
-Finds employees whose names or/and job positions contain any of the given keywords.
-
+You can use this command to search for employees whose name or/and job position contains specific keywords.
 
 <div markdown="span" class="alert alert-primary">:bulb: Tip:
 You can use this format in 3 ways!
@@ -275,17 +274,17 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
 **:information_source: Notes about the find command:**<br>
 
-* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match — it's an OR search.
+* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match.
 
-    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` or `Bo Yang`.
+    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` **or** `Bo Yang`.
 
-* When you use multiple fields together, the command finds people who match all of them — it becomes an AND search.
+* When you use both fields together, the command finds people who match all of them.
 
-    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
+    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" **and** whose job position includes "engineer".
 
 * In the case of multiple fields and keywords, you will only see a employee on the list if they match at least one keyword from each field.
 
-    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
+    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
 </div>
 
 Examples:
@@ -293,7 +292,7 @@ Examples:
 * `find n/david Li` returns `David Li` and `Real Li`
 * `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
 
-
+The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
 
 ---
