@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Developer Guide
+title: H'Reers Developer Guide
 ---
 
 ## *Mock UI*
@@ -8,8 +8,8 @@ title: Developer Guide
 <img src="./images/MockUI.png" alt="UI">
 
 ## *Table of Contents*
-
 1. [Mock UI](#mock-ui)
+2. [Setting up, Getting started](#setting-up-getting-started)
 2. [Architecture](#architecture)
     1. [UI Component](#ui-component)
     2. [Logic Component](#logic-component)
@@ -17,26 +17,26 @@ title: Developer Guide
     4. [Storage Component](#storage-component)
     5. [Common Classes](#common-classes)
 3. [Implementation](#implementation)
-    1. [Save Employee Records](#save-employee-records)
-    2. smth
+   1. [Save Employee Records](#save-employee-records)
+   2. smth
 4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
 5. [Appendix: Requirements](#appendix-requirements)
-    1. [Product Scope](#product-scope)
-    2. [User Stories](#user-stories)
-    3. [Use Cases](#use-cases)
-    4. [Non-Functional Requirements](#non-functional-requirements)
-    5. [Glossary](#glossary)
+   1. [Product Scope](#product-scope)
+   2. [User Stories](#user-stories)
+   3. [Use Cases](#use-cases)
+   4. [Non-Functional Requirements](#non-functional-requirements)
+   5. [Glossary](#glossary)
 6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
-    1. [Core Features]()
-        1. [Add Employee Records](#add-employee-records)
-        2. [Edit Employee Records](#edit-employee-records)
-        3. [Delete Employee Records](#delete-employee-records)
-        4. [Undo Changes](#undo-changes)
-    2. [Anniversary Commands](#anniversary-commands)
-        1. [AddAnniversaryCommand](#addanniversarycommand)
-        2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
-        3. [ShowAnniversaryCommand](#showanniversarycommand)
-    3. [Reminder for Events](#reminder-for-events)
+   1. [Core Features]()
+       1. [Add Employee Records](#add-employee-records)
+       2. [Edit Employee Records](#edit-employee-records)
+       3. [Delete Employee Records](#delete-employee-records)
+       4. [Undo Changes](#undo-changes)
+   2. [Anniversary Commands](#anniversary-commands)
+      1. [AddAnniversaryCommand](#addanniversarycommand)
+      2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+      3. [ShowAnniversaryCommand](#showanniversarycommand)
+   3. [Reminder for Events](#reminder-for-events)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -177,12 +177,12 @@ The `Storage` component,
 Classes used by multiple components are in the `seedu.address.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
-## Implementation:
+## Implementation
 This section describes some noteworthy details on how certain features are implemented.
 
 ### Employee Identification
 
-our employeeId utilize a UUID based prefix matching system.
+Our employeeId utilize a UUID based prefix matching system.
 The employeeId is generated using the `UUID` class in Java, which creates a universally unique identifier. This identifier is then used as a prefix for each employee's record, allowing for easy searching and retrieval of information.
 The prefix matching logic is primarily managed within the EmployeeId class.
 The prefix matching logic is mostly used by the Model and AddressBook class, which serves as the facade
@@ -253,6 +253,71 @@ The filtering is based on whether an anniversary falls within the next 3 days. I
 ```java
 public static final int REMINDED_DATE_RANGE = 3;
 ```
+
+### Find Employees Features
+The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
+
+The Find feature is primarily driven by:
+
+* FindCommand: Executes the filtered search based on a predicate
+
+* FindCommandParser: Parses user input and builds the corresponding predicate
+
+* PersonSearchPredicateBuilder: Constructs combined Predicate<Employee> from argument values
+
+* Model: Provides access to the filtered employee list and the update mechanism
+
+Given below is an explanation of how the Find feature works:
+When a user enters a command such as:
+`find n/Alice jp/engineer` the following steps occur:
+
+Step 1. FindCommandParser uses ArgumentTokenizer to extract the values for prefixes (`n/`, `jp/`).
+
+Step 2. It checks for errors such as:
+- No valid prefixes
+- Empty input values for all fields
+- Invalid preamble
+
+If the tokens are valid, it delegates predicate construction to PersonSearchPredicateBuilder.
+
+Step 3. The builder constructs Predicate<Employee> objects for each field:
+- NameContainsKeywordsPredicate
+- JobPositionContainsKeywordsPredicate
+
+The two predicates behave slightly differently to suit their field contexts:
+- NameContainsKeywordsPredicate uses partial matching.
+  This allows users to match names using any substring of a word.
+    - `n/Ali` matches with "Alice Tan", "Khalid Ali"
+- JobPositionContainsKeywordsPredicate uses full-word matching.
+  A keyword must match a whole word in the job position exactly (case-insensitive).
+    - `jp/engineer` matches "Software Engineer", "Senior Engineer".
+    - `jp/eng` does not match "Software Engineer", "Senior Engineer".
+
+This design was decided because:
+- Partial matching in names is user-friendly — users often search by fragments of names.
+- Full word matching in job titles avoids false positives and returns more accurate results in professional roles.
+
+It combines both search predicates with logical `AND` so all conditions must be satisfied for an employee to be included in the search results. For example:
+`find n/Alice jp/engineer`matches employees with "Alice" in their name AND "engineer" in their job position.
+
+Meanwhile, each predicate performs keyword-based partial matching (OR logic within the field). For example:
+`find n/Alice Bob`matches anyone with "Alice" OR "Bob" in their name.
+
+This design was chosen to support both broad and targeted search strategies:
+- A user looking for a specific employee is likely to include more fields (e.g., both name and job position).
+- A user performing a general search may only filter by a single field, like a partial name.
+
+This flexible approach aims to enable the command to be both intuitive and powerful, depending on the user’s intent.
+
+Step 4: FindCommand executes by calling:
+```
+model.updateFilteredEmployeeList(predicate);
+```
+The `FilteredList<Employee>` inside the model is updated, triggering the GUI to reflect the new list.
+
+The diagram below illustrates the sequence of interactions when a user issues the command `find n/Alice jp/engineer`:
+<img src="images/FindSequenceDiagram.png" width="700" />
+
 ---
 ### Import Feature
 
@@ -312,7 +377,6 @@ The following sequence diagram illustrates the steps described above:
 * [Configuration guide](Configuration.md)
 * [DevOps guide](DevOps.md)
 
-
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Requirements**
@@ -341,29 +405,32 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 *{More to be added}*
 
-### Use cases
+### **Use cases**
 
-**Use case: Adding an Employee**
+#### Use case 1: Adding an Employee
 
+**System**: H'Reers
+**Use case**: UC01 - Add New Employee
 **Actor:** HR Worker
+
 
 **Preconditions:**
 - The system is running.
 - The HR worker has valid employee data to input.
 
-**MSS**
+**Guarantees:**
+- The employee record is stored successfully in the system.
+- If an error occurred, the system remains unchanged.
+
+**Main Success Scenario (MSS)**:
 1. HR worker chooses to add new employee.
 2. HR worker enters required details
 3. If valid, the system adds the employee record to the database.
 4. The system displays confirmation: `Employee John Doe added successfully.`
 
 **Alternative Flows:**
-- If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
-- If the email already exists, the system rejects the entry: `Error: Employee already exists.`
-
-**Postconditions:**
-- The employee record is stored successfully in the system.
-- If an error occurred, the system remains unchanged.
+    - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
+    - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
 ---
 
@@ -379,7 +446,79 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-*{More to be added}*
+#### Use case 2: Showing Anniversaries
+
+**System**: H'Reers
+**Use case**: UC02 - Add New Employee
+**Actor:** HR Worker
+
+**Preconditions**:
+- The employee exists in the system, identified by their Employee ID.
+
+**Guarantees**:
+- The anniversaries associated with the specified employee are displayed.
+
+**Main Success Scenario (MSS)**:
+1. HR Worker enters the `showAnni` command with the specified employee’s ID. 
+2. H'Reers validates that:
+   - The Employee ID exists in the system. 
+   - Nothing is added before `eid/`.
+3. H'Reers retrieves the list of anniversaries associated with the employee. 
+4. H'Reers opens a new window or panel displaying:
+   - Each anniversary’s name, date, and description (if any).
+5. A confirmation message is displayed, indicating successful retrieval. 
+6. Use case ends.
+
+**Extensions**:
+- 2a. Employee Not Found:
+  - H'Reers displays an error message indicating that no employee matches the specified ID. 
+  - Use case ends.
+
+- 2b. Preamble Found:
+    - H'Reers displays an error message indicating that the correct usage of the command.
+    - Use case ends.
+
+- 4a. No anniversaries found:
+    - H'Reers displays a new windows with no anniversaries found.
+    - Use case resume at step 5.
+
+#### Use case 3: Find Employees
+
+**System**: H'Reers
+**Use case**: UC03 – Find Employees
+**Actor:** HR Worker
+
+**Preconditions**:
+- The system has at least one employee record stored.
+
+**Guarantees**:
+- Employees matching the specified search criteria are displayed.
+- The filtered list replaces the currently displayed list.
+- If no employees match the criteria, an empty list is shown.
+- The system state remains unchanged.
+
+**Main Success Scenario (MSS)**:
+1. HR Worker enters the `find` command with one or more search criteria using supported prefixes (`n/`, `jp/`).
+2. H'Reers validates that:
+   - At least one supported prefix is provided.
+   - No invalid preamble exists before the prefixes.
+   - At least one non-empty search field is present.
+3. H'Reers filters the employee list using a combined predicate and displays the filtered list.
+4. A confirmation message is shown, indicating how many matches were found.
+5. Use case ends.
+
+**Extensions**:
+- 2a. Employee Not Found:
+    - H'Reers displays an error message indicating that no employee matches the specified ID.
+    - Use case ends.
+
+- 2b. Preamble Found:
+    - H'Reers displays an error message indicating that the correct usage of the command.
+    - Use case ends.
+
+- 4a. No anniversaries found:
+    - H'Reers displays a new windows with no anniversaries found.
+    - Use case resume at step 5.
 
 ### Non-Functional Requirements
 
@@ -395,7 +534,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
-
 
 --------------------------------------------------------------------------------------------------------------------
 ## **Appendix: Instructions for manual testing**
@@ -916,6 +1054,7 @@ Failure Cases:
 
 - **Test case**: Add reminders for multiple employees  
   **Expected**: All applicable reminders appear and are correctly sorted by date.
+
 ---
 ### **Save Employee Records**
 #### Purpose:
@@ -934,187 +1073,10 @@ Ensures employee records persist across sessions.
 
 ---
 
-[//]: # (## **Implementation**)
+## **Appendix: Planned Enhancements**
 
-[//]: # ()
-[//]: # (This section describes some noteworthy details on how certain features are implemented.)
+Team Size: 5 
 
-[//]: # ()
-[//]: # (### \[Proposed\] Undo/redo feature)
+In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-[//]: # (#### Proposed Implementation)
-
-[//]: # ()
-[//]: # (The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:)
-
-[//]: # ()
-[//]: # (* `VersionedAddressBook#commit&#40;&#41;` — Saves the current address book state in its history.)
-
-[//]: # (* `VersionedAddressBook#undo&#40;&#41;` — Restores the previous address book state from its history.)
-
-[//]: # (* `VersionedAddressBook#redo&#40;&#41;` — Restores a previously undone address book state from its history.)
-
-[//]: # ()
-[//]: # (These operations are exposed in the `Model` interface as `Model#commitAddressBook&#40;&#41;`, `Model#undoAddressBook&#40;&#41;` and `Model#redoAddressBook&#40;&#41;` respectively.)
-
-[//]: # ()
-[//]: # (Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.)
-
-[//]: # ()
-[//]: # (Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.)
-
-[//]: # ()
-[//]: # (![UndoRedoState0]&#40;images/UndoRedoState0.png&#41;)
-
-[//]: # ()
-[//]: # (Step 2. The user executes `delete 5` command to delete the 5th employee in the address book. The `delete` command calls `Model#commitAddressBook&#40;&#41;`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.)
-
-[//]: # ()
-[//]: # (![UndoRedoState1]&#40;images/UndoRedoState1.png&#41;)
-
-[//]: # ()
-[//]: # (Step 3. The user executes `add n/David …​` to add a new employee. The `add` command also calls `Model#commitAddressBook&#40;&#41;`, causing another modified address book state to be saved into the `addressBookStateList`.)
-
-[//]: # ()
-[//]: # (![UndoRedoState2]&#40;images/UndoRedoState2.png&#41;)
-
-[//]: # ()
-[//]: # (<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook&#40;&#41;`, so the address book state will not be saved into the `addressBookStateList`.)
-
-[//]: # ()
-[//]: # (</div>)
-
-[//]: # ()
-[//]: # (Step 4. The user now decides that adding the employee was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook&#40;&#41;`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.)
-
-[//]: # ()
-[//]: # (![UndoRedoState3]&#40;images/UndoRedoState3.png&#41;)
-
-[//]: # ()
-[//]: # (<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook&#40;&#41;` to check if this is the case. If so, it will return an error to the user rather)
-
-[//]: # (than attempting to perform the undo.)
-
-[//]: # ()
-[//]: # (</div>)
-
-[//]: # ()
-[//]: # (The following sequence diagram shows how an undo operation goes through the `Logic` component:)
-
-[//]: # ()
-[//]: # (![UndoSequenceDiagram]&#40;images/UndoSequenceDiagram-Logic.png&#41;)
-
-[//]: # ()
-[//]: # (<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker &#40;X&#41; but due to a limitation of PlantUML, the lifeline reaches the end of diagram.)
-
-[//]: # ()
-[//]: # (</div>)
-
-[//]: # ()
-[//]: # (Similarly, how an undo operation goes through the `Model` component is shown below:)
-
-[//]: # ()
-[//]: # (![UndoSequenceDiagram]&#40;images/UndoSequenceDiagram-Model.png&#41;)
-
-[//]: # ()
-[//]: # (The `redo` command does the opposite — it calls `Model#redoAddressBook&#40;&#41;`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.)
-
-[//]: # ()
-[//]: # (<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size&#40;&#41; - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook&#40;&#41;` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.)
-
-[//]: # ()
-[//]: # (</div>)
-
-[//]: # ()
-[//]: # (Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook&#40;&#41;`, `Model#undoAddressBook&#40;&#41;` or `Model#redoAddressBook&#40;&#41;`. Thus, the `addressBookStateList` remains unchanged.)
-
-[//]: # ()
-[//]: # (![UndoRedoState4]&#40;images/UndoRedoState4.png&#41;)
-
-[//]: # ()
-[//]: # (Step 6. The user executes `clear`, which calls `Model#commitAddressBook&#40;&#41;`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.)
-
-[//]: # ()
-[//]: # (![UndoRedoState5]&#40;images/UndoRedoState5.png&#41;)
-
-[//]: # ()
-[//]: # (The following activity diagram summarizes what happens when a user executes a new command:)
-
-[//]: # ()
-[//]: # (<img src="images/CommitActivityDiagram.png" width="250" />)
-
-[//]: # ()
-[//]: # (#### Design considerations:)
-
-[//]: # ()
-[//]: # (**Aspect: How undo & redo executes:**)
-
-[//]: # ()
-[//]: # (* **Alternative 1 &#40;current choice&#41;:** Saves the entire address book.)
-
-[//]: # (  * Pros: Easy to implement.)
-
-[//]: # (  * Cons: May have performance issues in terms of memory usage.)
-
-[//]: # ()
-[//]: # (* **Alternative 2:** Individual command knows how to undo/redo by)
-
-[//]: # (  itself.)
-
-[//]: # (  * Pros: Will use less memory &#40;e.g. for `delete`, just save the employee being deleted&#41;.)
-
-[//]: # (  * Cons: We must ensure that the implementation of each individual command are correct.)
-
-[//]: # ()
-[//]: # (_{more aspects and alternatives to be added}_)
-
-[//]: # ()
-[//]: # (### \[Proposed\] Data archiving)
-
-[//]: # ()
-[//]: # (_{Explain here how the data archiving feature will be implemented}_)
-
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # (### Deleting an employee)
-
-[//]: # ()
-[//]: # (1. Deleting an employee while all employees are being shown)
-
-[//]: # ()
-[//]: # (   1. Prerequisites: List all employees using the `list` command. Multiple employees in the list.)
-
-[//]: # ()
-[//]: # (   1. Test case: `delete 1`<br>)
-
-[//]: # (      Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message. Timestamp in the status bar is updated.)
-
-[//]: # ()
-[//]: # (   1. Test case: `delete 0`<br>)
-
-[//]: # (      Expected: No employee is deleted. Error details shown in the status message. Status bar remains the same.)
-
-[//]: # ()
-[//]: # (   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` &#40;where x is larger than the list size&#41;<br>)
-
-[//]: # (      Expected: Similar to previous.)
-
-[//]: # ()
-[//]: # (1. _{ more test cases …​ }_)
-
-[//]: # ()
-[//]: # (### Saving data)
-
-[//]: # ()
-[//]: # (1. Dealing with missing/corrupted data files)
-
-[//]: # ()
-[//]: # (   1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_)
-
-[//]: # ()
-[//]: # (1. _{ more test cases …​ }_)
+1. 

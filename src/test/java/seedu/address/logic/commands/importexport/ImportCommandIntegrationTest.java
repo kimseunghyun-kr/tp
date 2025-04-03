@@ -144,9 +144,9 @@ public class ImportCommandIntegrationTest {
         assertThrows(CommandException.class, () -> csvConflictCommand.execute(model));
 
         Path overwriteConflictJsonPath = TEST_DATA_FOLDER.resolve("testEmployeeIdPrefixConflict.json");
-        ImportCommand JsonConflictCommand = new ImportCommand("json", overwriteConflictJsonPath,
+        ImportCommand jsonConflictCommand = new ImportCommand("json", overwriteConflictJsonPath,
                 "overwrite");
-        assertThrows(CommandException.class, () -> JsonConflictCommand.execute(model));
+        assertThrows(CommandException.class, () -> jsonConflictCommand.execute(model));
     }
 
     @Test
@@ -159,9 +159,9 @@ public class ImportCommandIntegrationTest {
         assertTrue(commandResult.getFeedbackToUser().contains("00000000-0000-0000-0000-00000000001"));
 
         Path overwriteConflictJsonPath = TEST_DATA_FOLDER.resolve("testEmployeeIdPrefixConflict.json");
-        ImportCommand JsonConflictCommand = new ImportCommand("json", overwriteConflictJsonPath,
+        ImportCommand jsonConflictCommand = new ImportCommand("json", overwriteConflictJsonPath,
                 "append");
-        CommandResult commandResultJson = JsonConflictCommand.execute(model);
+        CommandResult commandResultJson = jsonConflictCommand.execute(model);
         assertTrue(commandResultJson.getFeedbackToUser().contains("da4ef25d-2ad2-4a30-819e"));
         assertTrue(commandResultJson.getFeedbackToUser().contains("df57c625-1bdb-4772-a5aa"));
     }
