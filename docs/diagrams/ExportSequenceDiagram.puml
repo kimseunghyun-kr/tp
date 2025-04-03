@@ -5,14 +5,14 @@ title Sequence Diagram for ExportCommand
 skinparam ArrowFontStyle plain
 
 box Logic LOGIC_COLOR_T1
-participant "ExportCommandParser" as ECP LOGIC_COLOR
+participant ":ExportCommandParser" as ECP LOGIC_COLOR
 participant "<<class>> \n FilePathResolverUtils" as FRU LOGIC_COLOR
-participant "ExportCommand" as EC LOGIC_COLOR
+participant ":ExportCommand" as EC LOGIC_COLOR
 participant " <<class>> \n AddressBookFormatConverter" as ABC LOGIC_COLOR
 end box
 participant Files as F STORAGE_COLOR_T1
 box Storage STORAGE_COLOR_T1
-participant "JsonSerializableAddressBook" as JsonSerializableAddressBook STORAGE_COLOR
+participant ":JsonSerializableAddressBook" as JsonSerializableAddressBook STORAGE_COLOR
 end box
 
 [-> ECP: parse( arguments )
@@ -40,6 +40,7 @@ activate EC
 alt filetype == json
 EC -> ABC: exportToJson(path)
 activate ABC
+create JsonSerializableAddressBook
 ABC -> JsonSerializableAddressBook : new JsonSerializableAddressBook
 activate JsonSerializableAddressBook
 return JsonSerializableAddressBook
@@ -48,6 +49,7 @@ deactivate ABC
 else filetype == csv
 EC -> ABC : exportToCsv(path)
 activate ABC
+create JsonSerializableAddressBook
 ABC -> JsonSerializableAddressBook : new JsonSerializableAddressBook
 activate JsonSerializableAddressBook
 return JsonSerializableAddressBook
