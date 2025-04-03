@@ -300,7 +300,7 @@ The screenshot below shows the result of the command `find n/li ri jp/ dev manag
 
 ---
 
-# Anniversary Commands
+## Anniversary Commands
 Great HR isn’t just about managing people — it’s about remembering what matters.
 
 This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
@@ -310,8 +310,6 @@ With just a few commands, you can:
 - View Anniversaries related to a specific employee
 - View all upcoming anniversaries (Minseok go add this)
 - Remove outdated or incorrect entries
----
-## Anniversary Commands
 
 ---
 
@@ -519,6 +517,7 @@ Below is an example of how the reminders appear on the UI:
 ![reminderListUI.png](images/remindersListUI.png)
 
 The reminders appear on the panel when you type in `reminder`.
+
 ---
 ## Quality of Life Features
 
@@ -726,12 +725,6 @@ As a convenience, on the in-app output, it will show how many employees have bee
 | `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
 | `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
-
----
-## Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
-
 --------------------------------------------------------------------------------------------------------------------
 ## Frequently asked questions and Troubleshooting
 We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
@@ -748,8 +741,12 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. 
+   * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
+2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
+   * **Solution**: Manually restore the minimized Help Window.
+3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
+   * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
 
 --------------------------------------------------------------------------------------------------------------------
 
