@@ -616,6 +616,155 @@ deleteAnniversary eid/0c2414da ai/1
 
 ![DeleteAnniversaryCommand](images/DeleteAnniversaryCommandSequenceDiagram.png)
 ---
+### **exportCommand**
+#### Purpose
+You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
+If you provide a specific directory path (`fp/`), the system will export the file there.
+If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
+This means that you do **not** need to include the extension behind the file name.
+For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
+with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
+
+#### **Command Format**
+```plaintext
+export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
+```
+
+#### **Parameters**
+
+| **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
+|------------|-------------------------------------------------|----------------------------|------------------------|
+| `ft/`      | The file type to export (`json` or `csv`)       | **Required**               | `json` or `csv`       |
+| `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
+| `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
+
+#### **Example Usage**
+```plaintext
+export ft/json fp/data/ fn/contacts
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/csv fp/data/contacts.csv
+```
+Explanation:
+`export` — the command you're running
+`ft/csv` — file type is CSV
+`fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
+
+This will save your current contact list as a file named contacts.csv in the data/ folder.
+
+```plaintext
+export ft/json fp/data/ fn/contacts
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+`fp/data/` — file path is the data/ directory
+`fn/contacts` — file name is contacts (without extension)
+
+This will save your current contact list as a file named contacts.json in the data/ folder.
+
+```plaintext
+export ft/json
+```
+Explanation:
+`export` — the command you're running
+`ft/json` — file type is JSON
+
+This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+#### Parameter Rules:
+- File Type (ft/ via PREFIX_FILETYPE):
+  - Required. Must be provided as either "json" or "csv". If missing or invalid, an error is thrown indicating an invalid file type using the command usage message.
+
+- File Path (fp/ via PREFIX_FILEPATH):
+  - Optional. Represents either a full file path (including the filename) or a directory path. If provided as a full file path that includes a filename, no separate filename should be provided.
+
+- Filename (fn/ via PREFIX_FILENAME):
+  - Optional. Must be provided if the file path only specifies a directory. If provided without an extension, the required extension (matching the file type) is automatically appended.
+
+- Field Exclusivity & Consistency:
+  - If both a file path (with a filename) and a separate filename are provided, the parser throws an error to avoid ambiguity. 
+  - The final resolved file path must have an extension that exactly matches the provided file type (.json for json and .csv for csv).
+#### Outputs:
+Success:
+- On successful export, the command returns a message formatted as: `Exported <displayed_employees> employees in <filetype> format to <resolved_path>`
+- `<displayed_employees>` lists the employees that were visible at the time of export.
+- `<resolved_path>` is the final file path where data was exported.
+
+Failure Cases:
+
+- No Data to Export:
+  - If the filtered employee list is empty, a CommandException is thrown with the message:No people to export.
+
+- Invalid File Type:
+  - If the file type provided is not "json" or "csv", a CommandException is thrown using the export command’s usage message.
+
+- File Path Resolution Errors:
+  - If both a full file path (with filename) and a separate filename are provided, an error is thrown with the message:
+  Provide either a full file path or a filename, not both.
+
+- If a file path is provided as a directory and no filename is given, an error is thrown stating that the filename must be provided.
+
+- If the resolved file’s extension does not match the provided file type, an error is thrown indicating the mismatch.
+
+#### Implementation:
+1. Parsing the Input:
+- The ExportCommandParser tokenizes the user input using the prefixes for file type (ft/), file path (fp/), and filename (fn/).
+- It calls verifyFileTypePresentAndValid from the FilePathResolverUtils to ensure the file type is provided and valid. 
+- The parser retrieves the optional file path and filename values. 
+- The final file path is determined by calling FilePathResolverUtils.resolveFilePath(filePath, filename, fileType).
+
+2. Command Construction:
+- After resolving the file type and file path, a new ExportCommand instance is created with these parameters. 
+- The command object stores the file type as a string and the file path as a Path object.
+
+3. Executing the Export:
+- In the execute method of ExportCommand, the command:
+- Retrieves the current list of filtered employees from the model. 
+- Checks whether there are any employees to export; if none, it throws a CommandException. 
+- Depending on the file type:
+- If "json", it calls AddressBookFormatConverter.exportToJson(displayedEmployees, path). 
+- If "csv", it calls AddressBookFormatConverter.exportToCsv(displayedEmployees, path). 
+- The export process is logged using the application's logger for tracking purposes. 
+- Any errors during file writing or conversion result in a caught exception and an appropriate error message.
+
+4. Returning the Outcome:
+- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees, file type, and resolved file path).
+
+![exportCommand](images/ExportSequenceDiagram.png)
+
+#### Implementation (FileDataPathUtils)
+1. Determining the Final File Path:
+- The utility method resolveFilePath takes in three parameters: an optional file path, an optional filename, and the file type. 
+- It first calculates the expected file extension based on the file type (e.g., .json or .csv).
+
+2. Handling Various Input Combinations:
+    2.1. Full File Path Provided:
+   - If the provided file path appears to include a filename (determined by the presence of a dot in the filename), the method validates the extension. 
+   - If a separate filename is also provided in this case, a ParseException is thrown to avoid ambiguity.
+
+    2.2. Directory Path Provided:
+   - If the file path represents a directory (i.e., it does not contain a filename), a filename must be provided. 
+   - The provided filename is then checked and automatically appended with the expected extension if it is missing.
+
+    2.3. Only Filename Provided:
+   - If no file path is given but a filename is provided, the filename is used (with the appropriate extension ensured).
+
+3. Validation of File Extension:
+- The method validateFileExtension checks that the actual file extension of the resolved file matches the expected extension. 
+- If there is a mismatch, a ParseException is thrown with a message indicating the file extension conflict.
+
+4. Error Handling:
+- If neither a file path nor a filename is provided, an IllegalArgumentException is thrown to indicate that at least one must be provided.
+
+---
 ### Reminder for Events
 #### Purpose:
 Notifies HR about upcoming employee birthdays and work anniversaries.
