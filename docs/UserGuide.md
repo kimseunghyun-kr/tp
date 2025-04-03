@@ -473,50 +473,43 @@ this will delete the anniversary at index 1 of the employee with the Employee ID
 
 
 ---
-## Reminder Commands
----
-
-### Viewing upcoming birthdays: `reminder bd`
-
-Filters and displays a list of employees whose birthdays are occurring within the next 3 days.
-
-**Format:**
-`reminder bd`
-
-**What happens:**
-- A panel will show up on the right side of the UI under “🎂 Birthday”.
-- Each reminder card will show:
-    - The employee’s **name**
-    - **Job position**
-    - **Birthday date**
-    - **Days remaining** until the birthday
-
-> 💡 The command only affects display; no data is modified.
+## Reminder Command
 
 ---
+### Viewing upcoming anniversaries: `reminder`
 
-### Viewing upcoming work anniversaries: `reminder wa`
+You can use this command to view all employee anniversaries (birthdays, work anniversaries, and custom anniversaries) that are occurring within the next 3 days.
 
-Filters and displays a list of employees whose work anniversaries are occurring within the next 3 days.
+Format: `reminder`
 
-**Format:**
-`reminder wa`
+What will you see:
 
-**What happens:**
-- A panel will show up next to the birthday panel under “🎉 Work Anniversary”.
-- Each reminder card will include:
-    - The employee’s **name**
-    - **Job position**
-    - **Work anniversary date**
-    - **Days remaining** until the anniversary
+* A reminder panel appears on the right side of the UI.
+* All upcoming anniversaries (within 3 days) will be displayed in one combined list.
+* Each reminder card shows:
+    * The employee’s **name**
+    * Their **job position**
+    * The **type** and **name** of the anniversary (e.g., 🎂 Birthday, 🎉 Work Anniversary, 🥂 Custom)
+    * The **anniversary date**
+    * How many days remain (e.g., “in 2 days”)
 
----
+<div markdown="block" class="alert alert-info">
 
-Below is an example of how the reminders appear on the UI:
+**information_source: Notes about the `reminder` command:**<br>
+* This command only affects the display — it does **not** modify any data.
+* All anniversaries shown are automatically sorted by how soon they are occurring.
+* If an employee has more than one upcoming anniversary, they will appear **multiple times** in the list.
+</div>
 
-![reminderListUI.png](images/remindersListUI.png)
+Example:
+* `reminder`
+    * Displays a unified list of upcoming birthdays, work anniversaries, and custom anniversaries.
 
-The reminders appear on the panel when you type in `reminder`.
+Example UI:
+
+![remindersListUI](images/remindersListUI.png)
+
+Each card in the reminder panel corresponds to one upcoming anniversary for an employee.
 ---
 ## Quality of Life Features
 
