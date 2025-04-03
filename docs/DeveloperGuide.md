@@ -344,7 +344,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 #### Use case 1: Adding an Employee
 
 **System**: H'Reers
+
 **Use case**: UC01 - Add New Employee
+
 **Actor:** HR Worker
 
 
@@ -366,8 +368,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
     - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
----
-
 **Extensions**
 
 * 2a. The list is empty.
@@ -380,10 +380,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+---
 #### Use case 2: Showing Anniversaries
 
 **System**: H'Reers
+
 **Use case**: UC02 - Add New Employee
+
 **Actor:** HR Worker
 
 **Preconditions**:
@@ -413,10 +416,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - H'Reers displays a new windows with no anniversaries found.
     - Use case resume at step 5.
 
+---
+
 #### Use case 3: Find Employees
 
 **System**: H'Reers
+
 **Use case**: UC03 – Find Employees
+
 **Actor:** HR Worker
 
 **Preconditions**:
@@ -450,6 +457,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 2a. No Matching Employees Found:
   - H'Reers displays an empty list.
   - Use case resume at step 3.
+---
 
 ### Non-Functional Requirements
 
@@ -599,6 +607,47 @@ The edit command is implemented by the `EditCommand` class, which extends the ab
 The edit command also supports the undo/redo feature by preserving the previous state via the model's commit function.
 
 ![EditCommandDiagram](images/EditSequenceDiagram.png)
+
+### **Find Command**
+
+#### Purpose:
+Allows HR workers to filter and view employees whose name or job position contains one or more specified keywords.
+
+#### Command Format:
+
+```
+find [n/NAME_KEYWORDS...] [jp/JOB_POSITION_KEYWORDS...]
+
+```
+
+#### Example Commands:
+
+```
+find n/Alice Bob
+```
+```
+find jp/Engineer Manager
+```
+```
+find n/John jp/Designer
+```
+
+#### Parameter Rules:
+- **NAME_KEYWORDS**: One or more name keywords separated by spaces. Partial matches allowed (e.g., n/Ali matches “Alice”).
+- **JOB_POSITION_KEYWORDS**: One or more whole-word keywords. Partial matches not allowed (e.g., jp/Eng does not match “Engineer”).
+- At least one prefix (n/ or jp/) must be present. Even though they are written as both optional as you can have one but not the other.
+- Whitespace between keywords is allowed and they will be counted as different keywords to search for.
+
+#### Outputs:
+- **Success**: Employee list is filtered to show only matching results. 
+A confirmation message appears as follows:
+  - Example: `2 employees listed!`
+- **Failure**: Various error messages depending on the issue:
+    - `Invalid command format!`
+    - `At least one non-empty field is required.`
+    - `Multiple employees found with prefix XYZ`
+    - `No employee found with prefix XYZ`
+
 
 ### **Undo Changes**
 #### Purpose:
@@ -797,6 +846,10 @@ deleteAnniversary eid/0c2414da ai/1
 - On successful deletion, the command returns a success message that includes the details of the deleted anniversary.
 
 ![DeleteAnniversaryCommand](images/DeleteAnniversaryCommandSequenceDiagram.png)
+
+---
+### **ShowAnniversaryCommand**
+
 ---
 ### **exportCommand**
 #### Purpose
