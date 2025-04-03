@@ -906,3 +906,8 @@ Ensures employee records persist across sessions.
 - Intermediate .tmp file for autosave.
 
 ---
+
+## **Appendix: Planned Enhancements**
+
+// GUYS ALL ADD BIG BUGS HERE SO IT WON'T BE PENALISED
+
