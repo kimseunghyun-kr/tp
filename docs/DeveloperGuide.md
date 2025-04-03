@@ -938,6 +938,29 @@ deleteAnniversary eid/0c2414da ai/1
 ---
 ### **ShowAnniversaryCommand**
 
+#### Command Format:
+
+```
+showAnni eid/EMPLOYEE_ID
+```
+
+#### Example Commands:
+```
+showAnni eid/efgh3123
+```
+
+#### Parameter Rules:
+- **EMPLOYEE_ID**: Must be a valid UUID that uniquely identifies an employee.
+- The provided ID must exist in the system.
+- No preamble (text before the prefix) is allowed.
+
+#### Outputs:
+- **Success**: A new window opens displaying the list of anniversaries for the specified employee.
+  - If the employee has no anniversaries, the window still opens, but the list will be empty.
+- **Failure**: 
+  - `Invalid command format!` – When no prefix is used or preamble text is detected.
+  - `No employee found with employeeId starting with XYZ` – If the specified Employee ID does not match any employee in the system.
+  - 
 ---
 ### **exportCommand**
 #### Purpose
