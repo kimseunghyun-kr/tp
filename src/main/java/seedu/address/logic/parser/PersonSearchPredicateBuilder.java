@@ -36,38 +36,43 @@ public class PersonSearchPredicateBuilder {
 
         // Name Search
         if (hasNonEmptyName) {
-            List<String> names = argMultimap.getAllValues(PREFIX_NAME);
-            List<String> combinedNameKeywords = new ArrayList<>();
-            for (String name : names) {
-                if (name.isBlank()) {
-                    continue;
-                }
-                name = name.trim();
-                String[] nameKeywords = name.split("\\s+");
-                combinedNameKeywords.addAll(Arrays.asList(nameKeywords));
-            }
-            Predicate<Employee> namePredicate = new NameContainsKeywordsPredicate(combinedNameKeywords);
-            logger.info("Predicate added: " + namePredicate);
+            Predicate<Employee> namePredicate = buildNamePredicate(argMultimap);
             combinedPredicate = combinedPredicate.and(namePredicate);
         }
 
         // Job Position Search
         if (hasNonEmptyJp) {
-            List<String> jobs = argMultimap.getAllValues(PREFIX_JOBPOSITION);
-            List<String> combinedJpKeywords = new ArrayList<>();
-            for (String job : jobs) {
-                if (job.isBlank()) {
-                    continue;
-                }
-                job = job.trim();
-                String[] jobKeywords = job.split("\\s+");
-                combinedJpKeywords.addAll(Arrays.asList(jobKeywords));
-            }
-            Predicate<Employee> combinedJpPredicate = new JobPositionContainsKeywordsPredicate(combinedJpKeywords);
-            logger.info("Predicate added: " + combinedJpPredicate);
-            combinedPredicate = combinedPredicate.and(combinedJpPredicate);
-
+            Predicate<Employee> jpPredicate = buildJobPositionPredicate(argMultimap);
+            combinedPredicate = combinedPredicate.and(jpPredicate);
         }
         return combinedPredicate;
+    }
+
+    private static List<String> buildEachPredicate(ArgumentMultimap argMultimap, Prefix prefixToSearch) {
+        List<String> keywords = argMultimap.getAllValues(prefixToSearch);
+        List<String> combinedKeywords = new ArrayList<>();
+        for (String keyword : keywords) {
+            if (keyword.isBlank()) {
+                continue;
+            }
+            keyword = keyword.trim();
+            String[] splitKeywords = keyword.split("\\s+");
+            combinedKeywords.addAll(Arrays.asList(splitKeywords));
+        }
+        return combinedKeywords;
+    }
+
+    private static Predicate<Employee> buildNamePredicate(ArgumentMultimap argMultimap) {
+        List<String> combinedNameKeywords = buildEachPredicate(argMultimap, PREFIX_NAME);
+        Predicate<Employee> namePredicate = new NameContainsKeywordsPredicate(combinedNameKeywords);
+        logger.info("Predicate added: " + namePredicate);
+        return namePredicate;
+    }
+
+    private static Predicate<Employee> buildJobPositionPredicate(ArgumentMultimap argMultimap) {
+        List<String> combinedJpKeywords = buildEachPredicate(argMultimap, PREFIX_JOBPOSITION);;
+        Predicate<Employee> combinedJpPredicate = new JobPositionContainsKeywordsPredicate(combinedJpKeywords);
+        logger.info("Predicate added: " + combinedJpPredicate);
+        return combinedJpPredicate;
     }
 }

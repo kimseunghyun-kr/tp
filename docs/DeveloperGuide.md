@@ -374,11 +374,69 @@ Classes used by multiple components are in the `seedu.address.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Find Employees Features 
+The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
 
+The Find feature is primarily driven by:
 
-### \[Proposed\] Data archiving
+* FindCommand: Executes the filtered search based on a predicate
 
-_{Explain here how the data archiving feature will be implemented}_
+* FindCommandParser: Parses user input and builds the corresponding predicate
+
+* PersonSearchPredicateBuilder: Constructs combined Predicate<Employee> from argument values
+
+* Model: Provides access to the filtered employee list and the update mechanism
+
+Given below is an explanation of how the Find feature works:
+When a user enters a command such as:
+ `find n/Alice jp/engineer` the following steps occur:
+
+Step 1. FindCommandParser uses ArgumentTokenizer to extract the values for prefixes (n/, jp/, etc.).
+
+Step 2. It checks for errors such as:
+- No valid prefixes
+- Empty input values for all fields  
+- Invalid preamble
+
+If the tokens are valid, it delegates predicate construction to PersonSearchPredicateBuilder.
+
+Step 3. The builder constructs Predicate<Employee> objects for each field:
+   - NameContainsKeywordsPredicate 
+   - JobPositionContainsKeywordsPredicate
+
+The two predicates behave slightly differently to suit their field contexts:
+- NameContainsKeywordsPredicate uses partial matching.
+  This allows users to match names using any substring of a word.
+  - `n/Ali` matches with "Alice Tan", "Khalid Ali"
+- JobPositionContainsKeywordsPredicate uses full-word matching.
+  A keyword must match a whole word in the job position exactly (case-insensitive).
+  - `n/engineer` matches "Software Engineer", "Senior Engineer".
+  - `n/eng` does not match "Software Engineer", "Senior Engineer".
+
+This design was decided because:
+- Partial matching in names is user-friendly — users often search by fragments of names.
+- Full word matching in job titles avoids false positives and returns more accurate results in professional roles.
+
+It combines both search predicates with logical `AND` so all conditions must be satisfied for an employee to be included in the search results. For example: 
+`find n/Alice jp/engineer`matches employees with "Alice" in their name AND "engineer" in their job position.
+
+Meanwhile, each predicate performs keyword-based partial matching (OR logic within the field). For example:
+`find n/Alice Bob`matches anyone with "Alice" OR "Bob" in their name.
+
+This design was chosen to support both broad and targeted search strategies:
+- A user looking for a specific employee is likely to include more fields (e.g., both name and job position).
+- A user performing a general search may only filter by a single field, like a partial name.
+
+This flexible approach aims to enable the command to be both intuitive and powerful, depending on the user’s intent.
+
+Step 4: FindCommand executes by calling:
+```
+model.updateFilteredEmployeeList(predicate);
+```
+The `FilteredList<Employee>` inside the model is updated, triggering the GUI to reflect the new list.
+
+The diagram below illustrates the sequence of interactions when a user issues the command `find n/Alice jp/engineer`:
+<img src="images/FindSequenceDiagram.png" width="700" />
 
 
 --------------------------------------------------------------------------------------------------------------------
