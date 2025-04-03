@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Developer Guide
+title: H'Reers Developer Guide
 ---
 
 ## *Mock UI*

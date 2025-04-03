@@ -70,12 +70,14 @@ Whether you need to track employee milestones, update records, or generate quick
     ```
     If the version shows 17 or higher, you're good to go!
 
-2. Step 2: Download H'Reers (MINSEOK GO ADD SCREENSHOT HERE)
+2. Step 2: Download H'Reers
    1. go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
    2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
+   ![Step2_1](images/Step2_1.jpg)
    3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
-
-3. Step 3: Start the Application (TERR TERR GO ADD SCREENSHOT HERE)
+   ![Step2_2](images/Step2_2.jpg)
+   ![Step2_3](images/Step2_3.jpg)
+3. Step 3: Start the Application
    1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
    2. Navigate to the folder where you saved the .jar file. For example:
        ```bash
@@ -83,8 +85,9 @@ Whether you need to track employee milestones, update records, or generate quick
        ```
    3. Run this command:
        ```bash
-       java -jar hreers.jar <MINSEOK HELP MODIFY THIS>
+       java -jar hreers.jar
        ```
+   ![Step3_1](images/Step3_1.jpg)
    4. H'Reers will open in a few seconds with a simple GUI, ready to use!
    ![Ui](images/MockUI.png)
 
