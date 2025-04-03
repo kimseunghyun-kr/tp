@@ -86,13 +86,13 @@ public class ModelManager implements Model {
 
     @Override
     public Path getAddressBookFilePath() {
-        return userPrefs.getAddressBookFilePath();
+        return userPrefs.getHreersDatafilePath();
     }
 
     @Override
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
-        userPrefs.setAddressBookFilePath(addressBookFilePath);
+        userPrefs.setHreersDatafilePath(addressBookFilePath);
     }
 
     //=========== AddressBook ================================================================================
@@ -165,9 +165,8 @@ public class ModelManager implements Model {
         );
         return Optional.of(reminder);
     }
-
+    //@@author cscms03
     /**
-     *
      * Returns the next occurrence of a given date (month and day),
      * assuming it's a recurring annual event like a birthday or anniversary.
      * If the input date is in the future (including the year), it returns it as-is.

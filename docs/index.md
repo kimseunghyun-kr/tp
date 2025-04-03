@@ -6,7 +6,7 @@ title: H'Reers
 [![Java CI](https://github.com/AY2425S2-CS2103T-F12-4/tp/actions/workflows/gradle.yml/badge.svg)](https://github.com/AY2425S2-CS2103T-F12-4/tp/actions/workflows/gradle.yml)
 [![codecov](https://codecov.io/gh/nus-cs2103-AY2425S2/tp/graph/badge.svg?token=WSB76KOM78)](https://codecov.io/gh/nus-cs2103-AY2425S2/tp)
 
-![Ui](images/MockUI.png)
+![Ui](images/Ui.png)
 
 **H'Reers is a desktop application for HRs to keep details and anniversaries of their employees.** While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
 
@@ -17,4 +17,4 @@ title: H'Reers
 **Acknowledgements**
 
 * Libraries used: [JavaFX](https://openjfx.io/), [Jackson](https://github.com/FasterXML/jackson), [JUnit5](https://github.com/junit-team/junit5)
-* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org).
+* This project is based on the [AddressBook-Level3 project](https://github.com/se-edu/addressbook-level3) created by the [SE-EDU initiative](https://se-education.org).

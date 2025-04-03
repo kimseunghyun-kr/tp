@@ -27,14 +27,14 @@ Whether you need to track employee milestones, update records, or generate quick
 3. [Core Commands](#core-commands)
     - [Viewing help: `help`](#viewing-help-codehelpcode)
     - [Adding an employee: `add`](#adding-an-employee-codeaddcode)
-    - [Listing all employees: `list`](#listing-all-employees-codelistcode)
     - [Editing an employee: `edit`](#editing-an-employee-codeeditcode)
-    - [Undoing the last command: `undo`](#undoing-the-last-command-codeundocode)
-    - [Locating employees: `find`](#locating-employees-codefindcode)
     - [Deleting an employee: `delete`](#deleting-an-employee-codedeletecode)
+    - [Undoing the last command: `undo`](#undoing-the-last-command-codeundocode)
+    - [Listing all employees: `list`](#listing-all-employees-codelistcode)
+    - [Locating employees: `find`](#locating-employees-codefindcode)
 4. [Anniversary Commands](#anniversary-commands)
-    - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
     - [Showing anniversaries: `showAnni`](#showing-anniversaries-codeshowannicode)
+    - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
     - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
 5. [Reminder Commands](#reminder-commands)
     - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-codereminder-bdcode)
@@ -56,26 +56,30 @@ Whether you need to track employee milestones, update records, or generate quick
 
 ## Quick start
 
-1. ✅ Step 1: Make sure Java is installed
+1. Make sure Java is installed
 
     H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
 
-    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
+    * Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
 
-    👉 Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
-    🔍 Not sure if Java is already installed?
+    *  Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
+
+    * Not sure if Java is already installed?
     Open your terminal or command prompt and type:
     ```bash
     java -version
     ```
-    If the version shows 17 or higher, you're good to go!
+    If the version shows 17, you're good to go
 
-2. Step 2: Download H'Reers (MINSEOK GO ADD SCREENSHOT HERE)
-   1. go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
+2. Download H'Reers
+   1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
    2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
+   ![Step2_1](images/Step2_1.jpg)
    3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
+   ![Step2_2](images/Step2_2.jpg)
+   ![Step2_3](images/Step2_3.jpg)
 
-3. Step 3: Start the Application (TERR TERR GO ADD SCREENSHOT HERE)
+3. Start the Application
    1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
    2. Navigate to the folder where you saved the .jar file. For example:
        ```bash
@@ -83,12 +87,13 @@ Whether you need to track employee milestones, update records, or generate quick
        ```
    3. Run this command:
        ```bash
-       java -jar hreers.jar <MINSEOK HELP MODIFY THIS>
+       java -jar hreers.jar
        ```
+   ![Step3_1](images/Step3_1.jpg)
    4. H'Reers will open in a few seconds with a simple GUI, ready to use!
-   ![Ui](images/MockUI.png)
+   ![Ui](images/Ui.png)
 
-4. Step 4: Try a Few Commands
+4. Try a Few Commands
    H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
    Here is our recommended list of commands to try - just type them in the command box and press Enter:
 
@@ -114,6 +119,8 @@ This section walks you through the essential commands for managing your employee
 Whether you’re onboarding someone, searching through your team list, or making quick edits, these commands help you get it done fast — all from the command line.
 
 You’ll also find helpful notes below on how to format your commands, including optional fields, parameter order, and best practices.
+
+All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered exactly as shown.
 
 ---
 
@@ -154,35 +161,38 @@ Format: `help`
 ---
 ### Adding an employee: `add`
 
-Adds an employee to H'Reers.
+You can use this command to add a new employee to H'Reers.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
 
 Date format: `YYYY-MM-DD`
-<div markdown="span" class="alert alert-primary">:bulb: Tip:
-An employee can have any number of tags (including 0)
-</div>
 
-<div markdown="span" class="alert alert-primary">:bulb: Tip:
-bd/ stands for birthday, and wa/ stands for work anniversary — these are standard anniversaries the app automatically creates for you when you provide a date.
+<div markdown="block" class="alert alert-info">
 
-If you wish to track other types of anniversaries, you can add them using the [add anniversary command below](#add-anniversaries-addanni).
-bd/ stands for birthday and wa/ stands for work anniversary.
+**:information_source: Notes about the add command:**<br>
+* The name only allows letters, numbers, and spaces.
+  e.g. `n/John Doe` is valid, but `n/John@Doe` is not.
+
+* You can include as many tags per person as you like — or none at all.
+
+* Use bd/ for the employee’s birthday and wa/ for their work anniversary.
+  H'Reers will automatically convert these into standard anniversaries for you.
+
+* If you want to track other types of anniversaries, you can do that later using the [add anniversary command below](#add-anniversaries-codeaddannicode).
+
+* If you repeat a prefix (e.g., `n/Hans n/Jane`), H'Reers will use only the last one (`n/Jane`).
+  This applies to all fields — including employee IDs (`eid/abcde eid/bcde` → `eid/bcde` is used).
 </div>
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` Adds `John Doe` into H'Reers
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of Part Time Worker and Personal Trainer
+* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
+  * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
+  * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
-### Listing all employees: `list`
 
-Shows a list of all employees in H'Reers.
-
-Format: `list`
-
----
 ### Editing an employee: `edit`
 
 Edits an existing employee in H'Reers.
@@ -203,6 +213,20 @@ Examples:
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
 ---
+### Deleting an employee: `delete`
+
+Deletes the specified employee from H'Reers.
+
+Format: `delete Employee_ID_prefix`
+
+* Deletes the employee of the specified Employee ID.
+* The Employee ID **must be valid and unique**
+
+Examples:
+* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
+
+---
+
 ### Undoing the last command: `undo`
 
 Will undo to before the data is changed.
@@ -220,12 +244,21 @@ Examples:
 * `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
 ---
+### Listing all employees: `list`
+
+You can use this command when you want to view all employees currently stored in H'Reers.
+
+Format: `list`
+
+* This shows every employee in the system — regardless of filters you may have used previously.
+* If you've just used the `find` command and want to see the full list again, simply type `list`.
+
+---
 ### Locating employees: `find`
 
-Finds employees whose names or/and job positions contain any of the given keywords.
+You can use this command to search for employees whose name or/and job position contains specific keywords.
 
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
 You can use this format in 3 ways!
 </div>
 
@@ -244,17 +277,17 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
 **:information_source: Notes about the find command:**<br>
 
-* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match — it's an OR search.
+* When you search within a single field (like n/ for name or jp/ for job position), you only need one of the keywords to match.
 
-    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` or `Bo Yang`.
+    * For example: find `n/Hans Bo` will find anyone with "Hans" or "Bo" in their name, like `Hans Gruber` **or** `Bo Yang`.
 
-* When you use multiple fields together, the command finds people who match all of them — it becomes an AND search.
+* When you use both fields together, the command finds people who match all of them.
 
-    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" and whose job position includes "engineer".
+    * For example: `find n/Hans jp/engineer` finds people whose name includes "Hans" **and** whose job position includes "engineer".
 
 * In the case of multiple fields and keywords, you will only see a employee on the list if they match at least one keyword from each field.
 
-    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" or "Bo", and whose job position has the word "dev" or "manager".
+    * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
 </div>
 
 Examples:
@@ -262,24 +295,12 @@ Examples:
 * `find n/david Li` returns `David Li` and `Real Li`
 * `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
 
-
+The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
 
 ---
-### Deleting an employee: `delete`
 
-Deletes the specified employee from H'Reers.
-
-Format: `delete Employee_ID_prefix`
-
-* Deletes the employee of the specified Employee ID.
-* The Employee ID **must be valid and unique**
-
-Examples:
-* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
-
----
-# Anniversary Commands
+## Anniversary Commands
 Great HR isn’t just about managing people — it’s about remembering what matters.
 
 This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
@@ -289,27 +310,111 @@ With just a few commands, you can:
 - View Anniversaries related to a specific employee
 - View all upcoming anniversaries (Minseok go add this)
 - Remove outdated or incorrect entries
+
 ---
-## Anniversary Commands
+
+### Showing anniversaries: `showAnni`
+
+You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
+
+Format: `showAnni eid/Employee_ID`
+
+What will you see:
+
+* A new window will open showing the employee’s anniversaries.
+* You’ll see details like the date, name, and description of each anniversary.
+* If you’re new to the app, you can also use the “Show Anniversaries” button in the GUI instead of typing the command.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the showAnni command:**<br>
+* The Employee ID is a unique identifier assigned to each employee in H'Reers — either entered by you during creation, or auto-generated if left blank.
+
+* If you provide multiple eid/ values, H'Reers will use the last one on the right.
+    * For example : `showAnni eid\abcde eid\bcde` will use `eid\bcde`.
+</div>
+
+Example:
+* `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
+  * Opens a window showing anniversaries for the employee with the specified ID.
 
 ---
 
 ### Adding Anniversaries: `addAnni`
-You can use `addAnni` to add an anniversary to an employee's record in the Hreers application.
-This command can create custom Anniversaries that were otherwise not supported within the AddPerson Command.
+Adds an anniversary to an employee's record in the Hreers application.
+This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
+As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
-#### Command Format
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+You can use this format in 3 ways!
+</div>
+
+Format 1 : default format for **custom** anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
-short form support for Birthdays
+Format 2 : short form support for Birthdays
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
 ```
-short form support for Work Anniversaries
+Format 3 : short form support for Work Anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 ```
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the addAnni command:**<br>
+
+* When you put duplicated options , such as `eid\abcde eid\bcde`, the prefix value that occurs last (right) `eid\bcde` is used.
+
+    * For example : `addAnni an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`.
+
+* When you try to mix the different formats together, they will fail.
+
+    * For example: `addAnni an/Hans' Birthday at/Birthday bd/2025-04-25`, this will fail.
+
+* Unlike `add` which allows the attachment of work anniversaries and birthday together, addAnni does **not** support this feature.
+* For dates, only the following format `YYYY-MM-DD` is supported as input. other date formats will fail
+* Inputs such as `an/      at/      atdesc/...` will fail.
+* In exceptional cases, as a mitigation for corrupted files, there may be a case where name can be filled via the anniversary type. However, this is only present as a fallback for internal features.
+* **Duplicate** anniversaries are not possible. If there exist an identical entry (case-sensitive), an error will show.
+* there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly
+</div>
+
+Examples :
+```plaintext
+addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
+```
+- `addAnni` - the addAnniversary command you are running
+- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
+- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
+- `at/Wedding`: The name of the anniversary type - `Wedding`
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
+
+If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
+
+```plaintext
+addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
+```
+- `addAnni` - the addAnniversary command declaration
+- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+
+```plaintext
+addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
+```
+- `addAnni` - the addAnniversary command declaration
+- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
+- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+
+#### Options summary
 
 | **Prefix** | **Meaning**                                               | **Required?**                     | **Example Value**      |
 |------------|-----------------------------------------------------------|-----------------------------------|------------------------|
@@ -323,129 +428,34 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 | `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
 | `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
 
-> **Note**: Brackets `[ ]` indicate an optional field. The prefix `td/` can appear multiple times to supply multiple type descriptors.
-
-#### Example Usage
-```plaintext
-addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
-```
-- `addAnni` - the addAnniversary command you are running
-- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
-- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
-- `at/Wedding`: The name of the anniversary type - `Wedding`
-- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
-- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
-
-If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
-
-```plaintext
-addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
-```
-- `addAnni` - the addAnniversary command you are running
-- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
-- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
-If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
-
-```plaintext
-addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
-```
-- `addAnni` - the addAnniversary command you are running
-- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
-- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
-If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
-
-<details>
-<summary>Advanced command rules</summary>
-
-**1. Employee ID Prefix Ambiguity**
-- If the prefix matches multiple employees, an error displays.
-- If the prefix does not match any employees, an error displays.
-
-**2. Duplicate Anniversary Detection**
-- The command checks existing anniversaries for the same date, name, description, and type.
-
-**3. Multiple Type Descriptors**
-- `atdesc/` can be repeated multiple times.
-
-**4. Prefix Order**
-- Required prefixes must appear: `eid/`, `d/`, `an/`, `at/`.
-
-**5. Date Formatting**
-- Must be in `YYYY-MM-DD` format.
-
-**6. Description Field**
-- `ad/` is optional.
-
-**7. Successful Addition**
-- A success message is displayed upon completion.
-</details>
-
-<details>
-<summary>Common Errors & Messages</summary>
-
-- **Multiple employees found with prefix**
-    - Provide a longer Employee ID prefix.
-
-- **Employee ID prefix not found**
-    - Check for typos or confirm the employee exists.
-
-- **Anniversary already exists**
-    - Change at least one detail to avoid duplicates.
-
-- **Invalid Command Format**
-    - Ensure all required prefixes are present.
-</details>
-
-<details>
-<summary>Tips</summary>
-
-- **Use Unique Descriptions**: Helps differentiate otherwise similar anniversaries.
-- **Check Date Validity**: Watch out for invalid or non-existent dates (e.g., leap years).
-- **Provide Enough ID Prefix**: So only the intended employee is matched.
-</details>
-
 ---
-### Showing anniversaries: `showAnni`
 
-You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
-
-Format: `showAnni eid/Employee_ID`
-
-What will you see:
-
-* A new window will open showing the employee’s anniversaries.
-* You’ll see details like the date, name, and description of each anniversary.
-* If you’re new to the app, you can also use the button in the GUI to do the same thing.
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-The Employee ID is the unique identifier assigned to each employee in H'Reers — either one you provided when adding them, or one that was auto-generated.
-</div>
-
-Examples:
-* showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
-
----
 ### Deleting Anniversaries: `deleteAnni`
-You can use `deleteAnni` to remove a specific anniversary from an existing employee’s record, based on the anniversary's
+Removes a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
 If successful, the chosen anniversary will no longer appear in that employee’s list of anniversaries.
 
+<div markdown="block" class="alert alert-info">
 
-#### **Command Format**
-```plaintext 
+**:information_source: Notes about the deleteAnni command:**<br>
+* deleteAnni **cannot** be undone via `undo`. so be very very careful
+* When you put duplicated options , such as `eid\abcde eid\bcde`, the prefix value that occurs last (right) `eid\bcde` is used.
+
+    * For example : `addAnni eid/... ai/1' ai/2` will use `2` as the index parameter.
+
+* When the `eid/...` is not specific enough and there exists multiple people, the command will fail. Should this case occur, type a few more letters matching the EmployeeID in.
+
+* When there are **NO** matching employees, this will throw an error.
+* When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
+* The index of the anniversary is where the anniversary is located when seen via the `showAnni`.
+</div>
+
+Format:
+```plaintext
 deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
 ```
-#### **Parameters**
 
-| **Prefix** | **Meaning**                                                   | **Required?** | **Example**  |
-|------------|---------------------------------------------------------------|---------------|-------------|
-| `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
-| `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
-
-#### **Example Usage**
+Examples:
 ```plaintext
 deleteAnniversary eid/0c2414da ai/1
 ```
@@ -454,41 +464,13 @@ deleteAnniversary eid/0c2414da ai/1
 - `ai/1`: the index of the anniversary you want to delete
 this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
-<details>
-<summary>Advanced command rules</summary>
+#### Options Summary
 
-- **Employee ID Prefix Ambiguity**
-  If multiple employees share the same prefix, an error is thrown, prompting you to use a longer or full ID.
+| **Prefix** | **Meaning**                                                   | **Required?** | **Example**  |
+|------------|---------------------------------------------------------------|---------------|-------------|
+| `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
+| `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
 
-- **Employee Not Found**
-  If no employee matches the given prefix, an error is displayed.
-
-- **Index Out of Bounds**
-  If the given index is greater than the number of anniversaries in the record, an error is displayed.
-</details>
-
-<details>
-<summary>Common Errors & Messages</summary>
-
-- **Multiple employees found with prefix**
-  Provide a longer or more specific ID prefix.
-
-- **Employee ID prefix not found**
-  Check for typos or confirm that the employee exists.
-
-- **Anniversary index out of bounds**
-  The index must be within the valid range of the employee’s anniversary list.
-</details>
-
-<details>
-<summary>Tips</summary>
-
-- **Confirm the Anniversary Index**
-  Because the code internally uses zero-based indexing, but the user command typically uses one-based indexing, verify that you’re specifying the correct anniversary number.
-
-- **Disambiguate Employee IDs**
-  If you suspect multiple employees share a prefix, provide a longer portion of the ID.
-</details>
 
 ---
 ## Reminder Commands
@@ -532,9 +514,9 @@ Filters and displays a list of employees whose work anniversaries are occurring 
 
 Below is an example of how the reminders appear on the UI:
 
-![reminderListUI.png](images/reminderListUI.png)
+![reminderListUI.png](images/remindersListUI.png)
 
-Each panel updates when you enter `reminder bd` or `reminder wa`.
+The reminders appear on the panel when you type in `reminder`.
 
 ---
 ## Quality of Life Features
@@ -666,25 +648,30 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 
 ---
 ### Exporting data: `export`
-You can use `export` to save the currently visible list of people in the Hreers application to a file (JSON or CSV).
-If you provide a specific directory path (`fp/`), the system will export the file there.
-If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
-This means that you do **not** need to include the extension behind the file name.
-For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows
-with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
+saves the currently visible list of people in the Hreers application to a file (JSON or CSV).
 
-#### **Command Format**
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the export command:**<br>
+* If you provide a specific directory path (`fp/`), the system will export the file there.
+* You must specify either `json` or `csv` using `ft/`
+* If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
+    * For example, If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.
+* This means that you do **not** need to include the extension behind the file name.
+* If you do not provide (`fp/`), the default export location will be where the `jar` file is located.
+* If you specify a full file path including file name at `fp`, do not use `fn/` together.
+    * For example, do not do `fp/data/output.json fn/output`
+* For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
+* If the current list of displayed people is empty, export fails with an error.
+* Mismatched file types or inaccessible folders will cause an error.
+
+</div>
+
+Format
 ```plaintext
 export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 ```
-
-### **Parameters**
-
-| **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
-|------------|-------------------------------------------------|----------------------------|------------------------|
-| `ft/`      | The file type to export (`json` or `csv`)       | **Required**               | `json` or `csv`       |
-| `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
-| `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
 ### **Example Usage**
 ```plaintext
@@ -727,57 +714,16 @@ Explanation:
 `ft/json` — file type is JSON
 
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
+As a convenience, on the in-app output, it will show how many employees have been saved.
 
 
+#### Options Summary
 
-<details>
-<summary>Advanced command rules</summary>
-
-1. **File Type Restrictions**
-    - You must specify either `json` or `csv` using `ft/`.
-
-2. **Empty Records**
-    - If the current list of displayed people is empty, export fails with an error.
-
-3. **File Path & Filename**
-    - Provide either just a path (e.g., `fp/output/`) and let the system use a default file name, or specify both a path and a filename.
-    - If you specify a full file path including a filename, do not also use `fn/`.
-
-4. **Auto-Extension**
-    - If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.
-
-5. **Error Handling**
-    - Mismatched file types or inaccessible directories (e.g., read/write issues) will cause an error.
-</details>
-
-<details>
-<summary>Common Errors & Messages</summary>
-
-- **`Invalid filetype`**
-  Occurs if you use something other than `json` or `csv` with `ft/`.
-
-- **`No people to export`**
-  Raised if no records are currently displayed for export.
-
-- **`Provide either a full file path or a filename, not both`**  
-  If `fp/` already includes a filename and `fn/` is also used.
-
-- **`Error exporting data`**
-  If an IOException or other issue happens during file creation.
-</details>
-
-<details>
-<summary>Tips</summary>
-
-- **Confirm the Output Path**: If none is provided, a default location may be used.
-- **Check the Exported File**: Verify the correct file extension and contents.
-- **Filtering**: Only exports the currently visible list of people, so use commands like `filter` or `search` beforehand.
-</details>
-
----
-## Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
+| **Prefix** | **Meaning**                                     | **Required?**              | **Example Value**     |
+|------------|-------------------------------------------------|----------------------------|------------------------|
+| `ft/`      | The file type to export (`json` or `csv`)       | **Required**               | `json` or `csv`       |
+| `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
+| `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
 --------------------------------------------------------------------------------------------------------------------
 ## Frequently asked questions and Troubleshooting
@@ -795,8 +741,12 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
+1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. 
+   * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
+2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
+   * **Solution**: Manually restore the minimized Help Window.
+3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
+   * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
 
 --------------------------------------------------------------------------------------------------------------------
 
