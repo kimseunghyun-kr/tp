@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-
+//@@author WailyDest
 /**
  * Converts between JSON and CSV formats with proper handling of complex structures.
  */
@@ -47,7 +47,6 @@ public class JsonCsvConverter {
         this.mapper = mapper;
         this.validator = validator;
     }
-
     /**
      * Converts an object to CSV format.
      * @param obj The object to convert.

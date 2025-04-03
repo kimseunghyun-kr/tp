@@ -41,6 +41,7 @@ activate EC
 alt filetype == json
 EC -> ABC: exportToJson(path)
 activate ABC
+create JsonSerializableAddressBook
 ABC -> JsonSerializableAddressBook : new JsonSerializableAddressBook
 activate JsonSerializableAddressBook
 return JsonSerializableAddressBook
@@ -49,6 +50,7 @@ deactivate ABC
 else filetype == csv
 EC -> ABC : exportToCsv(path)
 activate ABC
+create JsonSerializableAddressBook
 ABC -> JsonSerializableAddressBook : new JsonSerializableAddressBook
 activate JsonSerializableAddressBook
 return JsonSerializableAddressBook
