@@ -3,12 +3,12 @@ layout: page
 title: H'Reers Developer Guide
 ---
 
-## *Mock UI*
+## UI
 
 <img src="images/Ui.png" alt="UI">
 
 ## *Table of Contents*
-1. [Mock UI](#mock-ui)
+1. [UI](#ui)
 2. [Setting up, Getting started](#setting-up-getting-started)
     2. [Architecture](#architecture)
         1. [UI Component](#ui-component)
