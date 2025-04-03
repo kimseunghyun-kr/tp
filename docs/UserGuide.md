@@ -63,7 +63,7 @@ Whether you need to track employee milestones, update records, or generate quick
     * Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
 
     *  Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
-    
+
     * Not sure if Java is already installed?
     Open your terminal or command prompt and type:
     ```bash
@@ -183,9 +183,9 @@ Date format: `YYYY-MM-DD`
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` 
+* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
   * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21` 
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
   * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
@@ -368,7 +368,7 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 
 * When you put duplicated options , such as `eid\abcde eid\bcde`, the prefix value that occurs last (right) `eid\bcde` is used.
 
-    * For example : `addAnni an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`. 
+    * For example : `addAnni an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`.
 
 * When you try to mix the different formats together, they will fail.
 
@@ -451,7 +451,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 </div>
 
 Format:
-```plaintext 
+```plaintext
 deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
 ```
 
@@ -653,10 +653,10 @@ saves the currently visible list of people in the Hreers application to a file (
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the export command:**<br>
-* If you provide a specific directory path (`fp/`), the system will export the file there. 
+* If you provide a specific directory path (`fp/`), the system will export the file there.
 * You must specify either `json` or `csv` using `ft/`
-* If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen 
-    * For example, If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.     
+* If you also include a file name (`fn/`), any missing extension is automatically appended based on the file type (`ft/`) chosen
+    * For example, If you use `fn/contacts` but `ft/json`, the resulting file is `contacts.json`.
 * This means that you do **not** need to include the extension behind the file name.
 * If you do not provide (`fp/`), the default export location will be where the `jar` file is located.
 * If you specify a full file path including file name at `fp`, do not use `fn/` together.

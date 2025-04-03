@@ -159,7 +159,7 @@ How the parsing works:
 The `Model` component:
 
 * Stores the address book data i.e. all `Person` objects (which are contained in a `UniquePersonList` object).
-* Stores the currently 'selected' `Person` objects (e.g. results of a search query) as a separate `filtered` list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed'.  
+* Stores the currently 'selected' `Person` objects (e.g. results of a search query) as a separate `filtered` list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed'.
   For example, the UI can be bound to this list so that the UI automatically updates when the data in the list changes.
 * Stores a `UserPrefs` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` object.
 * Does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should be able to exist on their own without depending on other components).
@@ -286,7 +286,7 @@ Given below is an example use case showing how the reminder feature behaves step
 **Step 2.** The user executes the command:
 ```
 reminder
-```  
+```
 This triggers the `ReminderCommand`, which performs the following steps internally:
 - Retrieves all employees via `Model#getFilteredPersonList()`.
 - For each employee, iterates through all anniversaries.
@@ -300,7 +300,7 @@ This triggers the `ReminderCommand`, which performs the following steps internal
 - The type of anniversary (e.g., "Birthday", "Work Anniversary").
 - A short description and how soon the event is (e.g., “upcoming in 2 days”).
 
-> 💡 **Note:**  
+> 💡 **Note:**
 > If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
 
 Internally, this feature is supported by:
@@ -322,7 +322,7 @@ Given below is an example use case showing how the reminder feature behaves step
 **Step 2.** The user executes the command:
 ```
 reminder
-```  
+```
 This triggers the `ReminderCommand`, which performs the following steps internally:
 - Retrieves all employees via `Model#getFilteredPersonList()`.
 - For each employee, iterates through all anniversaries.
@@ -336,10 +336,10 @@ This triggers the `ReminderCommand`, which performs the following steps internal
 - The type of anniversary (e.g., "Birthday", "Work Anniversary").
 - A short description and how soon the event is (e.g., “upcoming in 2 days”).
 
-> 💡 **Note:**  
+> 💡 **Note:**
 > If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
 
-> 🛡️ **Note:**  
+> 🛡️ **Note:**
 > Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
 
 #### Sequence Diagram
@@ -583,7 +583,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 4. The system displays confirmation: `Employee John Doe added successfully.`
 
 **Alternative Flows:**
-  
+
 - If the format is incorrect, an error message is displayed (e.g., `Error: Invalid date format`).
 - If the email already exists, the system rejects the entry: `Error: Employee already exists.`
 
@@ -764,7 +764,7 @@ testers are expected to do more *exploratory* testing.
 
 ---
 ### Add Anniversary Command
-  
+
 ---
 ### DeleteAnniversaryCommand
 
@@ -781,10 +781,10 @@ testers are expected to do more *exploratory* testing.
 
 1. Prerequisites: The application should contain employees with anniversaries (e.g., birthday, work anniversary) within 3 days from today.
 
-2. Test case: `reminder`  
+2. Test case: `reminder`
    **Expected**: A list of reminders is shown in the side panel. Each entry includes the employee’s name, job position, the type of anniversary, and how soon it will occur (e.g., “in 2 days”).
 
-3. Test case: `reminder` (when there are no upcoming anniversaries)  
+3. Test case: `reminder` (when there are no upcoming anniversaries)
    **Expected**: The side panel is updated to show an empty list.
 
 #### 2. Reminder display formatting
@@ -802,21 +802,21 @@ testers are expected to do more *exploratory* testing.
 
 3. Edge case testing
 
-- **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`  
+- **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`
   **Expected**: Reminder card for this birthday appears in the list.
 
-- **Test case**: Add a birthday 4 days from now → Run `reminder`  
+- **Test case**: Add a birthday 4 days from now → Run `reminder`
   **Expected**: No reminder card shown.
 
-- **Test case**: Add both a birthday and a work anniversary for the same employee within 3 days  
+- **Test case**: Add both a birthday and a work anniversary for the same employee within 3 days
   **Expected**: Two separate reminder cards are shown, one for each anniversary.
 
-- **Test case**: Add reminders for multiple employees  
+- **Test case**: Add reminders for multiple employees
   **Expected**: All applicable reminders appear and are correctly sorted by date.
 
 4. Returning the Outcome:
 - Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
- 
+
 ---
 ### **Save Employee Records**
 #### Purpose:
@@ -862,5 +862,3 @@ In future versions of H'Reers, the following enhancements are planned to improve
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
     -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
-
- 
