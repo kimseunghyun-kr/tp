@@ -27,14 +27,14 @@ Whether you need to track employee milestones, update records, or generate quick
 3. [Core Commands](#core-commands)
     - [Viewing help: `help`](#viewing-help-codehelpcode)
     - [Adding an employee: `add`](#adding-an-employee-codeaddcode)
-    - [Listing all employees: `list`](#listing-all-employees-codelistcode)
     - [Editing an employee: `edit`](#editing-an-employee-codeeditcode)
-    - [Undoing the last command: `undo`](#undoing-the-last-command-codeundocode)
-    - [Locating employees: `find`](#locating-employees-codefindcode)
     - [Deleting an employee: `delete`](#deleting-an-employee-codedeletecode)
+    - [Undoing the last command: `undo`](#undoing-the-last-command-codeundocode)
+    - [Listing all employees: `list`](#listing-all-employees-codelistcode)
+    - [Locating employees: `find`](#locating-employees-codefindcode)
 4. [Anniversary Commands](#anniversary-commands)
-    - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
     - [Showing anniversaries: `showAnni`](#showing-anniversaries-codeshowannicode)
+    - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
     - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
 5. [Reminder Commands](#reminder-commands)
     - [Viewing upcoming birthdays: `reminder bd`](#viewing-upcoming-birthdays-codereminder-bdcode)
@@ -56,28 +56,30 @@ Whether you need to track employee milestones, update records, or generate quick
 
 ## Quick start
 
-1. ✅ Step 1: Make sure Java is installed
+1. Make sure Java is installed
 
     H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
 
-    👉 Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
+    * Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
 
-    👉 Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
-    🔍 Not sure if Java is already installed?
+    *  Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
+    
+    * Not sure if Java is already installed?
     Open your terminal or command prompt and type:
     ```bash
     java -version
     ```
-    If the version shows 17 or higher, you're good to go!
+    If the version shows 17, you're good to go
 
-2. Step 2: Download H'Reers
-   1. go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
+2. Download H'Reers
+   1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
    2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
    ![Step2_1](images/Step2_1.jpg)
    3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
    ![Step2_2](images/Step2_2.jpg)
    ![Step2_3](images/Step2_3.jpg)
-3. Step 3: Start the Application
+
+3. Start the Application
    1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
    2. Navigate to the folder where you saved the .jar file. For example:
        ```bash
@@ -91,7 +93,7 @@ Whether you need to track employee milestones, update records, or generate quick
    4. H'Reers will open in a few seconds with a simple GUI, ready to use!
    ![Ui](images/Ui.png)
 
-4. Step 4: Try a Few Commands
+4. Try a Few Commands
    H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
    Here is our recommended list of commands to try - just type them in the command box and press Enter:
 
@@ -118,7 +120,7 @@ Whether you’re onboarding someone, searching through your team list, or making
 
 You’ll also find helpful notes below on how to format your commands, including optional fields, parameter order, and best practices.
 
-All commands are **Case sensitive** and must be entered exactly as shown.
+All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered exactly as shown.
 
 ---
 
@@ -159,35 +161,35 @@ Format: `help`
 ---
 ### Adding an employee: `add`
 
-Adds an employee to H'Reers.
+You can use this command to add a new employee to H'Reers.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
 
 Date format: `YYYY-MM-DD`
-<div markdown="span" class="alert alert-primary">:bulb: Tip:
-An employee can have any number of tags (including 0)
-</div>
 
-<div markdown="span" class="alert alert-primary">:bulb: Tip:
-bd/ stands for birthday, and wa/ stands for work anniversary — these are standard anniversaries the app automatically creates for you when you provide a date.
+<div markdown="block" class="alert alert-info">
 
-If you wish to track other types of anniversaries, you can add them using the [add anniversary command below](#add-anniversaries-addanni).
-bd/ stands for birthday and wa/ stands for work anniversary.
+**:information_source: Notes about the add command:**<br>
+* You can include as many tags per person as you like — or none at all.
+
+* Use bd/ for the employee’s birthday and wa/ for their work anniversary.
+  H'Reers will automatically convert these into standard anniversaries for you.
+
+* If you want to track other types of anniversaries, you can do that later using the [add anniversary command below](#add-anniversaries-codeaddannicode).
+
+* If you repeat a prefix (e.g., `n/Hans n/Jane`), H'Reers will use only the last one (`n/Jane`).
+  This applies to all fields — including employee IDs (`eid/abcde eid/bcde` → `eid/bcde` is used).
 </div>
 
 Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` Adds `John Doe` into H'Reers
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21` Adds `Betsy Crowe` into H'Reers with a tag of Part Time Worker and Personal Trainer
+* `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08` 
+  * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21` 
+  * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
-### Listing all employees: `list`
 
-Shows a list of all employees in H'Reers.
-
-Format: `list`
-
----
 ### Editing an employee: `edit`
 
 Edits an existing employee in H'Reers.
@@ -208,6 +210,20 @@ Examples:
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
 ---
+### Deleting an employee: `delete`
+
+Deletes the specified employee from H'Reers.
+
+Format: `delete Employee_ID_prefix`
+
+* Deletes the employee of the specified Employee ID.
+* The Employee ID **must be valid and unique**
+
+Examples:
+* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
+
+---
+
 ### Undoing the last command: `undo`
 
 Will undo to before the data is changed.
@@ -225,12 +241,22 @@ Examples:
 * `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
 ---
+### Listing all employees: `list`
+
+You can use this command when you want to view all employees currently stored in H'Reers.
+
+Format: `list`
+
+* This shows every employee in the system — regardless of filters you may have used previously.
+* If you've just used the `find` command and want to see the full list again, simply type `list`.
+
+---
 ### Locating employees: `find`
 
 Finds employees whose names or/and job positions contain any of the given keywords.
 
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
 You can use this format in 3 ways!
 </div>
 
@@ -271,19 +297,7 @@ Examples:
 ![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
 
 ---
-### Deleting an employee: `delete`
 
-Deletes the specified employee from H'Reers.
-
-Format: `delete Employee_ID_prefix`
-
-* Deletes the employee of the specified Employee ID.
-* The Employee ID **must be valid and unique**
-
-Examples:
-* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
-
----
 # Anniversary Commands
 Great HR isn’t just about managing people — it’s about remembering what matters.
 
@@ -296,6 +310,33 @@ With just a few commands, you can:
 - Remove outdated or incorrect entries
 ---
 ## Anniversary Commands
+
+---
+
+### Showing anniversaries: `showAnni`
+
+You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
+
+Format: `showAnni eid/Employee_ID`
+
+What will you see:
+
+* A new window will open showing the employee’s anniversaries.
+* You’ll see details like the date, name, and description of each anniversary.
+* If you’re new to the app, you can also use the “Show Anniversaries” button in the GUI instead of typing the command.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the showAnni command:**<br>
+* The Employee ID is a unique identifier assigned to each employee in H'Reers — either entered by you during creation, or auto-generated if left blank.
+
+* If you provide multiple eid/ values, H'Reers will use the last one on the right.
+    * For example : `showAnni eid\abcde eid\bcde` will use `eid\bcde`.
+</div>
+
+Example:
+* `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
+  * Opens a window showing anniversaries for the employee with the specified ID.
 
 ---
 
@@ -388,28 +429,9 @@ If exactly one employee’s ID starts with `0c2414da`, this will create a `work 
 | `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
 
 ---
-### Showing anniversaries: `showAnni`
 
-You can use this command to view all anniversaries linked to a specific employee, based on their Employee ID.
-
-Format: `showAnni eid/Employee_ID`
-
-What will you see:
-
-* A new window will open showing the employee’s anniversaries.
-* You’ll see details like the date, name, and description of each anniversary.
-* If you’re new to the app, you can also use the button in the GUI to do the same thing.
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-The Employee ID is the unique identifier assigned to each employee in H'Reers — either one you provided when adding them, or one that was auto-generated.
-</div>
-
-Examples:
-* showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f
-
----
 ### Deleting Anniversaries: `deleteAnni`
-removes a specific anniversary from an existing employee’s record, based on the anniversary's
+Removes a specific anniversary from an existing employee’s record, based on the anniversary's
 order within the Employee's list of anniversaries.
 If successful, the chosen anniversary will no longer appear in that employee’s list of anniversaries.
 
