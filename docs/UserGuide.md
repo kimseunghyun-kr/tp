@@ -37,7 +37,7 @@ Whether you need to track employee milestones, update records, or generate quick
     - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
     - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
 5. [Reminder Commands](#reminder-command)
-    - [Viewing upcoming anniversaries `reminder`](#viewing-upcoming-anniversaries-reminder)
+    - [Viewing upcoming anniversaries `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
 6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
