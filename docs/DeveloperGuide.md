@@ -8,22 +8,39 @@ title: Developer Guide
 <img src="./images/MockUI.png" alt="UI">
 
 ## *Table of Contents*
-1. [Add employee records: `add`](#add-employee-records-codeadd-code)    
-2. [Delete employee records: `delete`](#delete-employee-records-codedelete-code)
-   3. [Undo changes made: `undo`](#undo-changes-made-codeundo-code)
-4. [Anniversary related commands: ](#anniversary-related-commands)
-   1. [AddAnniversaryCommand: `addAnni`](#addanniversarycommand--codeaddannicode)   
-   2. [DeleteAnniversaryCommand: `deleteAnni`](#deleteanniversarycommand--codedeleteannicode)
-   3. [ShowAnniversaryCommand: `showAnni`](#showanniversarycommand--codeshowannicode)
-5. [Reminder for events](#reminder-for-events)
-6. [Save employee records](#save-employee-records)
-
-- [User Stories](#user-stories)
+1. [Mock UI](#mock-ui)
+2. [Architecture](#architecture)
+    1. [UI Component](#ui-component)
+    2. [Logic Component](#logic-component)
+    3. [Model Component](#model-component)
+    4. [Storage Component](#storage-component)
+    5. [Common Classes](#common-classes)
+3. [Implementation](#implementation)
+   1. [Save Employee Records](#save-employee-records)
+   2. smth
+4. [Documentation, Logging, Testing, Configuration, Dev-Ops](#documentation-logging-testing-configuration-dev-ops)
+5. [Appendix: Requirements](#appendix-requirements)
+   1. [Product Scope](#product-scope)
+   2. [User Stories](#user-stories)
+   3. [Use Cases](#use-cases)
+   4. [Non-Functional Requirements](#non-functional-requirements)
+   5. [Glossary](#glossary)
+6. [Appendix: Instructions for Manual Testing](#appendix-instructions-for-manual-testing)
+   1. [Core Features]()
+       1. [Add Employee Records](#add-employee-records)
+       2. [Edit Employee Records](#edit-employee-records)
+       3. [Delete Employee Records](#delete-employee-records)
+       4. [Undo Changes](#undo-changes)
+   2. [Anniversary Commands](#anniversary-commands)
+      1. [AddAnniversaryCommand](#addanniversarycommand)
+      2. [DeleteAnniversaryCommand](#deleteanniversarycommand)
+      3. [ShowAnniversaryCommand](#showanniversarycommand)
+   3. [Reminder for Events](#reminder-for-events)
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Acknowledgements**
 
-* Thank you all
+* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html),[github](https://github.com/se-edu/addressbook-level3))
 
 --------------------------------------------------------------------------------------------------------------------
 
