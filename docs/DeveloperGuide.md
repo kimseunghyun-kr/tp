@@ -145,13 +145,14 @@ How the parsing works:
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
+The `Model` component:
 
-The `Model` component,
-
-* stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
-* stores the currently 'selected' `Person` objects (e.g., results of a search query) as a separate _filtered_ list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
-* stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should make sense on their own without depending on other components)
+* Stores the address book data i.e. all `Person` objects (which are contained in a `UniquePersonList` object).
+* Stores the currently 'selected' `Person` objects (e.g. results of a search query) as a separate `filtered` list which is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed'.  
+  For example, the UI can be bound to this list so that the UI automatically updates when the data in the list changes.
+* Stores a `UserPrefs` object that represents the user's preferences. This is exposed to the outside as a `ReadOnlyUserPrefs` object.
+* Does not depend on any of the other three components (as the `Model` represents data entities of the domain, they should be able to exist on their own without depending on other components).
+* Additionally, the model includes data structures for reminders, such as `Reminder`, `Anniversary`, and `AnniversaryType`. These are used to support the reminder functionality described later in the [Implementation](#implementation) section.
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
 
@@ -189,7 +190,53 @@ that maintains the internal UniquePersonsList.
 This feature is also present in the LogicManager class, where before every command is launched, it triggers a scan throughout the database to check if there are any entries
 that violate the prefix matching rule, following the lazy validation principle.
 
-### Find Employees Features 
+---
+### Reminder Feature
+
+The `reminder` feature displays a list of upcoming employee anniversaries (birthdays, work anniversaries, and custom anniversaries) occurring within the next 3 days. This section details the implementation of this feature.
+
+#### Design Overview
+
+The `reminder` command is implemented using the `ReminderCommand` class. It interacts with the `Model` to compute a list of upcoming reminders. These reminders are displayed in the UI using a custom `ReminderListPanel`.
+
+The model maintains an internal `ObservableList<Reminder>` that is updated when the command is executed. The `Reminder` class encapsulates:
+- A reference to the `Person` whose anniversary is being shown
+- The `AnniversaryType` (e.g., birthday, wedding)
+- The date of the anniversary
+- An optional description
+
+#### Execution Flow
+
+The execution of the `reminder` command proceeds as follows:
+
+1. `LogicManager` receives the command string `"reminder"` and passes it to the `ReminderCommandParser`.
+2. `ReminderCommandParser` creates a new `ReminderCommand` object.
+3. Upon execution, `ReminderCommand` calls `model.updateReminderList()`, which filters all `Person` objects to find anniversaries within the next 3 days.
+4. The `ModelManager` updates its internal observable reminder list.
+5. `ReminderCommand` then calls `model.getReminderList()` to retrieve this list.
+6. The UI listens to this observable list and renders a `ReminderCard` for each upcoming reminder in a `ReminderListPanel`.
+
+#### Sequence Diagram
+
+The following sequence diagram illustrates the steps described above:
+
+![Reminder Sequence Diagram](images/ReminderSequence.png)
+
+Note: The filtering logic (`within 3 days`) is abstracted into the model for separation of concerns.
+
+#### Activity Diagram
+
+The diagram below illustrates the internal logic of how the model filters the reminder list:
+
+![Reminder Activity Diagram](images/ReminderActivityDiagram.png)
+
+The filtering is based on whether an anniversary falls within the next 3 days. In code, this value is stored as a constant:
+
+```java
+public static final int REMINDED_DATE_RANGE = 3;
+```
+
+### Find Employees Features
 The Find feature allows users to filter and view employees in the address book based on search criteria such as name and job position. This section explains how the feature is implemented and how it behaves under different inputs.
 
 The Find feature is primarily driven by:
@@ -204,35 +251,35 @@ The Find feature is primarily driven by:
 
 Given below is an explanation of how the Find feature works:
 When a user enters a command such as:
- `find n/Alice jp/engineer` the following steps occur:
+`find n/Alice jp/engineer` the following steps occur:
 
 Step 1. FindCommandParser uses ArgumentTokenizer to extract the values for prefixes (n/, jp/, etc.).
 
 Step 2. It checks for errors such as:
 - No valid prefixes
-- Empty input values for all fields  
+- Empty input values for all fields
 - Invalid preamble
 
 If the tokens are valid, it delegates predicate construction to PersonSearchPredicateBuilder.
 
 Step 3. The builder constructs Predicate<Employee> objects for each field:
-   - NameContainsKeywordsPredicate 
-   - JobPositionContainsKeywordsPredicate
+- NameContainsKeywordsPredicate
+- JobPositionContainsKeywordsPredicate
 
 The two predicates behave slightly differently to suit their field contexts:
 - NameContainsKeywordsPredicate uses partial matching.
   This allows users to match names using any substring of a word.
-  - `n/Ali` matches with "Alice Tan", "Khalid Ali"
+    - `n/Ali` matches with "Alice Tan", "Khalid Ali"
 - JobPositionContainsKeywordsPredicate uses full-word matching.
   A keyword must match a whole word in the job position exactly (case-insensitive).
-  - `n/engineer` matches "Software Engineer", "Senior Engineer".
-  - `n/eng` does not match "Software Engineer", "Senior Engineer".
+    - `n/engineer` matches "Software Engineer", "Senior Engineer".
+    - `n/eng` does not match "Software Engineer", "Senior Engineer".
 
 This design was decided because:
 - Partial matching in names is user-friendly — users often search by fragments of names.
 - Full word matching in job titles avoids false positives and returns more accurate results in professional roles.
 
-It combines both search predicates with logical `AND` so all conditions must be satisfied for an employee to be included in the search results. For example: 
+It combines both search predicates with logical `AND` so all conditions must be satisfied for an employee to be included in the search results. For example:
 `find n/Alice jp/engineer`matches employees with "Alice" in their name AND "engineer" in their job position.
 
 Meanwhile, each predicate performs keyword-based partial matching (OR logic within the field). For example:
@@ -253,7 +300,7 @@ The `FilteredList<Employee>` inside the model is updated, triggering the GUI to 
 The diagram below illustrates the sequence of interactions when a user issues the command `find n/Alice jp/engineer`:
 <img src="images/FindSequenceDiagram.png" width="700" />
 
-
+---
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Documentation, logging, testing, configuration, dev-ops**
