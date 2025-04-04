@@ -379,6 +379,7 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 * In exceptional cases, as a mitigation for corrupted files, there may be a case where name can be filled via the anniversary type. However, this is only present as a fallback for internal features.
 * **Duplicate** anniversaries are not possible. If there exist an identical entry (case-sensitive), an error will show.
 * there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly
+* There is a hard limit of 1000 characters in the name and type field. This is to prevent UI abuse
 </div>
 
 Examples :
