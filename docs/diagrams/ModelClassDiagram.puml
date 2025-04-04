@@ -13,8 +13,9 @@ package Model as ModelPackage <<Rectangle>> {
   Class UserPrefs
 
   Class UniquePersonList
+  Class EmployeeId
   Class Person
-  Class Address
+  Class JobPosition
   Class Email
   Class Name
   Class Phone
@@ -52,13 +53,14 @@ UniquePersonList --> "~* all" Person
 Person *--> Name
 Person *--> Phone
 Person *--> Email
-Person *--> Address
+Person *--> JobPosition
+Person *--> EmployeeId
 Person *--> "*" Tag
 
 ModelManager --> "~* filtered" Person
 
 ' === Reminder-related associations ===
-Reminder *--> Person : person
+Reminder --> Person : person
 Reminder --> Anniversary : from
 Anniversary --> AnniversaryType : type
 ModelManager --> Reminder : reminderList
@@ -66,7 +68,7 @@ ModelManager --> Reminder : reminderList
 ' === Hidden layout alignments ===
 Person -[hidden]up-> UniquePersonList
 Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
+Phone -[hidden]right-> JobPosition
+JobPosition -[hidden]right-> Email
 
 @enduml
