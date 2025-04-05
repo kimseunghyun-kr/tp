@@ -48,6 +48,8 @@ public class AnniversaryWindow extends UiPart<Region> {
         windowStage = new Stage();
         windowStage.setTitle("Anniversaries"); // Title can be anything
         windowStage.setScene(new Scene(getRoot()));
+        windowStage.setMinWidth(500);
+        windowStage.setMinHeight(600);
     }
 
     // ========================================================

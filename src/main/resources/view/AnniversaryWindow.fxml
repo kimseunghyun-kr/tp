@@ -15,14 +15,15 @@
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       spacing="10" alignment="CENTER_LEFT"
-      prefWidth="320" prefHeight="400"
+      prefWidth="500" prefHeight="600"
+      minWidth="500" minHeight="600"
       styleClass="pane-with-border">
 
     <padding>
         <Insets top="10" right="10" bottom="10" left="10" />
     </padding>
 
-    <Label text="*Dates shown are the tracking start dates you set. Recurring reminders (like birthdays) are handled automatically."
+    <Label text="*Dates shown are the tracking start dates you set. Recurring reminders (like birthdays) are handled automatically." wrapText="true"
            style="-fx-font-size: 11px; -fx-font-style: italic; -fx-text-fill: #666;" />
 
 
@@ -41,13 +42,13 @@
            style="-fx-font-size: 11px; -fx-font-style: italic; -fx-text-fill: #666;" />
 
     <!-- Table -->
-    <TableView fx:id="anniversaryTable" prefHeight="360">
+    <TableView fx:id="anniversaryTable" VBox.vgrow="ALWAYS" prefHeight="360">
         <columns>
-            <TableColumn fx:id="dateColumn" text="Tracking Start Date" prefWidth="130"/>
-            <TableColumn fx:id="nameColumn" text="Anniversary Name" prefWidth="150"/>
-            <TableColumn fx:id="typeColumn" text="Anniversary type" prefWidth="180"/>
-            <TableColumn fx:id="descriptionColumn" text="Anniversary Description" prefWidth="180"/>
-            <TableColumn fx:id="typeDescriptionColumn" text="Anniversary Type Description" prefWidth="180"/>
+            <TableColumn fx:id="dateColumn" text="Tracking Start Date" minWidth="180" prefWidth="130"/>
+            <TableColumn fx:id="nameColumn" text="Anniversary Name" minWidth="180" prefWidth="150"/>
+            <TableColumn fx:id="typeColumn" text="Anniversary type"  minWidth="180" prefWidth="180"/>
+            <TableColumn fx:id="descriptionColumn" text="Anniversary Description" minWidth="180"  prefWidth="180"/>
+            <TableColumn fx:id="typeDescriptionColumn" text="Anniversary Type Description" minWidth="180" prefWidth="180"/>
         </columns>
     </TableView>
 
