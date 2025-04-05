@@ -3,10 +3,11 @@ package seedu.address.ui;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
@@ -26,8 +27,13 @@ public class AnniversaryWindow extends UiPart<Region> {
     // We'll hold onto a Stage so we can show/hide/focus it
     private final Stage windowStage;
 
-    @FXML
-    private ListView<Anniversary> anniversaryListView;
+    @FXML private TableView<Anniversary> anniversaryTable;
+    @FXML private TableColumn<Anniversary, String> dateColumn;
+    @FXML private TableColumn<Anniversary, String> nameColumn;
+    @FXML private TableColumn<Anniversary, String> descriptionColumn;
+    @FXML private TableColumn<Anniversary, String> typeColumn;
+    @FXML private TableColumn<Anniversary, String> typeDescriptionColumn;
+
 
     /**
      * Creates a new AnniversaryWindow.
@@ -86,25 +92,20 @@ public class AnniversaryWindow extends UiPart<Region> {
      * Updates the ListView with the given list of anniversaries.
      */
     public void setAnniversaryList(List<Anniversary> anniversaries) {
-        // If you prefer, you can do: anniversaryListView.setItems(FXCollections.observableList(anniversaries));
-        // And if you want a custom cell:
-        anniversaryListView.setCellFactory(listView -> new ListCell<Anniversary>() {
-            @Override
-            protected void updateItem(Anniversary item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    // For example: "2025-03-13 (Silver Wedding): Celebrating 25 years"
-                    String display = item.getDate() + " (" + item.getName() + "): " + item.getDescription();
-                    setText(display);
-                }
-            }
-        });
+        dateColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDate().toString()));
+        nameColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getName()));
+        descriptionColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDescription()));
+        typeColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getType().getName()));
+        typeDescriptionColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getType().getDescription()));
 
-        // if you want to store the data in the listView:
-        anniversaryListView.getItems().setAll(anniversaries);
+        anniversaryTable.getItems().setAll(anniversaries);
     }
+
 
     /**
      * Called by the "Close" button in the FXML (if you have one).

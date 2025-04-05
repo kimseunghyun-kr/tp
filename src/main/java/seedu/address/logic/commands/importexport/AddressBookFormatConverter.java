@@ -73,11 +73,19 @@ public class AddressBookFormatConverter {
     /**
      * Imports JSON data from a file and converts it to a JsonSerializableAddressBook.
      */
-    public static JsonSerializableAddressBook importFromJson(Path filePath) throws IOException, DataLoadingException {
+    public static JsonSerializableAddressBook importFromJson(Path filePath) throws DataLoadingException,
+            CommandException {
         requireNonNull(filePath);
-        return JsonUtil
-                .readJsonFile(filePath, JsonSerializableAddressBook.class)
-                .orElseThrow(() -> new IOException("Failed to read JSON file"));
+        try {
+            if (Files.size(filePath) == 0) {
+                throw new CommandException("The JSON file is empty. Please provide a valid file.");
+            }
+            return JsonUtil
+                    .readJsonFile(filePath, JsonSerializableAddressBook.class)
+                    .orElseThrow(() -> new CommandException("The JSON file could not be read or was invalid."));
+        } catch (IOException e) {
+            throw new CommandException("Failed to read the file: " + e.getMessage());
+        }
     }
     //@@author WailyDest
     /**

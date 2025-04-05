@@ -71,11 +71,11 @@ public class AddAnniversaryCommandParserTest {
     @Test
     public void parse_allFieldsPresent_returnsAddAnniversaryCommand() throws Exception {
         String userInput = " " + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
-                + PREFIX_ANNIVERSARY_DATE + VALID_DATE + " "
-                + PREFIX_ANNIVERSARY_NAME + VALID_NAME + " "
-                + PREFIX_ANNIVERSARY_TYPE + VALID_TYPE + " "
-                + PREFIX_ANNIVERSARY_DESC + VALID_DESCRIPTION + " "
-                + PREFIX_ANNIVERSARY_TYPE_DESC + VALID_TYPE_DESC;
+            + PREFIX_ANNIVERSARY_DATE + VALID_DATE + " "
+            + PREFIX_ANNIVERSARY_NAME + VALID_NAME + " "
+            + PREFIX_ANNIVERSARY_TYPE + VALID_TYPE + " "
+            + PREFIX_ANNIVERSARY_DESC + VALID_DESCRIPTION + " "
+            + PREFIX_ANNIVERSARY_TYPE_DESC + VALID_TYPE_DESC;
 
         AddAnniversaryCommand cmd = parser.parse(userInput);
         Anniversary anniv = cmd.getToAdd();
@@ -95,9 +95,9 @@ public class AddAnniversaryCommandParserTest {
     @Test
     public void parse_optionalFieldsOmitted_returnsAddAnniversaryCommand() throws Exception {
         String userInput = " " + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
-                + PREFIX_ANNIVERSARY_DATE + VALID_DATE + " "
-                + PREFIX_ANNIVERSARY_NAME + VALID_NAME + " "
-                + PREFIX_ANNIVERSARY_TYPE + VALID_TYPE;
+            + PREFIX_ANNIVERSARY_DATE + VALID_DATE + " "
+            + PREFIX_ANNIVERSARY_NAME + VALID_NAME + " "
+            + PREFIX_ANNIVERSARY_TYPE + VALID_TYPE;
 
         AddAnniversaryCommand cmd = parser.parse(userInput);
         Anniversary anniv = cmd.getToAdd();
@@ -117,8 +117,8 @@ public class AddAnniversaryCommandParserTest {
     public void parse_birthdayAnniversary_returnsAddAnniversaryCommand() throws Exception {
         String personName = "hong gil dong";
         String userInput = " " + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
-                + PREFIX_BIRTHDAY + VALID_DATE + " "
-                + PREFIX_NAME + personName;
+            + PREFIX_BIRTHDAY + VALID_DATE + " "
+            + PREFIX_NAME + personName;
 
         AddAnniversaryCommand cmd = parser.parse(userInput);
         Anniversary anniv = cmd.getToAdd();
@@ -136,8 +136,8 @@ public class AddAnniversaryCommandParserTest {
     public void parse_workAnniversary_returnsAddAnniversaryCommand() throws Exception {
         String personName = "hong gil dong";
         String userInput = " " + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
-                + PREFIX_WORK_ANNIVERSARY + VALID_DATE + " "
-                + PREFIX_NAME + personName;
+            + PREFIX_WORK_ANNIVERSARY + VALID_DATE + " "
+            + PREFIX_NAME + personName;
 
         AddAnniversaryCommand cmd = parser.parse(userInput);
         Anniversary anniv = cmd.getToAdd();
@@ -154,9 +154,9 @@ public class AddAnniversaryCommandParserTest {
     @Test
     public void parse_differentFieldOrder_returnsAddAnniversaryCommand() throws Exception {
         String userInput = " " + PREFIX_ANNIVERSARY_NAME + VALID_NAME + " "
-                + PREFIX_ANNIVERSARY_TYPE + VALID_TYPE + " "
-                + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
-                + PREFIX_ANNIVERSARY_DATE + VALID_DATE;
+             + PREFIX_ANNIVERSARY_TYPE + VALID_TYPE + " "
+             + PREFIX_EMPLOYEEID + VALID_EMPLOYEE_ID + " "
+             + PREFIX_ANNIVERSARY_DATE + VALID_DATE;
 
         AddAnniversaryCommand cmd = parser.parse(userInput);
         Anniversary anniv = cmd.getToAdd();

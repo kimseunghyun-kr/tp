@@ -302,6 +302,13 @@ The screenshot below shows the result of the command `find n/li ri jp/ dev manag
 ## Anniversary Commands
 Great HR isn’t just about managing people — it’s about remembering what matters.
 
+Anniversaries in Hreers aren’t stored as biographical data.  
+They’re designed to **remind you when a meaningful date is coming up — not to log when it originally occurred**.
+
+For example, even if someone was born on `2002-08-12`, you can (and should) enter it as `2025-08-12` — because the system is there to help you **celebrate the next time that date arrives**.
+
+You can still set past dates for flexibility, but Hreers is fundamentally forward-looking: it’s about what’s next, not what’s already happened.
+
 This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
 With just a few commands, you can:
 
@@ -342,7 +349,11 @@ Example:
 ### Adding Anniversaries: `addAnni`
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
-As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+
+> As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+Anniversaries are reminders — not historical facts.  
+
+You don’t have to (and usually shouldn’t) go back to the original date something happened — you’re telling Hreers **when to start tracking it from**, so you’ll be reminded when it comes next.
 As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -353,7 +364,10 @@ Format 1 : default format for **custom** anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
-Format 2 : short form support for Birthdays
+Format 2 : short form support for Birthday Anniversaries (not Date of Birth)
+> **Note:** The `bd/` field represents a **birthday anniversary** — a recurring date used for tracking and reminders — not the employee's immutable date of birth.  
+> It is valid and expected to input **future dates**, such as birthdays of upcoming employees, new hires, or family members associated with the employee.  
+> This aligns with the application's core purpose: **tracking upcoming anniversaries**.
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
 ```
