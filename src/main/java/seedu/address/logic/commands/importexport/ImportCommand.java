@@ -1,6 +1,7 @@
 package seedu.address.logic.commands.importexport;
 
 import static seedu.address.logic.Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILENAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILETYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WRITE_MODE;
@@ -42,7 +43,7 @@ public class ImportCommand extends Command {
     public static final String COMMAND_WORD = "import";
     public static final String MESSAGE_USAGE = "import "
             + PREFIX_FILETYPE + "<json/csv> "
-            + PREFIX_FILEPATH + "<fileName> "
+            + PREFIX_FILENAME + "<fileName> "
             + PREFIX_FILEPATH + "<path> "
             + PREFIX_WRITE_MODE + "<append/overwrite>";
     public static final String MESSAGE_SUCCESS_OVERWRITE = "Successfully imported %d contacts,"
