@@ -461,6 +461,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 * When there are **NO** matching employees, this will throw an error.
 * When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
 * The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
+* The index of the anniversary is **1-based**. This means that the first anniversary in the list is at index 1, the second is at index 2, and so on.
 </div>
 
 Format:
