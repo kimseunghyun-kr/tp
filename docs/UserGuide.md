@@ -57,40 +57,40 @@ Whether you need to track employee milestones, update records, or generate quick
 
 1. Make sure Java is installed
 
-    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
+   H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
 
     * Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
 
     *  Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
 
     * Not sure if Java is already installed?
-    Open your terminal or command prompt and type:
+      Open your terminal or command prompt and type:
     ```bash
     java -version
     ```
-    If the version shows 17, you're good to go
+   If the version shows 17, you're good to go
 
 2. Download H'Reers
-   1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
-   2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
-   ![Step2_1](images/Step2_1.jpg)
-   3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
-   ![Step2_2](images/Step2_2.jpg)
-   ![Step2_3](images/Step2_3.jpg)
+    1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
+    2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
+       ![Step2_1](images/Step2_1.jpg)
+    3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
+       ![Step2_2](images/Step2_2.jpg)
+       ![Step2_3](images/Step2_3.jpg)
 
 3. Start the Application
-   1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
-   2. Navigate to the folder where you saved the .jar file. For example:
-       ```bash
-        cd /path/to/your/folder
-       ```
-   3. Run this command:
-       ```bash
-       java -jar hreers.jar
-       ```
+    1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
+    2. Navigate to the folder where you saved the .jar file. For example:
+        ```bash
+         cd /path/to/your/folder
+        ```
+    3. Run this command:
+        ```bash
+        java -jar hreers.jar
+        ```
    ![Step3_1](images/Step3_1.jpg)
-   4. H'Reers will open in a few seconds with a simple GUI, ready to use!
-   ![Ui](images/Ui.png)
+    4. H'Reers will open in a few seconds with a simple GUI, ready to use!
+       ![Ui](images/Ui.png)
 
 4. Try a Few Commands
    H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
@@ -186,9 +186,9 @@ Date format: `YYYY-MM-DD`
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
-  * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
+    * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
 * `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
-  * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
+    * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
 
@@ -302,6 +302,13 @@ The screenshot below shows the result of the command `find n/li ri jp/ dev manag
 ## Anniversary Commands
 Great HR isn’t just about managing people — it’s about remembering what matters.
 
+Anniversaries in Hreers aren’t stored as biographical data.  
+They’re designed to **remind you when a meaningful date is coming up — not to log when it originally occurred**.
+
+For example, even if someone was born on `2002-08-12`, you can (and should) enter it as `2025-08-12` — because the system is there to help you **celebrate the next time that date arrives**.
+
+You can still set past dates for flexibility, but Hreers is fundamentally forward-looking: it’s about what’s next, not what’s already happened.
+
 This section helps you keep track of key employee milestones like work anniversaries, promotions, or other custom events. Celebrate achievements, strengthen morale, and never let an important date slip by.
 With just a few commands, you can:
 
@@ -335,14 +342,18 @@ What will you see:
 
 Example:
 * `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-  * Opens a window showing anniversaries for the employee with the specified ID.
+    * Opens a window showing anniversaries for the employee with the specified ID.
 
 ---
 
 ### Adding Anniversaries: `addAnni`
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
-As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+
+> As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+Anniversaries are reminders — not historical facts.
+
+You don’t have to (and usually shouldn’t) go back to the original date something happened — you’re telling Hreers **when to start tracking it from**, so you’ll be reminded when it comes next.
 As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -353,7 +364,10 @@ Format 1 : default format for **custom** anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
-Format 2 : short form support for Birthdays
+Format 2 : short form support for Birthday Anniversaries (not Date of Birth)
+> **Note:** The `bd/` field represents a **birthday anniversary** — a recurring date used for tracking and reminders — not the employee's immutable date of birth.  
+> It is valid and expected to input **future dates**, such as birthdays of upcoming employees, new hires, or family members associated with the employee.  
+> This aligns with the application's core purpose: **tracking upcoming anniversaries**.
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX n/name bd/DATE
 ```
@@ -379,6 +393,7 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 * In exceptional cases, as a mitigation for corrupted files, there may be a case where name can be filled via the anniversary type. However, this is only present as a fallback for internal features.
 * **Duplicate** anniversaries are not possible. If there exist an identical entry (case-sensitive), an error will show.
 * there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly
+* There is a hard limit of 1000 characters in the name and type field. This is to prevent UI abuse
 </div>
 
 Examples :
@@ -402,7 +417,7 @@ addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
 - `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
 - `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
 - `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
-If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
 
 ```plaintext
 addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
@@ -411,7 +426,7 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 - `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
 - `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
 - `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
-If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
 
 #### Options summary
 
@@ -461,7 +476,7 @@ deleteAnniversary eid/0c2414da ai/1
 - `deleteAnniversary` - the command you are running
 - `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
 - `ai/1`: the index of the anniversary you want to delete
-this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
+  this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Options Summary
 
@@ -547,23 +562,79 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 
 ---
 ### Importing data: `import`
-You can use `import` to bring external data (in CSV or JSON) into your current Hreers application.
-Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
-For CSV based inputs, multiple rows with same employeeId and same details(name, job position, phone number, email) will be collapsed into one entry in Hreers
+
+> **Warning: This feature is sensitive. Use it with care.**
+> - The system has been tested, but **cannot guarantee** perfect results in all situations.
+> - The system **expects** the format in export to be strictly followed.
+> - certain locales or language settings may cause issues with the import.
+> - If the file format or content is incorrect, the results may be unpredictable.
+> - If the file is formatted improperly, the data may be lost or corrupted without any warning.
+
+The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
+
+This is useful when you want to:
+- Add a group of employees to Hreers
+- Merge data about employee anniversaries
+- Bulk load data from a file to Hreers
+
+<div markdown="block" class="alert alert-info">
+**:information_source: Notes about the export command:**<br>
+#### What kind of files can I use?
+
+- Only **CSV (.csv)** or **JSON (.json)** files are accepted.
+- If you're working in Excel, **you must save your file as `.csv` format**, particularly [CSV UTF-8 (Comma delimited)](https://www.ablebits.com/office-addins-blog/convert-excel-csv/#:~:text=Export%20to%20CSV%20UTF%2D8,Done!)
+- Excel may change the **date format** or cause issues with certain fonts or languages. This can break the import. To fix this:
+    - Save your file using **UTF-8 encoding**. Follow the steps at saving your excel files as a [CSV UTF-8 (Comma delimited)](https://www.ablebits.com/office-addins-blog/convert-excel-csv/#:~:text=Export%20to%20CSV%20UTF%2D8,Done!).
+    - Make sure dates follow this format: `dd-MM-YYYY` (e.g., 23-04-2022).
+
+#### Important Rules
+
+1. **The column headers (top row) must exactly match** the format from Hreers' exported files. Don't change them.
+2. **Don't duplicate csv headers or json fields.**
+3. **Each employee must have a valid ID (called `employeeId`)** in Universally Unique Identifier (UUID) format. You can generate one online [here](https://www.uuidgenerator.net/).
+4. If your file has issues (wrong format, corrupted, etc.), the system may fail silently—**you won't always see an error message**.
+
+#### Write Modes: What Happens During Import
+
+There are **two modes** for importing data. You must choose one:
+
+**1. Append Mode (merging into existing records)**
+- If an employee with the **same ID and same details** already exists, we will **merge their anniversary fields (to track) **.
+- If the employee does not exist, we will **add them as new**.
+- If an employee with the **same ID but different details** is found, we **will not add them** — they will appear in a list of skipped entries.
+- If two employee IDs share the same **prefix** (first few characters), those will also be skipped.
+- Formatting mistakes may cause the import to fail, at times, without notice.
+
+### 2. Overwrite Mode (replacing current records)
+- This mode **replaces your entire database with the new file**.
+- If there is **any error**, **nothing** will be imported. This is to protect your existing data.
+
+#### File Path & Filename Usage
+- You can provide a complete file path with extension via `fp/`.
+- If you also supply `fn/`, ensure `fp/` is just a directory (or the import will fail).
+
+#### Extension Enforcement
+
+- If you use `fn/` without an extension, the system may automatically append `.json` or `.csv` based on `ft/`.
+- Mismatched extensions will raise an error.
+
+#### Common Errors & Messages
+- **Invalid file type**: Provide either `json` or `csv` in `ft/`.
+- **Write mode must be specified as either 'append' or 'overwrite'**: Ensure `wm/` is one of the two valid modes.
+- **Provide either a full file path or a filename, not both**: This occurs if you pass `fp/` that includes a filename and also use `fn/`.
+- **Filename must be provided if path is just a directory**: If `fp/` is a directory, you must specify a filename (`fn/`).
+
+#### Tips
+- **Check Extension Conflicts**: If your file says `.json` but you specify `ft/csv`, it will fail.
+- **Ensure Proper Permissions**: The path must be writable or readable for the import to succeed.
+- **Use Overwrite Cautiously**: This mode replaces all current data, so confirm backups if needed.
+
+</div>
 
 #### Command Format
 ```plaintext
 import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 ```
-
-### **Parameters**
-
-| **Prefix** | **Meaning**                                       | **Required?**                          | **Example Value**           |
-|------------|---------------------------------------------------|----------------------------------------|-----------------------------|
-| `ft/`      | File type to import (`json` or `csv`)             | **Required**                           | `json` / `csv`             |
-| `fp/`      | Optional base directory or file path              | At least one of `fp/` or `fn/` required| `./data` / `C:\Users\John\`|
-| `fn/`      | Optional filename (extension can be auto-added)   | At least one of `fp/` or `fn/` required| `myData.json`               |
-| `wm/`      | Write mode (`append` or `overwrite`)              | **Required**                           | `append` / `overwrite`      |
 
 ### **Example Usage**
 ```plaintext
@@ -595,48 +666,15 @@ Explanation:
 `fp/data/contacts.csv` — file path is the data/ directory
 this will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
 
-<details>
-<summary>Advanced command rules</summary>
+#### ptions Summary
 
-1. **File Type Validation**
-    - Supported only `json` or `csv`.
+| **Prefix** | **Meaning**                                       | **Required?**                          | **Example Value**           |
+|------------|---------------------------------------------------|----------------------------------------|-----------------------------|
+| `ft/`      | File type to import (`json` or `csv`)             | **Required**                           | `json` / `csv`             |
+| `fp/`      | Optional base directory or file path              | At least one of `fp/` or `fn/` required| `./data` / `C:\Users\John\`|
+| `fn/`      | Optional filename (extension can be auto-added)   | At least one of `fp/` or `fn/` required| `myData.json`               |
+| `wm/`      | Write mode (`append` or `overwrite`)              | **Required**                           | `append` / `overwrite`      |
 
-2. **File Path & Filename Usage**
-    - You can provide a complete file path with extension via `fp/`.
-    - If you also supply `fn/`, ensure `fp/` is just a directory (or the import will fail).
-
-3. **Write Mode**
-    - `append` merges new records but skips conflicts.
-    - `overwrite` clears existing data entirely before importing.
-
-4. **Extension Enforcement**
-    - If you use `fn/` without an extension, the system may automatically append `.json` or `.csv` based on `ft/`.
-    - Mismatched extensions will raise an error.
-</details>
-
-<details>
-<summary>Common Errors & Messages</summary>
-
-- **`Invalid file type`**
-  Provide either `json` or `csv` in `ft/`.
-
-- **`Write mode must be specified as either 'append' or 'overwrite'`**
-  Ensure `wm/` is one of the two valid modes.
-
-- **`Provide either a full file path or a filename, not both`**
-  This occurs if you pass `fp/` that includes a filename and also use `fn/`.
-
-- **`Filename must be provided if path is just a directory`**
-  If `fp/` is a directory, you must specify a filename (`fn/`).
-</details>
-
-<details>
-<summary>Tips</summary>
-
-- **Check Extension Conflicts**: If your file says `.json` but you specify `ft/csv`, it will fail.
-- **Ensure Proper Permissions**: The path must be writable or readable for the import to succeed.
-- **Use Overwrite Cautiously**: This mode replaces all current data, so confirm backups if needed.
-</details>
 
 ---
 ### Exporting data: `export`
@@ -733,12 +771,12 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 ## Known issues
 
-1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. 
-   * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
-2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
-   * **Solution**: Manually restore the minimized Help Window.
+1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen.
+    * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
+2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear.
+    * **Solution**: Manually restore the minimized Help Window.
 3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
-   * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
+    * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
 
 --------------------------------------------------------------------------------------------------------------------
 
