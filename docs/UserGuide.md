@@ -350,7 +350,7 @@ Example:
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
 
-> As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+> As the application's purpose is to keep track of **upcoming** anniversaries, it allows the addition of anniversaries that are in the future.
 Anniversaries are reminders — not historical facts.
 
 You don’t have to (and usually shouldn’t) go back to the original date something happened — you’re telling Hreers **when to start tracking it from**, so you’ll be reminded when it comes next.
