@@ -666,8 +666,7 @@ Explanation:
 `fp/data/contacts.csv` — file path is the data/ directory
 this will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
 
-#### ptions Summary
-
+#### Options Summary
 | **Prefix** | **Meaning**                                       | **Required?**                          | **Example Value**           |
 |------------|---------------------------------------------------|----------------------------------------|-----------------------------|
 | `ft/`      | File type to import (`json` or `csv`)             | **Required**                           | `json` / `csv`             |
