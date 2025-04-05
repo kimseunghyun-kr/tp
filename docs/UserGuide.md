@@ -465,14 +465,14 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 
 Format:
 ```plaintext
-deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
+deleteAnni eid/EMPLOYEE_ID ai/INDEX
 ```
 
 Examples:
 ```plaintext
-deleteAnniversary eid/0c2414da ai/1
+deleteAnni eid/0c2414da ai/1
 ```
-- `deleteAnniversary` - the command you are running
+- `deleteAnni` - the command you are running
 - `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
 - `ai/1`: the index of the anniversary you want to delete 
   this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
