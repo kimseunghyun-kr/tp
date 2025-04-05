@@ -337,7 +337,7 @@ What will you see:
 * The Employee ID is a unique identifier assigned to each employee in H'Reers — either entered by you during creation, or auto-generated if left blank.
 
 * If you provide multiple eid/ values, H'Reers will use the last one on the right.
-    * For example : `showAnni eid\abcde eid\bcde` will use `eid\bcde`.
+    * For example : `showAnni eid/abcde eid/bcde` will use `eid/bcde`.
 </div>
 
 Example:
@@ -381,11 +381,11 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 
 * When you put duplicated options , such as `eid\abcde eid\bcde`, the prefix value that occurs last (right) `eid\bcde` is used.
 
-    * For example : `addAnni an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`.
+    * For example : `addAnni eid/SOME_EID an/Hans' Wedding an/Hans' birthday` will use `Hans' birthday`.
 
 * When you try to mix the different formats together, they will fail.
 
-    * For example: `addAnni an/Hans' Birthday at/Birthday bd/2025-04-25`, this will fail.
+    * For example: `addAnni eid/SOME_EID an/Hans' Birthday at/Birthday bd/2025-04-25`, this will fail.
 
 * Unlike `add` which allows the attachment of work anniversaries and birthday together, addAnni does **not** support this feature.
 * For dates, only the following format `YYYY-MM-DD` is supported as input. other date formats will fail
