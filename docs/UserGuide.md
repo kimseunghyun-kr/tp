@@ -452,7 +452,6 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the deleteAnni command:**<br>
-* deleteAnni **cannot** be undone via `undo`. so be very very careful
 * When you put duplicated options , such as `eid\abcde eid\bcde`, the prefix value that occurs last (right) `eid\bcde` is used.
 
     * For example : `addAnni eid/... ai/1' ai/2` will use `2` as the index parameter.
@@ -461,7 +460,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 
 * When there are **NO** matching employees, this will throw an error.
 * When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
-* The index of the anniversary is where the anniversary is located when seen via the `showAnni`.
+* The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
 </div>
 
 Format:
@@ -475,7 +474,7 @@ deleteAnniversary eid/0c2414da ai/1
 ```
 - `deleteAnniversary` - the command you are running
 - `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `ai/1`: the index of the anniversary you want to delete
+- `ai/1`: the index of the anniversary you want to delete 
   this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Options Summary
