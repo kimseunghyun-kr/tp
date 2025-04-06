@@ -84,6 +84,9 @@ public class AnniversaryWindow extends UiPart<Region> {
     public void focus() {
         windowStage.requestFocus();
     }
+    // ========================================================
+    // Logic for populating the ListView
+    // ========================================================
     /**
      * Updates the ListView with the given list of anniversaries.
      */
