@@ -581,6 +581,7 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 You can use `import` to bring external data (in CSV or JSON) into your current Hreers application.
 Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
 For CSV based inputs, multiple rows with same employeeId and same details(name, job position, phone number, email) will be collapsed into one entry in Hreers
+undo is possible for overwrites or included persons. but not for appended anniversaries.
 
 #### Command Format
 ```plaintext
