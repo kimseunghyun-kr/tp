@@ -57,40 +57,40 @@ Whether you need to track employee milestones, update records, or generate quick
 
 1. Make sure Java is installed
 
-    H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
+   H'Reers runs on Java, a safe and widely-used technology.You need Java version 17.
 
     * Windows Users: Click [here](https://docs.oracle.com/en/java/javase/17/install/installation-jdk-microsoft-windows-platforms.html#GUID-DAF345BA-B3E7-4CF2-B87A-B6662D691840) for step-by-step instructions.
 
     *  Mac Users: Follow [this detailed guide](https://se-education.org/guides/tutorials/javaInstallationMac.html) to install the correct version.
 
     * Not sure if Java is already installed?
-    Open your terminal or command prompt and type:
+      Open your terminal or command prompt and type:
     ```bash
     java -version
     ```
-    If the version shows 17, you're good to go
+   If the version shows 17, you're good to go
 
 2. Download H'Reers
-   1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
-   2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
-   ![Step2_1](images/Step2_1.jpg)
-   3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
-   ![Step2_2](images/Step2_2.jpg)
-   ![Step2_3](images/Step2_3.jpg)
+    1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
+    2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
+       ![Step2_1](images/Step2_1.jpg)
+    3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
+       ![Step2_2](images/Step2_2.jpg)
+       ![Step2_3](images/Step2_3.jpg)
 
 3. Start the Application
-   1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
-   2. Navigate to the folder where you saved the .jar file. For example:
-       ```bash
-        cd /path/to/your/folder
-       ```
-   3. Run this command:
-       ```bash
-       java -jar hreers.jar
-       ```
+    1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
+    2. Navigate to the folder where you saved the .jar file. For example:
+        ```bash
+         cd /path/to/your/folder
+        ```
+    3. Run this command:
+        ```bash
+        java -jar hreers.jar
+        ```
    ![Step3_1](images/Step3_1.jpg)
-   4. H'Reers will open in a few seconds with a simple GUI, ready to use!
-   ![Ui](images/Ui.png)
+    4. H'Reers will open in a few seconds with a simple GUI, ready to use!
+       ![Ui](images/Ui.png)
 
 4. Try a Few Commands
    H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
@@ -177,6 +177,8 @@ Date format: `YYYY-MM-DD`
 * Use bd/ for the employee’s birthday and wa/ for their work anniversary.
   H'Reers will automatically convert these into standard anniversaries for you.
 
+* Birthdays and work anniversaries are `anniversaries`. Please use [anniversary commands](#anniversary-commands) to modify them.
+
 * If you want to track other types of anniversaries, you can do that later using the [add anniversary command below](#add-anniversaries-codeaddannicode).
 
 * If you repeat a prefix (e.g., `n/Hans n/Jane`), H'Reers will use only the last one (`n/Jane`).
@@ -186,9 +188,9 @@ Date format: `YYYY-MM-DD`
 Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
-  * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
+    * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
 * `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
-  * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
+    * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
 
@@ -228,19 +230,33 @@ Examples:
 
 ### Undoing the last command: `undo`
 
-Will undo to before the data is changed.
+Made a mistake? Use the undo command to revert the **last data change** you made to H'Reers.
 
 Format: `undo`
 
-* Only works if any data in H'Reers has been changed.
+* Brings your data back to the state it was in before your last edit.
 
 #### Output:
 * If data has been changed: `Undo successful!`
 * No data changed: `No undo available!`
 
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the undo command:**<br>
+
+* `undo` ignores any extra text you type after it.
+  For example, `undo 2` will still undo just the most recent change.
+
+* `undo` only works for commands that actually change your data, like `add`, `edit`, or `delete`.
+  
+  * It won’t work for commands that just view or filter data, like `find`, `list`, or `showAnni`).
+</div>
+
 Examples:
-* `undo` Will return the previous changed saved data.
-* `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
+* `undo` 
+  * Will return the previous changed saved data.
+* `undo 2` 
+  * Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
 ---
 ### Listing all employees: `list`
@@ -267,10 +283,11 @@ Format 2 (Searching for job positions): `find jp/KEYWORD [MORE_KEYWORDS]`
 
 Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYWORDS] jp/KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* [For **Job Positions**] Only full words will be matched e.g. `Mana` will not match `Manager`
-* [For **Name**] Partial words can be matched e.g. `Han` will match `Hans`
+* **Instead of using `undo` to see the full list, please use `list`.**
+* The search is case-insensitive. e.g `hans` will match `Hans`.
+* You can input the keywords in any order. e.g. `n/Hans jp/Manager` is the same as `jp/Manager n/Hans`.
+* [For **Job Positions**] Only full words will be matched e.g. `Mana` will not match `Manager`.
+* [For **Name**] Partial words can be matched e.g. `Han` will match `Hans`.
 
 <div markdown="block" class="alert alert-info">
 
@@ -287,6 +304,10 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 * In the case of multiple fields and keywords, you will only see a employee on the list if they match at least one keyword from each field.
 
     * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
+
+* You can use the same prefix multiple times — all values will be collected and combined together.
+    * So `find n/1 jp/2 n/2 jp/1` is treated the same as `find n/1 2 jp/2 1`
+    * This gives you more flexibility in writing your searches!
 </div>
 
 Examples:
@@ -330,12 +351,12 @@ What will you see:
 * The Employee ID is a unique identifier assigned to each employee in H'Reers — either entered by you during creation, or auto-generated if left blank.
 
 * If you provide multiple eid/ values, H'Reers will use the last one on the right.
-    * For example : `showAnni eid\abcde eid\bcde` will use `eid\bcde`.
+    * For example : `showAnni eid/abcde eid/bcde` will use `eid/bcde`.
 </div>
 
 Example:
 * `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-  * Opens a window showing anniversaries for the employee with the specified ID.
+    * Opens a window showing anniversaries for the employee with the specified ID.
 
 ---
 
@@ -402,7 +423,7 @@ addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
 - `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
 - `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
 - `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
-If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
 
 ```plaintext
 addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
@@ -411,7 +432,7 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 - `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
 - `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
 - `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
-If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
+  If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
 
 #### Options summary
 
@@ -461,7 +482,7 @@ deleteAnniversary eid/0c2414da ai/1
 - `deleteAnniversary` - the command you are running
 - `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
 - `ai/1`: the index of the anniversary you want to delete
-this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
+  this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Options Summary
 
@@ -733,12 +754,12 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 ## Known issues
 
-1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. 
-   * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
-2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. 
-   * **Solution**: Manually restore the minimized Help Window.
+1. **Multiple Monitor Setup**: When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen.
+    * **Solution**: Delete the `preferences.json` file created by the application before running the application again.
+2. **Help Window**: If you minimize the Help Window and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear.
+    * **Solution**: Manually restore the minimized Help Window.
 3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
-   * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
+    * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
 
 --------------------------------------------------------------------------------------------------------------------
 

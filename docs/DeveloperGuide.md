@@ -835,13 +835,14 @@ H'Reers is running and has employees:
 find n/Alex Li
 ```
 
-#### Expected Result: No prefix provided
+#### Expected Result:
 * Employee list is filtered to show:
     * Alex Yeoh
+    * Charlotte Oliveiro
     * David Li
-* Success message is shown: 2 employees listed.
+* Success message is shown: 3 employees listed!
 
-#### Test Case 2:
+#### Test Case 2: No prefix provided
 ```
 find Alice
 ```
@@ -1077,4 +1078,10 @@ In future versions of H'Reers, the following enhancements are planned to improve
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
-    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    -  **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+
+3. Import 
+   4. Fails current 
+   5. Better support with external library with more robust parsing and validation.
+4. After i minimise the popup screen for the showAnni window, and i call showAnni, it does not show me the window. This might be hard for users to see and understand that their call is working and actually showing the annis. (Same as AB3)
+5. 
