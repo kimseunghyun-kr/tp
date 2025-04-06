@@ -39,11 +39,11 @@
     <!-- Table -->
     <TableView fx:id="anniversaryTable" VBox.vgrow="ALWAYS" prefHeight="360">
         <columns>
-            <TableColumn fx:id="dateColumn" text="Tracking Start Date" minWidth="180" prefWidth="130"/>
-            <TableColumn fx:id="nameColumn" text="Anniversary Name" minWidth="180" prefWidth="150"/>
-            <TableColumn fx:id="typeColumn" text="Anniversary type"  minWidth="180" prefWidth="180"/>
-            <TableColumn fx:id="descriptionColumn" text="Anniversary Description" minWidth="180"  prefWidth="180"/>
-            <TableColumn fx:id="typeDescriptionColumn" text="Anniversary Type Description" minWidth="180" prefWidth="180"/>
+            <TableColumn fx:id="dateColumn" text="Tracking Start Date" minWidth="180" prefWidth="130" reorderable="false"/>
+            <TableColumn fx:id="nameColumn" text="Anniversary Name" minWidth="180" prefWidth="150" reorderable="false"/>
+            <TableColumn fx:id="typeColumn" text="Anniversary type"  minWidth="180" prefWidth="180" reorderable="false"/>
+            <TableColumn fx:id="descriptionColumn" text="Anniversary Description" minWidth="180"  prefWidth="180" reorderable="false"/>
+            <TableColumn fx:id="typeDescriptionColumn" text="Anniversary Type Description" minWidth="180" prefWidth="180" reorderable="false"/>
         </columns>
     </TableView>
 

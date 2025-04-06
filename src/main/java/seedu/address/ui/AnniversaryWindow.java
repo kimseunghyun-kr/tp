@@ -72,25 +72,18 @@ public class AnniversaryWindow extends UiPart<Region> {
     public boolean isShowing() {
         return windowStage.isShowing();
     }
-
     /**
      * Hides the anniversary window.
      */
     public void hide() {
         windowStage.hide();
     }
-
     /**
      * Focuses on the anniversary window.
      */
     public void focus() {
         windowStage.requestFocus();
     }
-
-    // ========================================================
-    // Logic for populating the ListView
-    // ========================================================
-
     /**
      * Updates the ListView with the given list of anniversaries.
      */
@@ -105,8 +98,10 @@ public class AnniversaryWindow extends UiPart<Region> {
                 new SimpleStringProperty(cellData.getValue().getType().getName()));
         typeDescriptionColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getType().getDescription()));
-
         anniversaryTable.getItems().setAll(anniversaries);
+        anniversaryTable.getColumns().forEach(column -> {
+            column.setSortable(false);
+        });
     }
 
 
