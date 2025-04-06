@@ -6,7 +6,7 @@
     "email" : "royb@example.com",
     "tags" : [ "colleagues" ],
     "anniversaries" : [ ],
-    "jobposition" : "Blk 45 Aljunied Street 85, #11-31"
+    "jobposition" : "Bala"
   }, {
     "employeeId" : "da4ef25d-2ad2-4a30-819e",
     "name" : "Charlotte Oliveiro",
@@ -14,7 +14,7 @@
     "email" : "charlotte@example.com",
     "tags" : [ "neighbours" ],
     "anniversaries" : [ ],
-    "jobposition" : "Blk 11 Ang Mo Kio Street 74, #11-04"
+    "jobposition" : "Ga"
   }, {
     "employeeId" : "da4ef25d-2ad2-4a30-819e-ddf9a0c2d54d",
     "name" : "Irfan Ibrahim",
@@ -22,7 +22,7 @@
     "email" : "irfan@example.com",
     "tags" : [ "classmates" ],
     "anniversaries" : [ ],
-    "jobposition" : "Blk 47 Tampines Street 20, #17-35"
+    "jobposition" : "OMG"
   }, {
     "employeeId" : "df57c625-1bdb-4772-a5aa-b",
     "name" : "David Li",
@@ -30,7 +30,7 @@
     "email" : "lidavid@example.com",
     "tags" : [ "family" ],
     "anniversaries" : [ ],
-    "jobposition" : "Blk 436 Serangoon Gardens Street 26, #16-43"
+    "jobposition" : "Why are thiese"
   }, {
     "employeeId" : "df57c625-1bdb-4772-a5aa",
     "name" : "Alex Poh",
@@ -102,6 +102,6 @@
       "description" : "alex's Birthday",
       "name" : "Birthday"
     } ],
-    "jobposition" : "Blk 30 Geylang Street 29, #06-40"
+    "jobposition" : "ADDRESSES"
   } ]
 }
