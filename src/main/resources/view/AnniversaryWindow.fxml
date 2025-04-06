@@ -22,11 +22,6 @@
     <padding>
         <Insets top="10" right="10" bottom="10" left="10" />
     </padding>
-
-    <Label text="*Dates shown are the tracking start dates you set. Recurring reminders (like birthdays) are handled automatically." wrapText="true"
-           style="-fx-font-size: 11px; -fx-font-style: italic; -fx-text-fill: #666;" />
-
-
     <!--
       ListView that displays the Anniversaries.
       Could also use a TableView with multiple columns
