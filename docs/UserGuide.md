@@ -189,14 +189,14 @@ Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
     * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner    p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 ---
 
 ### Editing an employee: `edit`
 
-Edits an existing employee in H'Reers.
+You can update any part of an employee’s record in H'Reers using the `edit` command.
 
 Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] [jp/JOB] [t/TAG]…​`
 
@@ -208,15 +208,22 @@ Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] 
   specifying any tags after it.
 * You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
 
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
+Use the `list` command first to copy the correct Employee ID prefix.
+</div>
+
 Examples:
-*  `edit 1re p/91234567 e/johndoe@example.com` Edits the phone number and email address of the specified employee to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2dsf n/Betsy Crower t/` Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
-*  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
+*  `edit 1re p/91234567 e/johndoe@example.com` 
+  * Edits the phone number and email address of the specified employee to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2dsf n/Betsy Crower t/` 
+  * Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
+*  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` 
+  * Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
 ---
 ### Deleting an employee: `delete`
 
-Deletes the specified employee from H'Reers.
+You can use this command to remove an employee from H'Reers using their Employee ID prefix.
 
 Format: `delete Employee_ID_prefix`
 
@@ -224,7 +231,8 @@ Format: `delete Employee_ID_prefix`
 * The Employee ID **must be valid and unique**
 
 Examples:
-* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
+* `list` followed by `delete a123bc` 
+  * Deletes the employee whose ID starts with a123bc.
 
 ---
 
@@ -363,16 +371,17 @@ Example:
 ### Adding Anniversaries: `addAnni`
 Adds an anniversary to an employee's record in the Hreers application.
 This command can create custom Anniversaries that were otherwise not supported within the `add` Command.
-As the application's purpose is to keep track of **upcoming** anniversaries, it is allows the addition of anniversaries that are in the future.
+As the application's purpose is to keep track of **upcoming** anniversaries, it allows the addition of anniversaries that are in the future.
 As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
 You can use this format in 3 ways!
 </div>
 
 Format 1 : default format for **custom** anniversaries
 ``` plaintext
-addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME 
+at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
 Format 2 : short form support for Birthdays
 ``` plaintext
@@ -404,7 +413,8 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 
 Examples :
 ```plaintext
-addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
+addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding 
+ad/Celebrating 25 years atdesc/Personal
 ```
 - `addAnni` - the addAnniversary command you are running
 - `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
@@ -472,14 +482,14 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 
 Format:
 ```plaintext
-deleteAnniversary eid/EMPLOYEE_ID ai/INDEX
+deleteAnni eid/EMPLOYEE_ID ai/INDEX
 ```
 
 Examples:
 ```plaintext
-deleteAnniversary eid/0c2414da ai/1
+deleteAnni eid/0c2414da ai/1
 ```
-- `deleteAnniversary` - the command you are running
+- `deleteAnni` - the command you are running
 - `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
 - `ai/1`: the index of the anniversary you want to delete
   this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
