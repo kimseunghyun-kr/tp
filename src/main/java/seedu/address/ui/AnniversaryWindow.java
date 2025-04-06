@@ -72,23 +72,27 @@ public class AnniversaryWindow extends UiPart<Region> {
     public boolean isShowing() {
         return windowStage.isShowing();
     }
+
     /**
      * Hides the anniversary window.
      */
     public void hide() {
         windowStage.hide();
     }
+
     /**
      * Focuses on the anniversary window.
      */
     public void focus() {
         windowStage.requestFocus();
     }
+
     // ========================================================
-    // Logic for populating the ListView
+    // Logic for populating the TableView
     // ========================================================
+
     /**
-     * Updates the ListView with the given list of anniversaries.
+     * Updates the TableView with the given list of anniversaries.
      */
     public void setAnniversaryList(List<Anniversary> anniversaries) {
         dateColumn.setCellValueFactory(cellData ->
