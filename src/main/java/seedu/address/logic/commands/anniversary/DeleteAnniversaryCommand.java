@@ -71,6 +71,9 @@ public class DeleteAnniversaryCommand extends Command {
             throw new CommandException(MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS);
         }
 
+        // Save the state before any potential changes
+        model.commitChanges();
+
         Anniversary anniversaryToDelete = anniversaryList.get(targetIndex.getZeroBased());
         anniversaryList.remove(anniversaryToDelete);
         Employee updatedEmployee = Employee.builder()

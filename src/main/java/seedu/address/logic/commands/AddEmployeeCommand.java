@@ -63,9 +63,6 @@ public class AddEmployeeCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Save the state before any potential changes
-        model.commitChanges();
-
         if (model.hasEmployee(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_EMPLOYEE);
         }
@@ -73,6 +70,9 @@ public class AddEmployeeCommand extends Command {
         if (model.hasEmployeeIdPrefixConflict(toAdd.getEmployeeId())) {
             throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);
         }
+
+        // Save the state before any potential changes
+        model.commitChanges();
 
         model.addEmployee(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
