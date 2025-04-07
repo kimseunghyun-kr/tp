@@ -196,6 +196,19 @@ This section describes some noteworthy details on how certain features are imple
 
 Our employeeId utilize a UUID based prefix matching system.
 The employeeId is generated using the `UUID` class in Java, which creates a universally unique identifier. This identifier is then used as a prefix for each employee's record, allowing for easy searching and retrieval of information.
+
+#### Prefix Conflict Restriction
+
+The system strictly enforces that no prefix conflicts can exist between any two employee IDs. A prefix conflict occurs when one employee ID is a prefix of another employee ID (as defined in the glossary). This restriction is necessary for the prefix matching system to work correctly and to ensure unambiguous identification of employees when only a prefix of their ID is provided in commands.
+
+For example, if one employee has the ID `abc123` and another employee has the ID `abc123456`, this would create a prefix conflict because `abc123` is a prefix of `abc123456`, making it impossible to uniquely identify the employee when only the prefix `abc123` is provided.
+
+#### Prefix Matching Logic
+
+The prefix matching logic is primarily managed within the EmployeeId class, which provides methods to check for these conflicts:
+- `isPrefixOf(EmployeeId other)`: Checks if the current ID is a prefix of another ID
+- `hasPrefixConflict(EmployeeId other)`: Checks if there's a conflict between two IDs in either direction
+
 The prefix matching logic is primarily managed within the EmployeeId class.
 The prefix matching logic is mostly used by the Model and AddressBook class, which serves as the facade
 that maintains the internal UniquePersonsList.
@@ -717,6 +730,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Prefix conflict**: When two Employee IDs are such that one ID is a beginning of the other.
 
 --------------------------------------------------------------------------------------------------------------------
 ## Appendix: Instructions for manual testing
