@@ -25,6 +25,9 @@ public class CommandResult {
     /** Employee Anniversary should be shown to the user**/
     private final boolean showAnniversary;
 
+    /** This is to signal the undo **/
+    private final boolean isUndoAnniversary;
+
     /** Employee ID of the employee associated with this command**/
     private final Optional<String> employeeId;
 
@@ -35,6 +38,7 @@ public class CommandResult {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = showHelp;
         this.exit = exit;
+        this.isUndoAnniversary = false;
         this.showAnniversary = false;
         this.employeeId = Optional.empty();
     }
@@ -47,8 +51,21 @@ public class CommandResult {
         this.feedbackToUser = requireNonNull(feedbackToUser);
         this.showHelp = false;
         this.exit = false;
+        this.isUndoAnniversary = false;
         this.showAnniversary = showAnniversary;
         this.employeeId = Optional.of(requireNonNull(employeeId));
+    }
+
+    /**
+     * Constructs a {@code CommandResult} with the specified {@code feedbackToUser},
+     */
+    public CommandResult(String feedbackToUser, boolean isundoAnniversary) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.showHelp = false;
+        this.exit = false;
+        this.showAnniversary = false;
+        this.isUndoAnniversary = isundoAnniversary;
+        this.employeeId = Optional.empty();
     }
 
     /**
