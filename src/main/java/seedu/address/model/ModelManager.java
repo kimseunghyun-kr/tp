@@ -205,6 +205,7 @@ public class ModelManager implements Model {
             if (month == 2 && day == 29) {
                 return LocalDate.of(year, 2, 28); // fallback for leap day
             }
+            assert false : String.format("Unexpected invalid date: %04d-%02d-%02d", year, month, day);
             return null;
         }
     }
