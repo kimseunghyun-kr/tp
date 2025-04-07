@@ -83,8 +83,8 @@ public class AddressBookFormatConverter {
             return JsonUtil
                     .readJsonFile(filePath, JsonSerializableAddressBook.class)
                     .orElseThrow(() -> new CommandException("The JSON file could not be read or was invalid."));
-        } catch (IOException e) {
-            throw new CommandException("Failed to read the file: " + e.getMessage());
+        } catch (IOException | DataLoadingException e) {
+            throw new CommandException("Failed to read the file: the json file is invalid or corrupted.");
         }
     }
     //@@author WailyDest

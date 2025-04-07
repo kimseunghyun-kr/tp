@@ -461,7 +461,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 * When there are **NO** matching employees, this will throw an error.
 * When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
 * The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
-* The index of the anniversary is **1-based**. This means that the first anniversary in the list is at index 1, the second is at index 2, and so on.
+* The index of the anniversary is **1-based**. This means that the top-most anniversary in the list is at index 1, the second is at index 2, and so on.
 </div>
 
 Format:
@@ -631,7 +631,8 @@ There are **two modes** for importing data. You must choose one:
 - **Check Extension Conflicts**: If your file says `.json` but you specify `ft/csv`, it will fail.
 - **Ensure Proper Permissions**: The path must be writable or readable for the import to succeed.
 - **Use Overwrite Cautiously**: This mode replaces all current data, so confirm backups if needed.
-
+- **Obtain location to file via file explorer**: if unsure about the file path, you can right-click on the file and select "Copy as path" to get the full path to the file. This will help you avoid errors when specifying the file path.
+- **Use forward slashes if you see `₩` or back slashes `\` and there are errors**: This is a common issue when using Windows. The system may not recognize the backslashes correctly. Use forward slashes `/` instead.
 </div>
 
 #### Command Format
@@ -796,7 +797,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **addAnni** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
 **showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
+**deleteAnni** | `deleteAnni eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
 **import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
 **export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 
