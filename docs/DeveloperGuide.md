@@ -1204,16 +1204,17 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. **Address the fullscreen bug issue for all windows**
+1. **Address the fullscreen bug issue for all new windows (Help)**
    - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
-   - **Method to recreate (main)**
+   - **Method to recreate**
        1. When running the app
        2. Open the app in fullscreen
        3. Type help
        4. Close help window
        5. Repeat 3 and 4 enough times and the app will crash
-   - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-   - **Method to recreate (anniversary)**
+2. **Address the fullscreen bug issue for all new windows (Anniversary)**
+   - **Current Issue**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+   - **Method to recreate**
        1. Open app
        2. Type showAnni xxx
        3. Fullscreen app and tile them side to side
@@ -1222,31 +1223,31 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - **Current Workaround**: Do not use fullscreen mode.
    - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
 
-2. **Stop enforcing the absence of prefix conflicts**
+3. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: The possibility of such a situation is very low, as the ids are generated randomly and are long enough. The only situation when this may occur is when user deliberately made the ids short. This restriction is documented in the user guide.
     - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put \$ after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
-3. **Import Data from Different Formats** 
+4. **Import Data from Different Formats** 
    - **Current Issue**: Limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
    - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
    - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
    
-4. **Observer Support for ShowAnni**
+5. **Observer Support for ShowAnni**
    - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
    - **Current Workaround**: After each operation on Anniversaries, showAnni should be closed and called again.
    - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
    
-5. **ShowAnni Window is not brought back to screen after it has been minimized**
+6. **ShowAnni Window is not brought back to screen after it has been minimized**
    - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
    - **Current Workaround**: Place this under known issues.
    - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
-6. **Enhanced Phone Number Validation**
+7. **Enhanced Phone Number Validation**
    - **Current Issue**: Phone Numbers cannot have spaces in their format. They also have a limit of 17 digits, which is just to make it not too long
    - **Planned Solution**: Validate phone numbers according to local and international standards, requiring a minimum of 7 digits and ensuring numbers are valid for practical use cases as well as allow spaces between digits.
 
-7. **Inconsistency between showAnni and edit/delete syntax**
+8. **Inconsistency between showAnni and edit/delete syntax**
    - **Current Issue**: For now, edit and delete command has the following syntax: `[edit/delete] [employeeId] [other arguments]`
    - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
    - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
