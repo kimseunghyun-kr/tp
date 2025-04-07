@@ -357,7 +357,7 @@ With just a few commands, you can:
 
 - Add meaningful events tied to specific employees
 - View Anniversaries related to a specific employee
-- View all upcoming anniversaries (Minseok go add this)
+- View all upcoming anniversaries
 - Remove outdated or incorrect entries
 
 ---
