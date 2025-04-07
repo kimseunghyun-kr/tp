@@ -285,8 +285,7 @@ Format: `undo`
 
 * Brings your data back to the state it was in before your last edit.
 
-<div markdown="block" class="alert alert-info">
-
+<div markdown="block" class="alert alert-info"> 
 **:information_source: Notes about the undo command:**<br>
 
 * `undo` ignores any extra text you type after it.
@@ -397,7 +396,7 @@ With just a few commands, you can:
 
 - Add meaningful events tied to specific employees
 - View Anniversaries related to a specific employee
-- View all upcoming anniversaries (Minseok go add this)
+- View all upcoming anniversaries
 - Remove outdated or incorrect entries
 
 [Back to Top](#)
@@ -593,7 +592,6 @@ deleteAnni eid/0c2414da ai/1
 ## Reminder Command
 
 ---
-### Viewing upcoming anniversaries: `reminder`
 
 You can use this command to view all employee anniversaries (birthdays, work anniversaries, and custom anniversaries) that are occurring within the next 3 days.
 
@@ -614,11 +612,16 @@ Format: `reminder`
 * This command only affects the display — it does **not** modify any data.
 * All anniversaries shown are automatically sorted by how soon they are occurring.
 * If an employee has more than one upcoming anniversary, they will appear **multiple times** in the list.
+* When you import a new file to H'Reers, you will have to re-execute this `reminder` command to view the updated list.
+* H'Reers accepts past anniversaries, and treats all of them as **annually occurring** event.
+If you enter past anniversary, 2023-04-05 for example, you will start to get reminded of it on 2025-04-03 this year.
 </div>
 
 Example:
-* `reminder`
-    * Displays a unified list of upcoming birthdays, work anniversaries, and custom anniversaries.
+```
+reminder
+```
+* Displays a unified list of upcoming birthdays, work anniversaries, and custom anniversaries.
 
 Example UI:
 
