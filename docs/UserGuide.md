@@ -42,6 +42,7 @@ Whether you need to track employee milestones, update records, or generate quick
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
 7. [Data Management](#data-management)
+    - [Employee Equality Concept](#employee-equality-concept)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
     - [Importing data: `import`](#importing-data-codeimportcode)
@@ -176,7 +177,7 @@ Format: `help`
 
 You can use this command to add a new employee to H'Reers.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​ [eid/EMPLOYEE_ID]`
 
 Date format: `YYYY-MM-DD`
 
@@ -186,7 +187,7 @@ Date format: `YYYY-MM-DD`
 
 * You can include as many tags per person as you like — or none at all.
 
-* Use bd/ for the employee’s birthday and wa/ for their work anniversary.
+* Use `bd/` for the employee’s birthday and `wa/` for their work anniversary.
   H'Reers will automatically convert these into standard anniversaries for you.
 
 * Birthdays and work anniversaries are `anniversaries`. Please use [anniversary commands](#anniversary-commands) to modify them.
@@ -196,12 +197,9 @@ Date format: `YYYY-MM-DD`
 * If you repeat a prefix (e.g., `n/Hans n/Jane`), H'Reers will use only the last one (`n/Jane`).
   This applies to all fields — including employee IDs (`eid/abcde eid/bcde` → `eid/bcde` is used).
 
-* **About Employee IDs and Prefix Conflicts**:
-  * Employee IDs are unique identifiers for each person in the system.
-  * H'Reers doesn't allow "prefix conflicts" between IDs - this means one employee's ID cannot be the beginning part of another employee's ID.
-  * For example, if you already have an employee with ID `abc123`, you cannot add another employee with ID `abc123456` (or vice versa).
-  * This restriction exists because H'Reers lets you use just the beginning part of an ID in commands, and the system needs to know exactly which employee you're referring to.
-  * If you get an error about prefix conflicts when adding someone new, simply use a different ID.
+* Use `eid/` to provide a custom employee ID.
+  * If you don't specify one, H'Reers will automatically generate a unique ID (called a UUID) for the employee - this is a long, random string of characters that ensures each employee has a distinct identifier in the system.
+  * Be careful to avoid "prefix conflicts" where one employee ID is the beginning part of another (e.g., `abc123` and `abc123456`). See the [FAQ section](#prefix-conflict) for more details on prefix conflicts.
 
 * **Duplicate field values are allowed across different employees.** In H'Reers, employees are uniquely identified by their Employee ID only.
   * This means multiple employees can have identical names, phone numbers, emails, job positions, or tags.
@@ -244,6 +242,7 @@ Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] 
 * You can remove all the employee’s tags by typing `t/` without
   specifying any tags after it.
 * You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
+  * Be careful to avoid "prefix conflicts" where one employee ID is the beginning part of another (e.g., `abc123` and `abc123456`). See the [FAQ section](#prefix-conflict) for more details on prefix conflicts.
 
 <div markdown="span" class="alert alert-primary">:bulb: Tip:
 Use the `list` command first to copy the correct Employee ID prefix.
@@ -662,10 +661,21 @@ Format: `exit`
 [Back to Top](#)
 
 ---
+## Employee Data Equality Concept
+
+It's a fundamental concept of the application that employees are considered unique and distinct based solely on their employee IDs. Two employees with identical fields (name, email, phone, job position, etc.) can coexist in the system as long as they have different, non-conflicting employee IDs. This design provides additional flexibility, allowing HR workers to manage employees with the same names or similar attributes without confusion.
+
+For example, the system can simultaneously track two different employees named "John Smith" as long as they have different employee IDs. This separation is maintained throughout all operations including import/export, editing, and identification.
+
+[Back to Top](#)
+
+---
 ## Data Management
 
 You can edit, import, or export employee data manually if you're more tech-savvy.
 Some features like importing are powerful — and risky. Use them carefully to avoid losing data!
+
+[Back to Top](#)
 
 ---
 ### Saving the data
@@ -932,7 +942,7 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 In H'Reers, only the Employee ID needs to be unique and without prefix conflicts - all other fields can be identical between different employees.
 
-**Q**: What is a "prefix conflict" and why does it matter?<br>
+**Q**: <a id="prefix-conflict"></a>What is a "prefix conflict" and why does it matter?<br>
 **A**: A prefix conflict happens when one employee ID is the beginning part of another employee ID. For example, if you have an employee with ID `abc123` and try to add another with ID `abc123456`, this creates a prefix conflict.
 
 This matters because H'Reers lets you use just the beginning part of an ID when referring to employees in commands (like `edit` or `delete`). If prefix conflicts were allowed, the system wouldn't know which employee you mean when you type something like `edit abc123` - it could be either employee.
