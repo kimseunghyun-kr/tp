@@ -28,8 +28,7 @@ public class Messages {
             "This exact anniversary (date + name + type + description) already exists for that employee.";
     public static final String MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS =
             "The index you are searching for is out of bounds for the anniversary.";
-    public static final String MESSAGE_INVALID_REMINDER_TYPE =
-            "Invalid reminder type! Please use 'bd' for birthday or 'wa' for work anniversary.";
+
 
 
 
