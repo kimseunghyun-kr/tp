@@ -7,25 +7,45 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <VBox xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       spacing="10" alignment="CENTER_LEFT"
-      prefWidth="320" prefHeight="400"
+      prefWidth="500" prefHeight="600"
+      minWidth="500" minHeight="600"
       styleClass="pane-with-border">
 
     <padding>
         <Insets top="10" right="10" bottom="10" left="10" />
     </padding>
-
     <!--
       ListView that displays the Anniversaries.
       Could also use a TableView with multiple columns
       if you want date/name/description columns, etc.
     -->
-    <ListView fx:id="anniversaryListView" />
+    <!-- Title -->
+    <Label text="Anniversaries"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+    <!-- Description -->
+    <Label text="* Dates shown are the tracking start dates you set. Recurring reminders (like birthdays) are handled automatically."
+           wrapText="true"
+           style="-fx-font-size: 11px; -fx-font-style: italic; -fx-text-fill: #666;" />
+
+    <!-- Table -->
+    <TableView fx:id="anniversaryTable" VBox.vgrow="ALWAYS" prefHeight="360">
+        <columns>
+            <TableColumn fx:id="dateColumn" text="Tracking Start Date" minWidth="180" prefWidth="130" reorderable="false"/>
+            <TableColumn fx:id="nameColumn" text="Anniversary Name" minWidth="180" prefWidth="150" reorderable="false"/>
+            <TableColumn fx:id="typeColumn" text="Anniversary type"  minWidth="180" prefWidth="180" reorderable="false"/>
+            <TableColumn fx:id="descriptionColumn" text="Anniversary Description" minWidth="180"  prefWidth="180" reorderable="false"/>
+            <TableColumn fx:id="typeDescriptionColumn" text="Anniversary Type Description" minWidth="180" prefWidth="180" reorderable="false"/>
+        </columns>
+    </TableView>
 
     <!--
       A simple Close button to hide the window

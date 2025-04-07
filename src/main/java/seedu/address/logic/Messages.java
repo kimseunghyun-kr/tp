@@ -31,6 +31,7 @@ public class Messages {
     public static final String MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS =
             "The index you are searching for is out of bounds for the anniversary.";
 
+
     /**
      * Returns an error message indicating the duplicate prefixes.
      */

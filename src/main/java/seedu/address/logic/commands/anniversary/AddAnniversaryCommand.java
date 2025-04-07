@@ -97,6 +97,9 @@ public class AddAnniversaryCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_ANNIVERSARY);
         }
 
+        // Save the state before any potential changes
+        model.commitChanges();
+
         // Create a new Employee object with updated anniversaries
         List<Anniversary> anniversaryList = new ArrayList<>(employeeToEdit.getAnniversaries());
         anniversaryList.add(toAdd);
@@ -111,10 +114,9 @@ public class AddAnniversaryCommand extends Command {
 
         // update the model
         model.setEmployee(employeeToEdit, updatedEmployee);
-
         boolean isAnniAfterToday = (toAdd.getDate().isAfter(LocalDate.now()));
-
         return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd)
-        + (isAnniAfterToday ? "\n" + MESSAGE_WARNING_ANNI_AFTER_TODAY : ""));
+                + (isAnniAfterToday ? "\n" + MESSAGE_WARNING_ANNI_AFTER_TODAY : ""), true,
+                updatedEmployee.getEmployeeIdAsString());
     }
 }

@@ -172,8 +172,10 @@ public class MainWindow extends UiPart<Stage> {
 
             // Show the window
             if (!anniversaryWindow.isShowing()) {
+                anniversaryWindow.refresh();
                 anniversaryWindow.show();
             } else {
+                anniversaryWindow.refresh();
                 anniversaryWindow.focus();
             }
         } catch (IllegalArgumentException e) {
@@ -236,13 +238,16 @@ public class MainWindow extends UiPart<Stage> {
             CommandResult commandResult = logic.execute(commandText);
             logger.info("Result: " + commandResult.getFeedbackToUser());
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
-
             if (commandResult.isShowHelp()) {
                 handleHelp();
             }
 
             if (commandResult.isExit()) {
                 handleExit();
+            }
+
+            if (commandResult.isUndoAnniversary()) {
+                anniversaryWindow.hide();
             }
 
             if (commandResult.isShowAnniversary()) {

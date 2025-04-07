@@ -109,6 +109,8 @@ Whether you need to track employee milestones, update records, or generate quick
 5. Learn More
 - You can explore all available features and commands in the [Features](#features) below.
 
+[Back to Top](#)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -145,6 +147,8 @@ All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+[Back to Top](#)
+
 ---
 ## Core Commands
 
@@ -162,6 +166,8 @@ Format: `help`
 * A popup will appear showing a list of commands and how to use them.
 * You can also access this by clicking the Help button in the top right corner of the app.
   ![help message](images/HelpMessage.png)
+
+[Back to Top](#)
 
 ---
 ### Adding an employee: `add`
@@ -206,6 +212,8 @@ Common Errors:
 * `Invalid command format!` - You might be missing some of the required fields.
 * `Anniversary date must be in YYYY-MM-DD format.` - Make sure the date is in the correct format.
 
+[Back to Top](#)
+
 ---
 
 ### Editing an employee: `edit`
@@ -234,6 +242,8 @@ Examples:
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6`
 * Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
+[Back to Top](#)
+
 ---
 ### Deleting an employee: `delete`
 
@@ -247,6 +257,8 @@ Format: `delete Employee_ID_prefix`
 Examples:
 * `list` followed by `delete a123bc`
     * Deletes the employee whose ID starts with a123bc.
+
+[Back to Top](#)
 
 ---
 
@@ -279,6 +291,8 @@ Examples:
 Common Error:
 `No undo available!` - No data was changed.
 
+[Back to Top](#)
+
 ---
 ### Listing all employees: `list`
 
@@ -288,6 +302,8 @@ Format: `list`
 
 * This shows every employee in the system — regardless of filters you may have used previously.
 * If you've just used the `find` command and want to see the full list again, simply type `list`.
+
+[Back to Top](#)
 
 ---
 ### Locating employees: `find`
@@ -347,6 +363,8 @@ Common Errors:
 * `At least one non-empty field is required.` - You must use at least one of the prefixes to search for employees.
 * `Invalid command format!` - You might have used the wrong prefix or spelt wrongly.
 
+[Back to Top](#)
+
 ---
 
 ## Anniversary Commands
@@ -366,6 +384,8 @@ With just a few commands, you can:
 - View Anniversaries related to a specific employee
 - View all upcoming anniversaries (Minseok go add this)
 - Remove outdated or incorrect entries
+
+[Back to Top](#)
 
 ---
 
@@ -400,6 +420,8 @@ Common Errors:
 * `Employee ID must be 1-36 characters long, containing only letters, digits, and '-'.` - The employee ID you entered isn’t valid. Make sure it’s the correct length and format.
 * `Found multiple employees with employeeId starting with xxx` - The ID prefix you entered matches more than one employee. Try typing more characters to narrow it down to one unique person.
 * `No employee found with employeeId starting with xxx` - The ID prefix you typed doesn’t match any employee in the system. Make sure you entered it correctly — it should match the beginning of a valid employee ID.
+
+[Back to Top](#)
 
 ---
 
@@ -448,12 +470,12 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
     * For example: `addAnni eid/SOME_EID an/Hans' Birthday at/Birthday bd/2025-04-25`, this will fail.
 
 * Unlike `add` which allows the attachment of work anniversaries and birthday together, addAnni does **not** support this feature.
-* For dates, only the following format `YYYY-MM-DD` is supported as input. other date formats will fail
+* For dates, only the following format `YYYY-MM-DD` is supported as input. other date formats will fail.
 * Inputs such as `an/      at/      atdesc/...` will fail.
 * In exceptional cases, as a mitigation for corrupted files, there may be a case where name can be filled via the anniversary type. However, this is only present as a fallback for internal features.
 * **Duplicate** anniversaries are not possible. If there exist an identical entry (case-sensitive), an error will show.
-* there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly
-* There is a hard limit of 1000 characters in the name and type field. This is to prevent UI abuse
+* there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly.
+* There is a hard limit of 1000 characters in the name and type field. This is to prevent UI abuse.
 </div>
 
 Examples :
@@ -461,32 +483,32 @@ Examples :
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding 
 ad/Celebrating 25 years atdesc/Personal
 ```
-- `addAnni` - the addAnniversary command you are running
-- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
-- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
-- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
-- `at/Wedding`: The name of the anniversary type - `Wedding`
-- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
-- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
+- `addAnni`: The addAnniversary command you are running.
+- `eid/0c2414da`: The Employee Id prefix of the employee you are trying to attach the anniversary to.
+- `d/2025-03-13`: The date of the anniversary on `2025-03-13`.
+- `an/Silver Wedding`: The name of the anniversary `Silver Wedding`.
+- `at/Wedding`: The name of the anniversary type - `Wedding`.
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years`. (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal`. (optional)
 
 If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
 
 ```plaintext
 addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
 ```
-- `addAnni` - the addAnniversary command declaration
-- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
-- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
-- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `addAnni`: The addAnniversary command declaration.
+- `eid/0c2414da`: The Employee Id prefix of the employee you are trying to attach the anniversary to.
+- `n/Alex shenanigans`: The name of the person you are attaching the birthday to. (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: The date of the anniversary on `2025-03-13`.
   If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
 
 ```plaintext
 addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 ```
-- `addAnni` - the addAnniversary command declaration
-- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
-- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
-- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `addAnni`: The addAnniversary command declaration.
+- `eid/0c2414da`: The Employee Id prefix of the employee you are trying to attach the anniversary to.
+- `n/Alex shenanigans`: The name of the person you are attaching the birthday to. (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: The date of the anniversary on `2025-03-13`.
   If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
 
 #### Options summary
@@ -502,6 +524,8 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 | `bd/`      | A short name for the birthday                             | Optional                          | `Birthday`             |
 | `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
 | `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
+
+[Back to Top](#)
 
 ---
 
@@ -520,9 +544,10 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 * When the `eid/...` is not specific enough and there exists multiple people, the command will fail. Should this case occur, type a few more letters matching the EmployeeID in.
 
 * When there are **NO** matching employees, this will throw an error.
-* When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
+* When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail.
 * The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
-* The index of the anniversary is **1-based**. This means that the first anniversary in the list is at index 1, the second is at index 2, and so on.
+* The index of the anniversary is **1-based**. This means that the top-most anniversary in the list is at index 1, the second is at index 2, and so on.
+
 </div>
 
 Format:
@@ -534,11 +559,11 @@ Examples:
 ```plaintext
 deleteAnni eid/0c2414da ai/1
 ```
-- `deleteAnni` - the command you are running
-- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `ai/1`: the index of the anniversary you want to delete
 
-  this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
+- `deleteAnni`: The command you are running.
+- `eid/0c2414da`: The Employee Id prefix you are attaching the anniversary to.
+- `ai/1`: The index of the anniversary you want to delete.
+  This will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Options Summary
 
@@ -547,6 +572,7 @@ deleteAnni eid/0c2414da ai/1
 | `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
 | `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
 
+[Back to Top](#)
 
 ---
 ## Reminder Command
@@ -585,6 +611,8 @@ Example UI:
 
 Each card in the reminder panel corresponds to one upcoming anniversary for an employee.
 
+[Back to Top](#)
+
 ---
 ## Quality of Life Features
 These are simple but powerful commands that help you stay in control of your workspace. Whether you want to wipe your entire list and start fresh, or just close the app when you're done — these commands make it easy.
@@ -600,6 +628,8 @@ Format: `clear`
 
 * Ideal for resetting the app during testing or before importing a new dataset.
 
+[Back to Top](#)
+
 ---
 ### Exiting the program: `exit`
 
@@ -611,6 +641,8 @@ Format: `exit`
 
 * Don’t worry — all your data is already saved automatically.
 
+[Back to Top](#)
+
 ---
 ## Data Management
 
@@ -621,6 +653,8 @@ Some features like importing are powerful — and risky. Use them carefully to a
 
 H'Reers data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
+[Back to Top](#)
+
 ---
 ### Editing the data file
 
@@ -630,6 +664,8 @@ H'Reers data are saved automatically as a JSON file `[JAR file location]/data/H'
 If your changes to the data file makes its format invalid, H'Reers will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
+
+[Back to Top](#)
 
 ---
 ### Importing data: `import`
@@ -646,12 +682,14 @@ undo is possible for overwrites or included persons. but not for appended annive
 > - If the file format or content is incorrect, the results may be unpredictable.
 > - If the file is formatted improperly, the data may be lost or corrupted without any warning.
 
+[import_before](images/import_before.png)
+[import_success](images/import_success.png)
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
-- Add a group of employees to Hreers
-- Merge data about employee anniversaries
-- Bulk load data from a file to Hreers
+- Add a group of employees to Hreers.
+- Merge data about employee anniversaries.
+- Bulk load data from a file to Hreers.
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Notes about the export command:**<br>
@@ -669,6 +707,13 @@ This is useful when you want to:
 2. **Don't duplicate csv headers or json fields.**
 3. **Each employee must have a valid ID (called `employeeId`)** in Universally Unique Identifier (UUID) format. You can generate one online [here](https://www.uuidgenerator.net/).
 4. If your file has issues (wrong format, corrupted, etc.), the system may fail silently—**you won't always see an error message**.
+
+#### About FilePaths
+* File paths has two representations, `relative` and `absolute`.
+* Relative paths are relative to the location where the jar file is placed.
+* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer.
+* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default.
+* If you are using an absolute path, just paste the Copy as path into the command, after fp/.
 
 #### Write Modes: What Happens During Import
 
@@ -704,7 +749,8 @@ There are **two modes** for importing data. You must choose one:
 - **Check Extension Conflicts**: If your file says `.json` but you specify `ft/csv`, it will fail.
 - **Ensure Proper Permissions**: The path must be writable or readable for the import to succeed.
 - **Use Overwrite Cautiously**: This mode replaces all current data, so confirm backups if needed.
-
+- **Obtain location to file via file explorer**: if unsure about the file path, you can right-click on the file and select "Copy as path" to get the full path to the file. This will help you avoid errors when specifying the file path.
+- **Use forward slashes if you see `₩` or back slashes `\` and there are errors**: This is a common issue when using Windows. The system may not recognize the backslashes correctly. Use forward slashes `/` instead.
 </div>
 
 #### Command Format
@@ -717,30 +763,30 @@ import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 import ft/json fp/data/ fn/contacts wm/append
 ```
 Explanation:
-`import` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
-this will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
+`import` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` — File name is contacts (without extension).
+This will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
 
 ```plaintext
 import ft/json fp/data/ fn/contacts wm/overwrite
 ```
 Explanation:
-`import` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
-this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
+`import` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` —  File name is contacts (without extension).
+This will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
 
 ```plaintext
 import ft/csv fp/data/contacts.csv wm/append
 ```
 Explanation:
-`import` — the command you're running
-`ft/csv` — file type is CSV
-`fp/data/contacts.csv` — file path is the data/ directory
-this will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
+`import` — The command you're running.
+`ft/csv` — File type is CSV.
+`fp/data/contacts.csv` — File path is the data/ directory.
+This will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
 
 #### Options Summary
 | **Prefix** | **Meaning**                                       | **Required?**                          | **Example Value**           |
@@ -750,11 +796,11 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 | `fn/`      | Optional filename (extension can be auto-added)   | At least one of `fp/` or `fn/` required| `myData.json`               |
 | `wm/`      | Write mode (`append` or `overwrite`)              | **Required**                           | `append` / `overwrite`      |
 
+[Back to Top](#)
 
 ---
 ### Exporting data: `export`
-saves the currently visible list of people in the Hreers application to a file (JSON or CSV).
-
+Saves the currently visible list of people in the Hreers application to a file (JSON or CSV).
 
 <div markdown="block" class="alert alert-info">
 
@@ -770,6 +816,18 @@ saves the currently visible list of people in the Hreers application to a file (
 * For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
 * If the current list of displayed people is empty, export fails with an error.
 * Mismatched file types or inaccessible folders will cause an error.
+* **Use forward slashes if you see `₩` or back slashes `\` and there are errors**: This is a common issue when using Windows. The system may not recognize the backslashes(`\`) correctly. Use forward slashes `/` instead.
+
+
+
+
+#### About FilePaths
+* File paths has two representations, `relative` and `absolute`.
+* Relative paths are relative to the location where the jar file is placed.
+* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer.
+* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default.
+* If you are using an absolute path, just paste the Copy as path into the command, after `fp/`.
+
 
 </div>
 
@@ -783,10 +841,10 @@ export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 export ft/json fp/data/ fn/contacts
 ```
 Explanation:
-`export` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
+`export` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` — File name is contacts (without extension).
 
 This will save your current contact list as a file named contacts.json in the data/ folder.
 
@@ -794,9 +852,9 @@ This will save your current contact list as a file named contacts.json in the da
 export ft/csv fp/data/contacts.csv
 ```
 Explanation:
-`export` — the command you're running
-`ft/csv` — file type is CSV
-`fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
+`export` — The command you're running.
+`ft/csv` — File type is CSV.
+`fp/data/contacts.csv` — File path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. So `contacts.json` when set to csv will give you an error.
 
 This will save your current contact list as a file named contacts.csv in the data/ folder.
 
@@ -804,10 +862,10 @@ This will save your current contact list as a file named contacts.csv in the dat
 export ft/json fp/data/ fn/contacts
 ```
 Explanation:
-`export` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
+`export` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` — File name is contacts (without extension).
 
 This will save your current contact list as a file named contacts.json in the data/ folder.
 
@@ -815,8 +873,8 @@ This will save your current contact list as a file named contacts.json in the da
 export ft/json
 ```
 Explanation:
-`export` — the command you're running
-`ft/json` — file type is JSON
+`export` — The command you're running.
+`ft/json` — File type is JSON.
 
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
 As a convenience, on the in-app output, it will show how many employees have been saved.
@@ -830,7 +888,10 @@ As a convenience, on the in-app output, it will show how many employees have bee
 | `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
 | `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
+[Back to Top](#)
+
 --------------------------------------------------------------------------------------------------------------------
+
 ## Frequently asked questions and Troubleshooting
 We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
 
@@ -853,6 +914,8 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
     * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
 
+[Back to Top](#)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
@@ -869,13 +932,14 @@ Action | Format, Examples
 **Clear** | `clear`
 **Show Anniversary** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
 **Add Anniversary** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
-**Delete Anniversary** | `deleteAnniversary eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
+**Delete Anniversary** | `deleteAnni eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnni eid/0c2414da ai/1`
 **Import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
 **Export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 **Exit** | `exit`
 
 ---
 ## Glossary
+
 Term | Explanation
 --------|------------------
 **CLI (Command Line Interface)** | A text-based interface used to type commands
@@ -890,3 +954,5 @@ Term | Explanation
 **Partial Matching** | Lets you search with part of a word. For example, n/Ali can match Alice.
 **Full Word Matching** | Searches only match full words. For example, jp/engineer will match Software Engineer, but jp/eng won’t.
 **Tag** |Labels you can attach to employees to describe roles, skills, or groups (like FullTime, Marketing, or Diabetes).
+
+[Back to Top](#)

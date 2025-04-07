@@ -20,6 +20,8 @@ public class ReminderCard extends UiPart<Region> {
     @FXML
     private Label name;
     @FXML
+    private Label employeeId;
+    @FXML
     private Label jobPosition;
     @FXML
     private Label type;
@@ -43,6 +45,7 @@ public class ReminderCard extends UiPart<Region> {
 
         name.setText(reminder.getEmployee().getName().fullName);
         jobPosition.setText(reminder.getEmployee().getJobPosition().value);
+        employeeId.setText("ID: " + reminder.getEmployee().getEmployeeId().toString());
 
         type.setText("🎉 " + reminder.getType().getName()); // at/
         typeDescription.setText("📌 " + reminder.getType().getDescription()); // atdesc/
