@@ -35,9 +35,9 @@ Whether you need to track employee milestones, update records, or generate quick
 4. [Anniversary Commands](#anniversary-commands)
     - [Showing anniversaries: `showAnni`](#showing-anniversaries-codeshowannicode)
     - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
-    - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
+    - [Deleting anniversaries: `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
 5. [Reminder Commands](#reminder-command)
-    - [Viewing upcoming anniversaries `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
+    - [Viewing upcoming anniversaries: `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
 6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
@@ -588,7 +588,7 @@ You can use this command to view all employee anniversaries (birthdays, work ann
 Format: `reminder`
 
 * A reminder panel appears on the right side of the UI.
-* All upcoming anniversaries (within 3 days) will be displayed in one combined list.
+* All upcoming anniversaries (within 3 days) will be displayed to you in one combined list.
 * Each reminder card shows:
     * The employee’s **name**
     * Their **job position**
