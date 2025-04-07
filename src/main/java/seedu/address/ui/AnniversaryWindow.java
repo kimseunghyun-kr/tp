@@ -26,7 +26,6 @@ public class AnniversaryWindow extends UiPart<Region> {
 
     // We'll hold onto a Stage so we can show/hide/focus it
     private final Stage windowStage;
-
     @FXML private TableView<Anniversary> anniversaryTable;
     @FXML private TableColumn<Anniversary, String> dateColumn;
     @FXML private TableColumn<Anniversary, String> nameColumn;
@@ -37,7 +36,6 @@ public class AnniversaryWindow extends UiPart<Region> {
 
     /**
      * Creates a new AnniversaryWindow.
-     *
      * The FXML's top-level node is a Region (e.g. VBox),
      * so here we create a new Stage and place that Region inside it.
      */
@@ -64,6 +62,10 @@ public class AnniversaryWindow extends UiPart<Region> {
         logger.fine("Showing anniversary page about the employee.");
         windowStage.show();
         windowStage.centerOnScreen();
+    }
+
+    public void refresh() {
+        anniversaryTable.refresh();
     }
 
     /**

@@ -111,6 +111,7 @@ public class AddAnniversaryCommand extends Command {
         // update the model
         model.setEmployee(employeeToEdit, updatedEmployee);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd), true,
+                employeeToEdit.getEmployeeIdAsString());
     }
 }
