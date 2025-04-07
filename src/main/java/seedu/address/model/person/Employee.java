@@ -87,7 +87,6 @@ public class Employee {
                 && tags.equals(otherEmployee.tags);
     }
 
-    //TODO: Remove this method after finalising the feature
     /**
      * Returns the next upcoming important date (birthday or work anniversary) for this employee.
      *
@@ -161,7 +160,6 @@ public class Employee {
         return employeeId.toString();
     }
 
-    //TODO: Remove this method after finalising the feature
     /**
      * Checks if the next upcoming important date (birthday or work anniversary)
      * for this employee is within the specified number of days from today.
