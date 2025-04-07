@@ -686,8 +686,8 @@ undo is possible for overwrites or included persons. but not for appended annive
 > - If the file format or content is incorrect, the results may be unpredictable.
 > - If the file is formatted improperly, the data may be lost or corrupted without any warning.
 
-[import_before](images/import_before.png)
-[import_success](images/import_success.png)
+![import_before](images/import_before.png)
+![import_success](images/import_success.png)
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
@@ -697,6 +697,7 @@ This is useful when you want to:
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Notes about the export command:**<br>
+
 #### What kind of files can I use?
 
 - Only **CSV (.csv)** or **JSON (.json)** files are accepted.
@@ -730,7 +731,7 @@ There are **two modes** for importing data. You must choose one:
 - If two employee IDs share the same **prefix** (first few characters), those will also be skipped.
 - Formatting mistakes may cause the import to fail, at times, without notice.
 
-### 2. Overwrite Mode (replacing current records)
+**2. Overwrite Mode (replacing current records)**
 - This mode **replaces your entire database with the new file**.
 - If there is **any error**, **nothing** will be imported. This is to protect your existing data.
 
