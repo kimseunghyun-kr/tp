@@ -47,7 +47,8 @@ public class ReminderCommandParserTest {
 
     @Test
     public void parse_longArgs_returnsReminderCommand() throws ParseException {
-        ReminderCommand command = parser.parse("this is a very long string with many words to check if it still works fine");
+        ReminderCommand command = parser.parse(
+                "this is a very long string with many words to check if it still works fine");
         assertTrue(command instanceof ReminderCommand);
     }
 
