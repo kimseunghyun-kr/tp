@@ -186,7 +186,7 @@ Date format: `YYYY-MM-DD`
 
 * You can include as many tags per person as you like — or none at all.
 
-* Use `bd/` for the employee’s birthday and wa/ for their work anniversary.
+* Use `bd/` for the employee’s birthday and `wa/` for their work anniversary.
   H'Reers will automatically convert these into standard anniversaries for you.
 
 * Birthdays and work anniversaries are `anniversaries`. Please use [anniversary commands](#anniversary-commands) to modify them.
