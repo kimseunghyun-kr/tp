@@ -170,7 +170,7 @@ Format: `help`
 
 You can use this command to add a new employee to H'Reers.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​ [eid/EMPLOYEE_ID]`
 
 Date format: `YYYY-MM-DD`
 
@@ -180,7 +180,7 @@ Date format: `YYYY-MM-DD`
 
 * You can include as many tags per person as you like — or none at all.
 
-* Use bd/ for the employee’s birthday and wa/ for their work anniversary.
+* Use `bd/` for the employee’s birthday and wa/ for their work anniversary.
   H'Reers will automatically convert these into standard anniversaries for you.
 
 * Birthdays and work anniversaries are `anniversaries`. Please use [anniversary commands](#anniversary-commands) to modify them.
@@ -190,12 +190,9 @@ Date format: `YYYY-MM-DD`
 * If you repeat a prefix (e.g., `n/Hans n/Jane`), H'Reers will use only the last one (`n/Jane`).
   This applies to all fields — including employee IDs (`eid/abcde eid/bcde` → `eid/bcde` is used).
 
-* **About Employee IDs and Prefix Conflicts**:
-  * Employee IDs are unique identifiers for each person in the system.
-  * H'Reers doesn't allow "prefix conflicts" between IDs - this means one employee's ID cannot be the beginning part of another employee's ID.
-  * For example, if you already have an employee with ID `abc123`, you cannot add another employee with ID `abc123456` (or vice versa).
-  * This restriction exists because H'Reers lets you use just the beginning part of an ID in commands, and the system needs to know exactly which employee you're referring to.
-  * If you get an error about prefix conflicts when adding someone new, simply use a different ID.
+* Use `eid/` to provide a custom employee ID.
+  * If you don't specify one, H'Reers will automatically generate a unique ID (called a UUID) for the employee - this is a long, random string of characters that ensures each employee has a distinct identifier in the system.
+  * Be careful to avoid "prefix conflicts" where one employee ID is the beginning part of another (e.g., `abc123` and `abc123456`). See the [FAQ section](#prefix-conflict) for more details on prefix conflicts.
 
 * **Duplicate field values are allowed across different employees.** In H'Reers, employees are uniquely identified by their Employee ID only.
   * This means multiple employees can have identical names, phone numbers, emails, job positions, or tags.
@@ -906,7 +903,7 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 
 In H'Reers, only the Employee ID needs to be unique and without prefix conflicts - all other fields can be identical between different employees.
 
-**Q**: What is a "prefix conflict" and why does it matter?<br>
+**Q**: <a id="prefix-conflict"></a>What is a "prefix conflict" and why does it matter?<br>
 **A**: A prefix conflict happens when one employee ID is the beginning part of another employee ID. For example, if you have an employee with ID `abc123` and try to add another with ID `abc123456`, this creates a prefix conflict.
 
 This matters because H'Reers lets you use just the beginning part of an ID when referring to employees in commands (like `edit` or `delete`). If prefix conflicts were allowed, the system wouldn't know which employee you mean when you type something like `edit abc123` - it could be either employee.
