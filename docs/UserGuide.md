@@ -421,7 +421,8 @@ You can use this format in 3 ways!
 Format 1 : default format for **custom** anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME 
-at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+at/ANNIVERSARY_TYPE [ad/DESCRIPTION] 
+[atdesc/TYPE_DESCRIPTION]
 ```
 Format 2 : short form support for Birthday Anniversaries (not Date of Birth)
 > **Note:** The `bd/` field represents a **birthday anniversary** — a recurring date used for tracking and reminders — not the employee's date of birth.  
