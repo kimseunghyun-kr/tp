@@ -48,7 +48,7 @@ public class AnniversaryWindow extends UiPart<Region> {
         windowStage.setScene(new Scene(getRoot()));
         windowStage.setMinWidth(500);
         windowStage.setMinHeight(600);
-        anniversaryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        anniversaryTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     }
 
     // ========================================================
