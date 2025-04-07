@@ -42,6 +42,7 @@ Whether you need to track employee milestones, update records, or generate quick
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
 7. [Data Management](#data-management)
+    - [Employee Equality Concept](#employee-equality-concept)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
     - [Importing data: `import`](#importing-data-codeimportcode)
@@ -657,10 +658,21 @@ Format: `exit`
 [Back to Top](#)
 
 ---
+## Employee Data Equality Concept
+
+It's a fundamental concept of the application that employees are considered unique and distinct based solely on their employee IDs. Two employees with identical fields (name, email, phone, job position, etc.) can coexist in the system as long as they have different, non-conflicting employee IDs. This design provides additional flexibility, allowing HR workers to manage employees with the same names or similar attributes without confusion.
+
+For example, the system can simultaneously track two different employees named "John Smith" as long as they have different employee IDs. This separation is maintained throughout all operations including import/export, editing, and identification.
+
+[Back to Top](#)
+
+---
 ## Data Management
 
 You can edit, import, or export employee data manually if you're more tech-savvy.
 Some features like importing are powerful — and risky. Use them carefully to avoid losing data!
+
+[Back to Top](#)
 
 ---
 ### Saving the data
