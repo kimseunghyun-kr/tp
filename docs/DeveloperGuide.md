@@ -1251,4 +1251,8 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
    - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
    - **Planned Solution**: Make the explicit specification of eid/ prefix unnecessary within showAnni, as the command cannot be used without employeeId anyway.
+
+8. **Greater Support for Anniversary recurrence**
+    - **Current Issue**: For now, only a yearly recurrence is supported.
+    - **Planned Solution**: Allow greater options for recurrence, such as monthly, weekly, or custom intervals. This will allow users to set reminders for anniversaries that occur more frequently than once a year.
   
