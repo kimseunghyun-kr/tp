@@ -143,9 +143,9 @@ public class MainWindow extends UiPart<Stage> {
     }
 
     /**
-     * Example method to show the AnniversaryWindow for a particular Employee's anniversaries.
-     * Let's pretend you call this if the user clicks a button, or types a command like:
-     * showAnniversaries eid//<someUUID/>
+     * Opens the AnniversaryWindow or focuses on it if it's already opened.
+     * If no employee is found with the given employee ID, show a message to the user.
+     * @param employeeIdString the employee ID string to search for
      */
     @FXML
     public void handleShowAnniversaries(String employeeIdString) {
@@ -219,6 +219,7 @@ public class MainWindow extends UiPart<Stage> {
         logic.setGuiSettings(guiSettings);
         helpWindow.hide();
         primaryStage.hide();
+        anniversaryWindow.hide();
     }
 
     public PersonListPanel getPersonListPanel() {

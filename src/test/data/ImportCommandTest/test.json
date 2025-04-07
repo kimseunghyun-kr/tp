@@ -38,7 +38,7 @@
       "description" : "alex's Birthday",
       "name" : "Birthday"
     } ],
-    "jobposition" : "Blk 30 Geylang Street 29, #06-40"
+    "jobposition" : "NIG"
   }, {
     "employeeId" : "3b8dab19-be78-459b-b271-1d55ac73ad09",
     "name" : "Bernice Yu",
@@ -54,6 +54,6 @@
       "description" : "something",
       "name" : "wedding"
     } ],
-    "jobposition" : "Blk 30 Lorong 3 Serangoon Gardens, #07-18"
+    "jobposition" : "GA"
   }]
 }
