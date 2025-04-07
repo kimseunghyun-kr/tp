@@ -35,13 +35,14 @@ Whether you need to track employee milestones, update records, or generate quick
 4. [Anniversary Commands](#anniversary-commands)
     - [Showing anniversaries: `showAnni`](#showing-anniversaries-codeshowannicode)
     - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
-    - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
+    - [Deleting anniversaries: `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
 5. [Reminder Commands](#reminder-command)
-    - [Viewing upcoming anniversaries `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
+    - [Viewing upcoming anniversaries: `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
 6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
 7. [Data Management](#data-management)
+    - [Employee Equality Concept](#employee-equality-concept)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
     - [Importing data: `import`](#importing-data-codeimportcode)
@@ -176,7 +177,7 @@ Format: `help`
 
 You can use this command to add a new employee to H'Reers.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]… [bd/DATE] [wa/DATE]​ [eid/EMPLOYEE_ID]`
 
 Date format: `YYYY-MM-DD`
 
@@ -186,7 +187,7 @@ Date format: `YYYY-MM-DD`
 
 * You can include as many tags per person as you like — or none at all.
 
-* Use bd/ for the employee’s birthday and wa/ for their work anniversary.
+* Use `bd/` for the employee’s birthday and `wa/` for their work anniversary.
   H'Reers will automatically convert these into standard anniversaries for you.
 
 * Birthdays and work anniversaries are `anniversaries`. Please use [anniversary commands](#anniversary-commands) to modify them.
@@ -195,6 +196,15 @@ Date format: `YYYY-MM-DD`
 
 * If you repeat a prefix (e.g., `n/Hans n/Jane`), H'Reers will use only the last one (`n/Jane`).
   This applies to all fields — including employee IDs (`eid/abcde eid/bcde` → `eid/bcde` is used).
+
+* Use `eid/` to provide a custom employee ID.
+  * If you don't specify one, H'Reers will automatically generate a unique ID (called a UUID) for the employee - this is a long, random string of characters that ensures each employee has a distinct identifier in the system.
+  * Be careful to avoid "prefix conflicts" where one employee ID is the beginning part of another (e.g., `abc123` and `abc123456`). See the [FAQ section](#prefix-conflict) for more details on prefix conflicts.
+
+* **Duplicate field values are allowed across different employees.** In H'Reers, employees are uniquely identified by their Employee ID only.
+  * This means multiple employees can have identical names, phone numbers, emails, job positions, or tags.
+  * This design allows for flexibility in real-world scenarios (e.g., employees with the same name, shared work phones, department email addresses).
+  * You can have multiple employees with completely identical details as long as neither of their Employee ID starts the other one.
 </div>
 
 Examples:
@@ -232,6 +242,7 @@ Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] 
 * You can remove all the employee’s tags by typing `t/` without
   specifying any tags after it.
 * You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
+  * Be careful to avoid "prefix conflicts" where one employee ID is the beginning part of another (e.g., `abc123` and `abc123456`). See the [FAQ section](#prefix-conflict) for more details on prefix conflicts.
 
 <div markdown="span" class="alert alert-primary">:bulb: Tip:
 Use the `list` command first to copy the correct Employee ID prefix.
@@ -273,8 +284,7 @@ Format: `undo`
 
 * Brings your data back to the state it was in before your last edit.
 
-<div markdown="block" class="alert alert-info">
-
+<div markdown="block" class="alert alert-info"> 
 **:information_source: Notes about the undo command:**<br>
 
 * `undo` ignores any extra text you type after it.
@@ -581,14 +591,13 @@ deleteAnni eid/0c2414da ai/1
 ## Reminder Command
 
 ---
-### Viewing upcoming anniversaries: `reminder`
 
 You can use this command to view all employee anniversaries (birthdays, work anniversaries, and custom anniversaries) that are occurring within the next 3 days.
 
 Format: `reminder`
 
 * A reminder panel appears on the right side of the UI.
-* All upcoming anniversaries (within 3 days) will be displayed in one combined list.
+* All upcoming anniversaries (within 3 days) will be displayed to you in one combined list.
 * Each reminder card shows:
     * The employee’s **name**
     * Their **job position**
@@ -602,11 +611,16 @@ Format: `reminder`
 * This command only affects the display — it does **not** modify any data.
 * All anniversaries shown are automatically sorted by how soon they are occurring.
 * If an employee has more than one upcoming anniversary, they will appear **multiple times** in the list.
+* When you import a new file to H'Reers, you will have to re-execute this `reminder` command to view the updated list.
+* H'Reers accepts past anniversaries, and treats all of them as **annually occurring** event.
+If you enter past anniversary, 2023-04-05 for example, you will start to get reminded of it on 2025-04-03 this year.
 </div>
 
 Example:
-* `reminder`
-    * Displays a unified list of upcoming birthdays, work anniversaries, and custom anniversaries.
+```
+reminder
+```
+* Displays a unified list of upcoming birthdays, work anniversaries, and custom anniversaries.
 
 Example UI:
 
@@ -647,10 +661,21 @@ Format: `exit`
 [Back to Top](#)
 
 ---
+## Employee Data Equality Concept
+
+It's a fundamental concept of the application that employees are considered unique and distinct based solely on their employee IDs. Two employees with identical fields (name, email, phone, job position, etc.) can coexist in the system as long as they have different, non-conflicting employee IDs. This design provides additional flexibility, allowing HR workers to manage employees with the same names or similar attributes without confusion.
+
+For example, the system can simultaneously track two different employees named "John Smith" as long as they have different employee IDs. This separation is maintained throughout all operations including import/export, editing, and identification.
+
+[Back to Top](#)
+
+---
 ## Data Management
 
 You can edit, import, or export employee data manually if you're more tech-savvy.
 Some features like importing are powerful — and risky. Use them carefully to avoid losing data!
+
+[Back to Top](#)
 
 ---
 ### Saving the data
@@ -908,6 +933,23 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous H'Reers home folder.<br>
 
+**Q**: Can multiple employees have the same name, phone number, email address, or other details?<br>
+**A**: Yes. H'Reers identifies employees solely by their Employee ID. This allows for flexibility in real-world scenarios where:
+1. Multiple employees might have the same name
+2. Employees might share a work phone/extension
+3. Department email addresses might be used by different team members
+4. Multiple employees might have the same job position or tags
+5. Some data might be temporarily duplicated during transitions
+
+In H'Reers, only the Employee ID needs to be unique and without prefix conflicts - all other fields can be identical between different employees.
+
+**Q**: <a id="prefix-conflict"></a>What is a "prefix conflict" and why does it matter?<br>
+**A**: A prefix conflict happens when one employee ID is the beginning part of another employee ID. For example, if you have an employee with ID `abc123` and try to add another with ID `abc123456`, this creates a prefix conflict.
+
+This matters because H'Reers lets you use just the beginning part of an ID when referring to employees in commands (like `edit` or `delete`). If prefix conflicts were allowed, the system wouldn't know which employee you mean when you type something like `edit abc123` - it could be either employee.
+
+If you get an error about prefix conflicts when adding or editing employees, simply use a different ID that doesn't start with or isn't the beginning of any existing IDs.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -963,16 +1005,16 @@ Term | Explanation
 **Home Folder** | The folder where the H'Reers application jar file is located. It contains the data file and other resources.
 **JSON (JavaScript Object Notation)** | A lightweight data interchange format that is easy for humans to read and write, and easy for machines to parse and generate.
 **Jar (Java Archive)** | A file format used to package Java applications and libraries. It contains compiled Java code and resources, and is executable.
-**Non-Undoable Command** | A command that only views or filters data (like find, list, showAnni) and can’t be undone.
+**Non-Undoable Command** |A command that only views or filters data (like find, list, showAnni) and can’t be undone.
 **Partial Matching** | Lets you search with part of a word. For example, n/Ali can match Alice.
 **Prefix** | A label before your input (like n/, p/, eid/) that tells H'Reers what kind of information you're providing.
-**Prefix Collision** | when two or more prefixes are similar, causing confusion. For example, `eid/abc` and `eid/abcd` would cause a collision.
+**Prefix Conflict** | Happens when one employee ID is the beginning part of another employee ID (like `abc123` and `abc123456`). H'Reers doesn't allow this because it would create ambiguity when using ID prefixes in commands.
 **Reminder Panel** | A side panel in the UI that shows upcoming anniversaries and events automatically — so you don’t miss anything important.
 **Relative Path** | A file path that is relative to the current active(working) directory. It does not include the full path to the file.
-**Tag** | Labels you can attach to employees to describe roles, skills, or groups (like FullTime, Marketing, or Diabetes).
+**Tag** |Labels you can attach to employees to describe roles, skills, or groups (like FullTime, Marketing, or Diabetes).
 **Terminator character** | A special character used to indicate the end of a prefix. It helps avoid conflicts when multiple prefixes are similar.
 **Undoable Command** | A command that changes your saved data (like add, edit, or delete) and can be reversed using undo.
-**UUID** | A type of identifier H'Reers uses for Employee IDs. It looks like a long string (e.g., 3fa85f64-5717-4562-b3fc-2c963f66afa6). You usually don’t need to type the full thing — just a few starting characters (the prefix) will do. Used interchangeably with EID.
 **UTF-8(Unicode Transformation Format)** | A character encoding that can represent every character in the Unicode character set. It is widely used for text files and web pages due to its compatibility.
+**UUID** | A type of identifier H'Reers uses for Employee IDs. It looks like a long string (e.g., 3fa85f64-5717-4562-b3fc-2c963f66afa6). You usually don’t need to type the full thing — just a few starting characters (the prefix) will do. Used interchangeably with EID.
 
 [Back to Top](#)

@@ -53,7 +53,7 @@ title: H'Reers Developer Guide
 
 ## Acknowledgements
 
-* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html),[github](https://github.com/se-edu/addressbook-level3))
+* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html), [github](https://github.com/se-edu/addressbook-level3))
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -105,13 +105,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/ui)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java) is specified in [`MainWindow.fxml`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -122,7 +122,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/logic)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -152,7 +152,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/model)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
@@ -174,7 +174,7 @@ The `Model` component:
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/storage)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -196,6 +196,19 @@ This section describes some noteworthy details on how certain features are imple
 
 Our employeeId utilize a UUID based prefix matching system.
 The employeeId is generated using the `UUID` class in Java, which creates a universally unique identifier. This identifier is then used as a prefix for each employee's record, allowing for easy searching and retrieval of information.
+
+#### Prefix Conflict Restriction
+
+The system strictly enforces that no prefix conflicts can exist between any two employee IDs. A prefix conflict occurs when one employee ID is a prefix of another employee ID (as defined in the glossary). This restriction is necessary for the prefix matching system to work correctly and to ensure unambiguous identification of employees when only a prefix of their ID is provided in commands.
+
+For example, if one employee has the ID `abc123` and another employee has the ID `abc123456`, this would create a prefix conflict because `abc123` is a prefix of `abc123456`, making it impossible to uniquely identify the employee when only the prefix `abc123` is provided.
+
+#### Prefix Matching Logic
+
+The prefix matching logic is primarily managed within the EmployeeId class, which provides methods to check for these conflicts:
+- `isPrefixOf(EmployeeId other)`: Checks if the current ID is a prefix of another ID
+- `hasPrefixConflict(EmployeeId other)`: Checks if there's a conflict between two IDs in either direction
+
 The prefix matching logic is primarily managed within the EmployeeId class.
 The prefix matching logic is mostly used by the Model and AddressBook class, which serves as the facade
 that maintains the internal UniquePersonsList.
@@ -265,23 +278,23 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 ---
 ### Reminder Feature
 
-The **reminder** feature is facilitated by the `ReminderCommand`. It helps users view upcoming birthdays and work anniversaries by scanning through all stored employees and collecting relevant date-based reminders.
+The **reminder** feature is facilitated by the `ReminderCommand`. It helps users view upcoming birthdays and other anniversaries by scanning through all stored employees and collecting relevant date-based reminders.
 
 Internally, this feature is supported by:
-- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
+- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with an `Employee`.
 - `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
 - `Model#getReminderList()` – Provides read-only access to the current list of reminders.
 - `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
 
 The `ReminderCommand` executes the following:
 1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
-2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
+2. Each `Reminder` is created with an `Employee`, `AnniversaryType`, date, and description.
 3. Results are sorted by upcoming date and stored in an observable list.
 4. The UI automatically updates by binding to this observable list.
 
 Given below is an example use case showing how the reminder feature behaves step-by-step.
 
-**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
+**Step 1.** The user launches the application, which contains several employee entries with birthday and anniversary dates.
 
 **Step 2.** The user executes the command:
 ```
@@ -301,46 +314,10 @@ This triggers the `ReminderCommand`, which performs the following steps internal
 - A short description and how soon the event is (e.g., “upcoming in 2 days”).
 
 > 💡 **Note:**
-> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
-
-Internally, this feature is supported by:
-- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
-- `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
-- `Model#getReminderList()` – Provides read-only access to the current list of reminders.
-- `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
-
-The `ReminderCommand` executes the following:
-1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
-2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
-3. Results are sorted by upcoming date and stored in an observable list.
-4. The UI automatically updates by binding to this observable list.
-
-Given below is an example use case showing how the reminder feature behaves step-by-step.
-
-**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
-
-**Step 2.** The user executes the command:
-```
-reminder
-```
-This triggers the `ReminderCommand`, which performs the following steps internally:
-- Retrieves all employees via `Model#getFilteredPersonList()`.
-- For each employee, iterates through all anniversaries.
-- Checks whether each anniversary is within **3 days** from today.
-- Creates a `Reminder` object for each upcoming event.
-- Sorts the list of reminders by date.
-- Stores the sorted reminders in an observable list using `Model#updateReminderList()`.
-
-**Step 3.** The `ReminderListPanel` in the UI detects the update in the observable list and renders each reminder using a `ReminderCard`. Each card shows:
-- The employee’s name and job position.
-- The type of anniversary (e.g., "Birthday", "Work Anniversary").
-- A short description and how soon the event is (e.g., “upcoming in 2 days”).
-
-> 💡 **Note:**
-> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
-
-> 🛡️ **Note:**
-> Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
+> * If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
+> * Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
+> * All anniversaries, including custom anniversaries, are treated as **annual** event. Even if user input date is past date (e.g. 2023-04-07), the implementation
+> ignores the year and considers month and date only, producing (2025-04-07).
 
 #### Sequence Diagram
 
@@ -348,7 +325,7 @@ The following sequence diagram illustrates the steps described above:
 
 ![Reminder Sequence Diagram](images/ReminderSequence.png)
 
-Note: The filtering logic (`within 3 days`) is abstracted into the model for separation of concerns.
+**Note**: The filtering logic (`within 3 days`) is abstracted into the model for separation of concerns.
 
 #### Activity Diagram
 
@@ -598,7 +575,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. H'Reers shows an error message.
 
       Use case resumes at step 2.
 
@@ -717,6 +694,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
 * **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Prefix conflict**: When two Employee IDs are such that one ID is a beginning of the other.
 
 --------------------------------------------------------------------------------------------------------------------
 ## Appendix: Instructions for manual testing
@@ -749,7 +727,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-    2. Re-launch the app by double-clicking the jar file.<br>
+    2. Re-launch the app by running `java -jar hreers.jar`.<br>
        Expected: The most recent window size and location is retained.
 
 ---
@@ -1154,7 +1132,7 @@ Ensures employee records persist across sessions.
 - Intermediate .tmp file for autosave.
 
 ---
-### Viewing Upcoming Anniversaries (Reminder Feature)
+### Reminder Feature
 
 #### 1. Listing upcoming reminders
 
@@ -1169,7 +1147,8 @@ Ensures employee records persist across sessions.
 #### 2. Reminder display formatting
 
 1. Reminder card fields to verify:
-    - **Employee Name**: Matches the name in the person list.
+    - **Employee Name**: Matches the name in the employee list.
+    - **Employee ID**: Matches the ID in the list.
     - **Job Position**: Matches the employee’s job title.
     - **Anniversary Type + Description**: Shown as `Birthday - John’s birthday` or `Work Anniversary - Joined in 2019`, depending on type and description.
     - **Date Display**: Shows relative time (e.g., “in 1 day”, “in 3 days”).
@@ -1179,22 +1158,19 @@ Ensures employee records persist across sessions.
     - Verify that if an employee has multiple upcoming anniversaries, they appear as **separate entries**.
     - Confirm that expired or future anniversaries **outside the 3-day window** are **not shown**.
 
-3. Edge case testing
 
+3. Edge case testing
 - **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`
-  **Expected**: Reminder card for this birthday appears in the list.
+  - **Expected**: Reminder card for this birthday appears in the list.
 
 - **Test case**: Add a birthday 4 days from now → Run `reminder`
-  **Expected**: No reminder card shown.
+  - **Expected**: No reminder card shown.
 
 - **Test case**: Add both a birthday and a work anniversary for the same employee within 3 days
-  **Expected**: Two separate reminder cards are shown, one for each anniversary.
+  - **Expected**: Two separate reminder cards are shown, one for each anniversary.
 
 - **Test case**: Add reminders for multiple employees
-  **Expected**: All applicable reminders appear and are correctly sorted by date.
-
-4. Returning the Outcome:
-- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
+  - **Expected**: All applicable reminders appear and are correctly sorted by date.
 
 ---
 
@@ -1204,16 +1180,17 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. **Address the fullscreen bug issue for all windows**
-   - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
-   - **Method to recreate (main)**
+1. **Address the fullscreen bug issue for all new windows**
+   - **Current Issue**: Closing windows in fullscreen may cause it to crash.
+   - **Method to recreate**
        1. When running the app
        2. Open the app in fullscreen
        3. Type help
        4. Close help window
        5. Repeat 3 and 4 enough times and the app will crash
-   - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-   - **Method to recreate (anniversary)**
+2. **Address the fullscreen bug issue for all new windows**
+   - **Current Issue**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+   - **Method to recreate**
        1. Open app
        2. Type showAnni xxx
        3. Fullscreen app and tile them side to side
@@ -1222,31 +1199,31 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - **Current Workaround**: Do not use fullscreen mode.
    - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
 
-2. **Stop enforcing the absence of prefix conflicts**
+3. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: The possibility of such a situation is very low, as the ids are generated randomly and are long enough. The only situation when this may occur is when user deliberately made the ids short. This restriction is documented in the user guide.
     - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put \$ after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
-3. **Import Data from Different Formats** 
+4. **Import Data from Different Formats** 
    - **Current Issue**: Limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
    - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
    - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
    
-4. **Observer Support for ShowAnni**
+5. **Observer Support for ShowAnni**
    - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
    - **Current Workaround**: After each operation on Anniversaries, showAnni should be closed and called again.
    - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
    
-5. **ShowAnni Window is not brought back to screen after it has been minimized**
+6. **ShowAnni Window is not brought back to screen after it has been minimized**
    - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
    - **Current Workaround**: Place this under known issues.
    - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
-6. **Enhanced Phone Number Validation**
+7. **Enhanced Phone Number Validation**
    - **Current Issue**: Phone Numbers cannot have spaces in their format. They also have a limit of 17 digits, which is just to make it not too long
    - **Planned Solution**: Validate phone numbers according to local and international standards, requiring a minimum of 7 digits and ensuring numbers are valid for practical use cases as well as allow spaces between digits.
 
-7. **Inconsistency between showAnni and edit/delete syntax**
+8. **Inconsistency between showAnni and edit/delete syntax**
    - **Current Issue**: For now, edit and delete command has the following syntax: `[edit/delete] [employeeId] [other arguments]`
    - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
    - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
