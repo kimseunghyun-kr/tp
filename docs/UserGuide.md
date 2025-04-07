@@ -740,7 +740,6 @@ There are **two modes** for importing data. You must choose one:
 - If you also supply `fn/`, ensure `fp/` is just a directory (or the import will fail).
 
 #### Extension Enforcement
-
 - If you use `fn/` without an extension, the system may automatically append `.json` or `.csv` based on `ft/`.
 - Mismatched extensions will raise an error.
 
