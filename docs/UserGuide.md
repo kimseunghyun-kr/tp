@@ -570,6 +570,9 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 > - If the file format or content is incorrect, the results may be unpredictable.
 > - If the file is formatted improperly, the data may be lost or corrupted without any warning.
 
+[import_before](images/import_before.png)
+[import_before](images/import_success.png)
+
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
