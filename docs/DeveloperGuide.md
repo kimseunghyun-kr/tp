@@ -1105,3 +1105,12 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - **Current Workaround**: Place this under known issues.
    - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
+6. **Enhanced Phone Number Validation**
+   - **Current Issue**: Phone Numbers cannot have spaces in their format. They also have a limit of 17 digits, which is just to make it not too long
+   - **Planned Solution**: Validate phone numbers according to local and international standards, requiring a minimum of 7 digits and ensuring numbers are valid for practical use cases as well as allow spaces between digits.
+
+7. **Inconsistency between showAnni and edit/delete syntax**
+   - **Current Issue**: For now, edit and delete command has the following syntax: `[edit/delete] [employeeId] [other arguments]`
+   - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
+   - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
+   - **Planned Solution**: Make the explicit specification of eid/ prefix unnecessary within showAnni, as the command cannot be used without employeeId anyway.
