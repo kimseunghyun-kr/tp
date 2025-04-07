@@ -198,6 +198,16 @@ public class ModelManager implements Model {
         return candidate;
     }
 
+    /**
+     * Returns a valid {@link LocalDate} for the given year, month, and day.
+     * Falls back to Feb 28 if the date is Feb 29 on a non-leap year.
+     * Asserts false and returns {@code null} for other invalid dates.
+     *
+     * @param year Year value.
+     * @param month Month value (1–12).
+     * @param day Day value (1–31).
+     * @return A valid {@code LocalDate}, fallback, or {@code null} if invalid.
+     */
     private LocalDate safeDate(int year, int month, int day) {
         try {
             return LocalDate.of(year, month, day);
