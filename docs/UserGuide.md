@@ -597,6 +597,13 @@ This is useful when you want to:
 3. **Each employee must have a valid ID (called `employeeId`)** in Universally Unique Identifier (UUID) format. You can generate one online [here](https://www.uuidgenerator.net/).
 4. If your file has issues (wrong format, corrupted, etc.), the system may fail silently—**you won't always see an error message**.
 
+#### About FilePaths
+* File paths has two representations, `relative` and `absolute`
+* Relative paths are relative to the location where the jar file is placed
+* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer
+* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default
+* If you are using an absolute path, just paste the Copy as path into the command, after fp/
+
 #### Write Modes: What Happens During Import
 
 There are **two modes** for importing data. You must choose one:
@@ -626,6 +633,7 @@ There are **two modes** for importing data. You must choose one:
 - **Write mode must be specified as either 'append' or 'overwrite'**: Ensure `wm/` is one of the two valid modes.
 - **Provide either a full file path or a filename, not both**: This occurs if you pass `fp/` that includes a filename and also use `fn/`.
 - **Filename must be provided if path is just a directory**: If `fp/` is a directory, you must specify a filename (`fn/`).
+
 
 #### Tips
 - **Check Extension Conflicts**: If your file says `.json` but you specify `ft/csv`, it will fail.
@@ -698,6 +706,18 @@ saves the currently visible list of people in the Hreers application to a file (
 * For CSV based inputs, an employee entry with multiple Anniversaries will be duplicated to multiple rows with same employeeId and same details(name, job position, phone number, email), but each row having different anniversaries
 * If the current list of displayed people is empty, export fails with an error.
 * Mismatched file types or inaccessible folders will cause an error.
+* **Use forward slashes if you see `₩` or back slashes `\` and there are errors**: This is a common issue when using Windows. The system may not recognize the backslashes(`\`) correctly. Use forward slashes `/` instead.
+
+
+
+
+#### About FilePaths
+* File paths has two representations, `relative` and `absolute`
+* Relative paths are relative to the location where the jar file is placed
+* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer
+* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default
+* If you are using an absolute path, just paste the Copy as path into the command, after `fp/`
+
 
 </div>
 
