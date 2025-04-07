@@ -1188,6 +1188,9 @@ In future versions of H'Reers, the following enhancements are planned to improve
        3. Type help
        4. Close help window
        5. Repeat 3 and 4 enough times and the app will crash
+    - **Current Workaround**: Do not use fullscreen mode.
+   - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
+  
 2. **Address the fullscreen bug issue for all new windows**
    - **Current Issue**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
    - **Method to recreate**
