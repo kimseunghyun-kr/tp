@@ -76,6 +76,7 @@ public class ImportCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         try {
             // Import data from file
+            model.commitChanges();
             JsonSerializableAddressBook importedData;
             if (filetype.equalsIgnoreCase("json")) {
                 importedData = AddressBookFormatConverter.importFromJson(path);

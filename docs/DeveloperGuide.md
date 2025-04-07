@@ -1086,10 +1086,20 @@ In future versions of H'Reers, the following enhancements are planned to improve
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
-    -  **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
-3. Import
-    4. Fails current
-    5. Better support with external library with more robust parsing and validation.
-4. After i minimise the popup screen for the showAnni window, and i call showAnni, it does not show me the window. This might be hard for users to see and understand that their call is working and actually showing the annis. (Same as AB3)
+3. Import 
+   - **Current Issue**: limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
+   - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
+   - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
+   
+4. Observer Support for ShowAnni
+   - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
+   - **Current Workaround**: after each operation on Anniversaries, showAnni should be called again
+   - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
+   
+5. ShowAnni Window is not brought back to screen after it has been minimized
+   - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
+   - **Current Workaround**: place this under known issues
+   - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
