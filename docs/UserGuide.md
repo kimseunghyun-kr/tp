@@ -686,8 +686,8 @@ undo is possible for overwrites or included persons. but not for appended annive
 > - If the file format or content is incorrect, the results may be unpredictable.
 > - If the file is formatted improperly, the data may be lost or corrupted without any warning.
 
-[import_before](images/import_before.png)
-[import_success](images/import_success.png)
+![import_before](images/import_before.png)
+![import_success](images/import_success.png)
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
