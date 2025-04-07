@@ -152,6 +152,10 @@ All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered 
 ---
 ## Core Commands
 
+This section covers the core actions you’ll use most often to manage your employees in H'Reers.
+
+Whether you're updating contact info or quickly finding someone on your team, these commands are the foundation of day-to-day HR work in H'Reers.
+
 ---
 ### Viewing help: `help`
 
@@ -200,7 +204,7 @@ Examples:
       ![addJohnDoeSuccess](images/AddJohnDoeResult.png)
       *Figure 2: Success message displayed after adding John Doe.*
 
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner    p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 Common Errors: 
@@ -338,15 +342,18 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
     * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
 
-* You can use the same prefix multiple times — all values will be collected and combined together.
-    * So `find n/1 jp/2 n/2 jp/1` is treated the same as `find n/1 2 jp/2 1`
+* You can use the same prefix multiple times — all values will be collected and combined.
+    * So `find n/1 jp/2 n/2 jp/1` is treated the same as `find n/1 2 jp/2 1`.
     * This gives you more flexibility in writing your searches!
 </div>
 
 Examples:
-* `find n/li` returns `David Li` and `Real Li`
-* `find n/david Li` returns `David Li` and `Real Li`
-* `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
+* `find n/li` 
+  * returns `David Li` and `Real Li`.
+* `find n/david Li` 
+  * returns `David Li` and `Real Li`.
+* `find n/li ri jp/ dev manager` 
+  * returns `David Li`, `Real Ri` and `Real Li`.<br>
 
 The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![findResult](images/FindLiRiDevManagerResult.png)
@@ -436,7 +443,8 @@ You can use this format in 3 ways!
 Format 1 : default format for **custom** anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME 
-at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+at/ANNIVERSARY_TYPE [ad/DESCRIPTION] 
+[atdesc/TYPE_DESCRIPTION]
 ```
 Format 2 : short form support for Birthday Anniversaries (not Date of Birth)
 > **Note:** The `bd/` field represents a **birthday anniversary** — a recurring date used for tracking and reminders — not the employee's date of birth.  
@@ -607,28 +615,39 @@ Each card in the reminder panel corresponds to one upcoming anniversary for an e
 
 ---
 ## Quality of Life Features
+These are simple but powerful commands that help you stay in control of your workspace. Whether you want to wipe your entire list and start fresh, or just close the app when you're done — these commands make it easy.
 
 ---
 ### Clearing all entries: `clear`
 
-Clears all entries from H'Reers.
+Use this when you want to wipe your entire employee list and start fresh.
 
 Format: `clear`
+
+* This removes all employees and their data from H'Reers immediately.
+
+* Ideal for resetting the app during testing or before importing a new dataset.
 
 [Back to Top](#)
 
 ---
 ### Exiting the program: `exit`
 
-Exits the program.
+Use this when you're done for the day and want to close H'Reers safely.
 
 Format: `exit`
+
+* The program will shut down immediately after you enter this command.
+
+* Don’t worry — all your data is already saved automatically.
 
 [Back to Top](#)
 
 ---
 ## Data Management
 
+You can edit, import, or export employee data manually if you're more tech-savvy.
+Some features like importing are powerful — and risky. Use them carefully to avoid losing data!
 ---
 ### Saving the data
 

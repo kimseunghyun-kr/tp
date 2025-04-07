@@ -73,7 +73,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -882,14 +882,16 @@ Allows HR workers to manage employee anniversaries.
 
 ---
 ### Anniversary commands
-this section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
+This section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
+
 ---
 ### Add Anniversary Command
 
 Prerequisites: Ensure the application is running with an existing employee in the database. This employee's employeeID prefix will be termed `EID` for this section
 #### Test Case 1: Standard Anniversary Creation (Success)
 ```plaintext
-addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate
+atdesc/Annual company celebration ad/Celebrating our company's founding
 ```
 #### Expected Result: Standard Anniversary Created for the Employee
 A new anniversary is added to the employee with ID starting with `EID`.
@@ -1240,3 +1242,13 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - **Current Workaround**: Place this under known issues.
    - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
+6. **Enhanced Phone Number Validation**
+   - **Current Issue**: Phone Numbers cannot have spaces in their format. They also have a limit of 17 digits, which is just to make it not too long
+   - **Planned Solution**: Validate phone numbers according to local and international standards, requiring a minimum of 7 digits and ensuring numbers are valid for practical use cases as well as allow spaces between digits.
+
+7. **Inconsistency between showAnni and edit/delete syntax**
+   - **Current Issue**: For now, edit and delete command has the following syntax: `[edit/delete] [employeeId] [other arguments]`
+   - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
+   - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
+   - **Planned Solution**: Make the explicit specification of eid/ prefix unnecessary within showAnni, as the command cannot be used without employeeId anyway.
+  
