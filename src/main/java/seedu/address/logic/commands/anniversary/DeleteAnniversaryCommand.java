@@ -2,6 +2,7 @@ package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
+import static seedu.address.logic.Messages.MESSAGE_SUCCESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
@@ -48,6 +49,7 @@ public class DeleteAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        model.commitChanges();
         List<Employee> matchedEmployees = model.getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix);
 
         if (matchedEmployees.size() > 1) {
@@ -90,6 +92,7 @@ public class DeleteAnniversaryCommand extends Command {
         // update the model
         model.setEmployee(employeeToEdit, updatedEmployee);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete), true,
+                employeeToEdit.getEmployeeIdAsString());
     }
 }

@@ -1,5 +1,6 @@
 package seedu.address.logic.commands.importexport;
 
+import static seedu.address.logic.parser.CliSyntax.PREFIX_FILENAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILEPATH;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_FILETYPE;
 
@@ -23,6 +24,7 @@ public class ExportCommand extends Command {
     public static final String COMMAND_WORD = "export";
     public static final String MESSAGE_USAGE = "export "
             + PREFIX_FILETYPE + "<json / csv> ["
+            + PREFIX_FILENAME + "<fileName>] ["
             + PREFIX_FILEPATH + "<path>]";
     private static final Logger logger = LogsCenter.getLogger(ExportCommand.class);
     public final String filetype;

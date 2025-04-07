@@ -172,8 +172,10 @@ public class MainWindow extends UiPart<Stage> {
 
             // Show the window
             if (!anniversaryWindow.isShowing()) {
+                anniversaryWindow.refresh();
                 anniversaryWindow.show();
             } else {
+                anniversaryWindow.refresh();
                 anniversaryWindow.focus();
             }
         } catch (IllegalArgumentException e) {
