@@ -17,5 +17,6 @@ Employee -up-> "*" Tag
 Employee *--> Name
 Employee *--> Phone
 Employee *--> Email
-Employee *--> Address
+Employee *--> JobPosition
+Employee *--> EmployeeId
 @enduml

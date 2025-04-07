@@ -151,11 +151,13 @@ All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered 
 ---
 ### Viewing help: `help`
 
-Shows a message explaining how to access the help page.
-
-![help message](images/HelpMessage.png)
+If you're ever unsure about how to use a command, just type `help` and we’ve got you covered.
 
 Format: `help`
+
+* A popup will appear showing a list of commands and how to use them.
+* You can also access this by clicking the Help button in the top right corner of the app.
+  ![help message](images/HelpMessage.png)
 
 ---
 ### Adding an employee: `add`
@@ -169,13 +171,13 @@ Date format: `YYYY-MM-DD`
 <div markdown="block" class="alert alert-info">
 
 **:information_source: Notes about the add command:**<br>
-* The name only allows letters, numbers, and spaces.
-  e.g. `n/John Doe` is valid, but `n/John@Doe` is not.
 
 * You can include as many tags per person as you like — or none at all.
 
 * Use bd/ for the employee’s birthday and wa/ for their work anniversary.
   H'Reers will automatically convert these into standard anniversaries for you.
+
+* Birthdays and work anniversaries are `anniversaries`. Please use [anniversary commands](#anniversary-commands) to modify them.
 
 * If you want to track other types of anniversaries, you can do that later using the [add anniversary command below](#add-anniversaries-codeaddannicode).
 
@@ -187,18 +189,28 @@ Examples:
 
 * `add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08`
     * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
+    * Below is a screenshot of this example:
+      ![addJohnDoe](images/AddJohnDoeCommand.png)
+      ![addJohnDoeSuccess](images/AddJohnDoeResult.png)
+      *Figure 2: Success message displayed after adding John Doe.*
+
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner    p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
+
+Common Errors: 
+* `This employee already exists in the address book` - There is an employee in the system with the same employee ID. Please use a different employee ID.
+* `Invalid command format!` - You might be missing some of the required fields.
+* `Anniversary date must be in YYYY-MM-DD format.` - Make sure the date is in the correct format.
 
 ---
 
 ### Editing an employee: `edit`
 
-Edits an existing employee in H'Reers.
+You can update any part of an employee’s record in H'Reers using the `edit` command.
 
 Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] [jp/JOB] [t/TAG]…​`
 
-* Edits the specified employee. The Employee ID can be shortened down and not necessarily needed to type in the full ID. The Employee ID prefix **must be Unique.**
+* Edits the specified employee. The Employee ID can be shortened down and not necessarily needed to type in the full ID. The Employee ID prefix **must be unique.**
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the employee will be removed i.e adding of tags is not cumulative.
@@ -206,15 +218,22 @@ Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] 
   specifying any tags after it.
 * You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
 
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
+Use the `list` command first to copy the correct Employee ID prefix.
+</div>
+
 Examples:
-*  `edit 1re p/91234567 e/johndoe@example.com` Edits the phone number and email address of the specified employee to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2dsf n/Betsy Crower t/` Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
-*  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
+*  `edit 1re p/91234567 e/johndoe@example.com`
+* Edits the phone number and email address of the specified employee to be `91234567` and `johndoe@example.com` respectively.
+*  `edit 2dsf n/Betsy Crower t/`
+* Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
+*  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6`
+* Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
 ---
 ### Deleting an employee: `delete`
 
-Deletes the specified employee from H'Reers.
+You can use this command to remove an employee from H'Reers using their Employee ID prefix.
 
 Format: `delete Employee_ID_prefix`
 
@@ -222,25 +241,39 @@ Format: `delete Employee_ID_prefix`
 * The Employee ID **must be valid and unique**
 
 Examples:
-* `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
+* `list` followed by `delete a123bc`
+    * Deletes the employee whose ID starts with a123bc.
 
 ---
 
 ### Undoing the last command: `undo`
 
-Will undo to before the data is changed.
+Made a mistake? Use the undo command to revert the **last data change** you made to H'Reers.
 
 Format: `undo`
 
-* Only works if any data in H'Reers has been changed.
+* Brings your data back to the state it was in before your last edit.
 
-#### Output:
-* If data has been changed: `Undo successful!`
-* No data changed: `No undo available!`
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about the undo command:**<br>
+
+* `undo` ignores any extra text you type after it.
+  For example, `undo 2` will still undo just the most recent change.
+
+* `undo` only works for commands that actually change your data, like `add`, `edit`, or `delete`.
+
+    * It won’t work for commands that just view or filter data, like `find`, `list`, or `showAnni`).
+</div>
 
 Examples:
-* `undo` Will return the previous changed saved data.
-* `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
+* `undo`
+    * Will return the previous changed saved data.
+* `undo 2`
+    * Will still return to the previous changed saved data as `undo` ignores all parameters after it.
+
+Common Error:
+`No undo available!` - No data was changed.
 
 ---
 ### Listing all employees: `list`
@@ -267,10 +300,11 @@ Format 2 (Searching for job positions): `find jp/KEYWORD [MORE_KEYWORDS]`
 
 Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYWORDS] jp/KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* [For **Job Positions**] Only full words will be matched e.g. `Mana` will not match `Manager`
-* [For **Name**] Partial words can be matched e.g. `Han` will match `Hans`
+* **Instead of using `undo` to see the full list, please use `list`.**
+* The search is case-insensitive. e.g `hans` will match `Hans`.
+* You can input the keywords in any order. e.g. `n/Hans jp/Manager` is the same as `jp/Manager n/Hans`.
+* [For **Job Positions**] Only full words will be matched e.g. `Mana` will not match `Manager`.
+* [For **Name**] Partial words can be matched e.g. `Han` will match `Hans`.
 
 <div markdown="block" class="alert alert-info">
 
@@ -287,6 +321,10 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 * In the case of multiple fields and keywords, you will only see a employee on the list if they match at least one keyword from each field.
 
     * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
+
+* You can use the same prefix multiple times — all values will be collected and combined together.
+    * So `find n/1 jp/2 n/2 jp/1` is treated the same as `find n/1 2 jp/2 1`
+    * This gives you more flexibility in writing your searches!
 </div>
 
 Examples:
@@ -295,7 +333,12 @@ Examples:
 * `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
 
 The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
-![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
+![findResult](images/FindLiRiDevManagerResult.png)
+*Figure 3: Result of the command `find n/li ri jp/ dev manager`*
+
+Common Errors:
+* `At least one non-empty field is required.` - You must use at least one of the prefixes to search for employees.
+* `Invalid command format!` - You might have used the wrong prefix or spelt wrongly.
 
 ---
 
@@ -325,8 +368,6 @@ You can use this command to view all anniversaries linked to a specific employee
 
 Format: `showAnni eid/Employee_ID`
 
-What will you see:
-
 * A new window will open showing the employee’s anniversaries.
 * You’ll see details like the date, name, and description of each anniversary.
 * If you’re new to the app, you can also use the “Show Anniversaries” button in the GUI instead of typing the command.
@@ -343,6 +384,15 @@ What will you see:
 Example:
 * `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
     * Opens a window showing anniversaries for the employee with the specified ID.
+    * The screenshot below shows the result of the command to show Mary Jane's anniversaries:
+    ![showAnniResult](images/ShowAnniSuccessExample.png)
+  *Figure 4: Example of using `showAnni` on Mary Jane and the result*
+
+Common Errors:
+* `Invalid command format!` - You might have used the wrong prefix or added something extra before the prefixes. Double-check your command format.
+* `Employee ID must be 1-36 characters long, containing only letters, digits, and '-'.` - The employee ID you entered isn’t valid. Make sure it’s the correct length and format.
+* `Found multiple employees with employeeId starting with xxx` - The ID prefix you entered matches more than one employee. Try typing more characters to narrow it down to one unique person.
+* `No employee found with employeeId starting with xxx` - The ID prefix you typed doesn’t match any employee in the system. Make sure you entered it correctly — it should match the beginning of a valid employee ID.
 
 ---
 
@@ -354,15 +404,17 @@ This command can create custom Anniversaries that were otherwise not supported w
 Anniversaries are reminders — not historical facts.
 
 You don’t have to (and usually shouldn’t) go back to the original date something happened — you’re telling Hreers **when to start tracking it from**, so you’ll be reminded when it comes next.
+
 As a precautionary measure against deliberate attacks to the system, certain words, such as `drop` or other backspace characters are disallowed for anniversary names or types.
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+<div markdown="span" class="alert alert-primary">:bulb: Tip:
 You can use this format in 3 ways!
 </div>
 
 Format 1 : default format for **custom** anniversaries
 ``` plaintext
-addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME 
+at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
 ```
 Format 2 : short form support for Birthday Anniversaries (not Date of Birth)
 > **Note:** The `bd/` field represents a **birthday anniversary** — a recurring date used for tracking and reminders — not the employee's date of birth.  
@@ -398,7 +450,8 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
 
 Examples :
 ```plaintext
-addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
+addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding 
+ad/Celebrating 25 years atdesc/Personal
 ```
 - `addAnni` - the addAnniversary command you are running
 - `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
@@ -462,6 +515,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 * When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
 * The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
 * The index of the anniversary is **1-based**. This means that the first anniversary in the list is at index 1, the second is at index 2, and so on.
+* There is currently a visual bug where the undo command will not update the anniversary list that is currently showing. Please use the `showAnni` command to refresh the list, this is a known bug and will be patched.
 </div>
 
 Format:
@@ -475,7 +529,8 @@ deleteAnni eid/0c2414da ai/1
 ```
 - `deleteAnni` - the command you are running
 - `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `ai/1`: the index of the anniversary you want to delete 
+- `ai/1`: the index of the anniversary you want to delete
+
   this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Options Summary
@@ -496,8 +551,6 @@ You can use this command to view all employee anniversaries (birthdays, work ann
 
 Format: `reminder`
 
-What will you see:
-
 * A reminder panel appears on the right side of the UI.
 * All upcoming anniversaries (within 3 days) will be displayed in one combined list.
 * Each reminder card shows:
@@ -509,7 +562,7 @@ What will you see:
 
 <div markdown="block" class="alert alert-info">
 
-**information_source: Notes about the `reminder` command:**<br>
+**:information_source: Notes about the `reminder` command:**<br>
 * This command only affects the display — it does **not** modify any data.
 * All anniversaries shown are automatically sorted by how soon they are occurring.
 * If an employee has more than one upcoming anniversary, they will appear **multiple times** in the list.
@@ -562,6 +615,11 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 
 ---
 ### Importing data: `import`
+
+You can use `import` to bring external data (in CSV or JSON) into your current Hreers application.
+Depending on the write mode (`append` or `overwrite`), you can either merge the new data with your existing records or replace them entirely.
+For CSV based inputs, multiple rows with same employeeId and same details(name, job position, phone number, email) will be collapsed into one entry in Hreers
+undo is possible for overwrites or included persons. but not for appended anniversaries.
 
 > **Warning: This feature is sensitive. Use it with care.**
 > - The system has been tested, but **cannot guarantee** perfect results in all situations.
@@ -791,13 +849,26 @@ Action | Format, Examples
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Delete** | `delete Employee_ID_Prefix`
 **Clear** | `clear`
-**addAnni** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
-**showAnni** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
-**deleteAnni** | `deleteAnniversary eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
-**import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
-**export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
+**Show Anniversary** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
+**Add Anniversary** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
+**Delete Anniversary** | `deleteAnni eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnni eid/0c2414da ai/1`
+**Import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
+**Export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
+**Exit** | `exit`
 
 ---
 ## Glossary
-* CLI (Command Line Interface): A text-based interface used to type commands
-* GUI (Graphical User Interface): A user interface that allows interaction with the software through visual elements like buttons and icons.
+Term | Explanation
+--------|------------------
+**CLI (Command Line Interface)** | A text-based interface used to type commands
+**GUI (Graphical User Interface)** | A user interface that allows interaction with the software through visual elements like buttons and icons.
+**UUID** | A type of identifier H'Reers uses for Employee IDs. It looks like a long string (e.g., 3fa85f64-5717-4562-b3fc-2c963f66afa6). You usually don’t need to type the full thing — just a few starting characters (the prefix) will do. Used interchangeably with EID.
+**Employee ID (EID)** | A unique identifier assigned to each employee, either auto-generated or set by you. Used for locating employees quickly. Used interchangeably with UUID.
+**Prefix** | A label before your input (like n/, p/, eid/) that tells H'Reers what kind of information you're providing.
+**Reminder Panel** |A side panel in the UI that shows upcoming anniversaries and events automatically — so you don’t miss anything important.
+**Anniversary**	| Any significant recurring event — includes birthdays, work anniversaries, or custom events like promotions or milestones.
+**Undoable Command** | A command that changes your saved data (like add, edit, or delete) and can be reversed using undo.
+**Non-Undoable Command** |A command that only views or filters data (like find, list, showAnni) and can’t be undone.
+**Partial Matching** | Lets you search with part of a word. For example, n/Ali can match Alice.
+**Full Word Matching** | Searches only match full words. For example, jp/engineer will match Software Engineer, but jp/eng won’t.
+**Tag** |Labels you can attach to employees to describe roles, skills, or groups (like FullTime, Marketing, or Diabetes).

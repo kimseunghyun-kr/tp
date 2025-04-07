@@ -5,6 +5,7 @@ package seedu.address.logic.commands.anniversary;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_DUPLICATE_ANNIVERSARY;
 import static seedu.address.logic.Messages.MESSAGE_SUCCESS;
+import static seedu.address.logic.Messages.MESSAGE_WARNING_ANNI_AFTER_TODAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_DESC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_NAME;
@@ -12,6 +13,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_TYPE_DESC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +115,9 @@ public class AddAnniversaryCommand extends Command {
         // update the model
         model.setEmployee(employeeToEdit, updatedEmployee);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+        boolean isAnniAfterToday = (toAdd.getDate().isAfter(LocalDate.now()));
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd)
+        + (isAnniAfterToday ? "\n" + MESSAGE_WARNING_ANNI_AFTER_TODAY : ""));
     }
 }
