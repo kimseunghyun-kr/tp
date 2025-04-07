@@ -1249,3 +1249,4 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
    - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
    - **Planned Solution**: Make the explicit specification of eid/ prefix unnecessary within showAnni, as the command cannot be used without employeeId anyway.
+  
