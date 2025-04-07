@@ -11,11 +11,12 @@ public class JobPosition {
 
     public static final String MESSAGE_CONSTRAINTS = "Job positions can take any values, and they should not be blank.";
 
-    /*
+    /**
      * The first character of the job position must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
+     * This regex also allows for periods and apostrophes.
      */
-    public static final String VALIDATION_REGEX = "[^\\s].*";
+    public static final String VALIDATION_REGEX = "^[\\p{L}\\p{N} .\\-']+";
 
     public final String value;
 

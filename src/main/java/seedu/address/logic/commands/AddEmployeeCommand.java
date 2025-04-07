@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_WARNING_ANNI_AFTER_TODAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
@@ -9,6 +10,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_WORK_ANNIVERSARY;
+
+import java.time.LocalDate;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -63,9 +66,6 @@ public class AddEmployeeCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        // Save the state before any potential changes
-        model.commitChanges();
-
         if (model.hasEmployee(toAdd)) {
             throw new CommandException(MESSAGE_DUPLICATE_EMPLOYEE);
         }
@@ -74,8 +74,14 @@ public class AddEmployeeCommand extends Command {
             throw new CommandException(MESSAGE_EMPLOYEE_ID_CONFLICT);
         }
 
+        //Save the state before any potential changes
+        model.commitChanges();
+        boolean isAnyAnniAfterToday = toAdd.getAnniversaries().stream()
+                .anyMatch(anniversary -> anniversary.getDate().isAfter(LocalDate.now()));
+
         model.addEmployee(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd))
+                + (isAnyAnniAfterToday ? "\n" + MESSAGE_WARNING_ANNI_AFTER_TODAY : ""));
     }
 
     @Override

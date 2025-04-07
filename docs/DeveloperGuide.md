@@ -835,13 +835,14 @@ H'Reers is running and has employees:
 find n/Alex Li
 ```
 
-#### Expected Result: No prefix provided
+#### Expected Result:
 * Employee list is filtered to show:
     * Alex Yeoh
+    * Charlotte Oliveiro
     * David Li
-* Success message is shown: 2 employees listed.
+* Success message is shown: 3 employees listed!
 
-#### Test Case 2:
+#### Test Case 2: No prefix provided
 ```
 find Alice
 ```
@@ -874,8 +875,9 @@ Allows HR workers to manage employee anniversaries.
 this section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
 ---
 ### Add Anniversary Command
+
 Prerequisites: Ensure the application is running with an existing employee in the database. This employee's employeeID prefix will be termed `EID` for this section
-#### Test Case 1:Standard Anniversary Creation (Success)
+#### Test Case 1: Standard Anniversary Creation (Success)
 ```plaintext
 addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
 ```
@@ -908,7 +910,8 @@ Error message: "Anniversary date must be in YYYY-MM-DD format." is displayed.
 
 ---
 ### DeleteAnniversaryCommand
-Prerequisites: Ensure the application is running with an existing employee in the database, with at least one anniversary associated, except for test case 2. This employee's employeeID prefix will be termed `EID` for this section
+
+Prerequisites: Ensure the application is running with an existing employee in the database, with at least one anniversary associated, except for test case 2. This employee's employeeID prefix will be termed `EID` for this section.
 
 #### Test Case 1:Standard Anniversary Deletion (Success)
 ```plaintext
@@ -919,7 +922,7 @@ Anniversary with index 1 is removed from the given employee
 Success message: "Anniversary deleted: [anniversary details]" is displayed.
 
 #### Test Case 2: Employee has No anniversary (Failure)
-Prerequisite : Ensure the application is running with an existing employee with no anniversary
+Prerequisite : Ensure the application is running with an existing employee with no anniversary.
 ```plaintext
 deleteAnni eid/EID ai/1
 ```
@@ -1210,4 +1213,20 @@ In future versions of H'Reers, the following enhancements are planned to improve
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
-    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+
+3. Import 
+   - **Current Issue**: limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
+   - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
+   - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
+   
+4. Observer Support for ShowAnni
+   - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
+   - **Current Workaround**: after each operation on Anniversaries, showAnni should be called again
+   - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
+   
+5. ShowAnni Window is not brought back to screen after it has been minimized
+   - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
+   - **Current Workaround**: place this under known issues
+   - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
+
