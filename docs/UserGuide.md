@@ -515,6 +515,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 * When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
 * The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
 * The index of the anniversary is **1-based**. This means that the first anniversary in the list is at index 1, the second is at index 2, and so on.
+* There is currently a visual bug where the undo command will not update the anniversary list that is currently showing. Please use the `showAnni` command to refresh the list, this is a known bug and will be patched.
 </div>
 
 Format:
@@ -850,7 +851,7 @@ Action | Format, Examples
 **Clear** | `clear`
 **Show Anniversary** | `showAnni eid/Empoyee_ID`<br> e.g., `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
 **Add Anniversary** | `addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]`<br> e.g., `addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal`
-**Delete Anniversary** | `deleteAnniversary eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnniversary eid/0c2414da ai/1`
+**Delete Anniversary** | `deleteAnni eid/EMPLOYEE_ID ai/INDEX`<br> e.g., `deleteAnni eid/0c2414da ai/1`
 **Import** | `import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE`<br> e.g., `import ft/json fp/data/ fn/contacts wm/append`
 **Export** | `export ft/json fp/data/ fn/contacts`<br> e.g., `export ft/json fp/data/ fn/contacts`
 **Exit** | `exit`
