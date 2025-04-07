@@ -45,7 +45,7 @@ public class AddAnniversaryCommand extends Command {
             + "[" + PREFIX_ANNIVERSARY_DESC + "DESCRIPTION] "
             + "[" + PREFIX_ANNIVERSARY_TYPE_DESC + "TYPE]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_EMPLOYEEID + " 0c2414da-fafb-4e05-b4f7-befb22385381 "
+            + PREFIX_EMPLOYEEID + "0c2414da-fafb-4e05-b4f7-befb22385381 "
             + PREFIX_ANNIVERSARY_DATE + "2025-03-13 "
             + PREFIX_ANNIVERSARY_NAME + "Silver Wedding "
             + PREFIX_ANNIVERSARY_TYPE + "Wedding "
