@@ -99,7 +99,7 @@ Whether you need to track employee milestones, update records, or generate quick
 
     * `list` : Lists all contacts.
 
-    * `add n/John Doe p/98765432 e/johnd@example.com jb/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to H'Reers.
+    * `add n/John Doe p/98765432 e/johnd@example.com jp/Crypto Minor bd/2000-01-01 wa/2014-12-12` : Adds a contact named `John Doe` to H'Reers.
 
     * `delete Employee_ID_prefix` : Deletes the specified employee contact. _Note: Employee_ID_prefix has to pinpoint only one Employee for delete to work._
 
@@ -528,11 +528,11 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 
 | **Prefix** | **Meaning**                                               | **Required?**                     | **Example Value**      |
 |------------|-----------------------------------------------------------|-----------------------------------|------------------------|
-| `eid/`      | A partial prefix of the Employee ID                       | Required                          | `0c2414da`             |
+| `eid/`     | A partial prefix of the Employee ID                       | Required                          | `0c2414da`             |
 | `d/`       | The date of the anniversary                               | Required                          | `2025-03-13`           |
 | `an/`      | A short name for the anniversary                          | Required                          | `Silver Wedding`       |
 | `at/`      | The main category/type of the event                       | Required                          | `Wedding`              |
-| `desc/`    | A text description of the anniversary                     | Optional                          | `Celebrating 25 years` |
+| `ad/`      | A text description of the anniversary                     | Optional                          | `Celebrating 25 years` |
 | `atdesc/`  | A description of the type                                 | Optional                          | `Personal`, `Work`     |
 | `bd/`      | A short name for the birthday                             | Optional                          | `Birthday`             |
 | `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
@@ -730,13 +730,14 @@ This is useful when you want to:
 - Excel may change the **date format** or cause issues with certain fonts or languages. This can break the import. To fix this:
     - Save your file using **UTF-8 encoding**. Follow the steps at saving your excel files as a [CSV UTF-8 (Comma delimited)](https://www.ablebits.com/office-addins-blog/convert-excel-csv/#:~:text=Export%20to%20CSV%20UTF%2D8,Done!).
     - Make sure dates follow this format: `dd-MM-YYYY` (e.g., 23-04-2022).
-
+![example.png](images/utf-8.png)
+  
 #### Important Rules
 
 1. **The column headers (top row) must exactly match** the format from Hreers' exported files. Don't change them.
 2. **Don't duplicate csv headers or json fields.**
 3. **Each employee must have a valid ID (called `employeeId`)** in Universally Unique Identifier (UUID) format. You can generate one online [here](https://www.uuidgenerator.net/).
-4. If your file has issues (wrong format, corrupted, etc.), the system may fail silently—**you won't always see an error message**.
+4. If your file has issues (wrong format, corrupted, etc.), the system may **fail silently—you won't always see an error message**.
 
 #### About FilePaths
 * File paths has two representations, `relative` and `absolute`.
@@ -847,9 +848,6 @@ Saves the currently visible list of people in the Hreers application to a file (
 * Mismatched file types or inaccessible folders will cause an error.
 * **Use forward slashes if you see `₩` or back slashes `\` and there are errors**: This is a common issue when using Windows. The system may not recognize the backslashes(`\`) correctly. Use forward slashes `/` instead.
 
-
-
-
 #### About FilePaths
 * File paths has two representations, `relative` and `absolute`.
 * Relative paths are relative to the location where the jar file is placed.
@@ -908,6 +906,9 @@ Explanation:
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
 As a convenience, on the in-app output, it will show how many employees have been saved.
 
+Example UI:
+![export_image](images/export_example.png)
+![export_result_image](images/export_csv_result.png)
 
 #### Options Summary
 
@@ -974,9 +975,9 @@ This means that no employee ID can be a prefix of another employee ID.
 Action | Format, Examples
 --------|------------------
 **Help** | `help`
-**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com jb/Crypto Farmer t/friend t/colleague bd/2001-07-08 wa/2025-08-15`
+**Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL jp/JOB [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com jp/Crypto Farmer t/friend t/colleague bd/2001-07-08 wa/2025-08-15`
 **List** | `list`
-**Edit** | `edit Employee_ID_Prefix [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [jb/JOB] [t/TAG]…​`<br> e.g.,`edit 12sde n/James Lee e/jameslee@example.com`
+**Edit** | `edit Employee_ID_Prefix [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [jp/JOB] [t/TAG]…​`<br> e.g.,`edit 12sde n/James Lee e/jameslee@example.com`
 **Undo**| `undo`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **Delete** | `delete Employee_ID_Prefix`
@@ -993,18 +994,27 @@ Action | Format, Examples
 
 Term | Explanation
 --------|------------------
-**CLI (Command Line Interface)** | A text-based interface used to type commands
-**GUI (Graphical User Interface)** | A user interface that allows interaction with the software through visual elements like buttons and icons.
-**UUID** | A type of identifier H'Reers uses for Employee IDs. It looks like a long string (e.g., 3fa85f64-5717-4562-b3fc-2c963f66afa6). You usually don’t need to type the full thing — just a few starting characters (the prefix) will do. Used interchangeably with EID.
-**Employee ID (EID)** | A unique identifier assigned to each employee, either auto-generated or set by you. Used for locating employees quickly. Used interchangeably with UUID.
-**Prefix** | A label before your input (like n/, p/, eid/) that tells H'Reers what kind of information you're providing.
-**Reminder Panel** |A side panel in the UI that shows upcoming anniversaries and events automatically — so you don’t miss anything important.
 **Anniversary**	| Any significant recurring event — includes birthdays, work anniversaries, or custom events like promotions or milestones.
-**Undoable Command** | A command that changes your saved data (like add, edit, or delete) and can be reversed using undo.
+**Control / backspace characters** | Characters that are not visible in the text but can affect how the text is displayed or processed. They include characters like `\n` (newline) and `\t` (tab).
+**CLI (Command Line Interface)** | A text-based interface used to type commands
+**CSV (Comma-Separated Values)** | A file format that is the precursor to xlsx(excel) files. It is a simple text file that uses commas to separate values, and is compatible with Excel.
+**Character Encoding** | A system that defines how characters are represented in bytes. UTF-8 is a common encoding that supports many languages and symbols.
+**Employee ID (EID)** | A unique identifier assigned to each employee, either auto-generated or set by you. Used for locating employees quickly. Used interchangeably with UUID.
+**Full Word Matching** | Searches only match full words. For example, jp/engineer will match Software Engineer, but jp/eng won’t.
+**GUI (Graphical User Interface)** | A user interface that allows interaction with the software through visual elements like buttons and icons.
+**Home Folder** | The folder where the H'Reers application jar file is located. It contains the data file and other resources.
+**JSON (JavaScript Object Notation)** | A lightweight data interchange format that is easy for humans to read and write, and easy for machines to parse and generate.
+**Jar (Java Archive)** | A file format used to package Java applications and libraries. It contains compiled Java code and resources, and is executable.
 **Non-Undoable Command** |A command that only views or filters data (like find, list, showAnni) and can’t be undone.
 **Partial Matching** | Lets you search with part of a word. For example, n/Ali can match Alice.
-**Full Word Matching** | Searches only match full words. For example, jp/engineer will match Software Engineer, but jp/eng won’t.
+**Prefix** | A label before your input (like n/, p/, eid/) that tells H'Reers what kind of information you're providing.
+**Prefix Conflict** | Happens when one employee ID is the beginning part of another employee ID (like `abc123` and `abc123456`). H'Reers doesn't allow this because it would create ambiguity when using ID prefixes in commands.
+**Reminder Panel** | A side panel in the UI that shows upcoming anniversaries and events automatically — so you don’t miss anything important.
+**Relative Path** | A file path that is relative to the current active(working) directory. It does not include the full path to the file.
 **Tag** |Labels you can attach to employees to describe roles, skills, or groups (like FullTime, Marketing, or Diabetes).
-**Prefix conflict** | Happens when one employee ID is the beginning part of another employee ID (like `abc123` and `abc123456`). H'Reers doesn't allow this because it would create ambiguity when using ID prefixes in commands.
+**Terminator character** | A special character used to indicate the end of a prefix. It helps avoid conflicts when multiple prefixes are similar.
+**Undoable Command** | A command that changes your saved data (like add, edit, or delete) and can be reversed using undo.
+**UTF-8(Unicode Transformation Format)** | A character encoding that can represent every character in the Unicode character set. It is widely used for text files and web pages due to its compatibility.
+**UUID** | A type of identifier H'Reers uses for Employee IDs. It looks like a long string (e.g., 3fa85f64-5717-4562-b3fc-2c963f66afa6). You usually don’t need to type the full thing — just a few starting characters (the prefix) will do. Used interchangeably with EID.
 
 [Back to Top](#)
