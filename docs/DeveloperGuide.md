@@ -265,23 +265,23 @@ The add anniversary command is implemented by the AddAnniversaryCommand class, w
 ---
 ### Reminder Feature
 
-The **reminder** feature is facilitated by the `ReminderCommand`. It helps users view upcoming birthdays and work anniversaries by scanning through all stored employees and collecting relevant date-based reminders.
+The **reminder** feature is facilitated by the `ReminderCommand`. It helps users view upcoming birthdays and other anniversaries by scanning through all stored employees and collecting relevant date-based reminders.
 
 Internally, this feature is supported by:
-- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
+- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with an `Employee`.
 - `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
 - `Model#getReminderList()` – Provides read-only access to the current list of reminders.
 - `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
 
 The `ReminderCommand` executes the following:
 1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
-2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
+2. Each `Reminder` is created with an `Employee`, `AnniversaryType`, date, and description.
 3. Results are sorted by upcoming date and stored in an observable list.
 4. The UI automatically updates by binding to this observable list.
 
 Given below is an example use case showing how the reminder feature behaves step-by-step.
 
-**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
+**Step 1.** The user launches the application, which contains several employee entries with birthday and anniversary dates.
 
 **Step 2.** The user executes the command:
 ```
@@ -301,46 +301,10 @@ This triggers the `ReminderCommand`, which performs the following steps internal
 - A short description and how soon the event is (e.g., “upcoming in 2 days”).
 
 > 💡 **Note:**
-> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
-
-Internally, this feature is supported by:
-- The `Reminder` model class – Represents an upcoming event (e.g., birthday, work anniversary) associated with a `Person`.
-- `Model#updateReminderList()` – Gathers all relevant upcoming anniversaries and stores them in an observable list.
-- `Model#getReminderList()` – Provides read-only access to the current list of reminders.
-- `ReminderListPanel` and `ReminderCard` in the UI – Display reminders to the user in the interface.
-
-The `ReminderCommand` executes the following:
-1. Calls `Model#updateReminderList()` to find anniversaries within the next 3 days.
-2. Each `Reminder` is created with a `Person`, `AnniversaryType`, date, and description.
-3. Results are sorted by upcoming date and stored in an observable list.
-4. The UI automatically updates by binding to this observable list.
-
-Given below is an example use case showing how the reminder feature behaves step-by-step.
-
-**Step 1.** The user launches the application, which contains several employee entries with birthday and work anniversary dates.
-
-**Step 2.** The user executes the command:
-```
-reminder
-```
-This triggers the `ReminderCommand`, which performs the following steps internally:
-- Retrieves all employees via `Model#getFilteredPersonList()`.
-- For each employee, iterates through all anniversaries.
-- Checks whether each anniversary is within **3 days** from today.
-- Creates a `Reminder` object for each upcoming event.
-- Sorts the list of reminders by date.
-- Stores the sorted reminders in an observable list using `Model#updateReminderList()`.
-
-**Step 3.** The `ReminderListPanel` in the UI detects the update in the observable list and renders each reminder using a `ReminderCard`. Each card shows:
-- The employee’s name and job position.
-- The type of anniversary (e.g., "Birthday", "Work Anniversary").
-- A short description and how soon the event is (e.g., “upcoming in 2 days”).
-
-> 💡 **Note:**
-> If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
-
-> 🛡️ **Note:**
-> Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
+> * If multiple reminders exist for a single employee (e.g., birthday and work anniversary in the same week), they will each be listed as **separate reminders**.
+> * Only anniversaries falling within the next `3` days will be displayed. This range is controlled by the constant `REMINDED_DATE_RANGE`.
+> * All anniversaries, including custom anniversaries, are treated as **annual** event. Even if user input date is past date (e.g. 2023-04-07), the implementation
+> ignores the year and considers month and date only, producing (2025-04-07).
 
 #### Sequence Diagram
 
@@ -348,7 +312,7 @@ The following sequence diagram illustrates the steps described above:
 
 ![Reminder Sequence Diagram](images/ReminderSequence.png)
 
-Note: The filtering logic (`within 3 days`) is abstracted into the model for separation of concerns.
+**Note**: The filtering logic (`within 3 days`) is abstracted into the model for separation of concerns.
 
 #### Activity Diagram
 
@@ -1152,7 +1116,7 @@ Ensures employee records persist across sessions.
 - Intermediate .tmp file for autosave.
 
 ---
-### Viewing Upcoming Anniversaries (Reminder Feature)
+### Reminder Feature
 
 #### 1. Listing upcoming reminders
 
@@ -1167,7 +1131,8 @@ Ensures employee records persist across sessions.
 #### 2. Reminder display formatting
 
 1. Reminder card fields to verify:
-    - **Employee Name**: Matches the name in the person list.
+    - **Employee Name**: Matches the name in the employee list.
+    - **Employee ID**: Matches the ID in the list.
     - **Job Position**: Matches the employee’s job title.
     - **Anniversary Type + Description**: Shown as `Birthday - John’s birthday` or `Work Anniversary - Joined in 2019`, depending on type and description.
     - **Date Display**: Shows relative time (e.g., “in 1 day”, “in 3 days”).
@@ -1177,22 +1142,19 @@ Ensures employee records persist across sessions.
     - Verify that if an employee has multiple upcoming anniversaries, they appear as **separate entries**.
     - Confirm that expired or future anniversaries **outside the 3-day window** are **not shown**.
 
-3. Edge case testing
 
+3. Edge case testing
 - **Test case**: Add a birthday dated exactly 3 days from now → Run `reminder`
-  **Expected**: Reminder card for this birthday appears in the list.
+  - **Expected**: Reminder card for this birthday appears in the list.
 
 - **Test case**: Add a birthday 4 days from now → Run `reminder`
-  **Expected**: No reminder card shown.
+  - **Expected**: No reminder card shown.
 
 - **Test case**: Add both a birthday and a work anniversary for the same employee within 3 days
-  **Expected**: Two separate reminder cards are shown, one for each anniversary.
+  - **Expected**: Two separate reminder cards are shown, one for each anniversary.
 
 - **Test case**: Add reminders for multiple employees
-  **Expected**: All applicable reminders appear and are correctly sorted by date.
-
-4. Returning the Outcome:
-- Upon successful export, the command returns a CommandResult containing a success message with details of the export (number of employees saved, file type, and resolved file path).
+  - **Expected**: All applicable reminders appear and are correctly sorted by date.
 
 ---
 
