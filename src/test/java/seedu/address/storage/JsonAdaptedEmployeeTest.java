@@ -20,9 +20,9 @@ import seedu.address.model.person.Phone;
 public class JsonAdaptedEmployeeTest {
     private static final String INVALID_EMPLOYEEID = "@";
     private static final String INVALID_ANNIVERSARY = "@";
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NAME = "R@chel##";
     private static final String INVALID_PHONE = "+651234";
-    private static final String INVALID_JOBPOSITION = " ";
+    private static final String INVALID_JOBPOSITION = "##";
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 

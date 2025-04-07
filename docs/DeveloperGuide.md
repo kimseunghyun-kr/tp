@@ -835,13 +835,14 @@ H'Reers is running and has employees:
 find n/Alex Li
 ```
 
-#### Expected Result: No prefix provided
+#### Expected Result:
 * Employee list is filtered to show:
     * Alex Yeoh
+    * Charlotte Oliveiro
     * David Li
-* Success message is shown: 2 employees listed.
+* Success message is shown: 3 employees listed!
 
-#### Test Case 2:
+#### Test Case 2: No prefix provided
 ```
 find Alice
 ```
@@ -877,7 +878,7 @@ Allows HR workers to manage employee anniversaries.
 1. Standard Anniversary Creation - Success
    Prerequisites: Ensure the application is running with an existing employee in the database.
 
-Test case: addAnni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+Test case: `addAnni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding`
 
 Expected:
 
@@ -888,7 +889,7 @@ Success message: "New anniversary added: [anniversary details]" is displayed.
 2. Missing Employee ID - Failure
    Prerequisites: Ensure the application is running.
 
-Test case: addAnni d/2024-06-15 an/Company Foundation Day at/Corporate
+Test case: `addAnni d/2024-06-15 an/Company Foundation Day at/Corporate`
 
 Expected:
 
@@ -898,7 +899,7 @@ Error message: "Invalid command format! [usage information]" is displayed.
 3. Invalid Date Format - Failure
    Prerequisites: Ensure the application is running with an existing employee in the database.
 
-Test case: addAnni eid/<existing_employee_id_prefix> d/15-06-2024 an/Company Foundation Day at/Corporate
+Test case: `addAnni eid/<existing_employee_id_prefix> d/15-06-2024 an/Company Foundation Day at/Corporate`
 
 Expected:
 
@@ -910,7 +911,7 @@ Error message: "Anniversary date must be in YYYY-MM-DD format." is displayed.
 1. Standard Anniversary Deletion - Success
    Prerequisites: Ensure the application is running with an existing employee and AT LEAST ONE anniversary in the database.
 
-Test case: deleteAnni eid/<existing_employee_id_prefix> ai/1
+Test case: `deleteAnni eid/<existing_employee_id_prefix> ai/1`
 
 Expected:
 
@@ -921,7 +922,7 @@ Success message: "Anniversary deleted: [anniversary details]" is displayed.
    Prerequisites: Ensure the application is running.
    Ensure the application is running with an existing employee with no anniversary
 
-Test case: deleteAnni eid/<existing_employee_id_prefix> ai/1
+Test case: `deleteAnni eid/<existing_employee_id_prefix> ai/1`
 
 Expected:
 
@@ -931,7 +932,7 @@ Error message: "The index you are searching for is out of bounds for the anniver
 3. Missing Employee Id - Failure
    Prerequisites: Ensure the application is running with an existing employee in the database.
 
-Test case: deleteAnni eid/ ai/1
+Test case: `deleteAnni eid/ ai/1`
 
 Expected:
 
@@ -1077,4 +1078,10 @@ In future versions of H'Reers, the following enhancements are planned to improve
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
-    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    -  **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+
+3. Import 
+   4. Fails current 
+   5. Better support with external library with more robust parsing and validation.
+4. After i minimise the popup screen for the showAnni window, and i call showAnni, it does not show me the window. This might be hard for users to see and understand that their call is working and actually showing the annis. (Same as AB3)
+
