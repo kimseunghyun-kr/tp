@@ -1224,8 +1224,8 @@ In future versions of H'Reers, the following enhancements are planned to improve
 
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
-    - **Current Workaround**: Have limited space for employees in the system.
-    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    - **Current Workaround**: The possibility of such a situation is very low, as the ids are generated randomly and are long enough. The only situation when this may occur is when user deliberately made the ids short. This restriction is documented in the user guide.
+    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put \$ after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
 3. **Import Data from Different Formats** 
    - **Current Issue**: Limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.

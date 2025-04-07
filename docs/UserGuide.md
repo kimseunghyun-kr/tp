@@ -913,6 +913,11 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
     * **Solution**: Manually restore the minimized Help Window.
 3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
     * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
+4. **Employee ID Prefix Conflicts**: Currently, the system enforces a policy that prevents employee ID prefixes from conflicting with each other. 
+This means that no employee ID can be a prefix of another employee ID.
+    * **Current Limitation**: In rare situations where many employees have very short IDs that fill up all possible combinations of starting characters, it might become impossible to add new employees.
+    * **Upcoming Solution**: In a future update, we plan to implement a terminator character (\$) to allow using the full employee ID. 
+    For example, `edit 1abc$` will specifically select the employee with the exact ID "1abc" rather than any employee whose ID starts with "1abc".
 
 [Back to Top](#)
 
