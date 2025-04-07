@@ -165,7 +165,9 @@ Format: `help`
 
 * A popup will appear showing a list of commands and how to use them.
 * You can also access this by clicking the Help button in the top right corner of the app.
+
   ![help message](images/HelpMessage.png)
+  *Figure 1: Help Window Prompt*
 
 [Back to Top](#)
 
@@ -201,8 +203,9 @@ Examples:
     * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
     * Below is a screenshot of this example:
       ![addJohnDoe](images/AddJohnDoeCommand.png)
+      *Figure 2: Command for adding John Doe.*
       ![addJohnDoeSuccess](images/AddJohnDoeResult.png)
-      *Figure 2: Success message displayed after adding John Doe.*
+      *Figure 3: Success message displayed after adding John Doe.*
 
 * `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
@@ -357,7 +360,7 @@ Examples:
 
 The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![findResult](images/FindLiRiDevManagerResult.png)
-*Figure 3: Result of the command `find n/li ri jp/ dev manager`*
+*Figure 4: Result of the command `find n/li ri jp/ dev manager`*
 
 Common Errors:
 * `At least one non-empty field is required.` - You must use at least one of the prefixes to search for employees.
@@ -413,7 +416,7 @@ Example:
     * Opens a window showing anniversaries for the employee with the specified ID.
     * The screenshot below shows the result of the command to show Mary Jane's anniversaries:
     ![showAnniResult](images/ShowAnniSuccessExample.png)
-  *Figure 4: Example of using `showAnni` on Mary Jane and the result*
+  *Figure 5: Example of using `showAnni` on Mary Jane and the result*
 
 Common Errors:
 * `Invalid command format!` - You might have used the wrong prefix or added something extra before the prefixes. Double-check your command format.
@@ -648,6 +651,7 @@ Format: `exit`
 
 You can edit, import, or export employee data manually if you're more tech-savvy.
 Some features like importing are powerful — and risky. Use them carefully to avoid losing data!
+
 ---
 ### Saving the data
 
@@ -660,7 +664,7 @@ H'Reers data are saved in the hard disk automatically after any command that cha
 
 H'Reers data are saved automatically as a JSON file `[JAR file location]/data/H'Reers.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning">:exclamation: Caution:
 If your changes to the data file makes its format invalid, H'Reers will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
