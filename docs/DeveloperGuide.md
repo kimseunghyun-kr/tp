@@ -557,7 +557,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | HR worker                                   | go back to the previous page       |                                                                |
 | `*`      | HR worker                                   | have buttons                       | rest my fingers from typing                                    |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -735,7 +734,16 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    2. Open your command prompt (on Windows) or terminal (on Mac/Linux).
+    3. Navigate to the folder where you saved the .jar file. For example:
+        ```bash
+         cd /path/to/your/folder
+        ```
+    4. Run this command:
+        ```bash
+        java -jar hreers.jar
+        ```
+        * Expected: Shows the GUI with a set of sample contacts. The window size may not be optimal.
 
 - Saving window preferences
 
@@ -755,7 +763,8 @@ H'Reers is running.
 
 #### Test Case 1: Add an employee with birthday and work anniversary
 ```
-add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08
+add n/John Doe p/98765432 e/johnd@example.com 
+jp/President bd/2001-01-01 wa/2020-07-08
 ```
 
 #### Expected Result:
@@ -765,7 +774,8 @@ add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020
 
 #### Test Case 2: Invalid date format
 ```
-add n/Linda Lee p/98765432 e/lindalee@example.com jp/Nurse bd/12-01-2000
+add n/Linda Lee p/98765432 e/lindalee@example.com 
+jp/Nurse bd/12-01-2000
 ```
 
 #### Expected Result:
@@ -1193,40 +1203,40 @@ Team Size: 5
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
 1. **Address the fullscreen bug issue for all windows**
-- **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
-- **Method to recreate (main)**
-    1. When running the app
-    2. Open the app in fullscreen
-    3. Type help
-    4. Close help window
-    5. Repeat 3 and 4 enough times and the app will crash
-- **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-- **Method to recreate (anniversary)**
-    1. Open app
-    2. Type showAnni xxx
-    3. Fullscreen app and tile them side to side
-    4. Close anni window
-    5. App stops running and hangs
-- **Current Workaround**: Do not use fullscreen mode.
-- **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
+   - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
+   - **Method to recreate (main)**
+       1. When running the app
+       2. Open the app in fullscreen
+       3. Type help
+       4. Close help window
+       5. Repeat 3 and 4 enough times and the app will crash
+   - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+   - **Method to recreate (anniversary)**
+       1. Open app
+       2. Type showAnni xxx
+       3. Fullscreen app and tile them side to side
+       4. Close anni window
+       5. App stops running and hangs
+   - **Current Workaround**: Do not use fullscreen mode.
+   - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
 
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
     - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
-3. Import 
-   - **Current Issue**: limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
+3. **Import Data from Different Formats** 
+   - **Current Issue**: Limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
    - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
    - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
    
-4. Observer Support for ShowAnni
+4. **Observer Support for ShowAnni**
    - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
-   - **Current Workaround**: after each operation on Anniversaries, showAnni should be called again
+   - **Current Workaround**: After each operation on Anniversaries, showAnni should be closed and called again.
    - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
    
-5. ShowAnni Window is not brought back to screen after it has been minimized
+5. **ShowAnni Window is not brought back to screen after it has been minimized**
    - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
-   - **Current Workaround**: place this under known issues
+   - **Current Workaround**: Place this under known issues.
    - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
