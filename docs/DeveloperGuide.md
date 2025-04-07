@@ -882,14 +882,16 @@ Allows HR workers to manage employee anniversaries.
 
 ---
 ### Anniversary commands
-this section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
+This section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
+
 ---
 ### Add Anniversary Command
 
 Prerequisites: Ensure the application is running with an existing employee in the database. This employee's employeeID prefix will be termed `EID` for this section
 #### Test Case 1: Standard Anniversary Creation (Success)
 ```plaintext
-addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate
+atdesc/Annual company celebration ad/Celebrating our company's founding
 ```
 #### Expected Result: Standard Anniversary Created for the Employee
 A new anniversary is added to the employee with ID starting with `EID`.
