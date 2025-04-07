@@ -2,9 +2,11 @@ package seedu.address.logic.commands.anniversary;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS;
+import static seedu.address.logic.Messages.MESSAGE_SUCCESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ANNIVERSARY_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMPLOYEEID;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -47,6 +49,7 @@ public class DeleteAnniversaryCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        model.commitChanges();
         List<Employee> matchedEmployees = model.getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix);
 
         if (matchedEmployees.size() > 1) {
@@ -66,13 +69,18 @@ public class DeleteAnniversaryCommand extends Command {
         Employee employeeToEdit = matchedEmployees.get(0);
         List<Anniversary> anniversaryList = employeeToEdit.getAnniversaries();
 
-
         if (targetIndex.getZeroBased() >= anniversaryList.size()) {
             throw new CommandException(MESSAGE_ANNIVERSARY_OUT_OF_BOUNDS);
         }
 
+        // Save the state before any potential changes
+        model.commitChanges();
+
+        List<Anniversary> editAnniversaryList = new ArrayList<>();
+        editAnniversaryList.addAll(anniversaryList);
+
         Anniversary anniversaryToDelete = anniversaryList.get(targetIndex.getZeroBased());
-        anniversaryList.remove(anniversaryToDelete);
+        editAnniversaryList.remove(anniversaryToDelete);
         Employee updatedEmployee = Employee.builder()
                 .employeeId(employeeToEdit.getEmployeeId())
                 .name(employeeToEdit.getName())
@@ -80,10 +88,11 @@ public class DeleteAnniversaryCommand extends Command {
                 .email(employeeToEdit.getEmail())
                 .phone(employeeToEdit.getPhone())
                 .tags(employeeToEdit.getTags())
-                .anniversaries(anniversaryList).build();
+                .anniversaries(editAnniversaryList).build();
         // update the model
         model.setEmployee(employeeToEdit, updatedEmployee);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, anniversaryToDelete), true,
+                employeeToEdit.getEmployeeIdAsString());
     }
 }

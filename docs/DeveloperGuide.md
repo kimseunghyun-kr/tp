@@ -557,7 +557,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | HR worker                                   | go back to the previous page       |                                                                |
 | `*`      | HR worker                                   | have buttons                       | rest my fingers from typing                                    |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -735,7 +734,16 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    2. Open your command prompt (on Windows) or terminal (on Mac/Linux).
+    3. Navigate to the folder where you saved the .jar file. For example:
+        ```bash
+         cd /path/to/your/folder
+        ```
+    4. Run this command:
+        ```bash
+        java -jar hreers.jar
+        ```
+        * Expected: Shows the GUI with a set of sample contacts. The window size may not be optimal.
 
 - Saving window preferences
 
@@ -755,7 +763,8 @@ H'Reers is running.
 
 #### Test Case 1: Add an employee with birthday and work anniversary
 ```
-add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020-07-08
+add n/John Doe p/98765432 e/johnd@example.com 
+jp/President bd/2001-01-01 wa/2020-07-08
 ```
 
 #### Expected Result:
@@ -765,7 +774,8 @@ add n/John Doe p/98765432 e/johnd@example.com jp/President bd/2001-01-01 wa/2020
 
 #### Test Case 2: Invalid date format
 ```
-add n/Linda Lee p/98765432 e/lindalee@example.com jp/Nurse bd/12-01-2000
+add n/Linda Lee p/98765432 e/lindalee@example.com 
+jp/Nurse bd/12-01-2000
 ```
 
 #### Expected Result:
@@ -835,13 +845,14 @@ H'Reers is running and has employees:
 find n/Alex Li
 ```
 
-#### Expected Result: No prefix provided
+#### Expected Result:
 * Employee list is filtered to show:
     * Alex Yeoh
+    * Charlotte Oliveiro
     * David Li
-* Success message is shown: 2 employees listed.
+* Success message is shown: 3 employees listed!
 
-#### Test Case 2:
+#### Test Case 2: No prefix provided
 ```
 find Alice
 ```
@@ -871,70 +882,69 @@ Allows HR workers to manage employee anniversaries.
 
 ---
 ### Anniversary commands
-
+this section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
 ---
 ### Add Anniversary Command
-1. Standard Anniversary Creation - Success
-   Prerequisites: Ensure the application is running with an existing employee in the database.
 
-Test case: addAnni eid/<existing_employee_id_prefix> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+Prerequisites: Ensure the application is running with an existing employee in the database. This employee's employeeID prefix will be termed `EID` for this section
+#### Test Case 1: Standard Anniversary Creation (Success)
+```plaintext
+addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+```
+#### Expected Result: Standard Anniversary Created for the Employee
+A new anniversary is added to the employee with ID starting with `EID`.
+The anniversary has 
+- **name** "Company Foundation Day"
+- **date** "2024-06-15"
+- **type** "Corporate"
+- **type description** "Annual company celebration"
+- **description** "Celebrating our company's founding".
 
-Expected:
-
-A new anniversary is added to the employee with ID starting with "<existing_employee_id_prefix>".
-The anniversary has name "Company Foundation Day", date "2024-06-15", type "Corporate" with type description "Annual company celebration" and description "Celebrating our company's founding".
 Success message: "New anniversary added: [anniversary details]" is displayed.
 
-2. Missing Employee ID - Failure
-   Prerequisites: Ensure the application is running.
-
-Test case: addAnni d/2024-06-15 an/Company Foundation Day at/Corporate
-
-Expected:
-
+#### Test Case 2: Missing EmployeeId (Failure)
+```plaintext
+addAnni d/2024-06-15 an/Company Foundation Day at/Corporate
+```
+#### Expected Result: Standard Anniversary Creation Failed
 No anniversary is added.
 Error message: "Invalid command format! [usage information]" is displayed.
 
-3. Invalid Date Format - Failure
-   Prerequisites: Ensure the application is running with an existing employee in the database.
-
-Test case: addAnni eid/<existing_employee_id_prefix> d/15-06-2024 an/Company Foundation Day at/Corporate
-
-Expected:
-
+#### Test Case 3: Malformed Date (Failure)
+```plaintext
+addAnni eid/EID d/15-06-2024 an/Company Foundation Day at/Corporate
+```
+#### Expected Result: Standard Anniversary Creation Failed
 No anniversary is added.
 Error message: "Anniversary date must be in YYYY-MM-DD format." is displayed.
 
 ---
 ### DeleteAnniversaryCommand
-1. Standard Anniversary Deletion - Success
-   Prerequisites: Ensure the application is running with an existing employee and AT LEAST ONE anniversary in the database.
 
-Test case: deleteAnni eid/<existing_employee_id_prefix> ai/1
+Prerequisites: Ensure the application is running with an existing employee in the database, with at least one anniversary associated, except for test case 2. This employee's employeeID prefix will be termed `EID` for this section.
 
-Expected:
-
+#### Test Case 1:Standard Anniversary Deletion (Success)
+```plaintext
+deleteAnni eid/EID ai/1
+```
+#### Expected Result: Standard Anniversary Deletion Successfully executed
 Anniversary with index 1 is removed from the given employee
 Success message: "Anniversary deleted: [anniversary details]" is displayed.
 
-2. Out of bound anniversary ID - Failure
-   Prerequisites: Ensure the application is running.
-   Ensure the application is running with an existing employee with no anniversary
-
-Test case: deleteAnni eid/<existing_employee_id_prefix> ai/1
-
-Expected:
-
+#### Test Case 2: Employee has No anniversary (Failure)
+Prerequisite : Ensure the application is running with an existing employee with no anniversary.
+```plaintext
+deleteAnni eid/EID ai/1
+```
+#### Expected Result: Standard Anniversary Deletion Failed
 No anniversary is deleted.
 Error message: "The index you are searching for is out of bounds for the anniversary." is displayed.
 
-3. Missing Employee Id - Failure
-   Prerequisites: Ensure the application is running with an existing employee in the database.
-
+#### Test Case 3: Missing EmployeeId (Failure)
+``` plaintext
 Test case: deleteAnni eid/ ai/1
-
-Expected:
-
+```
+#### Expected Result: Standard Anniversary Deletion Failed
 No anniversary is deleted.
 Error message: "Invalid command format!
 deleteAnni: deletes an anniversary to the employee identified by a prefix of their Employee ID.
@@ -980,15 +990,152 @@ showAnni eid/efgh3123
 
 ---
 ### Export Command
-1. Standard export - Success
-   Prerequisites: Ensure the application is displaying some data of choice
+Prerequisites: Ensure the application is displaying some data of choice, except for test case 5
+#### Test Case 1:Standard JSON Export (Success)
+``` plaintext
+export ft/json
+```
+#### Expected Result:
+a json file containing data that is currently being displayed beside the jar file in an `/output/` directory.
+Success message: "Exported <number> employees to json format to jar file location" is displayed.
 
-Test case: export ft/json
+#### Test Case 2:Standard CSV Export (Success)
+``` plaintext
+export ft/csv
+```
+#### Expected Result:
+a csv file containing data that is currently being displayed beside the jar file in an `/output/` directory.
+note that the csv file will contain multiple rows of the same employee should the employee had multiple anniversaries
+Success message: "Exported <number> employees to csv format to jar file location" is displayed.
 
-Expected:
 
-a json file containing data that is currently being displayed beside the jar file
+#### Test Case 3:Standard JSON Export With Name (Success)
+``` plaintext
+export ft/json fn/contacts
+```
+#### Expected Result:
+a json file containing data that is currently being displayed beside the jar file as contacts.json
+Success message: "Exported <number> employees in json format to contact.json.
 
+#### Test Case 4:Standard JSON Export With Name and File Path (Success)
+``` plaintext
+export ft/json fn/contacts fp/./output/kraken
+```
+#### Expected Result:
+a json file containing data that is currently being displayed beside the jar file as <filepath>/contacts.json
+Success message: "Exported <number> employees in json format to ./outputs/kraken/contacts.json
+
+#### Test Case 5:Export With Nothing Shown (Failure)
+``` plaintext
+find n/<some name that does not exist in the database>
+export ft/json
+```
+#### Expected Result:
+Error message: "No people to export." is displayed.
+
+---
+### Import Command
+Prerequisites: 
+1. Ensure a valid json file exists for test case 1-2, this can be created via export
+2. a valid csv file exists for test cases 3-4, this can be created via export command
+3. tests requiring empty files can be created by creating a new file with correct file extension and no content
+4. formats that do not conform to the exported files may cause errors.
+5. csv files that have been opened by microsoft excel can cause error, due to excel's `smart formatting` features, which may cause the file to be saved in a different format, and the formats of columns to be changed
+6. ensure that csv files that have been created conform to all the required rules set in the User Guide, such as requiring the file to be saved in utf-8 format.
+7. Any non-compliance of the rules mentioned above and the rules in the user guide may cause the import to fail, and we do not guarantee their successes. Extreme cases may even cause silent failures.
+8. Especially for Arabic language settings or Japanese word settings where the input goes from right to left, we do not support such encodings.
+9. Ensure that for valid cases, the file path is correct, and the file exists in the specified location.
+10. We will assume that the export section has been done prior, and will use the files created accordingly.
+11. note that duplicated fields will be allowed for json. For single fields, the bottommost field will be used, and the rest will be ignored. This is due to not using `JSONPARSER_STRICT`, to allow some flexibility in the file format.
+12. no embedded newlines into fields are allowed.
+
+#### Test Case 1:Standard JSON Import Overwrite (Success)
+``` plaintext
+import ft/json fp/./output/ fn/output wm/overwrite
+```
+#### Expected Result ( no issues ):
+your current app will be overwritten by file content
+Success message: "Successfully imported <number> contacts, overwriting existing data." is displayed.
+
+#### Expected Result ( has issues ):
+your current app will not be overwritten by file content
+- omitted field : "Invalid data in import file: Employee's <field> field is missing!" is displayed
+- prefix collision ( an employee prefix in the file collides with another employee prefix in the file ) : "Found multiple employees with employeeId starting with <id2>=<id1>" is displayed
+- identity collision ( same employeeId, different details ) : "conflicting records found <person1> \n <person2>" is displayed
+- invalid file : "Failed to read the file: the json file is invalid or corrupted." is displayed
+- empty file : "The JSON file is empty. Please provide a valid file." is displayed
+
+#### Test Case 2:Standard Json Import Append (Success)
+``` plaintext
+import ft/json fp/./output/ fn/output wm/append
+```
+#### Expected Result:
+your current visual appended by file content.
+this test case subsumes all of the file related errors that is presented above
+note that the `append` mode will result in the following regressive effects
+1. if the app currently contains employees with the same EmployeeId , name, email, phone, tags, job position, the anniversaries within the json file will be merged into the existing employees
+2. if the app currently contains employees with the same EmployeeId, but differ in any of the other fields, the employees will be put into omitted list for manual conflict resolution, that will be displayed.
+3. if the app currently contains employees that have a EmployeeId that is a Prefix of an employee currently present in the app, the employees will be put into omitted list for manual conflict resolution, that will be displayed.
+4. If the file contains employees that are not present in the app, they will be added to the app.
+
+#### Expected Result ( no conflicts ):
+Success message: "Successfully imported <number> contacts, skipped 0.
+Please resolve conflicts manually
++ Conflicting records found: " is displayed.
+
+#### Expected Result ( has conflicts - <assume only a single conflict>):
+Success message: "Successfully imported <number - 1> contacts, skipped 1.
+Please resolve conflicts manually
++ Conflicting records found:
+  <employee details>"
++ is displayed.
+
+#### Test Case 3:Standard CSV Import Overwrite With Name (Success)
+``` plaintext
+import ft/csv fp/./output/ fn/output wm/overwrite
+```
+#### Expected Result:
+note that the `csv` mode will result in the following regressive effects
+1. all lines with the same employeeId and name, email, phone, tags, job position will be merged into a single Employee.
+
+#### Expected Result ( no issues ):
+your current visual overwritten by file content
+Success message: "Successfully imported <number> contacts, overwriting existing data." is displayed.
+
+#### Expected Result ( has issues ):
+- omitted field : "Invalid data in import file: Employee's <field> field is missing!" is displayed
+- prefix collision ( an employee prefix in the file collides with another employee prefix in the file ) : "Found multiple employees with employeeId starting with <id2>=<id1>" is displayed
+- identity collision ( same employeeId, different details ) : "conflicting records found <person1> \n <person2>" is displayed
+- missing column : "CSV missing required field: <field>" is displayed
+- extraenous column : <ROMAN>
+- empty file : "CSV data cannot be empty." is displayed
+
+#### Test Case 4:Standard CSV Import Append With Name (Success)
+``` plaintext
+import ft/csv fp/./output/ fn/output wm/append
+```
+
+#### Expected Result:
+this test case subsumes all of the file related errors that is presented above
+note that the `append` mode will result in the following regressive effects
+1. if the app currently contains employees with the same EmployeeId , name, email, phone, tags, job position, the anniversaries within the json file will be merged into the existing employees
+2. if the app currently contains employees with the same EmployeeId, but differ in any of the other fields, the employees will be put into omitted list for manual conflict resolution, that will be displayed.
+3. if the app currently contains employees that have a EmployeeId that is a Prefix of an employee currently present in the app, the employees will be put into omitted list for manual conflict resolution, that will be displayed.
+4. If the file contains employees that are not present in the app, they will be added to the app.
+
+#### Expected Result ( no conflicts ):
+Success message: "Successfully imported <number> contacts, skipped 0.
+Please resolve conflicts manually
++ Conflicting records found: " is displayed.
+
+#### Expected Result ( has conflicts - <assume only a single conflict>):
+Success message: "Successfully imported <number - 1> contacts, skipped 1.
+Please resolve conflicts manually
++ Conflicting records found:
+  <employee details>"
++ is displayed.
+
+---
 ### Save Employee Records
 #### Purpose:
 Ensures employee records persist across sessions.
@@ -1004,7 +1151,6 @@ Ensures employee records persist across sessions.
 - Full flush backup (complete overwrite).
 - Intermediate .tmp file for autosave.
 
----
 ---
 ### Viewing Upcoming Anniversaries (Reminder Feature)
 
@@ -1057,24 +1203,40 @@ Team Size: 5
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
 1. **Address the fullscreen bug issue for all windows**
-- **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
-- **Method to recreate (main)**
-    1. When running the app
-    2. Open the app in fullscreen
-    3. Type help
-    4. Close help window
-    5. Repeat 3 and 4 enough times and the app will crash
-- **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-- **Method to recreate (anniversary)**
-    1. Open app
-    2. Type showAnni xxx
-    3. Fullscreen app and tile them side to side
-    4. Close anni window
-    5. App stops running and hangs
-- **Current Workaround**: Do not use fullscreen mode.
-- **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
+   - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
+   - **Method to recreate (main)**
+       1. When running the app
+       2. Open the app in fullscreen
+       3. Type help
+       4. Close help window
+       5. Repeat 3 and 4 enough times and the app will crash
+   - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+   - **Method to recreate (anniversary)**
+       1. Open app
+       2. Type showAnni xxx
+       3. Fullscreen app and tile them side to side
+       4. Close anni window
+       5. App stops running and hangs
+   - **Current Workaround**: Do not use fullscreen mode.
+   - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
 
 2. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
     - **Current Workaround**: Have limited space for employees in the system.
-    -  **Planned Solution**:  we plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+
+3. **Import Data from Different Formats** 
+   - **Current Issue**: Limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
+   - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
+   - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
+   
+4. **Observer Support for ShowAnni**
+   - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
+   - **Current Workaround**: After each operation on Anniversaries, showAnni should be closed and called again.
+   - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
+   
+5. **ShowAnni Window is not brought back to screen after it has been minimized**
+   - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
+   - **Current Workaround**: Place this under known issues.
+   - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
+

@@ -37,9 +37,6 @@ public class DeleteCommand extends Command {
         requireNonNull(model);
         List<Employee> matchedEmployees = model.getFullFilteredByEmployeeIdPrefixListFromData(employeeIdPrefix);
 
-        // Save the state before any potential changes
-        model.commitChanges();
-
         if (matchedEmployees.size() > 1) {
             throw new CommandException(String.format(
                     Messages.MESSAGE_MULTIPLE_EMPLOYEES_FOUND_WITH_PREFIX,
@@ -53,6 +50,9 @@ public class DeleteCommand extends Command {
                     employeeIdPrefix
             ));
         }
+
+        // Save the state before any potential changes
+        model.commitChanges();
 
         Employee employeeToDelete = matchedEmployees.get(0);
         model.deleteEmployee(employeeToDelete);

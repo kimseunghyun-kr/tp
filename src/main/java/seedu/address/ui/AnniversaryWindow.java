@@ -3,10 +3,11 @@ package seedu.address.ui;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
@@ -25,13 +26,16 @@ public class AnniversaryWindow extends UiPart<Region> {
 
     // We'll hold onto a Stage so we can show/hide/focus it
     private final Stage windowStage;
+    @FXML private TableView<Anniversary> anniversaryTable;
+    @FXML private TableColumn<Anniversary, String> dateColumn;
+    @FXML private TableColumn<Anniversary, String> nameColumn;
+    @FXML private TableColumn<Anniversary, String> descriptionColumn;
+    @FXML private TableColumn<Anniversary, String> typeColumn;
+    @FXML private TableColumn<Anniversary, String> typeDescriptionColumn;
 
-    @FXML
-    private ListView<Anniversary> anniversaryListView;
 
     /**
      * Creates a new AnniversaryWindow.
-     *
      * The FXML's top-level node is a Region (e.g. VBox),
      * so here we create a new Stage and place that Region inside it.
      */
@@ -42,6 +46,9 @@ public class AnniversaryWindow extends UiPart<Region> {
         windowStage = new Stage();
         windowStage.setTitle("Anniversaries"); // Title can be anything
         windowStage.setScene(new Scene(getRoot()));
+        windowStage.setMinWidth(500);
+        windowStage.setMinHeight(600);
+        anniversaryTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     }
 
     // ========================================================
@@ -55,6 +62,10 @@ public class AnniversaryWindow extends UiPart<Region> {
         logger.fine("Showing anniversary page about the employee.");
         windowStage.show();
         windowStage.centerOnScreen();
+    }
+
+    public void refresh() {
+        anniversaryTable.refresh();
     }
 
     /**
@@ -79,32 +90,29 @@ public class AnniversaryWindow extends UiPart<Region> {
     }
 
     // ========================================================
-    // Logic for populating the ListView
+    // Logic for populating the TableView
     // ========================================================
 
     /**
-     * Updates the ListView with the given list of anniversaries.
+     * Updates the TableView with the given list of anniversaries.
      */
     public void setAnniversaryList(List<Anniversary> anniversaries) {
-        // If you prefer, you can do: anniversaryListView.setItems(FXCollections.observableList(anniversaries));
-        // And if you want a custom cell:
-        anniversaryListView.setCellFactory(listView -> new ListCell<Anniversary>() {
-            @Override
-            protected void updateItem(Anniversary item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    // For example: "2025-03-13 (Silver Wedding): Celebrating 25 years"
-                    String display = item.getDate() + " (" + item.getName() + "): " + item.getDescription();
-                    setText(display);
-                }
-            }
+        dateColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDate().toString()));
+        nameColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getName()));
+        descriptionColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getDescription()));
+        typeColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getType().getName()));
+        typeDescriptionColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getType().getDescription()));
+        anniversaryTable.getItems().setAll(anniversaries);
+        anniversaryTable.getColumns().forEach(column -> {
+            column.setSortable(false);
         });
-
-        // if you want to store the data in the listView:
-        anniversaryListView.getItems().setAll(anniversaries);
     }
+
 
     /**
      * Called by the "Close" button in the FXML (if you have one).
