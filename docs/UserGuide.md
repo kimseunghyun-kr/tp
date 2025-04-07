@@ -35,9 +35,9 @@ Whether you need to track employee milestones, update records, or generate quick
 4. [Anniversary Commands](#anniversary-commands)
     - [Showing anniversaries: `showAnni`](#showing-anniversaries-codeshowannicode)
     - [Adding anniversaries: `addAnni`](#adding-anniversaries-codeaddannicode)
-    - [Deleting anniversaries `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
+    - [Deleting anniversaries: `deleteAnni`](#deleting-anniversaries-codedeleteannicode)
 5. [Reminder Commands](#reminder-command)
-    - [Viewing upcoming anniversaries `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
+    - [Viewing upcoming anniversaries: `reminder`](#viewing-upcoming-anniversaries-coderemindercode)
 6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
@@ -152,6 +152,10 @@ All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered 
 ---
 ## Core Commands
 
+This section covers the core actions you’ll use most often to manage your employees in H'Reers.
+
+Whether you're updating contact info or quickly finding someone on your team, these commands are the foundation of day-to-day HR work in H'Reers.
+
 ---
 ### Viewing help: `help`
 
@@ -161,7 +165,9 @@ Format: `help`
 
 * A popup will appear showing a list of commands and how to use them.
 * You can also access this by clicking the Help button in the top right corner of the app.
+
   ![help message](images/HelpMessage.png)
+  *Figure 1: Help Window Prompt*
 
 [Back to Top](#)
 
@@ -206,10 +212,11 @@ Examples:
     * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
     * Below is a screenshot of this example:
       ![addJohnDoe](images/AddJohnDoeCommand.png)
+      *Figure 2: Command for adding John Doe.*
       ![addJohnDoeSuccess](images/AddJohnDoeResult.png)
-      *Figure 2: Success message displayed after adding John Doe.*
+      *Figure 3: Success message displayed after adding John Doe.*
 
-* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner    p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
+* `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
 Common Errors: 
@@ -347,19 +354,22 @@ Format 3 (Searching for both name and job positions): `find n/KEYWORD [MORE_KEYW
 
     * So `find n/Hans Bo jp/dev manager` finds people whose name contains "Hans" **or** "Bo", **and** whose job position has the word "dev" **or** "manager".
 
-* You can use the same prefix multiple times — all values will be collected and combined together.
-    * So `find n/1 jp/2 n/2 jp/1` is treated the same as `find n/1 2 jp/2 1`
+* You can use the same prefix multiple times — all values will be collected and combined.
+    * So `find n/1 jp/2 n/2 jp/1` is treated the same as `find n/1 2 jp/2 1`.
     * This gives you more flexibility in writing your searches!
 </div>
 
 Examples:
-* `find n/li` returns `David Li` and `Real Li`
-* `find n/david Li` returns `David Li` and `Real Li`
-* `find n/li ri jp/ dev manager` returns `David Li`, `Real Ri` and `Real Li`<br>
+* `find n/li` 
+  * returns `David Li` and `Real Li`.
+* `find n/david Li` 
+  * returns `David Li` and `Real Li`.
+* `find n/li ri jp/ dev manager` 
+  * returns `David Li`, `Real Ri` and `Real Li`.<br>
 
 The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![findResult](images/FindLiRiDevManagerResult.png)
-*Figure 3: Result of the command `find n/li ri jp/ dev manager`*
+*Figure 4: Result of the command `find n/li ri jp/ dev manager`*
 
 Common Errors:
 * `At least one non-empty field is required.` - You must use at least one of the prefixes to search for employees.
@@ -415,7 +425,7 @@ Example:
     * Opens a window showing anniversaries for the employee with the specified ID.
     * The screenshot below shows the result of the command to show Mary Jane's anniversaries:
     ![showAnniResult](images/ShowAnniSuccessExample.png)
-  *Figure 4: Example of using `showAnni` on Mary Jane and the result*
+  *Figure 5: Example of using `showAnni` on Mary Jane and the result*
 
 Common Errors:
 * `Invalid command format!` - You might have used the wrong prefix or added something extra before the prefixes. Double-check your command format.
@@ -445,7 +455,8 @@ You can use this format in 3 ways!
 Format 1 : default format for **custom** anniversaries
 ``` plaintext
 addAnni eid/EMPLOYEE_ID_PREFIX d/DATE an/ANNIVERSARY_NAME 
-at/ANNIVERSARY_TYPE [ad/DESCRIPTION] [atdesc/TYPE_DESCRIPTION]
+at/ANNIVERSARY_TYPE [ad/DESCRIPTION] 
+[atdesc/TYPE_DESCRIPTION]
 ```
 Format 2 : short form support for Birthday Anniversaries (not Date of Birth)
 > **Note:** The `bd/` field represents a **birthday anniversary** — a recurring date used for tracking and reminders — not the employee's date of birth.  
@@ -586,7 +597,7 @@ You can use this command to view all employee anniversaries (birthdays, work ann
 Format: `reminder`
 
 * A reminder panel appears on the right side of the UI.
-* All upcoming anniversaries (within 3 days) will be displayed in one combined list.
+* All upcoming anniversaries (within 3 days) will be displayed to you in one combined list.
 * Each reminder card shows:
     * The employee’s **name**
     * Their **job position**
@@ -616,27 +627,39 @@ Each card in the reminder panel corresponds to one upcoming anniversary for an e
 
 ---
 ## Quality of Life Features
+These are simple but powerful commands that help you stay in control of your workspace. Whether you want to wipe your entire list and start fresh, or just close the app when you're done — these commands make it easy.
 
 ---
 ### Clearing all entries: `clear`
 
-Clears all entries from H'Reers.
+Use this when you want to wipe your entire employee list and start fresh.
 
 Format: `clear`
+
+* This removes all employees and their data from H'Reers immediately.
+
+* Ideal for resetting the app during testing or before importing a new dataset.
 
 [Back to Top](#)
 
 ---
 ### Exiting the program: `exit`
 
-Exits the program.
+Use this when you're done for the day and want to close H'Reers safely.
 
 Format: `exit`
+
+* The program will shut down immediately after you enter this command.
+
+* Don’t worry — all your data is already saved automatically.
 
 [Back to Top](#)
 
 ---
 ## Data Management
+
+You can edit, import, or export employee data manually if you're more tech-savvy.
+Some features like importing are powerful — and risky. Use them carefully to avoid losing data!
 
 ---
 ### Saving the data
@@ -650,7 +673,7 @@ H'Reers data are saved in the hard disk automatically after any command that cha
 
 H'Reers data are saved automatically as a JSON file `[JAR file location]/data/H'Reers.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning">:exclamation: Caution:
 If your changes to the data file makes its format invalid, H'Reers will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
@@ -672,8 +695,8 @@ undo is possible for overwrites or included persons. but not for appended annive
 > - If the file format or content is incorrect, the results may be unpredictable.
 > - If the file is formatted improperly, the data may be lost or corrupted without any warning.
 
-[import_before](images/import_before.png)
-[import_success](images/import_success.png)
+![import_before](images/import_before.png)
+![import_success](images/import_success.png)
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
@@ -683,6 +706,7 @@ This is useful when you want to:
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Notes about the export command:**<br>
+
 #### What kind of files can I use?
 
 - Only **CSV (.csv)** or **JSON (.json)** files are accepted.
@@ -716,7 +740,7 @@ There are **two modes** for importing data. You must choose one:
 - If two employee IDs share the same **prefix** (first few characters), those will also be skipped.
 - Formatting mistakes may cause the import to fail, at times, without notice.
 
-### 2. Overwrite Mode (replacing current records)
+**2. Overwrite Mode (replacing current records)**
 - This mode **replaces your entire database with the new file**.
 - If there is **any error**, **nothing** will be imported. This is to protect your existing data.
 
@@ -725,7 +749,6 @@ There are **two modes** for importing data. You must choose one:
 - If you also supply `fn/`, ensure `fp/` is just a directory (or the import will fail).
 
 #### Extension Enforcement
-
 - If you use `fn/` without an extension, the system may automatically append `.json` or `.csv` based on `ft/`.
 - Mismatched extensions will raise an error.
 
@@ -920,6 +943,11 @@ If you get an error about prefix conflicts when adding or editing employees, sim
     * **Solution**: Manually restore the minimized Help Window.
 3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
     * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
+4. **Employee ID Prefix Conflicts**: Currently, the system enforces a policy that prevents employee ID prefixes from conflicting with each other. 
+This means that no employee ID can be a prefix of another employee ID.
+    * **Current Limitation**: In rare situations where many employees have very short IDs that fill up all possible combinations of starting characters, it might become impossible to add new employees.
+    * **Upcoming Solution**: In a future update, we plan to implement a terminator character (\$) to allow using the full employee ID. 
+    For example, `edit 1abc$` will specifically select the employee with the exact ID "1abc" rather than any employee whose ID starts with "1abc".
 
 [Back to Top](#)
 

@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -187,14 +188,34 @@ public class ModelManager implements Model {
             return date;
         }
 
-        // Build a candidate date using today's year, but same month and day
-        LocalDate nextOccurrenceThisYear = LocalDate.of(today.getYear(), date.getMonth(), date.getDayOfMonth());
+        LocalDate candidate = safeDate(today.getYear(), date.getMonthValue(), date.getDayOfMonth());
 
-        // If the candidate is before today, we need to move to next year
-        if (nextOccurrenceThisYear.isBefore(today)) {
-            return nextOccurrenceThisYear.plusYears(1);
-        } else {
-            return nextOccurrenceThisYear;
+        if (candidate == null || candidate.isBefore(today)) {
+            candidate = safeDate(today.getYear() + 1, date.getMonthValue(), date.getDayOfMonth());
+        }
+
+        return candidate;
+    }
+
+    /**
+     * Returns a valid {@link LocalDate} for the given year, month, and day.
+     * Falls back to Feb 28 if the date is Feb 29 on a non-leap year.
+     * Asserts false and returns {@code null} for other invalid dates.
+     *
+     * @param year Year value.
+     * @param month Month value (1–12).
+     * @param day Day value (1–31).
+     * @return A valid {@code LocalDate}, fallback, or {@code null} if invalid.
+     */
+    private LocalDate safeDate(int year, int month, int day) {
+        try {
+            return LocalDate.of(year, month, day);
+        } catch (DateTimeException e) {
+            if (month == 2 && day == 29) {
+                return LocalDate.of(year, 2, 28); // fallback for leap day
+            }
+            assert false : String.format("Unexpected invalid date: %04d-%02d-%02d", year, month, day);
+            return null;
         }
     }
 

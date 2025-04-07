@@ -53,7 +53,7 @@ title: H'Reers Developer Guide
 
 ## Acknowledgements
 
-* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html),[github](https://github.com/se-edu/addressbook-level3))
+* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html), [github](https://github.com/se-edu/addressbook-level3))
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -105,13 +105,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/ui)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java) is specified in [`MainWindow.fxml`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -122,7 +122,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/logic)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -152,7 +152,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/model)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
@@ -174,7 +174,7 @@ The `Model` component:
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/storage)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -611,7 +611,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. H'Reers shows an error message.
 
       Use case resumes at step 2.
 
@@ -763,7 +763,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-    2. Re-launch the app by double-clicking the jar file.<br>
+    2. Re-launch the app by running `java -jar hreers.jar`.<br>
        Expected: The most recent window size and location is retained.
 
 ---
@@ -896,14 +896,16 @@ Allows HR workers to manage employee anniversaries.
 
 ---
 ### Anniversary commands
-this section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
+This section details the manual testings that can be done to commands related to managing employee anniversaries, including adding, deleting, and viewing anniversaries.
+
 ---
 ### Add Anniversary Command
 
 Prerequisites: Ensure the application is running with an existing employee in the database. This employee's employeeID prefix will be termed `EID` for this section
 #### Test Case 1: Standard Anniversary Creation (Success)
 ```plaintext
-addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate atdesc/Annual company celebration ad/Celebrating our company's founding
+addAnni eid/<EID> d/2024-06-15 an/Company Foundation Day at/Corporate
+atdesc/Annual company celebration ad/Celebrating our company's founding
 ```
 #### Expected Result: Standard Anniversary Created for the Employee
 A new anniversary is added to the employee with ID starting with `EID`.
@@ -1216,16 +1218,17 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. **Address the fullscreen bug issue for all windows**
-   - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
-   - **Method to recreate (main)**
+1. **Address the fullscreen bug issue for all new windows**
+   - **Current Issue**: Closing windows in fullscreen may cause it to crash.
+   - **Method to recreate**
        1. When running the app
        2. Open the app in fullscreen
        3. Type help
        4. Close help window
        5. Repeat 3 and 4 enough times and the app will crash
-   - **Current Issue 2**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
-   - **Method to recreate (anniversary)**
+2. **Address the fullscreen bug issue for all new windows**
+   - **Current Issue**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
+   - **Method to recreate**
        1. Open app
        2. Type showAnni xxx
        3. Fullscreen app and tile them side to side
@@ -1234,23 +1237,37 @@ In future versions of H'Reers, the following enhancements are planned to improve
    - **Current Workaround**: Do not use fullscreen mode.
    - **Planned Solution**: Investigate the cause of the crash and implement a fix to ensure that closing windows in fullscreen mode does not lead to application crashes. It is probably a bug in the JavaFX library.
 
-2. **Stop enforcing the absence of prefix conflicts**
+3. **Stop enforcing the absence of prefix conflicts**
     - **Current Issue**: Enforcing prefix conflicts policy may lead to the situation when no employee addition is possible, as every id would conflict with the existing ones. That would occur when the ids of the employees are very short and fill up all the possible beginnings of the ids.
-    - **Current Workaround**: Have limited space for employees in the system.
-    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
+    - **Current Workaround**: The possibility of such a situation is very low, as the ids are generated randomly and are long enough. The only situation when this may occur is when user deliberately made the ids short. This restriction is documented in the user guide.
+    - **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put \$ after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
-3. **Import Data from Different Formats** 
+4. **Import Data from Different Formats** 
    - **Current Issue**: Limited feature functionality to various different csv formats available, and lacks robustness in parsing and validation.
    - **Current Workaround**: mention in the user guide to prevent users from using unsupported formats, to follow the export feature's csv format.
    - **Planned solution**: Use external libraries to support more formats and provide better parsing and validation. This will allow users to import data from various sources without worrying about format compatibility.
    
-4. **Observer Support for ShowAnni**
+5. **Observer Support for ShowAnni**
    - **Current Issue**: ShowAnni currently does not update dynamically should there be operations on it while the GUI is open.
    - **Current Workaround**: After each operation on Anniversaries, showAnni should be closed and called again.
    - **Planned solution**: We plan to observe GUI means for the UI to automatically update, either by exploring JavaFX GUI observer related options
    
-5. **ShowAnni Window is not brought back to screen after it has been minimized**
+6. **ShowAnni Window is not brought back to screen after it has been minimized**
    - **Current Issue**: ShowAnni currently does not reappear when the showAnni command is called after the popup has been minimized. This might be hard for users to see and understand that their call is working and actually showing the anniversaries.
    - **Current Workaround**: Place this under known issues.
    - **Planned solution**: investigate if JavaFx provides methods to specifically avoid this issue (Same as AB3).
 
+7. **Enhanced Phone Number Validation**
+   - **Current Issue**: Phone Numbers cannot have spaces in their format. They also have a limit of 17 digits, which is just to make it not too long
+   - **Planned Solution**: Validate phone numbers according to local and international standards, requiring a minimum of 7 digits and ensuring numbers are valid for practical use cases as well as allow spaces between digits.
+
+8. **Inconsistency between showAnni and edit/delete syntax**
+   - **Current Issue**: For now, edit and delete command has the following syntax: `[edit/delete] [employeeId] [other arguments]`
+   - While the syntax of showAnni is: `[showAnni] eid/[employeeId]`
+   - which constitutes an inconsistency with the requirement of prefix before employeeId, although it's mandatory to have employeeId with the showAnni command, just as it is with the edit/delete commands.
+   - **Planned Solution**: Make the explicit specification of eid/ prefix unnecessary within showAnni, as the command cannot be used without employeeId anyway.
+
+8. **Greater Support for Anniversary recurrence**
+    - **Current Issue**: For now, only a yearly recurrence is supported.
+    - **Planned Solution**: Allow greater options for recurrence, such as monthly, weekly, or custom intervals. This will allow users to set reminders for anniversaries that occur more frequently than once a year.
+  

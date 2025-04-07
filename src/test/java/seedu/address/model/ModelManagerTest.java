@@ -10,13 +10,19 @@ import static seedu.address.testutil.TypicalPersonsWithAnniversaries.BENSON;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.person.Employee;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.reminder.Reminder;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.EmployeeBuilder;
 
 public class ModelManagerTest {
 
@@ -70,6 +76,66 @@ public class ModelManagerTest {
         Path path = Paths.get("address/book/file/path");
         modelManager.setAddressBookFilePath(path);
         assertEquals(path, modelManager.getAddressBookFilePath());
+    }
+
+    @Test
+    public void updateReminderList_upcomingBirthdayWithinRange_reminderAdded() {
+        LocalDate today = LocalDate.now();
+        Employee employee = new EmployeeBuilder()
+                .withName("John Doe")
+                .withBirthdayAndWorkAnniversary(today.plusDays(1), today.plusDays(100))
+                .build();
+
+        modelManager.addEmployee(employee);
+        modelManager.updateReminderList();
+
+        ObservableList<Reminder> reminders = modelManager.getReminderList();
+        assertEquals(1, reminders.size());
+    }
+
+    @Test
+    public void updateReminderList_leapYearBirthdayHandledCorrectly_reminderAdded() {
+        LocalDate leapYearDate = LocalDate.of(2024, 2, 29);
+        Employee employee = new EmployeeBuilder()
+                .withName("Leap Year Test")
+                .withBirthdayAndWorkAnniversary(leapYearDate, leapYearDate)
+                .build();
+
+        modelManager.addEmployee(employee);
+        modelManager.updateReminderList();
+
+        List<Reminder> reminders = modelManager.getReminderList();
+        assertEquals(0, reminders.size()); // Both birthday and work anniversary
+    }
+
+    @Test
+    public void updateReminderList_noUpcomingDates_reminderListEmpty() {
+        LocalDate pastDate = LocalDate.now().minusDays(10);
+        Employee employee = new EmployeeBuilder()
+                .withName("Old Date Test")
+                .withBirthdayAndWorkAnniversary(pastDate, pastDate)
+                .build();
+
+        modelManager.addEmployee(employee);
+        modelManager.updateReminderList();
+
+        List<Reminder> reminders = modelManager.getReminderList();
+        assertEquals(0, reminders.size());
+    }
+
+    @Test
+    public void updateReminderList_futureDatesBeyondRange_noReminders() {
+        LocalDate futureDate = LocalDate.now().plusDays(10);
+        Employee employee = new EmployeeBuilder()
+                .withName("Future Date Test")
+                .withBirthdayAndWorkAnniversary(futureDate, futureDate)
+                .build();
+
+        modelManager.addEmployee(employee);
+        modelManager.updateReminderList();
+
+        List<Reminder> reminders = modelManager.getReminderList();
+        assertEquals(0, reminders.size());
     }
 
     @Test
@@ -130,3 +196,4 @@ public class ModelManagerTest {
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
     }
 }
+

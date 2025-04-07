@@ -26,7 +26,7 @@ public class UndoCommand extends Command {
         ModelManager modelManager = (ModelManager) model;
         if (modelManager.canUndoAddressBook()) {
             modelManager.undoAddressBook();
-            return new CommandResult(MESSAGE_SUCCESS);
+            return new CommandResult(MESSAGE_SUCCESS, true);
         } else {
             return new CommandResult(MESSAGE_FAILURE);
         }
