@@ -114,10 +114,6 @@ public class EditCommand extends Command {
     private static Employee createEditedEmployee(Employee employeeToEdit,
                                                  EditEmployeeDescriptor editEmployeeDescriptor) {
         assert employeeToEdit != null;
-        /*
-         * this is purposefully kept as employeeToEdit.getEmployeeId(), currently changing EmployeeID is not supported,
-         * under Roman to change as he suggests.
-         */
         EmployeeId employeeId = editEmployeeDescriptor.getEmployeeId().orElse(employeeToEdit.getEmployeeId());
         Name updatedName = editEmployeeDescriptor.getName().orElse(employeeToEdit.getName());
         Phone updatedPhone = editEmployeeDescriptor.getPhone().orElse(employeeToEdit.getPhone());
