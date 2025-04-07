@@ -53,7 +53,7 @@ title: H'Reers Developer Guide
 
 ## Acknowledgements
 
-* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html),[github](https://github.com/se-edu/addressbook-level3))
+* This project is based on the [AddressBook-Level3 project](https://se-education.org/guides/conventions/java/intermediate.html) created by the [SE-EDU initiative](https://se-education.org). ([UG](https://se-education.org/addressbook-level3/UserGuide.html), [DG](https://se-education.org/addressbook-level3/DeveloperGuide.html), [github](https://github.com/se-edu/addressbook-level3))
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -105,13 +105,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/ui)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java) is specified in [`MainWindow.fxml`](https://github.com/AY2425S2-CS2103T-F12-4/tp/blob/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -122,7 +122,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/logic)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -152,7 +152,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/model)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
@@ -174,7 +174,7 @@ The `Model` component:
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2425S2-CS2103T-F12-4/tp/tree/master/src/main/java/seedu/address/storage)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
@@ -598,7 +598,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. H'Reers shows an error message.
 
       Use case resumes at step 2.
 
@@ -749,7 +749,7 @@ testers are expected to do more *exploratory* testing.
 
     1. Resize the window to an optimum size. Move the window to a different location. Close the window.
 
-    2. Re-launch the app by double-clicking the jar file.<br>
+    2. Re-launch the app by running `java -jar hreers.jar`.<br>
        Expected: The most recent window size and location is retained.
 
 ---
@@ -1204,15 +1204,15 @@ Team Size: 5
 
 In future versions of H'Reers, the following enhancements are planned to improve functionality, user experience, and data consistency:
 
-1. **Address the fullscreen bug issue for all new windows (Help)**
-   - **Current Issue 1**: Closing windows in fullscreen may cause it to crash.
+1. **Address the fullscreen bug issue for all new windows**
+   - **Current Issue**: Closing windows in fullscreen may cause it to crash.
    - **Method to recreate**
        1. When running the app
        2. Open the app in fullscreen
        3. Type help
        4. Close help window
        5. Repeat 3 and 4 enough times and the app will crash
-2. **Address the fullscreen bug issue for all new windows (Anniversary)**
+2. **Address the fullscreen bug issue for all new windows**
    - **Current Issue**: Closing anniversary window when the screen is tiled with the anniversary window and the main window, will cause it to crash
    - **Method to recreate**
        1. Open app
