@@ -557,7 +557,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | HR worker                                   | go back to the previous page       |                                                                |
 | `*`      | HR worker                                   | have buttons                       | rest my fingers from typing                                    |
 
-*{More to be added}*
 
 ### Use cases
 
@@ -735,7 +734,16 @@ testers are expected to do more *exploratory* testing.
 
     1. Download the jar file and copy into an empty folder
 
-    2. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
+    2. Open your command prompt (on Windows) or terminal (on Mac/Linux).
+    3. Navigate to the folder where you saved the .jar file. For example:
+        ```bash
+         cd /path/to/your/folder
+        ```
+    4. Run this command:
+        ```bash
+        java -jar hreers.jar
+        ```
+        * Expected: Shows the GUI with a set of sample contacts. The window size may not be optimal.
 
 - Saving window preferences
 
@@ -1080,8 +1088,8 @@ In future versions of H'Reers, the following enhancements are planned to improve
     - **Current Workaround**: Have limited space for employees in the system.
     -  **Planned Solution**: We plan to stop requiring the absence of prefix conflicts. Instead, to disambiguate the employee id reference, we require the user to put # after the full employee id as a terminator, so that the system will know that the user is referring to the full employee id and not just a prefix.
 
-3. Import 
-   4. Fails current 
-   5. Better support with external library with more robust parsing and validation.
+3. Import
+    4. Fails current
+    5. Better support with external library with more robust parsing and validation.
 4. After i minimise the popup screen for the showAnni window, and i call showAnni, it does not show me the window. This might be hard for users to see and understand that their call is working and actually showing the annis. (Same as AB3)
 
