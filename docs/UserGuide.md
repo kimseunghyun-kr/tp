@@ -241,6 +241,7 @@ Format: `edit Employee_ID_prefix [n/NAME] [eid/EMPLOYEE_ID] [p/PHONE] [e/EMAIL] 
 * You can remove all the employee’s tags by typing `t/` without
   specifying any tags after it.
 * You can change the employee id by typing `edit Employee_ID_prefix eid/Employee_ID` where Employee_ID is the new full string of a valid eid.
+  * Be careful to avoid "prefix conflicts" where one employee ID is the beginning part of another (e.g., `abc123` and `abc123456`). See the [FAQ section](#prefix-conflict) for more details on prefix conflicts.
 
 <div markdown="span" class="alert alert-primary">:bulb: Tip:
 Use the `list` command first to copy the correct Employee ID prefix.
