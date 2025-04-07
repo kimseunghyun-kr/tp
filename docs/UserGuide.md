@@ -109,6 +109,8 @@ Whether you need to track employee milestones, update records, or generate quick
 5. Learn More
 - You can explore all available features and commands in the [Features](#features) below.
 
+[Back to Top](#)
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -145,6 +147,8 @@ All commands (eg. `add`, `showAnni`) are **Case sensitive** and must be entered 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
+[Back to Top](#)
+
 ---
 ## Core Commands
 
@@ -156,6 +160,8 @@ Shows a message explaining how to access the help page.
 ![help message](images/HelpMessage.png)
 
 Format: `help`
+
+[Back to Top](#)
 
 ---
 ### Adding an employee: `add`
@@ -190,6 +196,8 @@ Examples:
 * `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
 
+[Back to Top](#)
+
 ---
 
 ### Editing an employee: `edit`
@@ -211,6 +219,8 @@ Examples:
 *  `edit 2dsf n/Betsy Crower t/` Edits the name of the specified employee to be `Betsy Crower` and clears all existing tags.
 *  `edit 1sdg21 eid/3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` Edits the employee id to be now `3b9417cc-cf4e-4231-bc4d-4fd167c2abc6` so long as no such employee id already exists.
 
+[Back to Top](#)
+
 ---
 ### Deleting an employee: `delete`
 
@@ -223,6 +233,8 @@ Format: `delete Employee_ID_prefix`
 
 Examples:
 * `list` followed by `delete Employee_ID_prefix` deletes the specified employee.
+
+[Back to Top](#)
 
 ---
 
@@ -242,6 +254,8 @@ Examples:
 * `undo` Will return the previous changed saved data.
 * `undo 2` Will still return to the previous changed saved data as `undo` ignores all parameters after it.
 
+[Back to Top](#)
+
 ---
 ### Listing all employees: `list`
 
@@ -251,6 +265,8 @@ Format: `list`
 
 * This shows every employee in the system — regardless of filters you may have used previously.
 * If you've just used the `find` command and want to see the full list again, simply type `list`.
+
+[Back to Top](#)
 
 ---
 ### Locating employees: `find`
@@ -297,6 +313,8 @@ Examples:
 The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![result for 'find n/li ri jp/ dev manager'](images/FindLiRiDevManagerResult.png)
 
+[Back to Top](#)
+
 ---
 
 ## Anniversary Commands
@@ -316,6 +334,8 @@ With just a few commands, you can:
 - View Anniversaries related to a specific employee
 - View all upcoming anniversaries (Minseok go add this)
 - Remove outdated or incorrect entries
+
+[Back to Top](#)
 
 ---
 
@@ -343,6 +363,8 @@ What will you see:
 Example:
 * `showAnni eid/e22e5292-0353-49a9-9281-5a76e53bc94f`
     * Opens a window showing anniversaries for the employee with the specified ID.
+
+[Back to Top](#)
 
 ---
 
@@ -442,6 +464,8 @@ addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 | `wa/`      | A short name for the work anniversary                     | Optional                          | `Work Anniversary`     |
 | `n/`       | Name of the person required for birthday/work anniversary | Optional(required for bd/wa only) | `Alex shenanigans`     |
 
+[Back to Top](#)
+
 ---
 
 ### Deleting Anniversaries: `deleteAnni`
@@ -485,6 +509,7 @@ deleteAnni eid/0c2414da ai/1
 | `eid/`     | A partial (or full) prefix of the Employee ID                | Required      | `0c2414da`  |
 | `ai/`      | The 1-based index of the anniversary you wish to remove      | Required      | `1`         |
 
+[Back to Top](#)
 
 ---
 ## Reminder Command
@@ -525,6 +550,8 @@ Example UI:
 
 Each card in the reminder panel corresponds to one upcoming anniversary for an employee.
 
+[Back to Top](#)
+
 ---
 ## Quality of Life Features
 
@@ -535,12 +562,16 @@ Clears all entries from H'Reers.
 
 Format: `clear`
 
+[Back to Top](#)
+
 ---
 ### Exiting the program: `exit`
 
 Exits the program.
 
 Format: `exit`
+
+[Back to Top](#)
 
 ---
 ## Data Management
@@ -549,6 +580,8 @@ Format: `exit`
 ### Saving the data
 
 H'Reers data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+
+[Back to Top](#)
 
 ---
 ### Editing the data file
@@ -559,6 +592,8 @@ H'Reers data are saved automatically as a JSON file `[JAR file location]/data/H'
 If your changes to the data file makes its format invalid, H'Reers will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
+
+[Back to Top](#)
 
 ---
 ### Importing data: `import`
@@ -674,6 +709,7 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 | `fn/`      | Optional filename (extension can be auto-added)   | At least one of `fp/` or `fn/` required| `myData.json`               |
 | `wm/`      | Write mode (`append` or `overwrite`)              | **Required**                           | `append` / `overwrite`      |
 
+[Back to Top](#)
 
 ---
 ### Exporting data: `export`
@@ -754,6 +790,8 @@ As a convenience, on the in-app output, it will show how many employees have bee
 | `fp/`      | The optional file path (directory or full path) | Optional if `fn/` is used | `./output/`           |
 | `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
+[Back to Top](#)
+
 --------------------------------------------------------------------------------------------------------------------
 ## Frequently asked questions and Troubleshooting
 We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
@@ -776,6 +814,8 @@ Whether you're setting up H'Reers on a new machine or wondering why the help win
     * **Solution**: Manually restore the minimized Help Window.
 3. **Full-Screen Help Window**: When the app is in full-screen mode, clicking the help button opens the Help Window in a new full-screen view rather than as a pop-up overlay.
     * **Solution**: Exit full-screen mode before opening the Help Window to have it display as a pop-up.
+
+[Back to Top](#)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -801,3 +841,5 @@ Action | Format, Examples
 ## Glossary
 * CLI (Command Line Interface): A text-based interface used to type commands
 * GUI (Graphical User Interface): A user interface that allows interaction with the software through visual elements like buttons and icons.
+
+[Back to Top](#)
