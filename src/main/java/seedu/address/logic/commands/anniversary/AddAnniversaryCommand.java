@@ -97,6 +97,9 @@ public class AddAnniversaryCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_ANNIVERSARY);
         }
 
+        // Save the state before any potential changes
+        model.commitChanges();
+
         // Create a new Employee object with updated anniversaries
         List<Anniversary> anniversaryList = new ArrayList<>(employeeToEdit.getAnniversaries());
         anniversaryList.add(toAdd);
