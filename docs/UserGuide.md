@@ -813,5 +813,17 @@ Action | Format, Examples
 
 ---
 ## Glossary
-* CLI (Command Line Interface): A text-based interface used to type commands
-* GUI (Graphical User Interface): A user interface that allows interaction with the software through visual elements like buttons and icons.
+Term | Explanation
+--------|------------------
+**CLI (Command Line Interface)** | A text-based interface used to type commands
+**GUI (Graphical User Interface)** | A user interface that allows interaction with the software through visual elements like buttons and icons.
+**UUID** | A type of identifier H'Reers uses for Employee IDs. It looks like a long string (e.g., 3fa85f64-5717-4562-b3fc-2c963f66afa6). You usually don’t need to type the full thing — just a few starting characters (the prefix) will do. Used interchangeably with EID.
+**Employee ID (EID)** | A unique identifier assigned to each employee, either auto-generated or set by you. Used for locating employees quickly. Used interchangeably with UUID.
+**Prefix** | A label before your input (like n/, p/, eid/) that tells H'Reers what kind of information you're providing.
+**Reminder Panel** |A side panel in the UI that shows upcoming anniversaries and events automatically — so you don’t miss anything important.
+**Anniversary**	| Any significant recurring event — includes birthdays, work anniversaries, or custom events like promotions or milestones.
+**Undoable Command** | A command that changes your saved data (like add, edit, or delete) and can be reversed using undo.
+**Non-Undoable Command** |A command that only views or filters data (like find, list, showAnni) and can’t be undone.
+**Partial Matching** | Lets you search with part of a word. For example, n/Ali can match Alice.
+**Full Word Matching** | Searches only match full words. For example, jp/engineer will match Software Engineer, but jp/eng won’t.
+**Tag** |Labels you can attach to employees to describe roles, skills, or groups (like FullTime, Marketing, or Diabetes).
