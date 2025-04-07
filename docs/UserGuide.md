@@ -388,44 +388,44 @@ addAnni eid/EMPLOYEE_ID_PREFIX n/name wa/DATE
     * For example: `addAnni eid/SOME_EID an/Hans' Birthday at/Birthday bd/2025-04-25`, this will fail.
 
 * Unlike `add` which allows the attachment of work anniversaries and birthday together, addAnni does **not** support this feature.
-* For dates, only the following format `YYYY-MM-DD` is supported as input. other date formats will fail
+* For dates, only the following format `YYYY-MM-DD` is supported as input. other date formats will fail.
 * Inputs such as `an/      at/      atdesc/...` will fail.
 * In exceptional cases, as a mitigation for corrupted files, there may be a case where name can be filled via the anniversary type. However, this is only present as a fallback for internal features.
 * **Duplicate** anniversaries are not possible. If there exist an identical entry (case-sensitive), an error will show.
-* there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly
-* There is a hard limit of 1000 characters in the name and type field. This is to prevent UI abuse
+* there can be multiple birthdays and work anniversaries added. this is a valid design choice, used to accomodate for next-of-kin's birthday. There is no limit to how many, but do use sparingly.
+* There is a hard limit of 1000 characters in the name and type field. This is to prevent UI abuse.
 </div>
 
 Examples :
 ```plaintext
 addAnni eid/0c2414da d/2025-03-13 an/Silver Wedding at/Wedding ad/Celebrating 25 years atdesc/Personal
 ```
-- `addAnni` - the addAnniversary command you are running
-- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
-- `d/2025-03-13`: the date of the anniversary on `2025-03-13`
-- `an/Silver Wedding`: the name of the anniversary `Silver Wedding`
-- `at/Wedding`: The name of the anniversary type - `Wedding`
-- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years` (optional)
-- `atdesc/Personal`: The description of the anniversary type -`Personal` (optional)
+- `addAnni`: The addAnniversary command you are running.
+- `eid/0c2414da`: The Employee Id prefix of the employee you are trying to attach the anniversary to.
+- `d/2025-03-13`: The date of the anniversary on `2025-03-13`.
+- `an/Silver Wedding`: The name of the anniversary `Silver Wedding`.
+- `at/Wedding`: The name of the anniversary type - `Wedding`.
+- `ad/Celebrating 25 years` :  The description of the anniversary - `Celebrating 25 years`. (optional)
+- `atdesc/Personal`: The description of the anniversary type -`Personal`. (optional)
 
 If exactly one employee’s ID starts with `0c2414da`, this will create a `Silver Wedding` anniversary of the type `Wedding` for that employee, with an optional description and additional type descriptors.
 
 ```plaintext
 addAnni eid/0c2414da n/Alex shenanigans bd/2025-03-13
 ```
-- `addAnni` - the addAnniversary command declaration
-- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
-- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
-- `bd/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `addAnni`: The addAnniversary command declaration.
+- `eid/0c2414da`: The Employee Id prefix of the employee you are trying to attach the anniversary to.
+- `n/Alex shenanigans`: The name of the person you are attaching the birthday to. (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `bd/2025-03-13`: The date of the anniversary on `2025-03-13`.
   If exactly one employee’s ID starts with `0c2414da`, this will create a `birthday` (anniversary) with the Persons' `name` specified in the command.
 
 ```plaintext
 addAnni eid/0c2414da n/Alex shenanigans wa/2025-03-13
 ```
-- `addAnni` - the addAnniversary command declaration
-- `eid/0c2414da`: the Employee Id prefix of the employee you are trying to attach the anniversary to
-- `n/Alex shenanigans`: the name of the person you are attaching the birthday to (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
-- `wa/2025-03-13`: the date of the anniversary on `2025-03-13`
+- `addAnni`: The addAnniversary command declaration.
+- `eid/0c2414da`: The Employee Id prefix of the employee you are trying to attach the anniversary to.
+- `n/Alex shenanigans`: The name of the person you are attaching the birthday to. (note that it is **strongly** recommended to use the name of the person the employee id belongs, unless otherwise needed)
+- `wa/2025-03-13`: The date of the anniversary on `2025-03-13`.
   If exactly one employee’s ID starts with `0c2414da`, this will create a `work anniversary` with the Persons' `name` specified in the command.
 
 #### Options summary
@@ -459,7 +459,7 @@ If successful, the chosen anniversary will no longer appear in that employee’s
 * When the `eid/...` is not specific enough and there exists multiple people, the command will fail. Should this case occur, type a few more letters matching the EmployeeID in.
 
 * When there are **NO** matching employees, this will throw an error.
-* When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail
+* When the index specified is **out of bounds** of the anniversary list attached to the employee, the command will fail.
 * The **index of the anniversary is to be manually located** from the anniversaryList window that appears when you run the `showAnni` command.
 * The index of the anniversary is **1-based**. This means that the top-most anniversary in the list is at index 1, the second is at index 2, and so on.
 </div>
@@ -473,10 +473,10 @@ Examples:
 ```plaintext
 deleteAnni eid/0c2414da ai/1
 ```
-- `deleteAnni` - the command you are running
-- `eid/0c2414da`: the Employee Id prefix you are attaching the anniversary to
-- `ai/1`: the index of the anniversary you want to delete 
-  this will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
+- `deleteAnni`: The command you are running.
+- `eid/0c2414da`: The Employee Id prefix you are attaching the anniversary to.
+- `ai/1`: The index of the anniversary you want to delete.
+  This will delete the anniversary at index 1 of the employee with the Employee ID prefix `0c2414da`.
 
 #### Options Summary
 
@@ -575,9 +575,9 @@ Furthermore, certain edits can cause the H'Reers to behave in unexpected ways (e
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
-- Add a group of employees to Hreers
-- Merge data about employee anniversaries
-- Bulk load data from a file to Hreers
+- Add a group of employees to Hreers.
+- Merge data about employee anniversaries.
+- Bulk load data from a file to Hreers.
 
 <div markdown="block" class="alert alert-info">
 **:information_source: Notes about the export command:**<br>
@@ -597,11 +597,11 @@ This is useful when you want to:
 4. If your file has issues (wrong format, corrupted, etc.), the system may fail silently—**you won't always see an error message**.
 
 #### About FilePaths
-* File paths has two representations, `relative` and `absolute`
-* Relative paths are relative to the location where the jar file is placed
-* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer
-* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default
-* If you are using an absolute path, just paste the Copy as path into the command, after fp/
+* File paths has two representations, `relative` and `absolute`.
+* Relative paths are relative to the location where the jar file is placed.
+* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer.
+* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default.
+* If you are using an absolute path, just paste the Copy as path into the command, after fp/.
 
 #### Write Modes: What Happens During Import
 
@@ -633,7 +633,6 @@ There are **two modes** for importing data. You must choose one:
 - **Provide either a full file path or a filename, not both**: This occurs if you pass `fp/` that includes a filename and also use `fn/`.
 - **Filename must be provided if path is just a directory**: If `fp/` is a directory, you must specify a filename (`fn/`).
 
-
 #### Tips
 - **Check Extension Conflicts**: If your file says `.json` but you specify `ft/csv`, it will fail.
 - **Ensure Proper Permissions**: The path must be writable or readable for the import to succeed.
@@ -652,30 +651,30 @@ import ft/FILE_TYPE fp/FILE_PATH fn/FILE_NAME wm/WRITE_MODE
 import ft/json fp/data/ fn/contacts wm/append
 ```
 Explanation:
-`import` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
-this will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
+`import` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` — File name is contacts (without extension).
+This will import the file `contacts.json` from `/data` directory and append the data to the current Hreers application.
 
 ```plaintext
 import ft/json fp/data/ fn/contacts wm/overwrite
 ```
 Explanation:
-`import` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
-this will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
+`import` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` —  File name is contacts (without extension).
+This will import the file `contacts.json` from `/data` directory and **overwrite** the data to the current Hreers application.
 
 ```plaintext
 import ft/csv fp/data/contacts.csv wm/append
 ```
 Explanation:
-`import` — the command you're running
-`ft/csv` — file type is CSV
-`fp/data/contacts.csv` — file path is the data/ directory
-this will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
+`import` — The command you're running.
+`ft/csv` — File type is CSV.
+`fp/data/contacts.csv` — File path is the data/ directory.
+This will import the file `contacts.csv` from `/data` directory and append the data to the current Hreers application.
 
 #### Options Summary
 | **Prefix** | **Meaning**                                       | **Required?**                          | **Example Value**           |
@@ -688,8 +687,7 @@ this will import the file `contacts.csv` from `/data` directory and append the d
 
 ---
 ### Exporting data: `export`
-saves the currently visible list of people in the Hreers application to a file (JSON or CSV).
-
+Saves the currently visible list of people in the Hreers application to a file (JSON or CSV).
 
 <div markdown="block" class="alert alert-info">
 
@@ -711,11 +709,11 @@ saves the currently visible list of people in the Hreers application to a file (
 
 
 #### About FilePaths
-* File paths has two representations, `relative` and `absolute`
-* Relative paths are relative to the location where the jar file is placed
-* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer
-* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default
-* If you are using an absolute path, just paste the Copy as path into the command, after `fp/`
+* File paths has two representations, `relative` and `absolute`.
+* Relative paths are relative to the location where the jar file is placed.
+* Absolute paths are the full path to the file, obtainable via `right clicking` on the file and selecting `Copy as path` in your file explorer.
+* If you are using a relative path, you can use `./` to represent the current directory where the jar file is located. If only filename is presented, this is assumed to be the default.
+* If you are using an absolute path, just paste the Copy as path into the command, after `fp/`.
 
 
 </div>
@@ -730,10 +728,10 @@ export ft/FILE_TYPE [fp/FILE_PATH] [fn/FILE_NAME]
 export ft/json fp/data/ fn/contacts
 ```
 Explanation:
-`export` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
+`export` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` — File name is contacts (without extension).
 
 This will save your current contact list as a file named contacts.json in the data/ folder.
 
@@ -741,9 +739,9 @@ This will save your current contact list as a file named contacts.json in the da
 export ft/csv fp/data/contacts.csv
 ```
 Explanation:
-`export` — the command you're running
-`ft/csv` — file type is CSV
-`fp/data/contacts.csv` — file path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. so `contaacts.json` when set to csv will give you an error
+`export` — The command you're running.
+`ft/csv` — File type is CSV.
+`fp/data/contacts.csv` — File path is the data/ directory and the file name is contacts.csv - note that if you want to define the file within the file path, you have to ensure that the file type matches the extension of your file. So `contacts.json` when set to csv will give you an error.
 
 This will save your current contact list as a file named contacts.csv in the data/ folder.
 
@@ -751,10 +749,10 @@ This will save your current contact list as a file named contacts.csv in the dat
 export ft/json fp/data/ fn/contacts
 ```
 Explanation:
-`export` — the command you're running
-`ft/json` — file type is JSON
-`fp/data/` — file path is the data/ directory
-`fn/contacts` — file name is contacts (without extension)
+`export` — The command you're running.
+`ft/json` — File type is JSON.
+`fp/data/` — File path is the data/ directory.
+`fn/contacts` — File name is contacts (without extension).
 
 This will save your current contact list as a file named contacts.json in the data/ folder.
 
@@ -762,8 +760,8 @@ This will save your current contact list as a file named contacts.json in the da
 export ft/json
 ```
 Explanation:
-`export` — the command you're running
-`ft/json` — file type is JSON
+`export` — The command you're running.
+`ft/json` — File type is JSON.
 
 This will save your current contact list as a file named `output.json` in the folder where the jar is stored.
 As a convenience, on the in-app output, it will show how many employees have been saved.
@@ -778,6 +776,7 @@ As a convenience, on the in-app output, it will show how many employees have bee
 | `fn/`      | The optional filename (extension auto-added)    | Optional if `fp/` is used | `contacts`, `data.csv`|
 
 --------------------------------------------------------------------------------------------------------------------
+
 ## Frequently asked questions and Troubleshooting
 We know that even the smoothest apps can have a few bumps along the way. This section is here to help you solve common problems and answer questions that come up often — no tech expertise required.
 
