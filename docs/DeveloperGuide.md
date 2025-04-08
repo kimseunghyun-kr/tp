@@ -767,15 +767,16 @@ jp/Nurse bd/12-01-2000
 Allows HR workers to remove outdated or incorrect employee records.
 #### Command Format:
 ```
-delete n/NAME p/POSITION b/BIRTHDAY wa/WORK_ANNIVERSARY
+delete Employee_ID_prefix
 ```
 #### Example Commands:
 ```
-delete n/John Doe p/Software Engineer b/1990-05-10 wa/2015-07-20
+delete abcd12
 ```
 #### Outputs:
-- **Success:** `Employee John Doe deleted successfully.`
+- **Success:** `Deleted Employee: John Doe; Phone: 98765432; Email: johnd@example.com; Job: President; Tags:`
 - **Failure:** `Error: Employee not found.`
+
 #### Duplicate Handling:
 If multiple employees match, prompt for additional details to ensure correctness.
 
