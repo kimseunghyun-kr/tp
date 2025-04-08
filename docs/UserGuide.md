@@ -75,10 +75,13 @@ Whether you need to track employee milestones, update records, or generate quick
     1. Go to the official download page [here](https://github.com/AY2425S2-CS2103T-F12-4/tp/releases/tag/v1.4).
     2. Download the latest file ending with .jar.(It may look something like hreers-1.0.jar)
        ![Step2_1](images/Step2_1.jpg)
+    _Figure 1: Downloading JAR file_
     3. Save it in a folder(_home folder_) where you want your H'Reers data to live.
        ![Step2_2](images/Step2_2.jpg)
+    _Figure 2: Saving in a folder (1)_
        ![Step2_3](images/Step2_3.jpg)
-
+    _Figure 3: Saving in a folder (2)_
+       <br></br>
 3. Start the Application
     1. Open your command prompt (on Windows) or terminal (on Mac/Linux).
     2. Navigate to the folder where you saved the .jar file. For example:
@@ -90,8 +93,12 @@ Whether you need to track employee milestones, update records, or generate quick
         java -jar hreers.jar
         ```
    ![Step3_1](images/Step3_1.jpg)
+   _Figure 4: Image of running the command on command prompt_
+   <br></br>
     4. H'Reers will open in a few seconds with a simple GUI, ready to use!
        ![Ui](images/Ui.png)
+       _Figure 5: User Interface of H'Reers_
+       <br></br>
 
 4. Try a Few Commands
    H'reers is shipped with a few sample data for you to try out a few commands to get used to it.
@@ -168,7 +175,7 @@ Format: `help`
 * You can also access this by clicking the Help button in the top right corner of the app.
 
   ![help message](images/HelpMessage.png)
-  *Figure 1: Help Window Prompt*
+  *Figure 6: Help Window Prompt*
 
 [Back to Top](#)
 
@@ -213,9 +220,9 @@ Examples:
     * Adds `John Doe` to H'Reers with birthday and work anniversary tracked.
     * Below is a screenshot of this example:
       ![addJohnDoe](images/AddJohnDoeCommand.png)
-      *Figure 2: Command for adding John Doe.*
+      *Figure 7: Command for adding John Doe.*
       ![addJohnDoeSuccess](images/AddJohnDoeResult.png)
-      *Figure 3: Success message displayed after adding John Doe.*
+      *Figure 8: Success message displayed after adding John Doe.*
 
 * `add n/Betsy Crowe t/Part Time Worker e/betsycrowe@example.com jp/Cleaner p/1234567 t/Personal Trainer bd/2005-12-01 wa/2025-05-21`
     * Adds `Betsy Crowe` with two tags (`Part Time Worker` and `Personal Trainer`) and both standard anniversaries.
@@ -370,7 +377,7 @@ Examples:
 
 The screenshot below shows the result of the command `find n/li ri jp/ dev manager` with all 3 employees existing in the system:
 ![findResult](images/FindLiRiDevManagerResult.png)
-*Figure 4: Result of the command `find n/li ri jp/ dev manager`*
+*Figure 9: Result of the command `find n/li ri jp/ dev manager`*
 
 Common Errors:
 * `At least one non-empty field is required.` - You must use at least one of the prefixes to search for employees.
@@ -426,7 +433,7 @@ Example:
     * Opens a window showing anniversaries for the employee with the specified ID.
     * The screenshot below shows the result of the command to show Mary Jane's anniversaries:
     ![showAnniResult](images/ShowAnniSuccessExample.png)
-  *Figure 5: Example of using `showAnni` on Mary Jane and the result*
+  *Figure 10: Example of using `showAnni` on Mary Jane and the result*
 
 Common Errors:
 * `Invalid command format!` - You might have used the wrong prefix or added something extra before the prefixes. Double-check your command format.
@@ -624,7 +631,8 @@ reminder
 
 Example UI:
 
-![remindersListUI](images/remindersListUI.png)
+![remindersListUI](images/reminderListUI.png)
+_Figure 11: UI Result of reminder panel after running `reminder` command_
 
 Each card in the reminder panel corresponds to one upcoming anniversary for an employee.
 
@@ -712,7 +720,11 @@ undo is possible for overwrites or included persons. but not for appended annive
 > - If the file is formatted improperly, the data may be lost or corrupted without any warning.
 
 ![import_before](images/import_before.png)
+_Figure 12: UI before `import`_
+<br></br>
 ![import_success](images/import_success.png)
+_Figure 13: UI after successful `import`_
+<br></br>
 The `import` command lets you **bring employee data** into Hreers from an external file (like one you export from Excel).
 
 This is useful when you want to:
