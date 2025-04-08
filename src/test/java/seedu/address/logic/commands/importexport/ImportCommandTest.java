@@ -8,6 +8,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,13 +21,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
@@ -197,7 +196,7 @@ public class ImportCommandTest {
 
 
     /**
-     * Tests how the getAnniversaries().addAll() method is called when contacts with same details are found.
+     * Tests how the getAnniversaries().toArray() method is called when contacts with same details are found.
      * @throws Exception
      */
     @Test
@@ -222,13 +221,21 @@ public class ImportCommandTest {
 
             // Create a mock Employee
             Employee mockExistingEmployee = mock(Employee.class);
+            when(mockExistingEmployee.getName()).thenReturn(ALICE.getName());
+            when(mockExistingEmployee.getEmployeeId()).thenReturn(ALICE.getEmployeeId());
+            when(mockExistingEmployee.getPhone()).thenReturn(ALICE.getPhone());
+            when(mockExistingEmployee.getTags()).thenReturn(ALICE.getTags());
+            when(mockExistingEmployee.getJobPosition()).thenReturn(ALICE.getJobPosition());
+            when(mockExistingEmployee.getEmail()).thenReturn(ALICE.getEmail());
             when(mockExistingEmployee.isSameEmployee(any())).thenReturn(true);
             when(mockExistingEmployee.hasSameDetails(any())).thenReturn(true);
 
             // Create a separate mock for the anniversaries list
             @SuppressWarnings("unchecked")
-            ObservableList<Anniversary> mockAnniversaryList = mock(ObservableList.class);
-            when(mockExistingEmployee.getAnniversaries()).thenReturn(mockAnniversaryList);
+            List<Anniversary> realAnniversaryList = new ArrayList<>();
+            List<Anniversary> spyAnniversaryList = spy(realAnniversaryList);
+            when(mockExistingEmployee.getAnniversaries()).thenReturn(spyAnniversaryList);
+
 
             // Return our mock when searching for ALICE
             ObservableList<Employee> matchList = FXCollections.observableArrayList(mockExistingEmployee);
@@ -239,8 +246,7 @@ public class ImportCommandTest {
             CommandResult result = importCommand.execute(model);
 
             // Use ArgumentCaptor to specify the Collection version of addAll
-            ArgumentCaptor<Collection<Anniversary>> captor = ArgumentCaptor.forClass(Collection.class);
-            verify(mockAnniversaryList, times(1)).addAll(captor.capture());
+            verify(spyAnniversaryList, times(1)).toArray();
 
             assertEquals(String.format(ImportCommand.MESSAGE_SUCCESS_APPEND, 1, 0, "Conflicting records found:\n"),
                     result.getFeedbackToUser());

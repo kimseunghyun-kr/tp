@@ -27,6 +27,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.anniversary.Anniversary;
 import seedu.address.model.person.Employee;
 import seedu.address.model.person.EmployeeId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -201,7 +202,17 @@ public class ImportCommand extends Command {
                 importedEmployees.add(employeeToImport);
             } else if (matchInModel.hasSameDetails(employeeToImport)) {
                 // Matching employee exists with same details – merge anniversary lists.
+                List<Anniversary> editList = new ArrayList<>(matchInModel.getAnniversaries());
+                Employee updatedEmployee = Employee.builder()
+                        .employeeId(matchInModel.getEmployeeId())
+                        .name(matchInModel.getName())
+                        .jobPosition(matchInModel.getJobPosition())
+                        .email(matchInModel.getEmail())
+                        .phone(matchInModel.getPhone())
+                        .tags(matchInModel.getTags())
+                        .anniversaries(editList).build();
                 mergeAnniversaries(matchInModel, employeeToImport);
+                model.setEmployee(matchInModel, updatedEmployee);
                 importedEmployees.add(employeeToImport);
             } else {
                 // Conflict with an existing model record.
