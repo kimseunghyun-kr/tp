@@ -40,7 +40,7 @@ Whether you need to track employee milestones, update records, or generate quick
 6. [Quality of Life Commands](#quality-of-life-features)
     - [Clearing all entries: `clear`](#clearing-all-entries-codeclearcode)
     - [Exiting the program: `exit`](#exiting-the-program-codeexitcode)
-    - [Employee Data Equality Concept](#employeedataequality-concept)
+    - [Employee Data Equality Concept](#employee-data-equality-concept)
 7. [Data Management](#data-management)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
